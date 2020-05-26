@@ -47,4 +47,27 @@ I'm going to do some research on the systems pins, and then find out what I can 
 
 
 
+## Front facing buttons.
+
+The front facing buttons on the toughpad mostly worked out of the box.  I had done 
+
+### A1 and A2
+
+Currently not working.  I bet its acpi related.
+
+
+### Volume up and volume  down
+
+Status: working
+
+### Windows key
+
+Status: working (Looks like its working.. not sure what it sends) 
+
+
+#### Rotate key
+
+Status: working (screen doesn't rotate, not sure what it sends) 
+
+#### Power button
 
