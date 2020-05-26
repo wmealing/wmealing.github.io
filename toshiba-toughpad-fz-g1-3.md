@@ -1,6 +1,6 @@
 # Toshiba toughpad FZ-G1 mk3
 
-Ive got Fedora 32 installed on this system.  The advice below may work on other distributions.
+Ive got Fedora 32 installed on this system.  The advice below may work on other distributions.  I'd be happy to do more of these if anyone wanted to throw their a few toughpads my way.
 
 
 ## Brightness:
