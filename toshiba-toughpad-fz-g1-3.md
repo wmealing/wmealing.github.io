@@ -71,3 +71,4 @@ Status: working (screen doesn't rotate, not sure what it sends)
 
 #### Power button
 
+Status: working (This can power off system)
