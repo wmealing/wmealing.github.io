@@ -45,7 +45,40 @@ I'm interested in building a dock for this laptop.  There are a lot of docks ava
 
 I'm going to do some research on the systems pins, and then find out what I can build that will be a suitable dock.
 
+```text
+| PIN |         | Description         |
+|-----+---------+---------------------+
+|  01 | Shield  |                     |
+|  02 |         |                     |
+|  03 |         |                     |
+|  04 | GRND    |                     |
+|  05 | 16V     | Supply (for dock ?) |
+|  06 | 16V     |                     |
+|  07 | 16V     |                     |
+|  08 | 5V      | Supply for usb ?    |
+|  09 | 5V      |                     |
+|  10 | 5V      |                     |
+|  11 | GRND    |                     |
+|  12 | D-      | USB D-              |
+|  13 | D+      | USB D+              |
+|  14 | GRND    |                     |
+|  15 | TX+     | ETHERNET TX+        |
+|  16 | TX-     | ETHERNET TX-        |
+|  17 | GRND    |                     |
+|  18 | RX +    | ETHERNET RX+        |
+|  19 | RX-     | ETHERNET RX-        |
+|  20 | GRND    |                     |
+|  21 |         |                     |
+|  22 | SHORT ? |                     |
+|  23 |         |                     |
+|  24 |         |                     |
+|-----|---------|---------------------|
+```
+All of these are unconfirmed, please leave me a note if you can confirm any of these.
 
+From what I read the MK1 to MK3 have the same pinout.
+
+I have to assume that the system can also be charged through the dock, I just dont know what pins.
 
 ## Front facing buttons.
 
