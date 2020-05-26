@@ -18,4 +18,31 @@ Section "Device"
 EndSection
 ```
 
-Restart X11, or reboot the system for the changes to take effect.
+This will create an additional backlight directory in /sys/class/backlight .  At this point you might find there are two possible backlights, 'panasonic' and 'intel_backlight'
+
+The nexts step was to blacklist the 'panasonic_laptop' kernel module.  This ensured that the gnome 3 brightness/contrast functionality would find ONLY the intel_backlight backlight controls and work correctly.
+
+I achieved this by creating a file in /etc/modprbe.d/panasonic-backlist.conf
+
+```shell
+blacklist panasonic_laptop
+```
+
+If you want these changes to take effect immediately run the command
+
+```shell
+rmmod panasonic_laptop
+```
+
+And restart the X session by logging in and out.
+
+There should only be a single directory in /sys/class/backlight and the gnome brightness controls should work correctly.
+
+
+** DOCK PINOUT
+
+
+
+
+
+
