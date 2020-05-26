@@ -22,7 +22,7 @@ This will create an additional backlight directory in /sys/class/backlight .  At
 
 The nexts step was to blacklist the 'panasonic_laptop' kernel module.  This ensured that the gnome 3 brightness/contrast functionality would find ONLY the intel_backlight backlight controls and work correctly.
 
-I achieved this by creating a file in /etc/modprbe.d/panasonic-backlist.conf
+I achieved this by creating a file in /etc/modprobe.d/panasonic-backlist.conf
 
 ```shell
 blacklist panasonic_laptop
