@@ -39,9 +39,11 @@ And restart the X session by logging in and out.
 There should only be a single directory in /sys/class/backlight and the gnome brightness controls should work correctly.
 
 
-** DOCK PINOUT
+## DOCK PINOUT
 
+I'm interested in building a dock for this laptop.  There are a lot of docks availabe for it, some as expensive as 1.5k, which are well beyond the acceptable price range that I'm willing to pay for a dock.
 
+I'm going to do some research on the systems pins, and then find out what I can build that will be a suitable dock.
 
 
 
