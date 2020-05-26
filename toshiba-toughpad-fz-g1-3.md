@@ -5,7 +5,7 @@ Ive got Fedora 32 installed on this system.  The advice below may work on other 
 
 ## Brightness:
 
-The brightness controls in gnome 3 / Fedora 32 do not work out of the box.
+The brightness controls in gnome 3 / Fedora 32 do not work out of the box.  These instructions have also been tested on Red Hat Enterprise Linux 8.
 
 You need to create file /usr/share/X11/xorg.conf.d/20-intel.conf and place this in file:
 
