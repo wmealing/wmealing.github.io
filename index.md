@@ -1,4 +1,5 @@
-Projects.
+Listed below are some of the things that I'm working on that I think others may be interested in.
+
 # Toshiba Toughpad FZ-G1-3
 
 I have recently purchased one of these machines in an auction, and I am -very- impressed with its build quality.   While this one is not its current purchase release, I've got a page talking about the customizations and things I have learned about it 
