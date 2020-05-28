@@ -10,6 +10,31 @@ The purpose of this document is to ouline what I have learned about this process
 someone else along their journey.  I plan to map my path to understanding how to get the buttons to work on this device and
 all the steps that I have taken along the way.
 
+### Existing work
+
+A number of people have written a driver for 'panasonic-hbtn' for other toughbook and toughpad devices ( see https://github.com/nagyrobi/panasonic-hbtn/network/members ) although none of them seem to have something working for the FZ-G1 (Mk1 -> mk3) family.
+
+The closest work appears to be the FZ-M1 repository ( https://github.com/KaarelP2rtel/panasonic-hbtn ) this is the successor to the FZ-G1 family, but not the same.
+
+
+### Goal state
+
+Have libinput recognise this as a key:
+
+$ libinput debug-events
+
+-event2   KEYBOARD_KEY     +4.976s	KEY_VOLUMEDOWN (114) pressed
+ event2   KEYBOARD_KEY     +5.259s	KEY_VOLUMEDOWN (114) released
+ event2   KEYBOARD_KEY     +7.129s	KEY_VOLUMEUP (115) pressed
+-event2   KEYBOARD_KEY     +7.374s	KEY_VOLUMEUP (115) released
+ 
+ 
+ ^ These are the volume up and down on the front of the device.
+ 
+ I'm expecting a new KEY_SOMETHING to happen.
+ 
+
+
 ### Enabling ACPI events
 
 As per ( https://www.kernel.org/doc/Documentation/acpi/debug.txt ), it mentions that you must be booting a kernel
@@ -88,7 +113,8 @@ The * implies that it is enabled.
 Lets watch the logs... 
 
 ```
-# journalctl -xef
+# dmesg -c &> /dev/null
+# dmesg -w
 
 ```
 
@@ -142,7 +168,7 @@ echo 0x8400082 > /sys/module/acpi/parameters/debug_layer
 echo 0x31000200 > /sys/module/acpi/parameters/debug_level
 ```
 
-Now when pressed the syste logs contain out a LOT of data.  This at least confirms my suspicion that this is an ACPI related device.  For the bulk of it , see here https://gist.github.com/wmealing/c050d23fd252667a2c420e2172bcefca .  I figured that a lot of that may be duplicated as it executes for 'up' and 'down' of the keypress.
+Now when pressed the system logs contain out a LOT of data.  This at least confirms my suspicion that this is an ACPI related device.  For the bulk of it , see here https://gist.github.com/wmealing/c050d23fd252667a2c420e2172bcefca .  I figured that a lot of that may be duplicated as it executes for 'up' and 'down' of the keypress.
 
 This is an 'opcode' and execution dump of the ACPI tables.  I can't make much sense of this at the moment, however I think these might be important.
 
@@ -156,11 +182,10 @@ $ dmesg |grep Notify
 
 So, if i'm reading the spec ( https://www.intel.com/content/dam/www/public/us/en/documents/articles/acpi-config-power-interface-spec.pdf ) correctly, page 501.  It says that "Notify" is notifying the OS that the event has happened.
 
-So.. the OS must be ignoring it.
-
-But that doesn't help me, i am distracted.. I can't find out if there is supposed to be handler there, if something 'is supposed to get called'.
+My initial theory is that the OS is ignoring it.  How can I find out if that is the case ?
 
 
+There is a bunch of code within the drivers/acpi directory which includes the apci interpreter, this is likely where the dispatch takes place.. I assume that 'events' come in here, somehow and are matched to the handler.
 
 
 ### ACPI tables
@@ -183,6 +208,8 @@ In an attempt to figure out what the hell this is I came across:
         Device (HKEY) //  hardware key
         {
             Name (_HID, EisaId ("MAT0019"))  // _HID: Hardware ID
+                                             // <-- hey this should be the MAT to be used for my 
+                                             //modification of the driver
 
             <SNIP>
             
@@ -220,6 +247,51 @@ Unlike a real programming language, "Notify" isnt exacltly clear on what it does
 A simple test of just adding this to the list of supported drivers, recompiling , reloading the module did not prove fruitful.
 
 TBC.
+
+## Writing the kernel driver
+
+```
+[root@toughpad dstd]# cat *.dsl |grep MAT0 -B
+--
+
+    Scope (_SB)
+    {
+        Device (MISC)
+        {
+            Name (_HID, EisaId ("MAT0021"))  // _HID: Hardware ID
+--
+
+    Scope (_SB)
+    {
+        Device (HKEY)
+        {
+            Name (_HID, EisaId ("MAT0019"))  // _HID: Hardware ID
+--
+    Scope (_SB)
+    {
+        Device (WLSW)
+        {
+            Mutex (HDMX, 0x00)
+            Name (_HID, EisaId ("MAT0028"))  // _HID: Hardware ID
+
+```
+
+
+Three possible "MAT0" devices, "HKEY"
+
+### Name (_HID, EisaId ("MAT0021"))  
+
+"MISC" could be it, but 
+
+### Name (_HID, EisaId ("MAT0019"))  
+
+HKEY sounds more like keyboard.
+
+#### Name (_HID, EisaId ("MAT0028")) 
+Is a child of "WLSW" , after googling around I found that this is likely related to wifi and probaly related to the rfkill switch ( https://lwn.net/Articles/358574/ )
+
+    
+
 
 Resources:
 
