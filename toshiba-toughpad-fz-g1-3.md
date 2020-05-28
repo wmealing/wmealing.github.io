@@ -86,8 +86,7 @@ The front facing buttons on the toughpad mostly worked out of the box.  I had do
 
 ### A1 and A2
 
-Currently not working.  I bet its acpi related.
-
+Currently not working. I've started [chronicaling my investigation](./toughpad-fz-g1-buttons-acpi.md).
 
 ### Volume up and volume  down
 
