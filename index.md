@@ -6,6 +6,6 @@ I have recently purchased one of these machines in an auction, and I am -very- i
 [Here](./toshiba-toughpad-fz-g1-3.md)
 
 
-# Kernel securitea
+# Kernel SecuriTea
 
 I work on a small youtube channel where I talk about kernel security issues that interest me.  I work on quite a lot of these in my work so i'm limited to what I can cover.
