@@ -146,7 +146,7 @@ Now when pressed the syste logs contain out a LOT of data.  This at least confir
 
 This is an 'opcode' and execution dump of the ACPI tables.  I can't make much sense of this at the moment, however I think these might be important.
 
-# dmesg |grep Notify
+$ dmesg |grep Notify
 
 [ 3161.313553]    exdump-0603 ex_dump_operand       : 0000000077ead245 Namespace Node:  0  HKEY Device       0000000077ead245 001 Notify Object: 0000000037c289c4
 
