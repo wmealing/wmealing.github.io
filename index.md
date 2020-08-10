@@ -1,10 +1,11 @@
 Listed below are some of the things that I'm working on that I think others may be interested in.
 
-# Encrypting a disk to only boot in A system.
+# Encrypting a disk to only boot in a specific system.
 
 Recent research papers related to flaws in thunderbolt and secureboot have
 piqued my interest in learning more about what can be done to prevent a system
-comprimised in such a way from being abused.  I've written about [what I have learned](./tpm-pcr07.md)
+comprimised in such a way from being abused.  I've written about [what I have
+learned](./tpm-pcr07.md). 
 
 
 # Toshiba Toughpad FZ-G1-3
