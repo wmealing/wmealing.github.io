@@ -1,4 +1,4 @@
-## PCRS on Red Hat Enterprise Linux.
+# PCRS on Red Hat Enterprise Linux.
 
 Most modern systems have a TPM implemented in hardware of the system that is frequently used as a method to ensure platform integrity of system level components.
 
@@ -14,7 +14,10 @@ Any block devices that are configured to ‘bind’ against these PCRs will fail
 
 For example, if /dev/sda3 was required to validate against PCR 7 with the command:
 
-clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'
+```shell
+# clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'
+```
+
 The device will fail to decrypt at boot time if the PCR has changed between the time that the command was issued and boot.  Using PCR 7 specifically means that operating system upgrades will not affect the ability of a system to booth.  Other PCR’s may be reset or modified.  If an attacker manages to evade secure boot PCR-7 will be modified.
 
 
@@ -28,10 +31,10 @@ Once configured, the boot_aggregate line in /sys/kernel/security/ima/ascii_runti
 
 The boot_aggregate entry format depends on the template chosen, being the default for RHEL-8 the following one: 
 
-~~
+```shell
 $ cat /sys/kernel/security/ima/ascii_runtime_measurements | grep boot_aggregate
 10 ef2be9c304d9bbbd8ecb40f0d296176d2b5d3078 ima-ng sha1:4663ed64e5dbbb9755a0914b1a15fa76a1797806 boot_aggregate
-~~
+```
 
 Once a known good value is obtained, this aggregate will persist between reboots of the same boot shim/ bootloader and kernel.  Periodically comparing this value to known trusted states will ensure the system is in a known-good state.
 
