@@ -42,16 +42,16 @@ There may be a method to fail the boot on this aggregate being different but I d
 
 #### Additional Information:
 
-https://en.wikipedia.org/wiki/Trusted_Platform_Module
+[Wikipedia on TPM](https://en.wikipedia.org/wiki/Trusted_Platform_Module)
 
-https://mjg59.dreamwidth.org/48897.html
+[MJG on TPM](https://mjg59.dreamwidth.org/48897.html)
 
-https://trustedcomputinggroup.org/wp-content/uploads/PC-ClientSpecific_Platform_Profile_for_TPM_2p0_Systems_v51.pdf
+[TPM spec](https://trustedcomputinggroup.org/wp-content/uploads/PC-ClientSpecific_Platform_Profile_for_TPM_2p0_Systems_v51.pdf)
 
-https://blog.dowhile0.org/2017/10/18/automatic-luks-volumes-unlocking-using-a-tpm2-chip/
+[TPM unlucking](https://blog.dowhile0.org/2017/10/18/automatic-luks-volumes-unlocking-using-a-tpm2-chip/)
 
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel
+[Red Hats guide on TPM and Security](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel)
 
-https://lwn.net/Articles/137306/
+[LWN](https://lwn.net/Articles/137306/)
 
 
