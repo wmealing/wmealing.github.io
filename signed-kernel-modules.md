@@ -181,15 +181,19 @@ When IMA is enabled, kernel module signing support is enforced.
 
 * How the kernel loads the module.
 
-   The kernel has two entry paths of loading a module.  I'm still slightly
-   confused about why there are two, but what do I know.
+   The kernel has two entry paths of loading a module. The two are two privileged syscalls
+   that can provide basic module loading capability.
    
-   These functions are: init_module() and  finit_module()
+   init_module()
+   
+   and 
+   
+   finit_module() [Introduced here](https://lwn.net/Articles/519010/) avoids some of
+   the security checks in place and accepts a file descriptor of the open module file.
 
-   TODO: finit_module skipsis some kind of validation around signatures.
-   TODO: does finit_module skip the whole sign check process, wtf ?
-
-   These call mod_check_sig() and mod_read_sig().
+    TODO: do more research into exactly what the difference is between the two functions.
+    
+   The init_module syscall appears to require and deal with signed kernel modules.
 
    The mod_read_sig() function parses out the signature from the module. (the
    signature is a fixed size)
@@ -428,3 +432,4 @@ For example:
 
 [Secondary trusted keyring ( SECONDARY_TRUSTED_KEYRING )](https://lore.kernel.org/patchwork/patch/665795/)
 
+[Lwn article on finit_module()](https://lwn.net/Articles/519010/)
