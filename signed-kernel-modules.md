@@ -418,17 +418,13 @@ For example:
   FIXME: mention that signing doesn't have be on the machine that is running
   the kernel module ideally.
 
-* Additional Resources:
+# Additional Resources:
 
-Red Hat guide for Secure boot:
- -  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot
+[Red Hat guide for Secure boot](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot)
 
-Adding a secondary sign to a Out of Tree kernel module:
--  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot
+[Adding a secondary sign to a Out of Tree kernel module](  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot)
 
-The kernel security subsystem manual (keyring subsection)
-- https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf
+[The kernel security subsystem manual (keyring subsection)](https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf)
 
-Secondary trusted keyring ( SECONDARY_TRUSTED_KEYRING )
-- https://lore.kernel.org/patchwork/patch/665795/
+[Secondary trusted keyring ( SECONDARY_TRUSTED_KEYRING )](https://lore.kernel.org/patchwork/patch/665795/)
 
