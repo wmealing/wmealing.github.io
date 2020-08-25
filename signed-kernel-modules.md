@@ -164,7 +164,7 @@
 
 
 | Version                    | Kernel boot parameter |
-|----------------------------|-----------------------|
+| -------------------------- | --------------------- |
 | Red Hat Enterprise Linux 5 | enforcemodulesig=1    |
 | Red Hat Enterprise Linux 6 | enforcedmodulesign=1  |
 | Red Hat Enterprise Linux 7 | module.sig_enforce=1  |
