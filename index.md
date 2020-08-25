@@ -1,5 +1,11 @@
 Listed below are some of the things that I'm working on that I think others may be interested in.
 
+# Anatomy of kernel module signing 
+
+I decided to take a look at the Linux kernel modules signing process.  It seems
+that the recent drovorub malware has some interesting misinformation regarding 
+module signing, so I had decided to take a look at the [signing process and document what I have found](./signed-kernel-modules.md) regarding its implementations on Red hat Enterprise Linux.
+
 # Encrypting a disk to only boot in a specific system.
 
 Recent research papers related to flaws in thunderbolt and secureboot have
