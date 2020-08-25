@@ -314,7 +314,7 @@ When IMA is enabled, kernel module signing support is enforced.
   system key ring and you have no ability to augment that set of keys without
   rebuilding the kernel and signing all kernel modules with your own key.
 
-  However, if you do have secureboot as an option.
+  However, if the system uses secure boot and its an option..
 
   Secureboot has a provision for adding 'additional' keys to the 'platform'
   keyring, it uses a Machine Owner Key (MOK) to add additional keys to the UEFI
