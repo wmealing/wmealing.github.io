@@ -271,7 +271,7 @@ When IMA is enabled, kernel module signing support is enforced.
    
    This is on the decided in module_sig_check: 
 
-  ~~~
+  ```C
   static int module_sig_check(struct load_info *info, int flags) {
 
     err = mod_verify_sig(mod, info);
@@ -305,7 +305,7 @@ When IMA is enabled, kernel module signing support is enforced.
 
     }
   }        
-  ~~~
+  ```
 
 # Adding a second signature to the keychain for third party modules:
 
