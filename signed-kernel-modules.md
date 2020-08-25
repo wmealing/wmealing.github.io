@@ -162,14 +162,14 @@
  Kernel module signature verification is not enabled by default but can be
  enabled by booting the kernel with an addition parameter as shown below:
 
-|----------------------------+-----------------------|
+
 | Version                    | Kernel boot parameter |
-|----------------------------+-----------------------|
+|----------------------------|-----------------------|
 | Red Hat Enterprise Linux 5 | enforcemodulesig=1    |
 | Red Hat Enterprise Linux 6 | enforcedmodulesign=1  |
 | Red Hat Enterprise Linux 7 | module.sig_enforce=1  |
 | Red Hat Enterprise Linux 8 | module.sig_enforce=1  |
-|----------------------------+-----------------------|
+
 
 For releases with full 'secureboot' support, (7 and later), module signature
 verification is required unless explicitly stated by inverting the above kernel
