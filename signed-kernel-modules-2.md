@@ -1,26 +1,26 @@
 
 # Table of Contents
 
-1.  [Why sign a kernel module ?](#org42ae07d)
-2.  [How is it signed ?](#orgc74ec6d)
-3.  [Kernel modules information.](#orgb757380)
-    1.  [Module location](#org9c6b583)
-    2.  [Loading kernel modules.](#org3d0d42d)
-    3.  [The signature](#org76560cf)
-        1.  [Signature metadata.](#org58d8d65)
-4.  [Version support table](#org6809757)
-5.  [Source](#orgc820afd)
-6.  [How the kernel loads the module.](#org6624520)
-7.  [Failure modes.](#orgc3ca74c)
-8.  [Adding a second signature to the keychain for third party modules:](#org6cde486)
-9.  [Creating a public and private key](#orgc00c8ba)
-10. [Enrolling the key into the MOK keychain.](#org9b960e9)
-11. [Signing a kernel module](#org38ebb34)
-12. [Additional Resources:](#org4fc72ec)
+1.  [Why sign a kernel module ?](#orgd031303)
+2.  [How is it signed ?](#org1a87ba7)
+3.  [Kernel modules information.](#org4414437)
+    1.  [Module location](#org0573619)
+    2.  [Loading kernel modules.](#org2d86dc5)
+    3.  [The signature](#org24f1745)
+        1.  [Signature metadata.](#org51de5fe)
+4.  [Version support table](#orga54146e)
+5.  [Source](#orgd4c4377)
+6.  [How the kernel loads the module.](#org693fe7e)
+7.  [Failure modes.](#orgc8a077a)
+8.  [Adding a second signature to the keychain for third party modules:](#orga8ddd8b)
+9.  [Creating a public and private key](#org731dd04)
+10. [Enrolling the key into the MOK keychain.](#orgb3cc218)
+11. [Signing a kernel module](#orgc881b4f)
+12. [Additional Resources:](#orga7e4668)
 
 
 
-<a id="org42ae07d"></a>
+<a id="orgd031303"></a>
 
 # Why sign a kernel module ?
 
@@ -30,7 +30,7 @@ was signed. The process employs the use of a cryptographic hash to validate
 authenticity and integrity
 
 
-<a id="orgc74ec6d"></a>
+<a id="org1a87ba7"></a>
 
 # How is it signed ?
 
@@ -61,12 +61,12 @@ only supports sha256 signed kernel modules.  These options are used at build
 time and runtime of the kernel that is being built.
 
 
-<a id="orgb757380"></a>
+<a id="org4414437"></a>
 
 # Kernel modules information.
 
 
-<a id="org9c6b583"></a>
+<a id="org0573619"></a>
 
 ## Module location
 
@@ -80,7 +80,7 @@ Modules can be loaded from outside this tree, the complex iteractions of
 searching and priority is documented in the depmod and depmod.d man pages.
 
 
-<a id="org3d0d42d"></a>
+<a id="org2d86dc5"></a>
 
 ## Loading kernel modules.
 
@@ -97,12 +97,12 @@ module. This userspace helper consults the modules.dep file created by
 depmod to locate the relevant module to meet the kernels request.
 
 
-<a id="org76560cf"></a>
+<a id="org24f1745"></a>
 
 ## The signature
 
 
-<a id="org58d8d65"></a>
+<a id="org51de5fe"></a>
 
 ### Signature metadata.
 
@@ -186,7 +186,7 @@ Some implementations of kernel module signing had included it as part of the
 the simpler appending to the file.
 
 
-<a id="org6809757"></a>
+<a id="orga54146e"></a>
 
 # Version support table
 
@@ -245,12 +245,12 @@ boot parameter.
 When IMA is enabled, kernel module signing support is enforced.
 
 
-<a id="orgc820afd"></a>
+<a id="orgd4c4377"></a>
 
 # Source
 
 
-<a id="org6624520"></a>
+<a id="org693fe7e"></a>
 
 # How the kernel loads the module.
 
@@ -332,7 +332,7 @@ just put them in the first keyring.   It might be that they need to be added
 via mokutil ?
 
 
-<a id="orgc3ca74c"></a>
+<a id="orgc8a077a"></a>
 
 # Failure modes.
 
@@ -376,7 +376,7 @@ This is on the decided in module<sub>sig</sub><sub>check</sub>:
     }        
 
 
-<a id="org6cde486"></a>
+<a id="orga8ddd8b"></a>
 
 # Adding a second signature to the keychain for third party modules:
 
@@ -402,7 +402,7 @@ This allows local users to be able to add keys to the system keychain that
 are able to be used to validate signatures of kernel modules.
 
 
-<a id="orgc00c8ba"></a>
+<a id="org731dd04"></a>
 
 # Creating a public and private key
 
@@ -437,7 +437,7 @@ The openssl command should create two files, public<sub>key.der</sub> and
 private<sub>key.priv</sub>.
 
 
-<a id="org9b960e9"></a>
+<a id="orgb3cc218"></a>
 
 # Enrolling the key into the MOK keychain.
 
@@ -471,7 +471,7 @@ For example:
 &#x2026;asymmetric: Wades own very special kmod v01 signing key: c4ae92e16da94228cd9e&#x2026;
 
 
-<a id="org38ebb34"></a>
+<a id="orgc881b4f"></a>
 
 # Signing a kernel module
 
@@ -488,7 +488,7 @@ FIXME: mention that signing doesn't have be on the machine that is running
 the kernel module ideally.
 
 
-<a id="org4fc72ec"></a>
+<a id="orga7e4668"></a>
 
 # Additional Resources:
 
