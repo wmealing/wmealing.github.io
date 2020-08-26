@@ -1,0 +1,49 @@
+# Using TPM PCRS state to prevent hardware level tampering.
+
+Most modern systems have a TPM implemented in hardware of the system that is frequently used as a method to ensure platform integrity of system level components.
+
+TPM status is communicated with the operating system through “Trusted Platform Configuration Register (PCR) settings.   The TPM has several different PCR which are used for different, specific purposes. Some of these registers are intended to be used as hardware and software validation methods to ensure that an “Evil maid” attack has not taken place between boots.
+
+Some attacks may modify the boot process to gain additional privileges while the system is running.
+
+## Option 1 : LUKS decryption on PCRS validation.
+
+As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
+
+Any block devices that are configured to ‘bind’ against these PCRs will fail to decrypt.  
+
+For example, if /dev/sda3 was required to validate against PCR 7 with the command:
+
+clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'
+The device will fail to decrypt at boot time if the PCR has changed between the time that the command was issued and boot.  Using PCR 7 specifically means that operating system upgrades will not affect the ability of a system to booth.  Other PCR’s may be reset or modified.  If an attacker manages to evade secure boot PCR-7 will be modified.
+
+
+## Option 2: Integrity Measurement Architecture (IMA).
+
+The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
+
+The Red Hat Enterprise Linux 8 documentation covers setting up IMA, please follow this guide for initial configuration of IMA in the environment.
+
+Once configured, the boot_aggregate line in /sys/kernel/security/ima/ascii_runtime_measurements has a value that will be shown as different when changes to the TPM are made between system boots.  
+
+The boot_aggregate entry format depends on the template chosen, being the default for RHEL-8 the following one: 
+
+~~
+$ cat /sys/kernel/security/ima/ascii_runtime_measurements | grep boot_aggregate
+10 ef2be9c304d9bbbd8ecb40f0d296176d2b5d3078 ima-ng sha1:4663ed64e5dbbb9755a0914b1a15fa76a1797806 boot_aggregate
+~~
+
+Once a known good value is obtained, this aggregate will persist between reboots of the same boot shim/ bootloader and kernel.  Periodically comparing this value to known trusted states will ensure the system is in a known-good state.
+Additional Information:
+
+https://en.wikipedia.org/wiki/Trusted_Platform_Module
+
+https://mjg59.dreamwidth.org/48897.html
+
+https://trustedcomputinggroup.org/wp-content/uploads/PC-ClientSpecific_Platform_Profile_for_TPM_2p0_Systems_v51.pdf
+
+https://blog.dowhile0.org/2017/10/18/automatic-luks-volumes-unlocking-using-a-tpm2-chip/
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel
+
+https://lwn.net/Articles/137306/
