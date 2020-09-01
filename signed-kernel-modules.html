@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-01 Tue 16:08 -->
+<!-- 2020-09-01 Tue 16:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>signed-kernel-modules</title>
@@ -248,35 +248,35 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org6b5115f">1. Why sign a kernel module ?</a></li>
-<li><a href="#org05582f9">2. How is it signed ?</a></li>
-<li><a href="#org584749c">3. Kernel modules information.</a>
+<li><a href="#org15ce709">1. Why sign a kernel module ?</a></li>
+<li><a href="#org5d4b4e5">2. How is it signed ?</a></li>
+<li><a href="#orgfd096d4">3. Kernel modules information.</a>
 <ul>
-<li><a href="#orgd3a6edf">3.1. Module location</a></li>
-<li><a href="#org75d8cd3">3.2. Loading kernel modules.</a></li>
-<li><a href="#orgbdf1e15">3.3. The signature</a>
+<li><a href="#org35161c0">3.1. Module location</a></li>
+<li><a href="#org248987f">3.2. Loading kernel modules.</a></li>
+<li><a href="#org2fecc46">3.3. The signature</a>
 <ul>
-<li><a href="#org1e7d24a">3.3.1. Signature metadata.</a></li>
+<li><a href="#orgf03866c">3.3.1. Signature metadata.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orga0bf379">4. Version support table</a></li>
-<li><a href="#org4af6de6">5. Source</a></li>
-<li><a href="#org999cc7c">6. How the kernel loads the module.</a></li>
-<li><a href="#org77a1030">7. Failure modes.</a></li>
-<li><a href="#org4285c16">8. Adding a second signature to the keychain for third party modules:</a></li>
-<li><a href="#org666cfeb">9. Creating a public and private key</a></li>
-<li><a href="#orgb30283f">10. Enrolling the key into the MOK keychain.</a></li>
-<li><a href="#org7eedd0d">11. Signing a kernel module</a></li>
-<li><a href="#org233b4a8">12. Additional Resources:</a></li>
+<li><a href="#org0c2f5de">4. Version support table</a></li>
+<li><a href="#org6cb6dd0">5. Source</a></li>
+<li><a href="#orgcdd54b1">6. How the kernel loads the module.</a></li>
+<li><a href="#org8aeb6ae">7. Failure modes.</a></li>
+<li><a href="#org2f9796b">8. Adding a second signature to the keychain for third party modules:</a></li>
+<li><a href="#org9b56a95">9. Creating a public and private key</a></li>
+<li><a href="#orgaf073cd">10. Enrolling the key into the MOK keychain.</a></li>
+<li><a href="#org50c531a">11. Signing a kernel module</a></li>
+<li><a href="#orgce2d916">12. Additional Resources:</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org6b5115f" class="outline-2">
-<h2 id="org6b5115f"><span class="section-number-2">1</span> Why sign a kernel module ?</h2>
+<div id="outline-container-org15ce709" class="outline-2">
+<h2 id="org15ce709"><span class="section-number-2">1</span> Why sign a kernel module ?</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The process of digitally signing executables and scripts to confirm the software
@@ -287,8 +287,8 @@ authenticity and integrity
 </div>
 </div>
 
-<div id="outline-container-org05582f9" class="outline-2">
-<h2 id="org05582f9"><span class="section-number-2">2</span> How is it signed ?</h2>
+<div id="outline-container-org5d4b4e5" class="outline-2">
+<h2 id="org5d4b4e5"><span class="section-number-2">2</span> How is it signed ?</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard 
@@ -330,12 +330,12 @@ time and runtime of the kernel that is being built.
 </div>
 </div>
 
-<div id="outline-container-org584749c" class="outline-2">
-<h2 id="org584749c"><span class="section-number-2">3</span> Kernel modules information.</h2>
+<div id="outline-container-orgfd096d4" class="outline-2">
+<h2 id="orgfd096d4"><span class="section-number-2">3</span> Kernel modules information.</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgd3a6edf" class="outline-3">
-<h3 id="orgd3a6edf"><span class="section-number-3">3.1</span> Module location</h3>
+<div id="outline-container-org35161c0" class="outline-3">
+<h3 id="org35161c0"><span class="section-number-3">3.1</span> Module location</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Kernel modules provided by the operating system vendors are located in the
@@ -352,8 +352,8 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </div>
 </div>
 
-<div id="outline-container-org75d8cd3" class="outline-3">
-<h3 id="org75d8cd3"><span class="section-number-3">3.2</span> Loading kernel modules.</h3>
+<div id="outline-container-org248987f" class="outline-3">
+<h3 id="org248987f"><span class="section-number-3">3.2</span> Loading kernel modules.</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
@@ -375,12 +375,12 @@ depmod to locate the relevant module to meet the kernels request.
 </div>
 </div>
 
-<div id="outline-container-orgbdf1e15" class="outline-3">
-<h3 id="orgbdf1e15"><span class="section-number-3">3.3</span> The signature</h3>
+<div id="outline-container-org2fecc46" class="outline-3">
+<h3 id="org2fecc46"><span class="section-number-3">3.3</span> The signature</h3>
 <div class="outline-text-3" id="text-3-3">
 </div>
-<div id="outline-container-org1e7d24a" class="outline-4">
-<h4 id="org1e7d24a"><span class="section-number-4">3.3.1</span> Signature metadata.</h4>
+<div id="outline-container-orgf03866c" class="outline-4">
+<h4 id="orgf03866c"><span class="section-number-4">3.3.1</span> Signature metadata.</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
@@ -477,8 +477,8 @@ the simpler appending to the file.
 </div>
 </div>
 
-<div id="outline-container-orga0bf379" class="outline-2">
-<h2 id="orga0bf379"><span class="section-number-2">4</span> Version support table</h2>
+<div id="outline-container-org0c2f5de" class="outline-2">
+<h2 id="org0c2f5de"><span class="section-number-2">4</span> Version support table</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The first implementation of signing kernel modules appeared in Red Hat
@@ -540,12 +540,12 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 
-<div id="outline-container-org4af6de6" class="outline-2">
-<h2 id="org4af6de6"><span class="section-number-2">5</span> Source</h2>
+<div id="outline-container-org6cb6dd0" class="outline-2">
+<h2 id="org6cb6dd0"><span class="section-number-2">5</span> Source</h2>
 </div>
 
-<div id="outline-container-org999cc7c" class="outline-2">
-<h2 id="org999cc7c"><span class="section-number-2">6</span> How the kernel loads the module.</h2>
+<div id="outline-container-orgcdd54b1" class="outline-2">
+<h2 id="orgcdd54b1"><span class="section-number-2">6</span> How the kernel loads the module.</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 The kernel has two entry paths of loading a module.  The init_module()
@@ -639,8 +639,8 @@ a reputable state.
 </div>
 </div>
 
-<div id="outline-container-org77a1030" class="outline-2">
-<h2 id="org77a1030"><span class="section-number-2">7</span> Failure modes.</h2>
+<div id="outline-container-org8aeb6ae" class="outline-2">
+<h2 id="org8aeb6ae"><span class="section-number-2">7</span> Failure modes.</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 The kernel module signature check 'fails closed' leaving it up to the admin
@@ -695,8 +695,8 @@ The code also heavily defaults to the 'lockdown' mode state.
 </div>
 
 
-<div id="outline-container-org4285c16" class="outline-2">
-<h2 id="org4285c16"><span class="section-number-2">8</span> Adding a second signature to the keychain for third party modules:</h2>
+<div id="outline-container-org2f9796b" class="outline-2">
+<h2 id="org2f9796b"><span class="section-number-2">8</span> Adding a second signature to the keychain for third party modules:</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 If the system is not UEFI-based or if UEFI Secure Boot is not
@@ -733,8 +733,8 @@ are able to be used to validate signatures of kernel modules.
 </div>
 </div>
 
-<div id="outline-container-org666cfeb" class="outline-2">
-<h2 id="org666cfeb"><span class="section-number-2">9</span> Creating a public and private key</h2>
+<div id="outline-container-org9b56a95" class="outline-2">
+<h2 id="org9b56a95"><span class="section-number-2">9</span> Creating a public and private key</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 Create a file configuration_file.config  with the following contents,
@@ -778,8 +778,8 @@ private_key.priv.
 </div>
 </div>
 
-<div id="outline-container-orgb30283f" class="outline-2">
-<h2 id="orgb30283f"><span class="section-number-2">10</span> Enrolling the key into the MOK keychain.</h2>
+<div id="outline-container-orgaf073cd" class="outline-2">
+<h2 id="orgaf073cd"><span class="section-number-2">10</span> Enrolling the key into the MOK keychain.</h2>
 <div class="outline-text-2" id="text-10">
 <pre class="example">
 # mokutil --import public_key.der
@@ -826,8 +826,8 @@ For example the "Wades own very special kmod v01" singing key:
 </div>
 </div>
 
-<div id="outline-container-org7eedd0d" class="outline-2">
-<h2 id="org7eedd0d"><span class="section-number-2">11</span> Signing a kernel module</h2>
+<div id="outline-container-org50c531a" class="outline-2">
+<h2 id="org50c531a"><span class="section-number-2">11</span> Signing a kernel module</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 Before the module can be loaded it must be signed, there is a sign-file
@@ -853,31 +853,21 @@ practices for public/private keys.
 </div>
 </div>
 
-<div id="outline-container-org233b4a8" class="outline-2">
-<h2 id="org233b4a8"><span class="section-number-2">12</span> Additional Resources:</h2>
+<div id="outline-container-orgce2d916" class="outline-2">
+<h2 id="orgce2d916"><span class="section-number-2">12</span> Additional Resources:</h2>
 <div class="outline-text-2" id="text-12">
-<p>
-[Red Hat guide for Secure
-boot](<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot</a>) 
-</p>
-
-<p>
-[Adding a secondary sign to a Out of Tree kernel module](<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot</a>)
-</p>
-
-<p>
-[The kernel security subsystem manual (keyring subsection)](<a href="https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf">https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf</a>)
-</p>
-
-<p>
-[Secondary trusted keyring ( SECONDARY_TRUSTED_KEYRING )](<a href="https://lore.kernel.org/patchwork/patch/665795/">https://lore.kernel.org/patchwork/patch/665795/</a>)
-</p>
+<ul class="org-ul">
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">RedHat Guide for Secure boot</a></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Adding a secondary sign to a Out of Tree kernel module</a></li>
+<li><a href="https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf">The kernel security subsystem</a></li>
+<li><a href="https://lore.kernel.org/patchwork/patch/665795/">Secondary keyring</a></li>
+</ul>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-09-01 Tue 16:08</p>
+<p class="date">Created: 2020-09-01 Tue 16:15</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
