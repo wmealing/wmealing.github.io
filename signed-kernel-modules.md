@@ -1,26 +1,26 @@
 
 # Table of Contents
 
-1.  [Why sign a kernel module ?](#orgd9cd779)
-2.  [How is it signed ?](#orgaa060c1)
-3.  [Kernel modules information.](#orga286e6c)
-    1.  [Module location](#org1003854)
-    2.  [Loading kernel modules.](#org9f64f06)
-    3.  [The signature](#org0ed9caa)
-        1.  [Signature metadata.](#org7f25bd3)
-4.  [Version support table](#orgc56d183)
-5.  [Source](#org7d4c36d)
-6.  [How the kernel loads the module.](#orgb53af96)
-7.  [Failure modes.](#org5a2e251)
-8.  [Adding a second signature to the keychain for third party modules:](#orga2d540b)
-9.  [Creating a public and private key](#org132564b)
-10. [Enrolling the key into the MOK keychain.](#org50b1269)
-11. [Signing a kernel module](#orgb4c702a)
-12. [Additional Resources:](#org79cbf2a)
+1.  [Why sign a kernel module ?](#org7c35ac3)
+2.  [How is it signed ?](#orgd6213d0)
+3.  [Kernel modules information.](#org76eda05)
+    1.  [Module location](#orge79c53b)
+    2.  [Loading kernel modules.](#org222d60d)
+    3.  [The signature](#orgcf5980c)
+        1.  [Signature metadata.](#org0746dac)
+4.  [Version support table](#orgf3aca76)
+5.  [Source](#org619928d)
+6.  [How the kernel loads the module.](#org7504faa)
+7.  [Failure modes.](#org59e62e1)
+8.  [Adding a second signature to the keychain for third party modules:](#org8317702)
+9.  [Creating a public and private key](#org950203f)
+10. [Enrolling the key into the MOK keychain.](#org13dfc90)
+11. [Signing a kernel module](#orgc41e782)
+12. [Additional Resources:](#org92dc606)
 
 
 
-<a id="orgd9cd779"></a>
+<a id="org7c35ac3"></a>
 
 # Why sign a kernel module ?
 
@@ -30,7 +30,7 @@ was signed. The process employs the use of a cryptographic hash to validate
 authenticity and integrity
 
 
-<a id="orgaa060c1"></a>
+<a id="orgd6213d0"></a>
 
 # How is it signed ?
 
@@ -63,12 +63,12 @@ only supports sha256 signed kernel modules.  These options are used at build
 time and runtime of the kernel that is being built.
 
 
-<a id="orga286e6c"></a>
+<a id="org76eda05"></a>
 
 # Kernel modules information.
 
 
-<a id="org1003854"></a>
+<a id="orge79c53b"></a>
 
 ## Module location
 
@@ -82,7 +82,7 @@ Modules can be loaded from outside this tree, the complex iteractions of
 searching and priority is documented in the depmod and depmod.d man pages.
 
 
-<a id="org9f64f06"></a>
+<a id="org222d60d"></a>
 
 ## Loading kernel modules.
 
@@ -99,12 +99,12 @@ module. This userspace helper consults the modules.dep file created by
 depmod to locate the relevant module to meet the kernels request.
 
 
-<a id="org0ed9caa"></a>
+<a id="orgcf5980c"></a>
 
 ## The signature
 
 
-<a id="org7f25bd3"></a>
+<a id="org0746dac"></a>
 
 ### Signature metadata.
 
@@ -188,7 +188,7 @@ Some implementations of kernel module signing had included it as part of the
 the simpler appending to the file.
 
 
-<a id="orgc56d183"></a>
+<a id="orgf3aca76"></a>
 
 # Version support table
 
@@ -229,13 +229,13 @@ enabled by booting the kernel with an addition parameter as shown below:
 
 <tr>
 <td class="org-left">Red Hat Enterprise Linux 7</td>
-<td class="org-left">module.sig\_enforce=1</td>
+<td class="org-left">`module.sig_enforce=1`</td>
 </tr>
 
 
 <tr>
 <td class="org-left">Red Hat Enterprise Linux 8</td>
-<td class="org-left">module.sig\_enforce=1</td>
+<td class="org-left">`module.sig_enforce=1`</td>
 </tr>
 </tbody>
 </table>
@@ -247,32 +247,37 @@ boot parameter.
 When IMA is enabled, kernel module signing support is enforced.
 
 
-<a id="org7d4c36d"></a>
+<a id="org619928d"></a>
 
 # Source
 
 
-<a id="orgb53af96"></a>
+<a id="org7504faa"></a>
 
 # How the kernel loads the module.
 
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
 
-These functions are: init\_module() and  finit\_module()
+These system call functions are: init\_module() and  finit\_module(). They
+both perform the same essential function, finit takes an FD instead of a
+path to the module.
 
-TODO: finit\_module skipsis some kind of validation around signatures.
-TODO: does finit\_module skip the whole sign check process, wtf ?
+[This may be useful if you have some kind of selinux policy on loading
+modules that are labeled ?]
 
-These call mod\_check\_sig() and mod\_read\_sig().
+An overview of the function calls in the 'useful' codepath.
 
-The mod\_read\_sig() function parses out the signature from the module. (the
-signature is a fixed size)
+    init_module() 
+     -> load_module() 
+      -> module_sig_check()  <-- checks to see if it has a sig
+        -> mod_verify_sig()   <--- verify the signature.
+          -> verify_pkcs7_signature() <-- chcks to see if its valid pkcs7
+           -> pkcs7_verify_one()  <- checks a single signature (from the list)
+            -> public_key_verify_signature() <- actual crypto done here.
 
-The module\_sig\_check() function passes most of the logic off to
-mod\_verify\_sig() which is where most of the action is,
-
-It verifies it against the 'built-in' trusted key and secondary trusted keys.
+There is provision for the secondary keychain (The comments here don't 
+seem to match the actual code), this is changed in later versions.
 
     mod_verify_sig() {
     
@@ -301,40 +306,22 @@ It verifies it against the 'built-in' trusted key and secondary trusted keys.
     
     }
 
-The mentioned CONFIG\_INTEGRITY\_PLATFORM\_KEYRING code allows for kexec to
-work correctly.  I really don't know what its doing here in the module
-loading code.
+From initial research this appears to be the ".builtin\_trusted\_keys"
+keyring. But the Secondary keyring can also be built if configured at 
+build time.  (This is not the case in RHEL systems).
 
-    config INTEGRITY_PLATFORM_KEYRING
-         bool "Provide keyring for platform/firmware trusted keys"
-         depends on INTEGRITY_ASYMMETRIC_KEYS
-         depends on SYSTEM_BLACKLIST_KEYRING
-         depends on EFI
-         help
-          Provide a separate, distinct keyring for platform trusted keys, which
-          the kernel automatically populates during initialization from values
-          provided by the platform for verifying the kexec'ed kerned image
-          and, possibly, the initramfs signature.
+This secondary keychain must also be trusted by a signer in the primary
+keychain, so.. its not simple.
 
-From initial research this appears to be the ".builtin\_trusted\_keys" keyring.
+Listing the primary keys:
 
     # keyctl list %:.builtin_trusted_keys 
 
 These keys will only show when booted in secureboot mode with secureboot in
 a reputable state.
 
-Sidenote: 
 
-There is support upstream for CONFIG\_SECONDARY\_TRUSTED\_KEYRING but this is
-not enabled in any shipping version of Red Hat Enterprise Linux.
-
-Keys in the secondary trusted keyring need to be somehow trusted by the
-first key, so I'm not sure how thats supposed to happen and why you wouldnt
-just put them in the first keyring.   It might be that they need to be added
-via mokutil ?
-
-
-<a id="org5a2e251"></a>
+<a id="org59e62e1"></a>
 
 # Failure modes.
 
@@ -375,10 +362,12 @@ This is on the decided in module\_sig\_check:
           return err;
     
       }
-    }        
+    }  
+
+The code also heavily defaults to the 'lockdown' mode state.
 
 
-<a id="orga2d540b"></a>
+<a id="org8317702"></a>
 
 # Adding a second signature to the keychain for third party modules:
 
@@ -404,7 +393,7 @@ This allows local users to be able to add keys to the system keychain that
 are able to be used to validate signatures of kernel modules.
 
 
-<a id="org132564b"></a>
+<a id="org950203f"></a>
 
 # Creating a public and private key
 
@@ -439,7 +428,7 @@ The openssl command should create two files, public\_key.der and
 private\_key.priv.
 
 
-<a id="org50b1269"></a>
+<a id="org13dfc90"></a>
 
 # Enrolling the key into the MOK keychain.
 
@@ -458,7 +447,7 @@ the early-boot stage to confirm that this key is to be enrolled.
 This public key will now be in the MOK list and be added to the system key ring
 on all future boots (until cleared) while secureboot is enabled.
 
-For example:
+For example the "Wades own very special kmod v01" singing key:
 
     # keyctl list %:.system_keyring
     6 keys in keyring:
@@ -472,7 +461,7 @@ For example:
     ...asymmetric: Wades own very special kmod v01 signing key: c4ae92e16da94228cd9e...
 
 
-<a id="orgb4c702a"></a>
+<a id="orgc41e782"></a>
 
 # Signing a kernel module
 
@@ -483,29 +472,24 @@ tree' built kernel modules.  An example of singing my\_module
 
     perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
 
-FIXME: confirm the signature with modinfo.
+After the signature has been applied, the modinfo command should show the
+newly applied signature in its output.
 
-FIXME: mention that signing doesn't have be on the machine that is running
-the kernel module ideally.
+Note:  The signing process does not need to be on the machine where the
+module will be loaded.  Module signing keys should be adequately secured with best
+practices for public/private keys.
 
 
-<a id="org79cbf2a"></a>
+<a id="org92dc606"></a>
 
 # Additional Resources:
 
-Red Hat guide for Secure boot:
+[Red Hat guide for Secure
+boot](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>) 
 
--   <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>
+[Adding a secondary sign to a Out of Tree kernel module](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>)
 
-Adding a secondary sign to a Out of Tree kernel module:
+[The kernel security subsystem manual (keyring subsection)](<https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf>)
 
--   <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>
-
-The kernel security subsystem manual (keyring subsection)
-
--   <https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf>
-
-Secondary trusted keyring ( SECONDARY\_TRUSTED\_KEYRING )
-
--   <https://lore.kernel.org/patchwork/patch/665795/>
+[Secondary trusted keyring ( SECONDARY\_TRUSTED\_KEYRING )](<https://lore.kernel.org/patchwork/patch/665795/>)
 
