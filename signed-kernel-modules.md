@@ -22,12 +22,18 @@
 
 <a id="org7c35ac3"></a>
 
-# Why sign a kernel module ?
+# What is a “signed” kernel module?
 
-The process of digitally signing executables and scripts to confirm the software
-author and guarantee that the code has not been altered or corrupted since it
-was signed. The process employs the use of a cryptographic hash to validate
-authenticity and integrity
+A digital signature is a method of verifying the authenticity of digital data.   A valid digital signature can be used to reason that the ‘signed’ content was created by a known sender and that the data was not modified between the time of signing and its current state.
+
+
+Kernel modules are organized, functional sections of code that can be loaded and removed from the kernel on demand.  A module provides additional functionality  of the kernel without the need to reboot the system or recompile the code.
+
+A signed kernel module is a kernel module with a digitial signature that validates the contents of the module along with the attached signature belongs to a trusted party in the systems ‘key chain’.
+
+
+
+
 
 
 <a id="orgd6213d0"></a>
