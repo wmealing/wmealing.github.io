@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-22 Tue 23:30 -->
+<!-- 2020-09-22 Tue 23:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>signed-kernel-modules</title>
@@ -235,36 +235,36 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org872ca13">What is a “signed” kernel module?</a></li>
-<li><a href="#org1049b51">How is it signed ?</a></li>
-<li><a href="#orgab8e736">Kernel modules information.</a>
+<li><a href="#org5c24b57">What is a “signed” kernel module?</a></li>
+<li><a href="#orgd503570">How is it signed ?</a></li>
+<li><a href="#org87e6247">Kernel modules information.</a>
 <ul>
-<li><a href="#orgf7de86e">Kernel module location</a></li>
-<li><a href="#org59dc528">Loading kernel modules.</a></li>
-<li><a href="#orga40cc3b">The signature</a>
+<li><a href="#orgb79578c">Kernel module location</a></li>
+<li><a href="#org10bb8f6">Loading kernel modules.</a></li>
+<li><a href="#org8302436">The signature</a>
 <ul>
-<li><a href="#org24f9291">Signature metadata.</a></li>
+<li><a href="#org40c944b">Signature metadata.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org739472d">Version support table</a></li>
-<li><a href="#org3d583d6">Loading third party modules with signing enforced:</a>
+<li><a href="#org1a27c31">Version support table</a></li>
+<li><a href="#orge1bc391">Loading third party modules with signing enforced:</a>
 <ul>
-<li><a href="#orgc395246">But I need a third party module to be signed with a valid key!</a></li>
-<li><a href="#org6244959">Creating a public and private key</a></li>
-<li><a href="#org01692c5">Signing a module to be loaded</a></li>
-<li><a href="#orgbf39f4e">Loading a module</a></li>
+<li><a href="#orga459f66">But I need a third party module to be signed with a valid key!</a></li>
+<li><a href="#org1e296f9">Creating a public and private key</a></li>
+<li><a href="#org9326683">Signing a module to be loaded</a></li>
+<li><a href="#org7f349c6">Loading a module</a></li>
 </ul>
 </li>
-<li><a href="#orgf921cb4">Additional Resources:</a></li>
+<li><a href="#org4665d4a">Additional Resources:</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org872ca13" class="outline-2">
-<h2 id="org872ca13">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-org872ca13">
+<div id="outline-container-org5c24b57" class="outline-2">
+<h2 id="org5c24b57">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-org5c24b57">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -289,9 +289,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 
 
 
-<div id="outline-container-org1049b51" class="outline-2">
-<h2 id="org1049b51">How is it signed ?</h2>
-<div class="outline-text-2" id="text-org1049b51">
+<div id="outline-container-orgd503570" class="outline-2">
+<h2 id="orgd503570">How is it signed ?</h2>
+<div class="outline-text-2" id="text-orgd503570">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -340,13 +340,13 @@ signatures.
 </div>
 </div>
 
-<div id="outline-container-orgab8e736" class="outline-2">
-<h2 id="orgab8e736">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-orgab8e736">
+<div id="outline-container-org87e6247" class="outline-2">
+<h2 id="org87e6247">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org87e6247">
 </div>
-<div id="outline-container-orgf7de86e" class="outline-3">
-<h3 id="orgf7de86e">Kernel module location</h3>
-<div class="outline-text-3" id="text-orgf7de86e">
+<div id="outline-container-orgb79578c" class="outline-3">
+<h3 id="orgb79578c">Kernel module location</h3>
+<div class="outline-text-3" id="text-orgb79578c">
 <p>
 Kernel modules provided by the operating system vendors are located in
 the root or subdirectory of the default search path (of
@@ -367,9 +367,9 @@ pages.
 </div>
 </div>
 
-<div id="outline-container-org59dc528" class="outline-3">
-<h3 id="org59dc528">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-org59dc528">
+<div id="outline-container-org10bb8f6" class="outline-3">
+<h3 id="org10bb8f6">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-org10bb8f6">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -395,13 +395,13 @@ kernel module requirement.
 </div>
 </div>
 
-<div id="outline-container-orga40cc3b" class="outline-3">
-<h3 id="orga40cc3b">The signature</h3>
-<div class="outline-text-3" id="text-orga40cc3b">
+<div id="outline-container-org8302436" class="outline-3">
+<h3 id="org8302436">The signature</h3>
+<div class="outline-text-3" id="text-org8302436">
 </div>
-<div id="outline-container-org24f9291" class="outline-4">
-<h4 id="org24f9291">Signature metadata.</h4>
-<div class="outline-text-4" id="text-org24f9291">
+<div id="outline-container-org40c944b" class="outline-4">
+<h4 id="org40c944b">Signature metadata.</h4>
+<div class="outline-text-4" id="text-org40c944b">
 <p>
 The /sbin/modinfo program can inspect details about the kernel
 module. 
@@ -502,9 +502,9 @@ in favour of the simpler appending to the file.
 </div>
 
 
-<div id="outline-container-org739472d" class="outline-2">
-<h2 id="org739472d">Version support table</h2>
-<div class="outline-text-2" id="text-org739472d">
+<div id="outline-container-org1a27c31" class="outline-2">
+<h2 id="org1a27c31">Version support table</h2>
+<div class="outline-text-2" id="text-org1a27c31">
 <p>
 The first implementation of signing kernel modules appeared in Red Hat
 Enterprise Linux 5.  This was available and enabled in Enterprise Linux before
@@ -579,9 +579,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 
 
-<div id="outline-container-org3d583d6" class="outline-2">
-<h2 id="org3d583d6">Loading third party modules with signing enforced:</h2>
-<div class="outline-text-2" id="text-org3d583d6">
+<div id="outline-container-orge1bc391" class="outline-2">
+<h2 id="orge1bc391">Loading third party modules with signing enforced:</h2>
+<div class="outline-text-2" id="text-orge1bc391">
 <p>
 When kernel module signing is enforced, the kernel will only load
 modules that are signed by keys on the systems keychain.  This means
@@ -591,9 +591,9 @@ memory.
 </p>
 </div>
 
-<div id="outline-container-orgc395246" class="outline-3">
-<h3 id="orgc395246">But I need a third party module to be signed with a valid key!</h3>
-<div class="outline-text-3" id="text-orgc395246">
+<div id="outline-container-orga459f66" class="outline-3">
+<h3 id="orga459f66">But I need a third party module to be signed with a valid key!</h3>
+<div class="outline-text-3" id="text-orga459f66">
 <p>
 The only supported method of adding a key to the systems keychain is
 to use secureboot.  Secureboot has a provision for adding 'additional'
@@ -610,9 +610,9 @@ keyring addition.
 </div>
 </div>
 
-<div id="outline-container-org6244959" class="outline-3">
-<h3 id="org6244959">Creating a public and private key</h3>
-<div class="outline-text-3" id="text-org6244959">
+<div id="outline-container-org1e296f9" class="outline-3">
+<h3 id="org1e296f9">Creating a public and private key</h3>
+<div class="outline-text-3" id="text-org1e296f9">
 <p>
 Create a file configuration_file.config with the following contents,
 modifying O, EmailAddress  and CN options.
@@ -688,8 +688,6 @@ enabled.
 For example:
 </p>
 <pre class="example">
-
-
 # keyctl list %:.system_keyring
 6 keys in keyring:
 ...asymmetric: Red Hat Enterprise Linux Driver Update Program (key 3): bf57f3e87...
@@ -709,9 +707,9 @@ modules.
 </div>
 </div>
 
-<div id="outline-container-org01692c5" class="outline-3">
-<h3 id="org01692c5">Signing a module to be loaded</h3>
-<div class="outline-text-3" id="text-org01692c5">
+<div id="outline-container-org9326683" class="outline-3">
+<h3 id="org9326683">Signing a module to be loaded</h3>
+<div class="outline-text-3" id="text-org9326683">
 <p>
 Before the module can be loaded it must be signed.  A sign-file script
 is included in the kernel source ./scripts/ directory which provides
@@ -736,9 +734,9 @@ signature in its output.
 </div>
 </div>
 
-<div id="outline-container-orgbf39f4e" class="outline-3">
-<h3 id="orgbf39f4e">Loading a module</h3>
-<div class="outline-text-3" id="text-orgbf39f4e">
+<div id="outline-container-org7f349c6" class="outline-3">
+<h3 id="org7f349c6">Loading a module</h3>
+<div class="outline-text-3" id="text-org7f349c6">
 <p>
 When kernel module is signed with an untrusted key or unsigned and
 theadmin tries to load the module, the output would be the following:
@@ -760,9 +758,9 @@ When the module is loaded correctly, the message above will be absent:
 </div>
 </div>
 
-<div id="outline-container-orgf921cb4" class="outline-2">
-<h2 id="orgf921cb4">Additional Resources:</h2>
-<div class="outline-text-2" id="text-orgf921cb4">
+<div id="outline-container-org4665d4a" class="outline-2">
+<h2 id="org4665d4a">Additional Resources:</h2>
+<div class="outline-text-2" id="text-org4665d4a">
 <ul class="org-ul">
 <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">RedHat Guide for Secure boot</a></li>
 <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Adding a secondary sign to a Out of Tree kernel module</a></li>
@@ -774,7 +772,7 @@ When the module is loaded correctly, the message above will be absent:
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-09-22 Tue 23:30</p>
+<p class="date">Created: 2020-09-22 Tue 23:33</p>
 <p class="validation"></p>
 </div>
 </body>
