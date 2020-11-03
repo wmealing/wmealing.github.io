@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-02 Wed 13:59 -->
+<!-- 2020-11-04 Wed 02:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>It might be useful to someone.</title>
@@ -161,19 +161,6 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -199,7 +186,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -248,9 +235,20 @@ for the JavaScript code in this tag.
 Listed below are some of the things that I'm working on that I think others may be interested in.
 </p>
 
-<div id="outline-container-orgbb9d48f" class="outline-2">
-<h2 id="orgbb9d48f">Userspace eBPF [Sep 2 2020]</h2>
-<div class="outline-text-2" id="text-orgbb9d48f">
+
+<div id="outline-container-org130ba39" class="outline-2">
+<h2 id="org130ba39">MIRAI analysis - watchdog access in rust [Nov 2020]</h2>
+<div class="outline-text-2" id="text-org130ba39">
+<p>
+The MIRAI malware uses an technique intended to prevent the systems
+watchdog from rebooting the machine when its too busy.  <a href="https://wmealing.github.io/watchdog-in-rust">I share what I learned about this and ported it to rust.</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf579839" class="outline-2">
+<h2 id="orgf579839">Userspace eBPF [Sep 2 2020]</h2>
+<div class="outline-text-2" id="text-orgf579839">
 <p>
 A few distros have users allowed to insert eBPF programs.  This is disabled in
 some distributions.  <a href="./ebpf-disabled-for-users.html">I've documented my findings</a> after talking to different
@@ -259,10 +257,9 @@ decision holders who made some of these choices.
 </div>
 </div>
 
-
-<div id="outline-container-orgcd9eb45" class="outline-2">
-<h2 id="orgcd9eb45">Anatomy of kernel module signing  [Sep 22 2020]</h2>
-<div class="outline-text-2" id="text-orgcd9eb45">
+<div id="outline-container-org4b6a751" class="outline-2">
+<h2 id="org4b6a751">Anatomy of kernel module signing  [Aug 20 2020]</h2>
+<div class="outline-text-2" id="text-org4b6a751">
 <p>
 I decided to take a look at the Linux kernel modules signing process.  It seems
 that the recent drovorub malware has some interesting misinformation regarding 
@@ -271,9 +268,9 @@ module signing, so I had decided to take a look at the <a href="./signed-kernel-
 </div>
 </div>
 
-<div id="outline-container-org0e734cc" class="outline-2">
-<h2 id="org0e734cc">Encrypting a disk to only boot in a specific system. [Aug 9 2020]</h2>
-<div class="outline-text-2" id="text-org0e734cc">
+<div id="outline-container-org2292168" class="outline-2">
+<h2 id="org2292168">Encrypting a disk to only boot in a specific system. [Aug 9 2020]</h2>
+<div class="outline-text-2" id="text-org2292168">
 <p>
 Recent research papers related to flaws in thunderbolt and secureboot have
 piqued my interest in learning more about what can be done to prevent a system
@@ -283,9 +280,9 @@ comprimised in such a way from being abused.  I've written about
 </div>
 </div>
 
-<div id="outline-container-orgb852147" class="outline-2">
-<h2 id="orgb852147">Toshiba Toughpad FZ-G1-3 [Jul 25 2020]</h2>
-<div class="outline-text-2" id="text-orgb852147">
+<div id="outline-container-org59b56ec" class="outline-2">
+<h2 id="org59b56ec">Toshiba Toughpad FZ-G1-3 [Jul 25 2020]</h2>
+<div class="outline-text-2" id="text-org59b56ec">
 <p>
 I have recently purchased one of these machines in an auction, and I am -very-
 impressed with its build quality.   While this one is not its current purchase
@@ -296,9 +293,9 @@ learned about it <a href="./toshiba-toughpad-fz-g1-3.md">While making i twork fo
 </div>
 
 
-<div id="outline-container-orgd41ba82" class="outline-2">
-<h2 id="orgd41ba82">Kernel SecuriTea</h2>
-<div class="outline-text-2" id="text-orgd41ba82">
+<div id="outline-container-orgf712bb6" class="outline-2">
+<h2 id="orgf712bb6">Kernel SecuriTea</h2>
+<div class="outline-text-2" id="text-orgf712bb6">
 <p>
 I work on a small youtube channel where I talk about kernel security issues
 that interest me.  I work on quite a lot of these in my work so i'm limited to
@@ -309,8 +306,8 @@ what I can cover.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-09-02 Wed 13:59</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2020-11-04 Wed 02:49</p>
+<p class="validation"></p>
 </div>
 </body>
 </html>
