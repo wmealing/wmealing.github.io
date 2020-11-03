@@ -44,7 +44,7 @@ Then closes the opened file descriptor.
         close(wfd);
 #+END_SRC
 
-Whiel this does adhere to the spec, its also not the most supported
+While this does adhere to the spec, its also not the most supported
 method of disabling the watchdog.
 
 The aptly named "magic close feature" (https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt))
