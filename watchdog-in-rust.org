@@ -4,6 +4,8 @@
 #+ROAM_REF:
 #+OPTIONS: ^:nil num:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+#+OPTIONS: toc:nil 
+
 
 One of the firs tthings that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
@@ -73,7 +75,7 @@ closing are ignored by the implementation of Drop. Use the method sync_all if
 these errors must be manually handled.
 #+END_VERSE
 
-This would leave us with a simple function li
+1This would leave us with a simple function li
 
 #+BEGIN_SRC rust
 use std::fs;
