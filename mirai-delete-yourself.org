@@ -1,4 +1,4 @@
-#+TITLE: Mirai Delete yourself
+#+TIxsxsTLE: Mirai Delete yourself
 #+ROAM_ALIAS: Mirai malware - evasion technique - deleting dvidence.
 #+ROAM_TAGS: mirai malware delete evasion
 #+CREATED: 
@@ -6,7 +6,7 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
 #+OPTIONS: toc:nil
 
-* Evasion
+* Why delete the executable ?
 
   The Mirai malware uses a technique to remove itself from disk after
   executing has started.  This adds additional complexity of
@@ -14,9 +14,8 @@
   evidence of the attack taking place.
 
   Deleting the executable file during run time does not make it
-  impossible to recover the file, however it does add additional 
-  complexity while trying to analyse it in action. 
-
+  impossible to recover the file, however it does add additional
+  complexity while trying to analyse it in action.
 
 * Recovering an executable file.
 
@@ -33,7 +32,7 @@
   be copied for later inspection.
 
   #+BEGIN_EXAMPLE
-  cat /proc/975301/exec >> ~/captured-executable
+  $ cat /proc/975301/exec >> ~/captured-executable
   #+END_EXAMPLE
 
   If the malware is a scripting language (Mirai is not), the actual
@@ -41,7 +40,7 @@
   `/proc/<some-pid>/fd/
 
   #+BEGIN_EXAMPLE shell
-  [wmealing@toughpad wmealing.github.io]$ sudo ls -l /proc/975301/fd/
+  $ sudo ls -l /proc/975301/fd/
    total 0
    lr-x------. 1 root root 64 Nov 10 01:08 0 -> /dev/null
    lrwx------. 1 root root 64 Nov 10 01:08 1 -> 'socket:[38592]'
