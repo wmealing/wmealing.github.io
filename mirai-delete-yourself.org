@@ -14,7 +14,7 @@
   evidence of the attack taking place.
 
   Deleting the executable file during run time does not make it
-  impossible to recover the file, however it does add additional
+  impossible to recover the file, however it does add additionalx
   complexity while trying to analyse it in action.
 
 * Recovering an executable file.
@@ -24,7 +24,7 @@
 
   Each processes open files can be read from /proc/<numeric-pid>/exe
   #+BEGIN_EXAMPLE
-  sudo ls -l /proc/975301/exe
+  $ sudo ls -l /proc/975301/exe
   lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -> /tmp/.malware/init
   #+END_EXAMPLE
 
