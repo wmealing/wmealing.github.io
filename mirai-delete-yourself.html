@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-10 Tue 01:23 -->
+<!-- 2020-11-10 Tue 01:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai Delete yourself</title>
@@ -232,9 +232,9 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Mirai Delete yourself</h1>
 
-<div id="outline-container-org8618561" class="outline-2">
-<h2 id="org8618561">Evasion</h2>
-<div class="outline-text-2" id="text-org8618561">
+<div id="outline-container-orgdd6d1dc" class="outline-2">
+<h2 id="orgdd6d1dc">Evasion</h2>
+<div class="outline-text-2" id="text-orgdd6d1dc">
 <p>
 The Mirai malware uses a technique to remove itself from disk after
 executing has started.  This adds additional complexity of
@@ -251,9 +251,9 @@ complexity while trying to analyse it in action.
 </div>
 
 
-<div id="outline-container-org4348cfa" class="outline-2">
-<h2 id="org4348cfa">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org4348cfa">
+<div id="outline-container-org810da71" class="outline-2">
+<h2 id="org810da71">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-org810da71">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -292,9 +292,9 @@ executable script will be available in another location in the
 </div>
 </div>
 
-<div id="outline-container-org2b8a2fb" class="outline-2">
-<h2 id="org2b8a2fb">The sample code.</h2>
-<div class="outline-text-2" id="text-org2b8a2fb">
+<div id="outline-container-orgc2c22f0" class="outline-2">
+<h2 id="orgc2c22f0">The sample code.</h2>
+<div class="outline-text-2" id="text-orgc2c22f0">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
@@ -307,9 +307,9 @@ unlink(args[0]);
 </div>
 
 
-<div id="outline-container-org2149784" class="outline-2">
-<h2 id="org2149784">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org2149784">
+<div id="outline-container-orge2a1710" class="outline-2">
+<h2 id="orge2a1710">Porting to rust.</h2>
+<div class="outline-text-2" id="text-orge2a1710">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -346,14 +346,29 @@ use std::fs;
   Ok(())
  }
 </pre>
+
+<p>
+Having the executable 'missing' would be one of the big alarm bells
+for any intelligent system scammer 
+</p>
+
+<p>
+Perhaps a better option to make this harder to detect would be to 
+move a legit binary, rename the malware to the exeutable in place 
+delete the malware then put the original executable back.
+</p>
+
+<p>
+This would be much harder to detect, especially if it communicated
+using the same ports and had the same process name.
+</p>
 </div>
 </div>
 
 
-
-<div id="outline-container-orgcc52838" class="outline-2">
-<h2 id="orgcc52838">Resources:</h2>
-<div class="outline-text-2" id="text-orgcc52838">
+<div id="outline-container-orgc693957" class="outline-2">
+<h2 id="orgc693957">Resources:</h2>
+<div class="outline-text-2" id="text-orgc693957">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
@@ -362,7 +377,7 @@ use std::fs;
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-11-10 Tue 01:23</p>
+<p class="date">Created: 2020-11-10 Tue 01:47</p>
 <p class="validation"></p>
 </div>
 </body>
