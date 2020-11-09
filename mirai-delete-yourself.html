@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-10 Tue 02:06 -->
+<!-- 2020-11-10 Tue 02:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai Delete yourself</title>
@@ -232,9 +232,9 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Mirai Delete yourself</h1>
 
-<div id="outline-container-orgb22ca02" class="outline-2">
-<h2 id="orgb22ca02">Why delete the executable ?</h2>
-<div class="outline-text-2" id="text-orgb22ca02">
+<div id="outline-container-org25cd488" class="outline-2">
+<h2 id="org25cd488">Why delete the executable ?</h2>
+<div class="outline-text-2" id="text-org25cd488">
 <p>
 The Mirai malware uses a technique to remove itself from disk after
 executing has started.  This adds additional complexity of
@@ -250,9 +250,9 @@ complexity while trying to analyse it in action.
 </div>
 </div>
 
-<div id="outline-container-orge2e901f" class="outline-2">
-<h2 id="orge2e901f">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-orge2e901f">
+<div id="outline-container-orgea0ea52" class="outline-2">
+<h2 id="orgea0ea52">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-orgea0ea52">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -291,9 +291,9 @@ $ sudo ls -l /proc/975301/fd/
 </div>
 </div>
 
-<div id="outline-container-org06ba563" class="outline-2">
-<h2 id="org06ba563">The sample code.</h2>
-<div class="outline-text-2" id="text-org06ba563">
+<div id="outline-container-org7d40ee6" class="outline-2">
+<h2 id="org7d40ee6">The sample code.</h2>
+<div class="outline-text-2" id="text-org7d40ee6">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
@@ -308,16 +308,16 @@ See <a href="https://github.com/wmealing/Mirai-Source-Code/blob/master/mirai/bot
 </p>
 
 <p>
-The <a href="https://wmealing.github.io/mirai-delete-yourself">unlink</a> function deletes a file by name from the file system.  It
+The <a href="https://linux.die.net/man/2/unlink">unlink</a> function deletes a file by name from the file system.  It
 has a number of possible error conditions, but it appears that the
 author did not care about any of them.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org38ab7bd" class="outline-2">
-<h2 id="org38ab7bd">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org38ab7bd">
+<div id="outline-container-orge628ab3" class="outline-2">
+<h2 id="orge628ab3">Porting to rust.</h2>
+<div class="outline-text-2" id="text-orge628ab3">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -374,9 +374,9 @@ using the same ports and had the same process name.
 </div>
 
 
-<div id="outline-container-orgcf40b5f" class="outline-2">
-<h2 id="orgcf40b5f">Resources:</h2>
-<div class="outline-text-2" id="text-orgcf40b5f">
+<div id="outline-container-org7bda0f4" class="outline-2">
+<h2 id="org7bda0f4">Resources:</h2>
+<div class="outline-text-2" id="text-org7bda0f4">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
@@ -385,7 +385,7 @@ using the same ports and had the same process name.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-11-10 Tue 02:06</p>
+<p class="date">Created: 2020-11-10 Tue 02:07</p>
 <p class="validation"></p>
 </div>
 </body>
