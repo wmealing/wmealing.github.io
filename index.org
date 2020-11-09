@@ -1,0 +1,54 @@
+#+TITLE: It might be useful to someone.
+#+OPTIONS: ^:nil num:nil toc:nil 
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+
+Listed below are some of the things that I'm working on that I think others may be interested in.
+
+* [[https://wmealing.github.io/mirai-delete-yourself][MIRAI analysis - evasion - deleting the executing code - Nov 2020]]
+
+The MIRAI malware deletes itself from disk in an attempt to make it
+harder to analyse. [[https://wmealing.github.io/mirai-delete-yourself][This post]]  goes into detail on how it works, a rust
+implementation and a few improvements that could ahve been done.
+
+* MIRAI analysis - watchdog access in rust [Nov 2020]
+
+The MIRAI malware uses an technique intended to prevent the systems
+watchdog from rebooting the machine when its too busy.  [[https://wmealing.github.io/watchdog-in-rust][I share what I learned about this and ported it to rust.]]
+
+* Userspace eBPF [Sep 2 2020]
+
+A few distros have users allowed to insert eBPF programs.  This is disabled in
+some distributions.  [[./ebpf-disabled-for-users.html][I've documented my findings]] after talking to different
+decision holders who made some of these choices.
+
+* Anatomy of kernel module signing  [Aug 20 2020]
+
+I decided to take a look at the Linux kernel modules signing process.  It seems
+that the recent drovorub malware has some interesting misinformation regarding 
+module signing, so I had decided to take a look at the [[./signed-kernel-modules.html][regarding its implementations on Red hat Enterprise Linux]].
+
+* Encrypting a disk to only boot in a specific system. [Aug 9 2020]
+
+Recent research papers related to flaws in thunderbolt and secureboot have
+piqued my interest in learning more about what can be done to prevent a system
+comprimised in such a way from being abused.  I've written about
+[[./tpm-pcr07.html][it here]]
+
+* Toshiba Toughpad FZ-G1-3 [Jul 25 2020]
+
+I have recently purchased one of these machines in an auction, and I am -very-
+impressed with its build quality.   While this one is not its current purchase
+release, I've got a page talking about the customizations and things I have
+learned about it [[./toshiba-toughpad-fz-g1-3.md][While making i twork for me]].
+
+
+* Kernel SecuriTea
+
+I work on a small youtube channel where I talk about kernel security issues
+that interest me.  I work on quite a lot of these in my work so i'm limited to
+what I can cover.
+
+
+
+
+
