@@ -5,6 +5,7 @@
 #+OPTIONS: ^:nil num:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
 #+OPTIONS: toc:nil
+#+SETUPFILE: style.css.org
 
 * Why delete the executable ?
 
