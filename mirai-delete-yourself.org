@@ -89,10 +89,10 @@ Mirai's self deletion code is simple and unerror checked.
 #+END_EXAMPLE
 
 Having the executable 'missing' would be one of the big alarm bells
-for any intelligent system scammer 
+for an intrustion detection system.
 
-Perhaps a better option to make this harder to detect would be to 
-move a legit binary, rename the malware to the exeutable in place 
+Perhaps a better option to make this harder to detect would be to
+move a legit binary, rename the malware to the exeutable in place
 delete the malware then put the original executable back.
 
 This would be much harder to detect, especially if it communicated
