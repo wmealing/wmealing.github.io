@@ -56,6 +56,8 @@ Mirai's self deletion code is simple and unerror checked.
     unlink(args[0]);
 #+END_EXAMPLE
 
+See [[https://github.com/wmealing/Mirai-Source-Code/blob/master/mirai/bot/main.c#L61][it in action here]]
+
 The [[https://wmealing.github.io/mirai-delete-yourself][unlink]] function deletes a file by name from the file system.  It
 has a number of possible error conditions, but it appears that the
 author did not care about any of them.
