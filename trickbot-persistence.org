@@ -1,0 +1,109 @@
+#+TITLE: Trickbot persistence.
+#+ROAM_ALIAS: Mirai malware - evasion technique - deleting dvidence.
+#+ROAM_TAGS: mirai malware delete evasion
+#+CREATED: 
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+SETUPFILE: style.css.org
+
+* What is persistence ?
+
+  A system may be rebooted during regular intervals as part of its
+  lifecycle when a new kernel is updated or if it enters an unknown
+  state.
+
+  The author of the trickbot malware code has elected to use the cron
+  task scheduling service to ensure it will continue to execute 
+  
+
+* Recovering an executable file.
+
+  The /proc filesystem will maintain a link to all files opened by an
+  executing process even if the file has been removed from disk.
+
+  Each processes open files can be read from /proc/<numeric-pid>/exe
+  #+BEGIN_EXAMPLE
+  $ sudo ls -l /proc/975301/exe
+  lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -> /tmp/.malware/init
+  #+END_EXAMPLE
+
+  This is a regular file, and with root user permissions, the file can
+  be copied for later inspection.
+
+  #+BEGIN_EXAMPLE
+  $ cat /proc/975301/exec >> ~/captured-executable
+  #+END_EXAMPLE
+
+  If the malware is a scripting language (Mirai is not), the actual
+  executable script will be available in another location in the
+  `/proc/<some-pid>/fd/
+
+  #+BEGIN_EXAMPLE shell
+  $ sudo ls -l /proc/975301/fd/
+   total 0
+   lr-x------. 1 root root 64 Nov 10 01:08 0 -> /dev/null
+   lrwx------. 1 root root 64 Nov 10 01:08 1 -> 'socket:[38592]'
+   l-wx------. 1 root root 64 Nov 10 01:08 10 -> /tmp/.malware/script.py
+  #+END_EXAMPLE
+
+* The sample code.
+
+Mirai's self deletion code is simple and unerror checked.
+
+#+BEGIN_EXAMPLE C
+    // Delete self
+    unlink(args[0]);
+#+END_EXAMPLE
+
+See [[https://github.com/wmealing/Mirai-Source-Code/blob/master/mirai/bot/main.c#L61][it in action here]].
+
+The [[https://linux.die.net/man/2/unlink][unlink]] function deletes a file by name from the file system.  It
+has a number of possible error conditions, but it appears that the
+author did not care about any of them.
+
+* Porting to rust.
+
+  To implement the same functionality in rust we first need to get the
+  current processes executable file path.
+
+  Much like all languages, it is the first arguement in the processes
+  args array.
+
+  Once we have the program path, it ss a simple matter of using
+  rusts std::fs remove_file function to delete the file.
+
+  The process will continue to run normally and the file will be
+  removed from disk during execution, and the process will continue
+  to run.
+
+#+BEGIN_EXAMPLE rust
+   use std::fs;
+
+    fn main() {
+      //// Delete the executing file to remove incriminating evidence
+      let argv0 = std::env::args().next().unwrap(); // this will always exist.
+      let _result = delete_file(&argv0);
+    }
+
+    fn delete_file(filename: &str) -> std::result::Result<(), std::io::Error> {
+     info!("Deleting binary!");
+     fs::remove_file(filename)?;
+     Ok(())
+    }
+#+END_EXAMPLE
+
+Having the executable 'missing' would be one of the big alarm bells
+for an intrustion detection system.
+
+Perhaps a better option to make this harder to detect would be to
+move a legit binary, rename the malware to the exeutable in place
+delete the malware then put the original executable back.
+
+This would be much harder to detect, especially if it communicated
+using the same ports and had the same process name.
+
+
+* Resources:
+
+- [[https://github.com/wmealing/Mirai-Source-Code][Mirai source code]]
+
