@@ -39,7 +39,7 @@ comprimised in such a way from being abused.  I've written about
 I have recently purchased one of these machines in an auction, and I am -very-
 impressed with its build quality.   While this one is not its current purchase
 release, I've got a page talking about the customizations and things I have
-learned about it [[./toshiba-toughpad-fz-g1-3.md][While making i twork for me]].
+learned about it [[./toshiba-toughpad-fz-g1-3][While making it work for me]]
 
 
 * Kernel SecuriTea
