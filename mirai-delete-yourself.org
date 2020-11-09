@@ -1,4 +1,4 @@
-#+TIxsxsTLE: Mirai Delete yourself
+#+TITLE: Mirai Delete yourself
 #+ROAM_ALIAS: Mirai malware - evasion technique - deleting dvidence.
 #+ROAM_TAGS: mirai malware delete evasion
 #+CREATED: 
