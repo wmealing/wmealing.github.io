@@ -103,6 +103,8 @@ delete the malware then put the original executable back.
 This would be much harder to detect, especially if it communicated
 using the same ports and had the same process name.
 
+I believe this would be similar to [[https://github.com/jxy-s/herpaderping][herpaderping]] on windows.
+
 
 * Resources:
 
