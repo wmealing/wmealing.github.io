@@ -8,7 +8,7 @@ Listed below are some of the things that I'm working on that I think others may 
 
 The MIRAI malware deletes itself from disk in an attempt to make it
 harder to analyse. [[https://wmealing.github.io/mirai-delete-yourself][This post]]  goes into detail on how it works, a rust
-implementation and a few improvements that could have been done.
+implementation and a few improvements that could have been done...
 
 * MIRAI analysis - watchdog access in rust [Nov 2020]
 
