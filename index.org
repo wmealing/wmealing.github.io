@@ -1,6 +1,6 @@
 #+TITLE: It might be useful to someone.
 #+OPTIONS: ^:nil num:nil toc:nil 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+#+SETUPFILE: style.css.org
 
 Listed below are some of the things that I'm working on that I think others may be interested in.
 
@@ -40,6 +40,7 @@ I have recently purchased one of these machines in an auction, and I am -very-
 impressed with its build quality.   While this one is not its current purchase
 release, I've got a page talking about the customizations and things I have
 learned about it [[./toshiba-toughpad-fz-g1-3][While making it work for me]]
+
 
 
 * Kernel SecuriTea
