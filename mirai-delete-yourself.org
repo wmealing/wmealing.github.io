@@ -6,7 +6,6 @@
 #+OPTIONS: toc:nil
 #+SETUPFILE: style.css.org
 
-
 * Why delete the executable ?
 
   The Mirai malware uses a technique to remove itself from disk after
