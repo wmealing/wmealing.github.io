@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-04 Wed 02:44 -->
+<!-- 2020-11-21 Sat 01:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -161,6 +161,19 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -180,13 +193,16 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="org.css"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Ctext%20x='0'%20y='14'%3E🖥️%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
+<style type="text/css">
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}h1{font-size:2em;margin:.67em 0}pre{font-family:monospace,monospace;font-size:1em}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}body{color:#000;background-color:#fff}a{color:inherit;background-color:inherit;font:inherit;text-decoration:inherit}a:hover{text-decoration:underline}body{width:95%;margin:2% auto;font-size:14px;line-height:1.4em;font-family:Georgia,serif;color:#333}@media screen and (min-width:600px){body{font-size:18px}}@media screen and (min-width:910px){body{width:900px}}::-moz-selection{background:#d6edff}::selection{background:#d6edff}p{margin:1em auto}.title{margin:.8em auto;color:#000}.title{text-align:center}.status{font-size:90%;margin:2em auto}a{color:#527d9a;text-decoration:none}a:hover{color:#035;border-bottom:1px dotted}h1,h2{color:#a5573e;line-height:1em;font-family:Helvetica,sans-serif}h1,h2{line-height:1.4em}@media screen and (min-width:600px){h1{font-size:2em}h2{font-size:1.5em}h1,h2{line-height:1.4em}}#postamble p{font-size:90%;margin:.2em}p.verse{margin-left:3%}.org-src-container{border:1px solid #ccc;box-shadow:3px 3px 3px #eee;font-family:Lucida Console,monospace;font-size:80%;margin:1em auto;padding:.1em .5em;position:relative}.org-src-container>pre{overflow:auto}.org-src-container>pre:before{display:block;position:absolute;background-color:#b3b3b3;top:0;right:0;padding:0 .5em;border-bottom-left-radius:8px;border:0;color:#fff;font-size:80%}// More languages 0% http://orgmode.org/worg/org-contrib/babel/languages.html .org-src-container>pre.src-abc:before{content:"ABC"}.org-src-container>pre.src-rust:before{content:"Rust"}
+</style>
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -279,7 +295,7 @@ close(wfd);
 </pre>
 
 <p>
-Whiel this does adhere to the spec, its also not the most supported
+While this does adhere to the spec, its also not the most supported
 method of disabling the watchdog.
 </p>
 
@@ -322,13 +338,13 @@ these errors must be manually handled.<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-rust"><span style="color: #d787d7; font-weight: bold;">use</span> <span style="color: #d7875f; font-weight: bold;">std</span>::fs;
+<pre class="src src-rust"><span style="color: #00ffff;">use</span> <span style="color: #7fffd4;">std</span>::fs;
 
-<span style="color: #d787d7; font-weight: bold;">fn</span> <span style="color: #5fafff;">disable_watchodg</span><span style="color: #8c8c8c;">()</span> -&gt; <span style="color: #d7875f; font-weight: bold;">std</span>::<span style="color: #d7875f; font-weight: bold;">io</span>::<span style="color: #5fafff;">Result</span><span style="color: #8c8c8c;">&lt;</span><span style="color: #93a8c6;">()</span><span style="color: #8c8c8c;">&gt;</span> <span style="color: #8c8c8c;">{</span>
-    <span style="color: #d7875f; font-weight: bold;">fs</span>::write<span style="color: #93a8c6;">(</span><span style="color: #87af5f;">"/dev/watchdog"</span>, <span style="color: #87af5f;">"V"</span><span style="color: #93a8c6;">)</span><span style="color: #5fafff; font-weight: bold;">?</span>
+<span style="color: #00ffff;">fn</span> <span style="color: #87cefa;">disable_watchodg</span><span style="color: #8c8c8c;">()</span> -&gt; <span style="color: #7fffd4;">std</span>::<span style="color: #7fffd4;">io</span>::<span style="color: #98fb98;">Result</span><span style="color: #8c8c8c;">&lt;</span><span style="color: #93a8c6;">()</span><span style="color: #8c8c8c;">&gt;</span> <span style="color: #8c8c8c;">{</span>
+    <span style="color: #7fffd4;">fs</span>::write<span style="color: #93a8c6;">(</span><span style="color: #ffa07a;">"/dev/watchdog"</span>, <span style="color: #ffa07a;">"V"</span><span style="color: #93a8c6;">)</span><span style="color: #b0c4de; font-weight: bold;">?</span>
 <span style="color: #8c8c8c;">}</span>
 
-<span style="color: #d787d7; font-weight: bold;">fn</span> <span style="color: #5fafff;">main</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
+<span style="color: #00ffff;">fn</span> <span style="color: #87cefa;">main</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
  disable_watchdog<span style="color: #93a8c6;">()</span>;
 <span style="color: #8c8c8c;">}</span>
 </pre>
@@ -338,14 +354,13 @@ these errors must be manually handled.<br />
 Wild right ?
 </p>
 
-<div id="outline-container-org537abd3" class="outline-2">
-<h2 id="org537abd3">Additional Resources:</h2>
+<div id="outline-container-org05be6c0" class="outline-2">
+<h2 id="org05be6c0">Additional Resources:</h2>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-11-04 Wed 02:44</p>
-<p class="validation"></p>
+<p class="date">Created: 2020-11-21 Sat 01:47</p>
 </div>
 </body>
 </html>

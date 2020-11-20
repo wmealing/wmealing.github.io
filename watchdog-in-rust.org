@@ -3,7 +3,7 @@
 #+ROAM_TAGS: watchdog malware rust
 #+ROAM_REF:
 #+OPTIONS: ^:nil num:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+#+SETUPFILE: style.css.org
 #+OPTIONS: toc:nil 
 
 
