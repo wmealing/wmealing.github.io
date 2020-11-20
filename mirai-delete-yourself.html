@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-21 Sat 01:55 -->
+<!-- 2020-11-21 Sat 02:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai Delete yourself</title>
@@ -248,9 +248,10 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Mirai Delete yourself</h1>
 
-<div id="outline-container-org33afc9e" class="outline-2">
-<h2 id="org33afc9e">Why delete the executable ?</h2>
-<div class="outline-text-2" id="text-org33afc9e">
+
+<div id="outline-container-orgfa43bc6" class="outline-2">
+<h2 id="orgfa43bc6">Why delete the executable ?</h2>
+<div class="outline-text-2" id="text-orgfa43bc6">
 <p>
 The Mirai malware uses a technique to remove itself from disk after
 executing has started.  This adds additional complexity of
@@ -266,9 +267,9 @@ complexity while trying to analyse it in action.
 </div>
 </div>
 
-<div id="outline-container-org167fe8f" class="outline-2">
-<h2 id="org167fe8f">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org167fe8f">
+<div id="outline-container-orgde9187b" class="outline-2">
+<h2 id="orgde9187b">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-orgde9187b">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -307,9 +308,9 @@ $ sudo ls -l /proc/975301/fd/
 </div>
 </div>
 
-<div id="outline-container-orgba7a7b8" class="outline-2">
-<h2 id="orgba7a7b8">The sample code.</h2>
-<div class="outline-text-2" id="text-orgba7a7b8">
+<div id="outline-container-org2c4d95a" class="outline-2">
+<h2 id="org2c4d95a">The sample code.</h2>
+<div class="outline-text-2" id="text-org2c4d95a">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
@@ -331,9 +332,9 @@ author did not care about any of them.
 </div>
 </div>
 
-<div id="outline-container-orgb110384" class="outline-2">
-<h2 id="orgb110384">Porting to rust.</h2>
-<div class="outline-text-2" id="text-orgb110384">
+<div id="outline-container-org105d421" class="outline-2">
+<h2 id="org105d421">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org105d421">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -394,9 +395,9 @@ I believe this would be similar to <a href="https://github.com/jxy-s/herpaderpin
 </div>
 
 
-<div id="outline-container-org28c5265" class="outline-2">
-<h2 id="org28c5265">Resources:</h2>
-<div class="outline-text-2" id="text-org28c5265">
+<div id="outline-container-org5f1726d" class="outline-2">
+<h2 id="org5f1726d">Resources:</h2>
+<div class="outline-text-2" id="text-org5f1726d">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
@@ -405,7 +406,7 @@ I believe this would be similar to <a href="https://github.com/jxy-s/herpaderpin
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-11-21 Sat 01:55</p>
+<p class="date">Created: 2020-11-21 Sat 02:02</p>
 </div>
 </body>
 </html>
