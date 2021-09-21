@@ -1,8 +1,6 @@
 #+TITLE: It might be useful to someone.
 #+OPTIONS: ^:nil num:nil toc:nil 
-#+SETUPFILE: style.css.org
-
-Listed below are some of the things that I'm working on that I think others may be interested in.
+#+SETUPFILE: retro_dark.theme
 
 * [[https://wmealing.github.io/mirai-delete-yourself][MIRAI analysis - evasion - deleting the executing code - Nov 2020]]
 
