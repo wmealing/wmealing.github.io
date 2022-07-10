@@ -2,6 +2,13 @@
 #+OPTIONS: ^:nil num:nil toc:nil 
 #+SETUPFILE: retro_dark.theme
 
+* Simple WX examle in erlang [July 2022]
+
+  I don't always write a gui for my apps, but when I do, I use wx
+  becaue I'm not one for complaining about pixel perfect pedantry.
+
+  I do it something that works, at the moment thats [[file:wx-erlang-example.org][WX-ERLANG]].
+
 * [[https://wmealing.github.io/mirai-delete-yourself][MIRAI analysis - evasion - deleting the executing code - Nov 2020]]
 
 The MIRAI malware deletes itself from disk in an attempt to make it
