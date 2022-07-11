@@ -8,7 +8,7 @@
 
   I do it something that works, at the moment, and thats [[http://wmealing.github.io/wx-erlang-example] WX-ERLANG].
 
-* [[https://wmealing.github.io/mirai-delete-yourself][MIRAI analysis - evasion - deleting the executing code - Nov 2020]]
+* MIRAI analysis - evasion - deleting the executing code [Nov 2020]
 
 The MIRAI malware deletes itself from disk in an attempt to make it
 harder to analyse. [[https://wmealing.github.io/mirai-delete-yourself]This post] goes into detail on how it works, a rust
