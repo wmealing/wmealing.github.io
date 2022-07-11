@@ -1,17 +1,17 @@
-#+TITLE: It might be useful to someone.
+#+TITLE: For when I'm gone.
 #+OPTIONS: ^:nil num:nil toc:nil 
-#+SETUPFILE: retro_dark.theme
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 
 * Simple WX examle in erlang [July 2022]
 
-  I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry.
+I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry.
 
-  I do it something that works, at the moment, and thats [[http://wmealing.github.io/wx-erlang-example] WX-ERLANG].
+The one that works for me at the moment is [[http://wmealing.github.io/wx-erlang-example][WX Erlang]]
 
 * MIRAI analysis - evasion - deleting the executing code [Nov 2020]
 
 The MIRAI malware deletes itself from disk in an attempt to make it
-harder to analyse. [[https://wmealing.github.io/mirai-delete-yourself]This post] goes into detail on how it works, a rust
+harder to analyse. [[https://wmealing.github.io/mirai-delete-yourself][This post]] goes into detail on how it works, a rust
 implementation and a few improvements that could have been done.
 
 * MIRAI analysis - watchdog access in rust [Nov 2020]
