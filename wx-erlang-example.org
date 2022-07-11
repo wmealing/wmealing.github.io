@@ -4,6 +4,8 @@
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
 
 wxWidgets is a graphical toolkit that ships with most erlang installs. It is  object  oriented, not functional and in wxErlang a module represents a class
 and the object created by this class has an own type, wxCLASS().
@@ -28,7 +30,7 @@ Let’s create a new application using rebar3, I like rebar and it seems to do t
   ===> Writing wx_simple/rebar.config
   ===> Writing wx_simple/.gitignore
   ===> Writing wx_simple/LICENSE
-  ===> Writing wx_simple/README.
+  ===> Writing wx_simple/README
 #+END_EXAMPLE
 
 This creates the 'app' file and the a basic supervisor, there is nothing wx specific yet.  The next step
