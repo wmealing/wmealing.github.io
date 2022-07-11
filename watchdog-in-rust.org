@@ -1,13 +1,15 @@
 #+TITLE: Mirai's Watchdog in rust.
-#+ROAM_ALIAS: Signed Kernel modules.
+#+ROAM_ALIAS: Mirais watchdog in rust.
 #+ROAM_TAGS: watchdog malware rust
 #+ROAM_REF:
 #+OPTIONS: ^:nil num:nil
-#+SETUPFILE: style.css.org
-#+OPTIONS: toc:nil 
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
 
 
-One of the firs tthings that mirai does is disable the watchdog of the
+* Disabling the watchdog.
+
+One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 
@@ -51,6 +53,9 @@ The aptly named "magic close feature" (https://www.kernel.org/doc/Documentation/
 
 #+BEGIN_VERSE
 
+
+* The magic close feature:
+
 Magic Close feature:
 
 If a driver supports "Magic Close", the driver will not disable the
@@ -91,6 +96,7 @@ fn main() {
 
 Wild right ?
 
-* Additional Resources:
 
+* Additional resources
 
+[[https://github.com/jgamblin/Mirai-Source-Code][Mirai Source code]]
