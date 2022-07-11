@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-07-11 Mon 12:39 -->
+<!-- 2022-07-11 Mon 12:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -203,24 +203,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb9a2d01">Disabling the watchdog.</a></li>
-<li><a href="#org022fb95">The magic close feature:</a></li>
-<li><a href="#org6c8453d">Additional resources</a></li>
+<li><a href="#orgd3e9468">Disabling the watchdog.</a></li>
+<li><a href="#org1392892">The magic close feature.</a></li>
+<li><a href="#orgb70f00f">Additional resources</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgb9a2d01" class="outline-2">
-<h2 id="orgb9a2d01">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-orgb9a2d01">
+<div id="outline-container-orgd3e9468" class="outline-2">
+<h2 id="orgd3e9468">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-orgd3e9468">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org7883a1b">
+<pre class="example" id="org468b52a">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -238,7 +238,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="orgbf24ddf">
+<pre class="example" id="org78095eb">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -261,40 +261,33 @@ Then closes the opened file descriptor.
 
 <p>
 While this does adhere to the spec, its also not the most supported
-method of disabling the watchdog.
+method of disabling the watchdog. there is another&#x2026;
 </p>
+</div>
+</div>
 
+<div id="outline-container-org1392892" class="outline-2">
+<h2 id="org1392892">The magic close feature.</h2>
+<div class="outline-text-2" id="text-org1392892">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
 
-<p>
-#+BEGIN_VERSE
-</p>
-</div>
-</div>
 
 
-<div id="outline-container-org022fb95" class="outline-2">
-<h2 id="org022fb95">The magic close feature:</h2>
-<div class="outline-text-2" id="text-org022fb95">
-<p>
-Magic Close feature:
-</p>
+<div class="epigraph"><blockquote>
+Magic Close feature:<br />
+<br />
+If a driver supports "Magic Close", the driver will not disable the<br />
+watchdog unless a specific magic character 'V' has been sent to<br />
+/dev/watchdog just before closing the file.  If the userspace daemon<br />
+closes the file without sending this special character, the driver<br />
+will assume that the daemon (and userspace in general) died, and will<br />
+stop pinging the watchdog without disabling it first.  This will then<br />
+cause a reboot if the watchdog is not re-opened in sufficient time.<br />
+<br />
 
-<p>
-If a driver supports "Magic Close", the driver will not disable the
-watchdog unless a specific magic character 'V' has been sent to
-/dev/watchdog just before closing the file.  If the userspace daemon
-closes the file without sending this special character, the driver
-will assume that the daemon (and userspace in general) died, and will
-stop pinging the watchdog without disabling it first.  This will then
-cause a reboot if the watchdog is not re-opened in sufficient time.
-</p>
-
-<p>
-#+END_VERSE
-</p>
+</blockquote></div>
 
 <p>
 Seems to be more widely supported than the ioctl method. There are
@@ -335,9 +328,9 @@ Wild right ?
 </div>
 
 
-<div id="outline-container-org6c8453d" class="outline-2">
-<h2 id="org6c8453d">Additional resources</h2>
-<div class="outline-text-2" id="text-org6c8453d">
+<div id="outline-container-orgb70f00f" class="outline-2">
+<h2 id="orgb70f00f">Additional resources</h2>
+<div class="outline-text-2" id="text-orgb70f00f">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -346,7 +339,7 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-07-11 Mon 12:39</p>
+<p class="date">Created: 2022-07-11 Mon 12:40</p>
 </div>
 </body>
 </html>

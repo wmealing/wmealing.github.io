@@ -46,15 +46,15 @@ Then closes the opened file descriptor.
 #+END_SRC
 
 While this does adhere to the spec, its also not the most supported
-method of disabling the watchdog.
+method of disabling the watchdog. there is another...
+
+* The magic close feature.
 
 The aptly named "magic close feature" (https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt))
 
+
+
 #+BEGIN_VERSE
-
-
-* The magic close feature:
-
 Magic Close feature:
 
 If a driver supports "Magic Close", the driver will not disable the
