@@ -1,7 +1,6 @@
 #+TITLE: Mirai's Watchdog in rust.
 #+ROAM_ALIAS: Mirais watchdog in rust.
 #+ROAM_TAGS: watchdog malware rust
-#+ROAM_REF:
 #+OPTIONS: ^:nil num:nil
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
@@ -80,7 +79,7 @@ closing are ignored by the implementation of Drop. Use the method sync_all if
 these errors must be manually handled.
 #+END_VERSE
 
-1This would leave us with a simple function li
+This would leave us with a simple function : 
 
 #+BEGIN_SRC rust
 use std::fs;

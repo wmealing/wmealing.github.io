@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-07-11 Mon 12:37 -->
+<!-- 2022-07-11 Mon 12:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -203,24 +203,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org74116e5">Disabling the watchdog.</a></li>
-<li><a href="#org7b0ce3d">The magic close feature:</a></li>
-<li><a href="#org72dbfe5">Additional resources</a></li>
+<li><a href="#orgb9a2d01">Disabling the watchdog.</a></li>
+<li><a href="#org022fb95">The magic close feature:</a></li>
+<li><a href="#org6c8453d">Additional resources</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org74116e5" class="outline-2">
-<h2 id="org74116e5">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-org74116e5">
+<div id="outline-container-orgb9a2d01" class="outline-2">
+<h2 id="orgb9a2d01">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-orgb9a2d01">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org06ec996">
+<pre class="example" id="org7883a1b">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -238,7 +238,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="org4a600ad">
+<pre class="example" id="orgbf24ddf">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -275,9 +275,9 @@ The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Docum
 </div>
 
 
-<div id="outline-container-org7b0ce3d" class="outline-2">
-<h2 id="org7b0ce3d">The magic close feature:</h2>
-<div class="outline-text-2" id="text-org7b0ce3d">
+<div id="outline-container-org022fb95" class="outline-2">
+<h2 id="org022fb95">The magic close feature:</h2>
+<div class="outline-text-2" id="text-org022fb95">
 <p>
 Magic Close feature:
 </p>
@@ -314,7 +314,7 @@ these errors must be manually handled.<br />
 </blockquote></div>
 
 <p>
-1This would leave us with a simple function li
+This would leave us with a simple function : 
 </p>
 
 <pre class="code"><code>use std::fs;
@@ -335,9 +335,9 @@ Wild right ?
 </div>
 
 
-<div id="outline-container-org72dbfe5" class="outline-2">
-<h2 id="org72dbfe5">Additional resources</h2>
-<div class="outline-text-2" id="text-org72dbfe5">
+<div id="outline-container-org6c8453d" class="outline-2">
+<h2 id="org6c8453d">Additional resources</h2>
+<div class="outline-text-2" id="text-org6c8453d">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -346,7 +346,7 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-07-11 Mon 12:37</p>
+<p class="date">Created: 2022-07-11 Mon 12:39</p>
 </div>
 </body>
 </html>
