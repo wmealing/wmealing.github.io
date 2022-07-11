@@ -3,7 +3,7 @@
 #+CREATED: 
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
-#+SETUPFILE: style.css.org
+#+SETUPFILE: retro_dark.org
 
 wxWidgets is a graphical toolkit that ships with most erlang installs. It is  object  oriented, not functional and in wxErlang a module represents a class
 and the object created by this class has an own type, wxCLASS().
