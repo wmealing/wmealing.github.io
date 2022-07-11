@@ -12,7 +12,9 @@ In this blog post create a basic WX application in Erlnag and present the elemen
 
 The app we’ll build looks like this:
 
-[[file:images/screenshot-simple-application-1.png]]
+#+CAPTION: A black cat stalking a spider
+#+ATTR_HTML: :alt cat/spider image :title Action! :align right
+[[./images/screenshot-simple-application-1.png]]
 
 
 
