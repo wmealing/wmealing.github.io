@@ -1,6 +1,5 @@
-#+SETUPFILE: ~/.emacs.d/org-styles/html/retro_dark.theme
-#+AUTHOR: Jesse Kelly (jessekelly881)
-#+EMAIL: mail@blablub.nil
+#+AUTHOR: Wade Mealing
+#+EMAIL: wmealing@gmail.com
 #+OPTIONS: ^:nil p:t
 
 * Retro Dark

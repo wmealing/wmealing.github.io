@@ -3,7 +3,7 @@
 #+CREATED: 
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
-#+SETUPFILE: retro_dark.org
+#+SETUPFILE: retro_dark.theme
 
 wxWidgets is a graphical toolkit that ships with most erlang installs. It is  object  oriented, not functional and in wxErlang a module represents a class
 and the object created by this class has an own type, wxCLASS().
@@ -12,10 +12,9 @@ In this blog post create a basic WX application in Erlnag and present the elemen
 
 The app we’ll build looks like this:
 
-#+CAPTION: A black cat stalking a spider
-#+ATTR_HTML: :alt cat/spider image :title Action! :align right
+#+CAPTION: Screenshot from application.
+#+ATTR_HTML: :alt simple-gui-app image :title Action! :align centre
 [[./images/screenshot-simple-application-1.png]]
-
 
 
 * Creating a new applications.
