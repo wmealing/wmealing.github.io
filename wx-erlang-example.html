@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-07-11 Mon 12:05 -->
+<!-- 2022-08-19 Fri 20:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WXerlang simple example</title>
@@ -183,6 +183,7 @@
   }
   #org-div-home-and-up
    { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
   .linenr { font-size: smaller }
   .code-highlighted { background-color: #ffff00; }
   .org-info-js_info-navigation { border-style: none; }
@@ -204,7 +205,7 @@ and the object created by this class has an own type, wxCLASS().
 </p>
 
 <p>
-In this blog post create a basic WX application in Erlnag and present the elements wxFrame, wxButton, and wxTextCtrl
+In this blog post create a basic WX application in Erlang and present the elements wxFrame, wxButton, and wxTextCtrl
 </p>
 
 <p>
@@ -212,20 +213,20 @@ The app we’ll build looks like this:
 </p>
 
 
-<div id="org951e28e" class="figure">
+<div id="orgeac2997" class="figure">
 <p><img src="./images/screenshot-simple-application-1.png" alt="simple-gui-app image" title="Action!" align="centre" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Screenshot from application.</p>
 </div>
 
-<div id="outline-container-org94c5cfb" class="outline-2">
-<h2 id="org94c5cfb">Creating a new applications.</h2>
-<div class="outline-text-2" id="text-org94c5cfb">
+<div id="outline-container-orgc00cab3" class="outline-2">
+<h2 id="orgc00cab3">Creating a new applications.</h2>
+<div class="outline-text-2" id="text-orgc00cab3">
 <p>
 Let’s create a new application using rebar3, I like rebar and it seems to do things that I expect.  Issue the command:
 </p>
 
-<pre class="example" id="org4129412">
+<pre class="example" id="org8ec51d6">
 $ rebar3 new app name="wx_simple"
 ===&gt; Writing wx_simple/src/wx_simple_app.erl
 ===&gt; Writing wx_simple/src/wx_simple_sup.erl
@@ -242,9 +243,9 @@ is to draw a window. Now that the  "App" is created along with a simple supervis
 </p>
 </div>
 
-<div id="outline-container-orge995a01" class="outline-3">
-<h3 id="orge995a01">Basics: Drawing a window.</h3>
-<div class="outline-text-3" id="text-orge995a01">
+<div id="outline-container-orgdd5c0cd" class="outline-3">
+<h3 id="orgdd5c0cd">Basics: Drawing a window.</h3>
+<div class="outline-text-3" id="text-orgdd5c0cd">
 <p>
 I like my apps to fit "nicely" into the OTP style behavior, so lets make a new
 file called wx_server.erl in wx_simple/src directory.
@@ -259,91 +260,97 @@ The code has been simplified to provide a minimal basic example that opens a win
 nothing else.
 </p>
 
-<pre class="code"><code><span style="color: #81A1C1;">-module</span><span style="color: #8c8c8c;">(</span>wx_server<span style="color: #8c8c8c;">)</span>.
+<div class="org-src-container">
+<pre class="src src-erlang">-module(wx_server).
 
-<span style="color: #81A1C1;">-include_lib</span><span style="color: #8c8c8c;">(</span><span style="color: #677691;">"wx/include/wx.hrl"</span><span style="color: #8c8c8c;">)</span>.
+-include_lib("wx/include/wx.hrl").
 
-<span style="color: #81A1C1;">-behaviour</span><span style="color: #8c8c8c;">(</span>wx_object<span style="color: #8c8c8c;">)</span>.
-<span style="color: #81A1C1;">-export</span><span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span><span style="color: #81A1C1;">start/1</span>, <span style="color: #81A1C1;">start_link/0</span>, <span style="color: #81A1C1;">start_link/1</span>,
-         <span style="color: #81A1C1;">init/1</span>, <span style="color: #81A1C1;">terminate/2</span>,  <span style="color: #81A1C1;">code_change/3</span>,
-         <span style="color: #81A1C1;">handle_info/2</span>, <span style="color: #81A1C1;">handle_call/3</span>, <span style="color: #81A1C1;">handle_event/2</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>.
+-behaviour(wx_object).
+-export([start/1, start_link/0, start_link/1,
+         init/1, terminate/2,  code_change/3,
+         handle_info/2, handle_call/3, handle_event/2]).
 
-<span style="color: #81A1C1;">-record</span><span style="color: #8c8c8c;">(</span><span style="color: #81A1C1;">state</span>, <span style="color: #93a8c6;">{</span>sb,frame <span style="color: #93a8c6;">}</span><span style="color: #8c8c8c;">)</span>.
+-record(state, {sb,frame }).
 
-<span style="color: #FFFFFF; font-weight: bold;">start</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Debug</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #81A1C1;">wx_object</span>:<span style="color: #81A1C1;">start</span><span style="color: #8c8c8c;">(</span>?<span style="color: #81A1C1;">MODULE</span>, <span style="color: #FFFFFF; font-weight: bold;">Debug</span>, <span style="color: #93a8c6;">[]</span><span style="color: #8c8c8c;">)</span>.
+start(Debug) -&gt;
+    wx_object:start(?MODULE, Debug, []).
 
-<span style="color: #FFFFFF; font-weight: bold;">start_link</span><span style="color: #8c8c8c;">()</span> -&gt;
-    <span style="color: #81A1C1;">start_link</span><span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[]</span><span style="color: #8c8c8c;">)</span>.
+start_link() -&gt;
+    start_link([]).
 
-<span style="color: #FFFFFF; font-weight: bold;">start_link</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Debug</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #FFFFFF; font-weight: bold;">Status</span> = <span style="color: #81A1C1;">wx_object</span>:<span style="color: #81A1C1;">start_link</span><span style="color: #8c8c8c;">(</span>?<span style="color: #81A1C1;">MODULE</span>, <span style="color: #FFFFFF; font-weight: bold;">Debug</span>, <span style="color: #93a8c6;">[]</span><span style="color: #8c8c8c;">)</span>,
-    <span style="color: #8c8c8c;">{</span>ok, <span style="color: #81A1C1;">wx_object</span>:<span style="color: #81A1C1;">get_pid</span><span style="color: #93a8c6;">(</span><span style="color: #FFFFFF; font-weight: bold;">Status</span><span style="color: #93a8c6;">)</span><span style="color: #8c8c8c;">}</span>.
+start_link(Debug) -&gt;
+    Status = wx_object:start_link(?MODULE, Debug, []),
+    {ok, wx_object:get_pid(Status)}.
 
-<span style="color: #FFFFFF; font-weight: bold;">init</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Options</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #81A1C1;">wx</span>:<span style="color: #81A1C1;">new</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Options</span><span style="color: #8c8c8c;">)</span>,
-    <span style="color: #81A1C1;">process_flag</span><span style="color: #8c8c8c;">(</span>trap_exit, true<span style="color: #8c8c8c;">)</span>,
+init(Options) -&gt;
+    wx:new(Options),
+    process_flag(trap_exit, true),
 
-    <span style="color: #FFFFFF; font-weight: bold;">Frame</span> = <span style="color: #81A1C1;">wxFrame</span>:<span style="color: #81A1C1;">new</span><span style="color: #8c8c8c;">(</span><span style="color: #81A1C1;">wx</span>:<span style="color: #81A1C1;">null</span><span style="color: #93a8c6;">()</span>,
-                        ?<span style="color: #81A1C1;">wxID_ANY</span>,
-                        <span style="color: #677691;">"Simple application"</span>,
-                        <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span>size,<span style="color: #97b098;">{</span>500,500<span style="color: #97b098;">}</span><span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-    <span style="color: #81A1C1;">wxFrame</span>:<span style="color: #81A1C1;">show</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Frame</span><span style="color: #8c8c8c;">)</span>,
+    Frame = wxFrame:new(wx:null(),
+                        ?wxID_ANY,
+                        "Simple application",
+                        [{size,{500,500}}]),
+    wxFrame:show(Frame),
 
-    <span style="color: #8c8c8c;">{</span><span style="color: #FFFFFF; font-weight: bold;">Frame</span>, #<span style="color: #81A1C1;">state</span><span style="color: #93a8c6;">{}</span><span style="color: #8c8c8c;">}</span>.
+    {Frame, #state{}}.
 
-<span style="color: #677691;">%%%%%%%%%%%%</span>
-<span style="color: #677691;">%% </span><span style="color: #677691;">Callbacks</span>
-<span style="color: #677691;">%% </span><span style="color: #677691;">Handled as in normal gen_server callbacks</span>
+%%%%%%%%%%%%
+%% Callbacks
+%% Handled as in normal gen_server callbacks
 
-<span style="color: #FFFFFF; font-weight: bold;">handle_info</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Msg</span>, <span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #81A1C1;">io</span>:<span style="color: #81A1C1;">format</span><span style="color: #8c8c8c;">(</span><span style="color: #677691;">"handle_info callback:  ~p~n"</span>,<span style="color: #93a8c6;">[</span>?<span style="color: #81A1C1;">MODULE</span>, <span style="color: #FFFFFF; font-weight: bold;">Msg</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-    <span style="color: #8c8c8c;">{</span>noreply,<span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">}</span>.
+handle_info(Msg, State) -&gt;
+    io:format("handle_info callback:  ~p~n",[?MODULE, Msg]),
+    {noreply,State}.
 
-<span style="color: #FFFFFF; font-weight: bold;">handle_call</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Msg</span>, <span style="color: #FFFFFF; font-weight: bold;">_From</span>, <span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #81A1C1;">io</span>:<span style="color: #81A1C1;">format</span><span style="color: #8c8c8c;">(</span><span style="color: #677691;">"~p handle_call callback: ~p~n"</span>,<span style="color: #93a8c6;">[</span>?<span style="color: #81A1C1;">MODULE</span>, <span style="color: #FFFFFF; font-weight: bold;">Msg</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-    <span style="color: #8c8c8c;">{</span>reply,ok,<span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">}</span>.
+handle_call(Msg, _From, State) -&gt;
+    io:format("~p handle_call callback: ~p~n",[?MODULE, Msg]),
+    {reply,ok,State}.
 
-<span style="color: #677691;">%% </span><span style="color: #677691;">Async Events are handled in handle_event as in handle_info</span>
-<span style="color: #FFFFFF; font-weight: bold;">handle_event</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Ev</span>,<span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #81A1C1;">io</span>:<span style="color: #81A1C1;">format</span><span style="color: #8c8c8c;">(</span><span style="color: #677691;">"~p Got event ~p~n"</span>,<span style="color: #93a8c6;">[</span>?<span style="color: #81A1C1;">MODULE</span>, <span style="color: #FFFFFF; font-weight: bold;">Ev</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-    <span style="color: #8c8c8c;">{</span>noreply, <span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">}</span>.
+%% Async Events are handled in handle_event as in handle_info
+handle_event(Ev,State) -&gt;
+    io:format("~p Got event ~p~n",[?MODULE, Ev]),
+    {noreply, State}.
 
-<span style="color: #FFFFFF; font-weight: bold;">code_change</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">_</span>, <span style="color: #FFFFFF; font-weight: bold;">_</span>, <span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #8c8c8c;">{</span>stop, not_yet_implemented, <span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">}</span>.
+code_change(_, _, State) -&gt;
+    {stop, not_yet_implemented, State}.
 
-<span style="color: #FFFFFF; font-weight: bold;">terminate</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">_Reason</span>, <span style="color: #FFFFFF; font-weight: bold;">State</span><span style="color: #8c8c8c;">)</span> -&gt;
-    <span style="color: #81A1C1;">wx</span>:<span style="color: #81A1C1;">destroy</span><span style="color: #8c8c8c;">()</span>.
+terminate(_Reason, State) -&gt;
+    wx:destroy().
 
-<span style="color: #677691;">%%%%%%%%%%%%%%%%% </span><span style="color: #677691;">Internals %%%%%%%%%%</span>
-</code></pre>
+%%%%%%%%%%%%%%%%% Internals %%%%%%%%%%
+</pre>
+</div>
 
 <p>
 We need to update the supervisor (wx_simple_sup.erl) so that it can find this new worker (wx_server) to supervise it.  Update "ChildSpecs"
 to include the reference to the wx_server and its start function.  See the example below.
 </p>
 
-<pre class="code"><code>
-<span style="color: #FFFFFF; font-weight: bold;">ChildSpecs</span> = <span style="color: #8c8c8c;">[</span>
-              #<span style="color: #93a8c6;">{</span>id =&gt; wx_server,
-                start =&gt; <span style="color: #b0b1a3;">{</span>wx_server, start_link, <span style="color: #97b098;">[]</span><span style="color: #b0b1a3;">}</span>,
-                shutdown =&gt; brutal_kill<span style="color: #93a8c6;">}</span><span style="color: #8c8c8c;">]</span>,
+<div class="org-src-container">
+<pre class="src src-erlang">
+ChildSpecs = [
+              #{id =&gt; wx_server,
+                start =&gt; {wx_server, start_link, []},
+                shutdown =&gt; brutal_kill}],
 
-</code></pre>
+</pre>
+</div>
 
 <p>
 And finally, start the application in the rebar3 shell repl.
 </p>
 
-<pre class="code"><code>$ rebar3 shell
+<div class="org-src-container">
+<pre class="src src-sh">$ rebar3 shell
 ===&gt; Verifying dependencies...
 ===&gt; Analyzing applications...
 ===&gt; Compiling wx_simple
-Erlang/OTP 24 <span style="color: #8c8c8c;">[</span>erts-12.3.2.1<span style="color: #8c8c8c;">]</span> <span style="color: #8c8c8c;">[</span>source<span style="color: #8c8c8c;">]</span> <span style="color: #8c8c8c;">[</span>64-bit<span style="color: #8c8c8c;">]</span> <span style="color: #8c8c8c;">[</span>smp:8:8<span style="color: #8c8c8c;">]</span> <span style="color: #8c8c8c;">[</span>ds:8:8:10<span style="color: #8c8c8c;">]</span> <span style="color: #8c8c8c;">[</span>async-threads:1<span style="color: #8c8c8c;">]</span> <span style="color: #8c8c8c;">[</span>jit<span style="color: #8c8c8c;">]</span>
+Erlang/OTP 24 [erts-12.3.2.1] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit]
 
-Eshell V12.3.2.1  <span style="color: #8c8c8c;">(</span>abort with ^G<span style="color: #8c8c8c;">)</span>
+Eshell V12.3.2.1  (abort with ^G)
 1&gt; ===&gt; Booted wx_simple
-</code></pre>
+</pre>
+</div>
 
 <p>
 And a 500x500 pixel window should appear on the screen.  It can be closed by clicking on
@@ -352,9 +359,9 @@ the close button (exactly how depends on which operating system you are running)
 </div>
 </div>
 
-<div id="outline-container-org363a4d5" class="outline-3">
-<h3 id="org363a4d5">Adding a button (wxButton)</h3>
-<div class="outline-text-3" id="text-org363a4d5">
+<div id="outline-container-org365ba90" class="outline-3">
+<h3 id="org365ba90">Adding a button (wxButton)</h3>
+<div class="outline-text-3" id="text-org365ba90">
 <p>
 Our next step is to add a button, because everyone loves buttons.
 </p>
@@ -367,9 +374,11 @@ The wxButton 'class/module' allows us to create buttons.
 As explained in the <a href="https://www.erlang.org/doc/man/wxbutton">Docs on wx button</a>, to create button, we can write the following:
 </p>
 
-<pre class="code"><code>Button = <span style="color: #81A1C1;">wxButton</span>:<span style="color: #81A1C1;">new</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Frame</span>, ?<span style="color: #81A1C1;">wxID_ANY</span>, <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span>label, <span style="color: #677691;">"Start"</span><span style="color: #b0b1a3;">}</span>,
-                                         <span style="color: #b0b1a3;">{</span>size, <span style="color: #97b098;">{</span>150, 50<span style="color: #97b098;">}</span><span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">Button = wxButton:new(Frame, ?wxID_ANY, [{label, "Start"},
+                                         {size, {150, 50}}]),
+</pre>
+</div>
 
 <p>
 The arguements to new are: new(Parent, Id, Options :: [Option]).  The example above
@@ -395,15 +404,17 @@ This button has a label and size tuples in the Options list.
 </div>
 </div>
 
-<div id="outline-container-org9e4a435" class="outline-3">
-<h3 id="org9e4a435">Adding editable text label ( wxTextCtrl )</h3>
-<div class="outline-text-3" id="text-org9e4a435">
+<div id="outline-container-orgb23d291" class="outline-3">
+<h3 id="orgb23d291">Adding editable text label ( wxTextCtrl )</h3>
+<div class="outline-text-3" id="text-orgb23d291">
 <p>
 We’ll add text to our frame using a wxTextCtrl. As per <a href="https://www.erlang.org/doc/man/wxtextctrl">the docs:</a>
 </p>
 
-<pre class="code"><code>TextCtrl = <span style="color: #81A1C1;">wxTextCtrl</span>:<span style="color: #81A1C1;">new</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Frame</span>, ?<span style="color: #81A1C1;">wxID_ANY</span>, <span style="color: #93a8c6;">[</span> <span style="color: #b0b1a3;">{</span>value, <span style="color: #677691;">"I am error."</span><span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>.
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">TextCtrl = wxTextCtrl:new(Frame, ?wxID_ANY, [ {value, "I am error."}]).
+</pre>
+</div>
 
 <p>
 Which follows the very similar pattern to the previous button.  The last
@@ -411,22 +422,26 @@ parameter (an empty list in the above) is any of the parameters, such as values
 or location, etc.
 </p>
 
-<pre class="code"><code><span style="color: #81A1C1;">wxButton</span>:<span style="color: #81A1C1;">connect</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Button</span>, command_button_clicked, <span style="color: #93a8c6;">[</span><span style="color: #FFFFFF; font-weight: bold;">Options</span><span style="color: #93a8c6;">]</span>
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">wxButton:connect(Button, command_button_clicked, [Options]
+</pre>
+</div>
 
 <p>
 After creating the button, you likely want to connect click events up to a function. We're going to 
 it via an inline callback in the "Options"
 </p>
 
-<pre class="code"><code><span style="color: #81A1C1;">wxButton</span>:<span style="color: #81A1C1;">connect</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Button</span>,
+<div class="org-src-container">
+<pre class="src src-erlang">wxButton:connect(Button,
                  command_button_clicked,
-                 <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span>callback,
-                   <span style="color: #81A1C1;">fun</span><span style="color: #97b098;">(</span><span style="color: #FFFFFF; font-weight: bold;">Evt</span>, <span style="color: #FFFFFF; font-weight: bold;">Obj</span><span style="color: #97b098;">)</span> -&gt;
-                           <span style="color: #81A1C1;">wxButton</span>:<span style="color: #81A1C1;">setLabel</span><span style="color: #97b098;">(</span><span style="color: #FFFFFF; font-weight: bold;">Button</span>, <span style="color: #677691;">"clicked.."</span><span style="color: #97b098;">)</span>,
-                           <span style="color: #81A1C1;">wxButton</span>:<span style="color: #81A1C1;">disable</span><span style="color: #97b098;">(</span><span style="color: #FFFFFF; font-weight: bold;">Button</span><span style="color: #97b098;">)</span>
-                   <span style="color: #81A1C1;">end</span><span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-</code></pre>
+                 [{callback,
+                   fun(Evt, Obj) -&gt;
+                           wxButton:setLabel(Button, "clicked.."),
+                           wxButton:disable(Button)
+                   end}]),
+</pre>
+</div>
 
 <p>
 In this particular callback function, we change the label and then 'disable' it, which means to
@@ -435,17 +450,19 @@ effectively disable its use.
 </div>
 </div>
 
-<div id="outline-container-org0bdee0b" class="outline-3">
-<h3 id="org0bdee0b">Improvement.</h3>
-<div class="outline-text-3" id="text-org0bdee0b">
+<div id="outline-container-org9ecee31" class="outline-3">
+<h3 id="org9ecee31">Improvement.</h3>
+<div class="outline-text-3" id="text-org9ecee31">
 <p>
 Not being happy with just laying out buttons, lets take it up a notch.  We're going to
 use a "sizer", specifically the wxBoxSizer, which is a container ainer that organizes child widgets into a single row
 or column, depending on its configured orientation.
 </p>
 
-<pre class="code"><code>MainSizer = <span style="color: #81A1C1;">wxBoxSizer</span>:<span style="color: #81A1C1;">new</span><span style="color: #8c8c8c;">(</span>?<span style="color: #81A1C1;">wxVERTICAL</span><span style="color: #8c8c8c;">)</span>,
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">MainSizer = wxBoxSizer:new(?wxVERTICAL),
+</pre>
+</div>
 
 <p>
 The erlang specific macro is:  ?wxVERTICAL or ?wxHORIZONTAL.
@@ -456,9 +473,11 @@ After creating the sizer, you can add specific widgets to the sizer and also
 configure additional layout properties of the widgets themselves.
 </p>
 
-<pre class="code"><code><span style="color: #81A1C1;">wxBoxSizer</span>:<span style="color: #81A1C1;">add</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">MainSizer</span>, <span style="color: #FFFFFF; font-weight: bold;">TextCtrl</span>,  <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span>flag, ?<span style="color: #81A1C1;">wxALL</span><span style="color: #b0b1a3;">}</span>, <span style="color: #b0b1a3;">{</span>border, 5<span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-<span style="color: #81A1C1;">wxBoxSizer</span>:<span style="color: #81A1C1;">add</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">MainSizer</span>, <span style="color: #FFFFFF; font-weight: bold;">Button</span>,    <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span>flag, ?<span style="color: #81A1C1;">wxALL</span><span style="color: #b0b1a3;">}</span>, <span style="color: #b0b1a3;">{</span>border, 5<span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>,
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">wxBoxSizer:add(MainSizer, TextCtrl,  [{flag, ?wxALL}, {border, 5}]),
+wxBoxSizer:add(MainSizer, Button,    [{flag, ?wxALL}, {border, 5}]),
+</pre>
+</div>
 
 <p>
 The wxBoxSizer class inherits from <a href="https://www.erlang.org/doc/man/wxsizer">wxSizer</a> class, which means that the functions from
@@ -469,15 +488,17 @@ wxSizer apply to wxBoxSizer.
 The function signature from wxSizer, looks a bit odd.
 </p>
 
-<pre class="code"><code><span style="color: #81A1C1;">wxSizer</span>:<span style="color: #81A1C1;">add</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">This</span>, <span style="color: #FFFFFF; font-weight: bold;">Window</span>, <span style="color: #93a8c6;">[</span><span style="color: #FFFFFF; font-weight: bold;">Option</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">wxSizer:add(This, Window, [Option])
+</pre>
+</div>
 
 <p>
 The second arguement is "Window", thats werid, checking out the function definition in
 the <a href="https://www.erlang.org/doc/man/wxsizer#add-3">docs of add/3.</a>
 </p>
 
-<div class="epigraph"><blockquote>
+<p class="verse">
 This = wxSizer()<br />
 Window = wxWindow:wxWindow() | wxSizer:wxSizer()<br />
 Option =<br />
@@ -485,19 +506,17 @@ Option =<br />
 &#xa0;&#xa0;&#xa0;&#xa0;{flag, integer()} |<br />
 &#xa0;&#xa0;&#xa0;&#xa0;{border, integer()} |<br />
 &#xa0;&#xa0;&#xa0;&#xa0;{userData, wx:wx_object()}<br />
-
-</blockquote></div>
+</p>
 
 <p>
 Ok, what is a <a href="https://www.erlang.org/doc/man/wxwindow#type-wxWindow">wxWindow()</a> ?  The official docs illuminate the situation.
 </p>
 
-<div class="epigraph"><blockquote>
+<p class="verse">
 wxWindow is the base class for all windows and represents any visible object on screen.<br />
 All controls, top level windows and so on are windows. Sizers and device contexts are<br />
 not, however, as they don't appear on screen themselves.<br />
-
-</blockquote></div>
+</p>
 
 <p>
 So, its pretty much any visual widget, in our example we have the button and textctrl,
@@ -508,8 +527,10 @@ widgets to add.
 After that, now we can configure the main "Frame" to use this newly created Sizer.
 </p>
 
-<pre class="code"><code><span style="color: #81A1C1;">wxWindow</span>:<span style="color: #81A1C1;">setSizer</span><span style="color: #8c8c8c;">(</span><span style="color: #FFFFFF; font-weight: bold;">Frame</span>, <span style="color: #FFFFFF; font-weight: bold;">MainSizer</span><span style="color: #8c8c8c;">)</span>,
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-erlang">wxWindow:setSizer(Frame, MainSizer),
+</pre>
+</div>
 
 <p>
 Now we want wrap that up,
@@ -527,9 +548,9 @@ I don't always "whoop", but when I do, there it is.
 </div>
 </div>
 
-<div id="outline-container-orgf84fcec" class="outline-2">
-<h2 id="orgf84fcec">Resources:</h2>
-<div class="outline-text-2" id="text-orgf84fcec">
+<div id="outline-container-orgd089e20" class="outline-2">
+<h2 id="orgd089e20">Resources:</h2>
+<div class="outline-text-2" id="text-orgd089e20">
 <ul class="org-ul">
 <li>Idea blatently taken from <a href="https://hidnasio.github.io//elixir/wxerlang/2022/06/29/advance-wx-erlang-hello-world.html">Hello world in elixir.</a></li>
 <li><a href="https://www.erlang.org/doc/man/wx.html">wx erlang man/docs</a></li>
@@ -540,7 +561,7 @@ I don't always "whoop", but when I do, there it is.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-07-11 Mon 12:05</p>
+<p class="date">Created: 2022-08-19 Fri 20:51</p>
 </div>
 </body>
 </html>

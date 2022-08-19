@@ -10,7 +10,7 @@
 wxWidgets is a graphical toolkit that ships with most erlang installs. It is  object  oriented, not functional and in wxErlang a module represents a class
 and the object created by this class has an own type, wxCLASS().
 
-In this blog post create a basic WX application in Erlnag and present the elements wxFrame, wxButton, and wxTextCtrl
+In this blog post create a basic WX application in Erlang and present the elements wxFrame, wxButton, and wxTextCtrl
 
 The app we’ll build looks like this:
 
