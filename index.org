@@ -6,7 +6,7 @@
 * Python Range function in lisp [Aug 2022]
 
 I have wanted a quick way to something similar to the python range function (range n y) in common lisp.
-Sometimes I just want to have some kind of immediate list creation.[[http://wmealing.github.com/lisp-range][ See my drivel on this topic.]]
+Sometimes I just want to have some kind of immediate list creation.  [[http://wmealing.github.io/lisp-range][See my drivel on this topic.]]
 
 * Simple WX example in erlang [July 2022]
 
