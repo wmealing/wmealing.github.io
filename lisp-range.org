@@ -1,0 +1,42 @@
+#+TITLE: Python range operator in lisp.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+
+I've sometimes wanted a quick 'range' equivalent in common lisp.  There are likely other or easier ways to do it
+but this way is mine.
+
+Simple example to make a list for use:
+
+#+BEGIN_EXAMPLE
+ (loop for i from 1 to 5 collect i)
+#+END_EXAMPLE
+
+Easy, runs from 1 to 5, makes a list, its not lazy.. I don't think, but maybe there is a better generator.
+
+Say if only evens were desired:
+
+#+BEGIN_SRC lisp
+  (loop for i from 1 to 10 do (when (evenp i)) collect i)
+#+END_SRC
+
+note: that none of this is lazy, its not ideal.
+
+There used to be another github library titled "Generators The Way I Want Them Generated" which looks really cool
+but the account ahs been deleted.  I have a clone of a the source on quicklisp/ultralisp
+https://github.com/wmealing/gtwiwtg although it seems that mr cbeo (the original owner) account has
+terminated.  
+
+The other alternative is 'snakes' which is available from https://github.com/BnMcGn/snakes.
+
+When I get around to needing the lazyness of them, i'll put some demos here.
+
+* Resources:
+
+https://github.com/BnMcGn/snakes
+
+https://github.com/wmealing/gtwiwtg (not original)
+
