@@ -3,6 +3,7 @@
 #+CREATED: 
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
+#+OPTIONS: html-style:nil
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
