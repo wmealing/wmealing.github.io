@@ -1,0 +1,21 @@
+#+TITLE: 
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+
+#+BEGIN_EXAMPLE
+#+END_EXAMPLE
+
+
+#+BEGIN_SRC cobol
+#+END_SRC
+
+
+* Resources:
+
