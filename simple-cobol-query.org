@@ -83,6 +83,12 @@ in the program.
 NB. I'm gradually improving my understanding of "State" diagrams that many cobol sites used to explain
 the function diagrams.  These are not intuitive and must be understood to grow as a developer.
 
+And the final running example:
+
+[[https://imgur.com/QceI3Rvl.png]]
+
+
+
 * Resources:
  - [[https://gnucobol.sourceforge.io/HTML/gnucobpg.html#SCREEN-SECTION][gnuCOBOL SCREEN section]]
  - [[http://savannah.gnu.org/forum/forum.php?forum_id=9910][Changelog showing 'initial mouse support' in gnuCobol screen io.]]
