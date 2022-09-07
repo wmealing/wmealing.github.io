@@ -3,6 +3,16 @@
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
 
+* COBOL - Simple "Curses" like screen to get keyboard input.
+
+On of the simple but effectively powerful things that gnuCOBOL can do is a TUI.  Its not
+fancy (when it implements UTF8 correctly, it will be fancy-af) but it gets the job
+done much quicker than most webapps do.
+
+Check out my [[./simple-cobol-query.html][Simple example]] which I've got working on Linux and MacOS X.
+
+
+
 * Python Range function in lisp [Aug 2022]
 
 I have wanted a quick way to something similar to the python range function (range n y) in common lisp.

@@ -3,11 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-08 Thu 00:38 -->
+<!-- 2022-09-08 Thu 00:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>For when I'm gone.</title>
-<meta name="author" content="Wade Mealing" />
+<title>Simple cobol "SCREEN" to display and get keyboard input.</title>
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -194,135 +193,118 @@
   .org-svg { width: 90%; }
 </style>
 <link rel="stylesheet" href="tufte.css" type="text/css" />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
+<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">For when I'm gone.</h1>
-
-<div id="outline-container-orgb023de9" class="outline-2">
-<h2 id="orgb023de9">COBOL - Simple "Curses" like screen to get keyboard input.</h2>
-<div class="outline-text-2" id="text-orgb023de9">
+<h1 class="title">Simple cobol "SCREEN" to display and get keyboard input.</h1>
 <p>
-On of the simple but effectively powerful things that gnuCOBOL can do is a TUI.  Its not
-fancy (when it implements UTF8 correctly, it will be fancy-af) but it gets the job
-done much quicker than most webapps do.
+This example below uses gnuCOBOL's idea of "SCREENS".  Screens are method of displaying
+ncurses/curses style displays with labels and keyboard inputs (I read that mouse inputs
+may be possible, but not in this demo.)
 </p>
 
 <p>
-Check out my <a href="./simple-cobol-query.html">Simple example</a> which I've got working on Linux and MacOS X.
-</p>
-</div>
-</div>
-
-
-
-<div id="outline-container-orgb984e9b" class="outline-2">
-<h2 id="orgb984e9b">Python Range function in lisp [Aug 2022]</h2>
-<div class="outline-text-2" id="text-orgb984e9b">
-<p>
-I have wanted a quick way to something similar to the python range function (range n y) in common lisp.
-Sometimes I just want to have some kind of immediate list creation.  <a href="http://wmealing.github.io/lisp-range">See my drivel on this topic.</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-org797467f" class="outline-2">
-<h2 id="org797467f">Simple WX example in erlang [July 2022]</h2>
-<div class="outline-text-2" id="text-org797467f">
-<p>
-I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry.
+This code may work on other versions of COBOL, but I have not tested. I'm going to use
+CAPS in my code, deal with it.
 </p>
 
 <p>
-The one that works for me at the moment is <a href="http://wmealing.github.io/wx-erlang-example">WX Erlang</a>
+Below is the complete program that can be compiled at the shell with the command line:
 </p>
-</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">cobc -xF simple-question.cob -o simple-question
+</pre>
 </div>
 
-<div id="outline-container-orgd6dfbde" class="outline-2">
-<h2 id="orgd6dfbde">MIRAI analysis - evasion - deleting the executing code [Nov 2020]</h2>
-<div class="outline-text-2" id="text-orgd6dfbde">
 <p>
-The MIRAI malware deletes itself from disk in an attempt to make it
-harder to analyse. <a href="https://wmealing.github.io/mirai-delete-yourself">This post</a> goes into detail on how it works, a rust
-implementation and a few improvements that could have been done.
+And the cobol code:
 </p>
-</div>
+
+<div class="org-src-container">
+<pre class="src src-cobol"><span class="linenr"> 1: </span><span style="color: #b22222;">IDENTI</span>FICATION <span style="color: #a020f0;">DIVISION</span>.
+<span class="linenr"> 2: </span><span style="color: #b22222;">PROGRA</span>M<span style="color: #0000ff;">-ID</span>. SAMPLE.
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #b22222;">ENVIRO</span>NMENT <span style="color: #a020f0;">DIVISION</span>.
+<span class="linenr"> 5: </span><span style="color: #b22222;">CONFIG</span>U<span style="color: #0000ff;">RATION</span> <span style="color: #a020f0;">SECTION</span>.
+<span class="linenr"> 6: </span><span style="color: #b22222;">SPECIA</span>L<span style="color: #0000ff;">-NAMES</span>.
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #b22222;">INPUT-</span>O<span style="color: #0000ff;">UTPUT</span> <span style="color: #a020f0;">SECTION</span>.
+<span class="linenr"> 9: </span><span style="color: #b22222;">FILE-C</span>O<span style="color: #0000ff;">NTROL</span>.
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #b22222;">DATA D</span>I<span style="color: #0000ff;">VISION</span>.
+<span class="linenr">12: </span><span style="color: #b22222;">FILE S</span>E<span style="color: #0000ff;">CTION</span>.
+<span class="linenr">13: </span>
+<span class="linenr">14: </span><span style="color: #b22222;">WORKIN</span>G<span style="color: #0000ff;">-STORAGE</span> <span style="color: #a020f0;">SECTION</span>.
+<span class="linenr">15: </span><span style="color: #b22222;">01  RE</span>S<span style="color: #0000ff;">PONSE</span>.
+<span class="linenr">16: </span><span style="color: #b22222;">  05  </span>RESPONSE-IN-WS     <span style="color: #a020f0;">PIC</span> <span style="color: #228b22;">X</span><span style="color: #707183;">(</span><span style="color: #228b22;">2</span><span style="color: #707183;">)</span>.
+<span class="linenr">17: </span>
+<span class="linenr">18: </span><span style="color: #b22222;">SCREEN</span> <span style="color: #a020f0;">SECTION</span>.
+<span class="linenr">19: </span><span style="color: #b22222;">01 SIM</span>P<span style="color: #0000ff;">LE-QUESTION-SCREEN</span>.
+<span class="linenr">20: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"SIMPLE QUESTION SCREEN"</span> <span style="color: #a020f0;">BLANK</span> <span style="color: #a020f0;">SCREEN</span>       <span style="color: #a020f0;">LINE</span> 1 <span style="color: #a020f0;">COL</span> 35.
+<span class="linenr">21: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"ANSWER YES OR NO!  Y/N: "</span>                  <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 1.
+<span class="linenr">22: </span><span style="color: #b22222;">   05 </span> RESPONSE-INPUT                                    <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 25
+<span class="linenr">23: </span><span style="color: #b22222;">      </span> <span style="color: #a020f0;">PIC</span> <span style="color: #228b22;">X</span> <span style="color: #a020f0;">TO</span> RESPONSE-IN-WS.
+<span class="linenr">24: </span>
+<span class="linenr">25: </span><span style="color: #b22222;">PROCED</span>URE <span style="color: #a020f0;">DIVISION</span>.
+<span class="linenr">26: </span><span style="color: #b22222;">   DIS</span>PLAY SIMPLE-QUESTION-SCREEN.
+<span class="linenr">27: </span><span style="color: #b22222;">   ACC</span>EPT SIMPLE-QUESTION-SCREEN.
+<span class="linenr">28: </span><span style="color: #b22222;">   STO</span>P <span style="color: #a020f0;">RUN</span>.
+<span class="linenr">29: </span>
+</pre>
 </div>
 
-<div id="outline-container-org55cef39" class="outline-2">
-<h2 id="org55cef39">MIRAI analysis - watchdog access in rust [Nov 2020]</h2>
-<div class="outline-text-2" id="text-org55cef39">
 <p>
-The MIRAI malware uses an technique intended to prevent the systems
-watchdog from rebooting the machine when its too busy.  <a href="https://wmealing.github.io/watchdog-in-rust">I share what I learned about this and ported it to rust.</a>
+Starting at the "meat" of the demonstration, the "SCREEN SECTION".
 </p>
-</div>
+
+<div class="org-src-container">
+<pre class="src src-cobol"><span class="linenr">18: </span><span style="color: #b22222;">SCREEN</span> <span style="color: #a020f0;">SECTION</span>.
+<span class="linenr">19: </span><span style="color: #b22222;">01 SIM</span>P<span style="color: #0000ff;">LE-QUESTION-SCREEN</span>.
+<span class="linenr">20: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"SIMPLE QUESTION SCREEN"</span> <span style="color: #a020f0;">BLANK</span> <span style="color: #a020f0;">SCREEN</span>       <span style="color: #a020f0;">LINE</span> 1 <span style="color: #a020f0;">COL</span> 35.
+<span class="linenr">21: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"ANSWER YES OR NO!  Y/N: "</span>                  <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 1.
+<span class="linenr">22: </span><span style="color: #b22222;">   05 </span> RESPONSE-INPUT                                    <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 25
+<span class="linenr">23: </span><span style="color: #b22222;">      </span> <span style="color: #a020f0;">PIC</span> <span style="color: #228b22;">X</span> <span style="color: #a020f0;">TO</span> RESPONSE-IN-WS.
+</pre>
 </div>
 
-<div id="outline-container-org9bb8a0a" class="outline-2">
-<h2 id="org9bb8a0a">Userspace eBPF [Sep 2 2020]</h2>
-<div class="outline-text-2" id="text-org9bb8a0a">
 <p>
-A few distros have users allowed to insert eBPF programs.  This is disabled in
-some distributions.  <a href="./ebpf-disabled-for-users.html">I've documented my findings</a> after talking to different
-decision holders who made some of these choices.
+The "SCREEN SECTION" is instructions for the "DISPLAY" function to layout and handle basic layout on the screen.  Specific line and column need to be specified to ensure that the labels and input boxes are exactly as requested. (PROTIP: draw them out in a text editor with fixed width fonts before coding up a screen, it will save you time in more complex scenarios.)
 </p>
-</div>
+
+<div class="org-src-container">
+<pre class="src src-COBOL"><span class="linenr">25: </span>PROCEDURE DIVISION.
+<span class="linenr">26: </span>   DISPLAY SIMPLE-QUESTION-SCREEN.
+<span class="linenr">27: </span>   ACCEPT SIMPLE-QUESTION-SCREEN
+</pre>
 </div>
 
-<div id="outline-container-org8c2e34c" class="outline-2">
-<h2 id="org8c2e34c">Anatomy of kernel module signing  [Aug 20 2020]</h2>
-<div class="outline-text-2" id="text-org8c2e34c">
 <p>
-I decided to take a look at the Linux kernel modules signing process.  It seems
-that the recent drovorub malware has some interesting misinformation regarding 
-module signing, so I had decided to take a look at the <a href="./signed-kernel-modules.html">regarding its implementations on Red hat Enterprise Linux</a>.
+The "DISPLAY" function shows the screen. The "ACCEPT" function deals with the inputs
+from the user.  In this case it is simply a Y/N answer and the result is stored in "RESPONSE-IN-WS".
 </p>
-</div>
-</div>
 
-<div id="outline-container-org26757ea" class="outline-2">
-<h2 id="org26757ea">Encrypting a disk to only boot in a specific system. [Aug 9 2020]</h2>
-<div class="outline-text-2" id="text-org26757ea">
 <p>
-Recent research papers related to flaws in thunderbolt and secureboot have
-piqued my interest in learning more about what can be done to prevent a system
-comprimised in such a way from being abused.  I've written about
-<a href="./tpm-pcr07.html">it here</a>
+It is useful to know that you may wish to create more complex interfaces where you could
+call multiple DISPLAYS, even though part of them may not be interactive at this stage
+in the program.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org4c602f3" class="outline-2">
-<h2 id="org4c602f3">Toshiba Toughpad FZ-G1-3 [Jul 25 2020]</h2>
-<div class="outline-text-2" id="text-org4c602f3">
 <p>
-I have recently purchased one of these machines in an auction, and I am -very-
-impressed with its build quality.   While this one is not its current purchase
-release, I've got a page talking about the customizations and things I have
-learned about it <a href="./toshiba-toughpad-fz-g1-3">While making it work for me</a>
+NB. I'm gradually improving my understanding of "State" diagrams that many cobol sites used to explain
+the function diagrams.  These are not intuitive and must be understood to grow as a developer.
 </p>
-</div>
-</div>
 
-
-
-<div id="outline-container-org8790633" class="outline-2">
-<h2 id="org8790633">Kernel SecuriTea</h2>
-<div class="outline-text-2" id="text-org8790633">
-<p>
-I work on a small youtube channel where I talk about kernel security issues
-that interest me.  I work on quite a lot of these in my work so i'm limited to
-what I can cover.
-</p>
+<div id="outline-container-orge1a9472" class="outline-2">
+<h2 id="orge1a9472">Resources:</h2>
+<div class="outline-text-2" id="text-orge1a9472">
+<ul class="org-ul">
+<li><a href="https://gnucobol.sourceforge.io/HTML/gnucobpg.html#SCREEN-SECTION">gnuCOBOL SCREEN section</a></li>
+<li><a href="http://savannah.gnu.org/forum/forum.php?forum_id=9910">Changelog showing 'initial mouse support' in gnuCobol screen io.</a></li>
+</ul>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-09-08 Thu 00:38</p>
 </div>
 </body>
 </html>

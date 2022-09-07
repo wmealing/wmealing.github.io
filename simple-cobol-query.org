@@ -1,0 +1,88 @@
+#+TITLE: Simple cobol "SCREEN" to display and get keyboard input.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+This example below uses gnuCOBOL's idea of "SCREENS".  Screens are method of displaying
+ncurses/curses style displays with labels and keyboard inputs (I read that mouse inputs
+may be possible, but not in this demo.)
+
+This code may work on other versions of COBOL, but I have not tested. I'm going to use
+CAPS in my code, deal with it.
+
+Below is the complete program that can be compiled at the shell with the command line:
+
+#+BEGIN_SRC sh
+  cobc -xF simple-question.cob -o simple-question
+#+END_SRC
+
+And the cobol code:
+
+#+BEGIN_SRC cobol -n
+  IDENTIFICATION DIVISION.
+  PROGRAM-ID. SAMPLE.
+
+  ENVIRONMENT DIVISION.
+  CONFIGURATION SECTION.
+  SPECIAL-NAMES.
+
+  INPUT-OUTPUT SECTION.
+  FILE-CONTROL.
+
+  DATA DIVISION.
+  FILE SECTION.
+
+  WORKING-STORAGE SECTION.
+  01  RESPONSE.
+    05  RESPONSE-IN-WS     PIC X(2).
+
+  SCREEN SECTION.
+  01 SIMPLE-QUESTION-SCREEN.
+     05  VALUE "SIMPLE QUESTION SCREEN" BLANK SCREEN       LINE 1 COL 35.
+     05  VALUE "ANSWER YES OR NO!  Y/N: "                  LINE 2 COL 1.
+     05  RESPONSE-INPUT                                    LINE 2 COL 25
+         PIC X TO RESPONSE-IN-WS.
+
+  PROCEDURE DIVISION.
+     DISPLAY SIMPLE-QUESTION-SCREEN.
+     ACCEPT SIMPLE-QUESTION-SCREEN.
+     STOP RUN.
+
+#+END_SRC
+
+Starting at the "meat" of the demonstration, the "SCREEN SECTION".
+
+#+BEGIN_SRC cobol -n 18
+  SCREEN SECTION.
+  01 SIMPLE-QUESTION-SCREEN.
+     05  VALUE "SIMPLE QUESTION SCREEN" BLANK SCREEN       LINE 1 COL 35.
+     05  VALUE "ANSWER YES OR NO!  Y/N: "                  LINE 2 COL 1.
+     05  RESPONSE-INPUT                                    LINE 2 COL 25
+         PIC X TO RESPONSE-IN-WS.
+#+END_SRC
+
+The "SCREEN SECTION" is instructions for the "DISPLAY" function to layout and handle basic layout on the screen.  Specific line and column need to be specified to ensure that the labels and input boxes are exactly as requested. (PROTIP: draw them out in a text editor with fixed width fonts before coding up a screen, it will save you time in more complex scenarios.)
+
+#+begin_src COBOL -n 25
+       PROCEDURE DIVISION.
+          DISPLAY SIMPLE-QUESTION-SCREEN.
+          ACCEPT SIMPLE-QUESTION-SCREEN
+#+end_src
+
+The "DISPLAY" function shows the screen. The "ACCEPT" function deals with the inputs
+from the user.  In this case it is simply a Y/N answer and the result is stored in "RESPONSE-IN-WS".
+
+It is useful to know that you may wish to create more complex interfaces where you could
+call multiple DISPLAYS, even though part of them may not be interactive at this stage
+in the program.
+
+NB. I'm gradually improving my understanding of "State" diagrams that many cobol sites used to explain
+the function diagrams.  These are not intuitive and must be understood to grow as a developer.
+
+* Resources:
+ - [[https://gnucobol.sourceforge.io/HTML/gnucobpg.html#SCREEN-SECTION][gnuCOBOL SCREEN section]]
+ - [[http://savannah.gnu.org/forum/forum.php?forum_id=9910][Changelog showing 'initial mouse support' in gnuCobol screen io.]]
