@@ -1,0 +1,124 @@
+#+TITLE: Less than optimistic.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+This week, i'm feeling a little less optimistic about the future.  The shadows seem a little darker and
+even the light looks a little grimier than it used to.  What has caused this discouragement is recent
+interactions that I've had with different people across a few different domains.
+
+Sometimes you can write off discouragement and peoples opinions as biased, selfish or just plain ignorant
+and to be honest it wouldn't be the first time.  I was told that Linux was a poor career choice and that
+learning a UNIX was a dead end.  Even my mother had taught the family bird to say "Linux sucks". Being
+young and stupid of course I stayed true to the path, however I wasn't alone, there were Linux User Groups,
+magazines and companies hiring that inspired me to continue.
+
+It always felt like there was a glimmer of light and hope behind my plans seeing others interested in the
+same direction, pushing the envelope forward to improvement keeping the seed of hope alive.  This time
+however, I think that I've been made a choice in the wrong direction.
+
+You'll find that there is a recurring theme in my mistakes, which I plan to somehow fix going forward.
+
+* C.
+
+If you've had the pleasure of working in C, you'll know that its a treadmill.  It gets you hooked quickly
+but the corner cases, undefined behavior and security bugs are just take up too much time in the short
+lifespan we have.  If there is one thing you take from this blog entry, its please stop writing new projects
+in C if you can help it.  Think of the children.
+
+* Erlang.
+
+I had been working with Erlang, which I had quite enjoyed however I failed to learn my lesson.  There were almost
+no erlang jobs going that I could find in Australia.  There was no other erlang programmers that I could find nearby
+but I could write some useful tooling and wrote some basic software that I enjoyed using.
+
+Still, its not for 'modern' frontends, cecho for ncurse and cowboy, but for the interactive stuff for "other people" I
+still had to end up writing some crappy html and javascript, it was painful to share what I had written with others.
+
+Still, the Erlang syntax is 'cranky'.  There has been recent improvements on the BEAM vm, which are nice
+(such as Lisp Flavored Erlang, but we'll get there later in this article).
+
+* Lisp.
+
+After trying to improve erlang-mode in emacs, I decided to give the "real thing" a go.  I downloaded
+SBCL and had a ball.  I enjoyed learning macros, writing telegram bots, writing a small text adventure,
+mapping out special effects and logic for my ongoing D&D campaign.
+
+While working LISP has been very productive, and working for me its been very difficult to get any kind
+of adoption in my work.  I haven't come across another Lisp programmer (In an engineering group of about 2000)
+
+* GNUCobol
+
+I spent most of my after hours in the last 3 months trying to learn cobol.  I can do quite a number of
+basic tasks, input screens, validation, math, currency and handling.
+
+Realistically GNUcobol was the only version of cobol that I could get my hands on.  The rest of the
+versions require payment or all kinds of trickery that i'm not willing to put up with.
+
+As far as I can see while completely suited to business kinda work, which wouldnt be surprising if
+I'd only read the brochure.  It lacks any kind any kind of ability to make socket requests easily,
+and while there is libcurl bindings, and the like.  FFI is still a little strange for 'structs' and
+I've had to write helper C code to deal with any kind of struct interaction.
+
+I've written an emacs [[https://github.com/wmealing/gnucobol-mode][gnucobol-mode]], which is a fair start but has a lot of work to do to be completey
+useful, however working in cobol is slow and tiresome and there is little that I can do with it.
+
+* LFE (Lisp Flavored Erlang)
+
+For a moment, for a brief glimpse I saw everything that I really wanted in a programming language.  The
+great flexibility of lisp and the power of erlangs distribution.
+
+Starting a new project is hard.
+Fetching new deps from rebar.config fails.
+SSL errors connecting to hexpm, 'unknown reason' joy.
+
+Its powerful, familar and combines two things I really enjoyed writing, however this along with its
+lack of "front end" means I can't distribute it to end users without doing more work.  I did see the
+"livebook" from elixir, it would be great if it worked for lfe.
+
+* Honourable Distractions.
+
+There were however some interesting tools that may mitigate some of my irks. 
+
+** Xterm.js
+
+Writing my applications with a TUI and exporting it through the web, almost gets me there but then
+again i realise that the vast majority of people are now programmed not to understand anything but
+gumby web interfaces, so thats what I think that I need to deal with going forward.  Sad reality.
+
+** Terminal Graphics
+
+I had figured that perhaps I could use new features of [[https://sw.kovidgoyal.net/kitty/graphics-protocol/][Kitty graphics terminal]] to promote some
+modern usability into the terminal that may be familiar to users, however getting this into the
+browser via xterm.js isnt a thing so I'm back to where I started.
+
+** "Node and JS is good enough"
+
+One of the issues that I've always had with some langauges are when they are "good enough". I do understand
+that there are business decisions often dictate choices such as language, toolkit and design, however
+when "below average" becomes "good enough" across the general developer community it makes me really
+question if I'm the unreasonable one.
+
+** I'd only choose something that my team already knows
+
+This is a prevailing attitude in many engineering teams.  The fear of putting an 'unknown' language
+or tooling into production, There are many places that new tools can be written and fit into existing
+structures with minimal risk.  I'm also adult enough to know that when i'm swimming against the current
+and everyone else is against me, that i'm likely in the wrong.
+
+* Going forward ?
+
+- I need to let go of the past and my choices.
+- I can't plan to work with anyone else, as the number of people that use my tooling is non existant.
+- I need to embrace that the web is the future, and that traditional software that isnt web is a dead end.
+- There isn't going to be a language that isnt javascript or webasm.
+- this either means that i write a 'javascript like' language or give up the idea of distributing software
+  to normal people.
+
+
+I know this wasn't a good answer, but I need to think real hard on what is happening going forward.

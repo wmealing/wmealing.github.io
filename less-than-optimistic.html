@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-25 Sun 02:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Less than optimistic.</title>
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<link rel="stylesheet" href="tufte.css" type="text/css" />
+<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Less than optimistic.</h1>
+<p>
+This week, i'm feeling a little less optimistic about the future.  The shadows seem a little darker and
+even the light looks a little grimier than it used to.  What has caused this discouragement is recent
+interactions that I've had with different people across a few different domains.
+</p>
+
+<p>
+Sometimes you can write off discouragement and peoples opinions as biased, selfish or just plain ignorant
+and to be honest it wouldn't be the first time.  I was told that Linux was a poor career choice and that
+learning a UNIX was a dead end.  Even my mother had taught the family bird to say "Linux sucks". Being
+young and stupid of course I stayed true to the path, however I wasn't alone, there were Linux User Groups,
+magazines and companies hiring that inspired me to continue.
+</p>
+
+<p>
+It always felt like there was a glimmer of light and hope behind my plans seeing others interested in the
+same direction, pushing the envelope forward to improvement keeping the seed of hope alive.  This time
+however, I think that I've been made a choice in the wrong direction.
+</p>
+
+<p>
+You'll find that there is a recurring theme in my mistakes, which I plan to somehow fix going forward.
+</p>
+
+<div id="outline-container-orgc720f5a" class="outline-2">
+<h2 id="orgc720f5a">C.</h2>
+<div class="outline-text-2" id="text-orgc720f5a">
+<p>
+If you've had the pleasure of working in C, you'll know that its a treadmill.  It gets you hooked quickly
+but the corner cases, undefined behavior and security bugs are just take up too much time in the short
+lifespan we have.  If there is one thing you take from this blog entry, its please stop writing new projects
+in C if you can help it.  Think of the children.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1e49cd2" class="outline-2">
+<h2 id="org1e49cd2">Erlang.</h2>
+<div class="outline-text-2" id="text-org1e49cd2">
+<p>
+I had been working with Erlang, which I had quite enjoyed however I failed to learn my lesson.  There were almost
+no erlang jobs going that I could find in Australia.  There was no other erlang programmers that I could find nearby
+but I could write some useful tooling and wrote some basic software that I enjoyed using.
+</p>
+
+<p>
+Still, its not for 'modern' frontends, cecho for ncurse and cowboy, but for the interactive stuff for "other people" I
+still had to end up writing some crappy html and javascript, it was painful to share what I had written with others.
+</p>
+
+<p>
+Still, the Erlang syntax is 'cranky'.  There has been recent improvements on the BEAM vm, which are nice
+(such as Lisp Flavored Erlang, but we'll get there later in this article).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9fffef5" class="outline-2">
+<h2 id="org9fffef5">Lisp.</h2>
+<div class="outline-text-2" id="text-org9fffef5">
+<p>
+After trying to improve erlang-mode in emacs, I decided to give the "real thing" a go.  I downloaded
+SBCL and had a ball.  I enjoyed learning macros, writing telegram bots, writing a small text adventure,
+mapping out special effects and logic for my ongoing D&amp;D campaign.
+</p>
+
+<p>
+While working LISP has been very productive, and working for me its been very difficult to get any kind
+of adoption in my work.  I haven't come across another Lisp programmer (In an engineering group of about 2000)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org699843d" class="outline-2">
+<h2 id="org699843d">GNUCobol</h2>
+<div class="outline-text-2" id="text-org699843d">
+<p>
+I spent most of my after hours in the last 3 months trying to learn cobol.  I can do quite a number of
+basic tasks, input screens, validation, math, currency and handling.
+</p>
+
+<p>
+Realistically GNUcobol was the only version of cobol that I could get my hands on.  The rest of the
+versions require payment or all kinds of trickery that i'm not willing to put up with.
+</p>
+
+<p>
+As far as I can see while completely suited to business kinda work, which wouldnt be surprising if
+I'd only read the brochure.  It lacks any kind any kind of ability to make socket requests easily,
+and while there is libcurl bindings, and the like.  FFI is still a little strange for 'structs' and
+I've had to write helper C code to deal with any kind of struct interaction.
+</p>
+
+<p>
+I've written an emacs <a href="https://github.com/wmealing/gnucobol-mode">gnucobol-mode</a>, which is a fair start but has a lot of work to do to be completey
+useful, however working in cobol is slow and tiresome and there is little that I can do with it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7c51c2d" class="outline-2">
+<h2 id="org7c51c2d">LFE (Lisp Flavored Erlang)</h2>
+<div class="outline-text-2" id="text-org7c51c2d">
+<p>
+For a moment, for a brief glimpse I saw everything that I really wanted in a programming language.  The
+great flexibility of lisp and the power of erlangs distribution.
+</p>
+
+<p>
+Starting a new project is hard.
+Fetching new deps from rebar.config fails.
+SSL errors connecting to hexpm, 'unknown reason' joy.
+</p>
+
+<p>
+Its powerful, familar and combines two things I really enjoyed writing, however this along with its
+lack of "front end" means I can't distribute it to end users without doing more work.  I did see the
+"livebook" from elixir, it would be great if it worked for lfe.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0f97eee" class="outline-2">
+<h2 id="org0f97eee">Honourable Distractions.</h2>
+<div class="outline-text-2" id="text-org0f97eee">
+<p>
+There were however some interesting tools that may mitigate some of my irks. 
+</p>
+</div>
+
+<div id="outline-container-orgf1d3709" class="outline-3">
+<h3 id="orgf1d3709">Xterm.js</h3>
+<div class="outline-text-3" id="text-orgf1d3709">
+<p>
+Writing my applications with a TUI and exporting it through the web, almost gets me there but then
+again i realise that the vast majority of people are now programmed not to understand anything but
+gumby web interfaces, so thats what I think that I need to deal with going forward.  Sad reality.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge669578" class="outline-3">
+<h3 id="orge669578">Terminal Graphics</h3>
+<div class="outline-text-3" id="text-orge669578">
+<p>
+I had figured that perhaps I could use new features of <a href="https://sw.kovidgoyal.net/kitty/graphics-protocol/">Kitty graphics terminal</a> to promote some
+modern usability into the terminal that may be familiar to users, however getting this into the
+browser via xterm.js isnt a thing so I'm back to where I started.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd760ca4" class="outline-3">
+<h3 id="orgd760ca4">"Node and JS is good enough"</h3>
+<div class="outline-text-3" id="text-orgd760ca4">
+<p>
+One of the issues that I've always had with some langauges are when they are "good enough". I do understand
+that there are business decisions often dictate choices such as language, toolkit and design, however
+when "below average" becomes "good enough" across the general developer community it makes me really
+question if I'm the unreasonable one.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2b02a8a" class="outline-3">
+<h3 id="org2b02a8a">I'd only choose something that my team already knows</h3>
+<div class="outline-text-3" id="text-org2b02a8a">
+<p>
+This is a prevailing attitude in many engineering teams.  The fear of putting an 'unknown' language
+or tooling into production, There are many places that new tools can be written and fit into existing
+structures with minimal risk.  I'm also adult enough to know that when i'm swimming against the current
+and everyone else is against me, that i'm likely in the wrong.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd2ad813" class="outline-2">
+<h2 id="orgd2ad813">Going forward ?</h2>
+<div class="outline-text-2" id="text-orgd2ad813">
+<ul class="org-ul">
+<li>I need to let go of the past and my choices.</li>
+<li>I can't plan to work with anyone else, as the number of people that use my tooling is non existant.</li>
+<li>I need to embrace that the web is the future, and that traditional software that isnt web is a dead end.</li>
+<li>There isn't going to be a language that isnt javascript or webasm.</li>
+<li>this either means that i write a 'javascript like' language or give up the idea of distributing software
+to normal people.</li>
+</ul>
+
+
+<p>
+I know this wasn't a good answer, but I need to think real hard on what is happening going forward.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
