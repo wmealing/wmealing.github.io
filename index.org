@@ -3,6 +3,13 @@
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
 
+* Choosing the wrong roads.
+
+I've spent the last week reflecting on some poor programming life choices that I've made.
+disagree with the majority, perhaps you are wrong.  I'm not stupid enough to think that i'm smarter
+than most people.  To be honest its probably not worth reading because you already think just like
+this.  If I [[https://wmealing.github.io/less-than-optimistic.html][write about it]], perhaps it will clear my mind.
+
 * COBOL - Simple "Curses" like screen to get keyboard input.
 
 On of the simple but effectively powerful things that gnuCOBOL can do is a TUI.  Its not
@@ -10,8 +17,6 @@ fancy (when it implements UTF8 correctly, it will be fancy-af) but it gets the j
 done much quicker than most webapps do.
 
 Check out my [[./simple-cobol-query.html][Simple example]] which I've got working on Linux and MacOS X.
-
-
 
 * Python Range function in lisp [Aug 2022]
 
