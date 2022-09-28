@@ -1,28 +1,12 @@
-
-# Table of Contents
-
-1.  [Why sign a kernel module ?](#org7c35ac3)
-2.  [How is it signed ?](#orgd6213d0)
-3.  [Kernel modules information.](#org76eda05)
-    1.  [Module location](#orge79c53b)
-    2.  [Loading kernel modules.](#org222d60d)
-    3.  [The signature](#orgcf5980c)
-        1.  [Signature metadata.](#org0746dac)
-4.  [Version support table](#orgf3aca76)
-5.  [Source](#org619928d)
-6.  [How the kernel loads the module.](#org7504faa)
-7.  [Failure modes.](#org59e62e1)
-8.  [Adding a second signature to the keychain for third party modules:](#org8317702)
-9.  [Creating a public and private key](#org950203f)
-10. [Enrolling the key into the MOK keychain.](#org13dfc90)
-11. [Signing a kernel module](#orgc41e782)
-12. [Additional Resources:](#org92dc606)
+#+TITLE: Signed kernel modules
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: date:nil
+#+OPTIONS: toc:2 
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
 
-
-<a id="org7c35ac3"></a>
-
-# What is a “signed” kernel module?
+* What is a “signed” kernel module?
 
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -39,7 +23,7 @@ that validates the contents of the module along with the attached
 signature belongs to a trusted party in the systems ‘key chain’.
 
 
-# How is it signed ?
+* How is it signed ?
 
 
 Each kernel module is signed with a industry standard PKCS#7 standard
@@ -52,18 +36,29 @@ The signature is appended to the file along with the string “~Module
 signature appended~” at the end of the file.   This allows for easy
 confirmation of the signing process by using the ‘strings’ tool to
 find the above string in an uncompressed kernel module.
+
+#+BEGIN_SRC shell
 $ strings ecryptfs.ko | tail -n 1
 ~Module signature appended~
+#+END_SRC
+
+
 This signature in the file is consulted by the kernel and validated
 during the module loading process. The number of cryptographic hash
 algorithms has increased over time, a module can be signed by a single
 algorithm.
+
 The supported hash algorithms for a release can be found in the
 kernels build configuration file, along with other signing related
 options.
+
+#+BEGIN_SRC shell
 $ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
 | sort| uniq
 CONFIG_MODULE_SIG_HASH="sha256"
+#+END_SRC
+
+
 From this you can see that Red Hat Enterprise Linux 8 defaults to
 sha256 and only supports sha256 signed kernel modules. These options
 are used at build time and runtime of the kernel that is being built.
@@ -74,14 +69,10 @@ signatures.
 
 
 
-<a id="org76eda05"></a>
 
-# Kernel modules information.
+* Kernel modules information.
 
-
-<a id="orge79c53b"></a>
-
-## Module location
+** Module location
 
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -93,9 +84,7 @@ Modules can be loaded from outside this tree, the complex iteractions of
 searching and priority is documented in the depmod and depmod.d man pages.
 
 
-<a id="org222d60d"></a>
-
-## Loading kernel modules.
+** Loading kernel modules.
 
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -109,18 +98,14 @@ Each of these events can fire off a userspace helper which can load a
 module. This userspace helper consults the modules.dep file created by
 depmod to locate the relevant module to meet the kernels request.
 
-
-<a id="orgcf5980c"></a>
-
-## The signature
+** The signature
 
 
-<a id="org0746dac"></a>
-
-### Signature metadata.
+*** Signature metadata.
 
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 
+#+BEGIN_SRC shell
     # modinfo mwifiex.ko.xz
     filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
     license:        GPL v2
@@ -158,10 +143,12 @@ The /sbin/modinfo program can inspect details about the kernel module.  The
     AC:6B:CA:35:FF:E1:A9:65:02:18:15:00:AC:68:8F:96:03:0B:CB:CB:
     A4:5E:FC:24
     parm:           reg_alpha2:charp
+#+END_SRC
 
 The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 
+#+BEGIN_EXAMPLE
     0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... <-- STARTS HERE ON 7BA1
     0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
     0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -189,6 +176,7 @@ you can see it.
     0008d7d0: 030b cbcb a45e fc24 0000 0200 0000 0000  .....^.$........   <-- ENDS HERE ON FC24
     0008d7e0: 0000 0268 7e4d 6f64 756c 6520 7369 676e  ...h~Module sign
     0008d7f0: 6174 7572 6520 6170 7065 6e64 6564 7e0a  ature appended~.
+#+END_EXAMPLE
 
 There is an additional text string "`Module signature appended`" also at the
 end of the file, which does not seem to serve a purpose other than a simple
@@ -197,9 +185,6 @@ identifier to determine if the module signature is included.
 Some implementations of kernel module signing had included it as part of the
 'ELF' section tables but this appears to have been deprecated in favour of
 the simpler appending to the file.
-
-
-<a id="orgf3aca76"></a>
 
 # Version support table
 
@@ -210,46 +195,17 @@ it was available in Fedora and other distributions.
 Kernel module signature verification is not enabled by default but can be
 enabled by booting the kernel with an addition parameter as shown below:
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
+|----------------------------|-----------------------|
+| Version                    | Kernel Boot parameter |
+|----------------------------|-----------------------|
+| Red Hat Enterprise Linux 5 | enforcemodulesig=1    |
+| Red Hat Enterprise Linux 6 | enforcedmodulesign=1  |
+| Red Hat Enterprise Linux 7 | module.sig_enforce=1  |
+| Red Hat Enterprise Linux 8 | module.sig_enforce=1  |
+| Red Hat Enterprise Linux 9 | module.sig_enforce=1  |
+|----------------------------|-----------------------|
 
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Version</th>
-<th scope="col" class="org-left">Kernel boot parameter</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">Red Hat Enterprise Linux 5</td>
-<td class="org-left">enforcemodulesig=1</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Red Hat Enterprise Linux 6</td>
-<td class="org-left">enforcedmodulesign=1</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Red Hat Enterprise Linux 7</td>
-<td class="org-left">`module.sig_enforce=1`</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Red Hat Enterprise Linux 8</td>
-<td class="org-left">`module.sig_enforce=1`</td>
-</tr>
-</tbody>
-</table>
 
 For releases with full 'secureboot' support, (7 and later), module signature
 verification is required unless explicitly stated by inverting the above kernel
@@ -257,13 +213,8 @@ boot parameter.
 
 When IMA is enabled, kernel module signing support is enforced.
 
+* Source
 
-<a id="org619928d"></a>
-
-# Source
-
-
-<a id="org7504faa"></a>
 
 # How the kernel loads the module.
 
@@ -279,6 +230,7 @@ modules that are labeled ?]
 
 An overview of the function calls in the 'useful' codepath.
 
+#+BEGIN_EXAMPLE
     init_module() 
      -> load_module() 
       -> module_sig_check()  <-- checks to see if it has a sig
@@ -286,10 +238,12 @@ An overview of the function calls in the 'useful' codepath.
           -> verify_pkcs7_signature() <-- chcks to see if its valid pkcs7
            -> pkcs7_verify_one()  <- checks a single signature (from the list)
             -> public_key_verify_signature() <- actual crypto done here.
+#+BEGIN_EXAMPLE
 
 There is provision for the secondary keychain (The comments here don't 
 seem to match the actual code), this is changed in later versions.
 
+#+BEGIN_SRC C
     mod_verify_sig() {
     
             /*
@@ -316,6 +270,7 @@ seem to match the actual code), this is changed in later versions.
     
     
     }
+#+END_SRC
 
 From initial research this appears to be the ".builtin\_trusted\_keys"
 keyring. But the Secondary keyring can also be built if configured at 
@@ -326,13 +281,13 @@ keychain, so.. its not simple.
 
 Listing the primary keys:
 
+#+BEGIN_SRC shell
     # keyctl list %:.builtin_trusted_keys 
+#+END_SRC
 
 These keys will only show when booted in secureboot mode with secureboot in
 a reputable state.
 
-
-<a id="org59e62e1"></a>
 
 # Failure modes.
 
@@ -341,6 +296,7 @@ controlled parameter to decide on the behavior.
 
 This is on the decided in module\_sig\_check: 
 
+#+BEGIN_SRC C
     static int module_sig_check(struct load_info *info, int flags) {
     
       err = mod_verify_sig(mod, info);
@@ -374,11 +330,9 @@ This is on the decided in module\_sig\_check:
     
       }
     }  
+#+END_SRC
 
 The code also heavily defaults to the 'lockdown' mode state.
-
-
-<a id="org8317702"></a>
 
 # Adding a second signature to the keychain for third party modules:
 
@@ -403,13 +357,12 @@ console (the same that was generated when the key was created).
 This allows local users to be able to add keys to the system keychain that
 are able to be used to validate signatures of kernel modules.
 
-
-<a id="org950203f"></a>
-
 # Creating a public and private key
 
 Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
+
+#+BEGIN_EXAMPLE
 
     [ req ]
     default_bits = 4096
@@ -429,21 +382,27 @@ modifying O and CN options.
     subjectKeyIdentifier=hash
     authorityKeyIdentifier=keyid
     EOF
+    
+#+END_EXAMPLE
+
 
 From this file use openssl to generate a public and private key pairs which can
 be used to sign the kernel module and also enrolled in the systems "MOK" keychain.
 
+#+BEGIN_SRC C
     # openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ > -keyout  private_key.priv
+#+END_SRC
 
 The openssl command should create two files, public\_key.der and
 private\_key.priv.
 
 
-<a id="org13dfc90"></a>
 
 # Enrolling the key into the MOK keychain.
 
+#+BEGIN_SRC C
     # mokutil --import public_key.der
+#+END_SRC
 
 You will be asked to enter and confirm a password for this MOK enrollment
 request.
@@ -460,6 +419,7 @@ on all future boots (until cleared) while secureboot is enabled.
 
 For example the "Wades own very special kmod v01" singing key:
 
+#+BEGIN_SRC shell
     # keyctl list %:.system_keyring
     6 keys in keyring:
     ...asymmetric: Red Hat Enterprise Linux Driver Update Program (key 3): bf57f3e87...
@@ -470,9 +430,8 @@ For example the "Wades own very special kmod v01" singing key:
     ...asymmetric: Red Hat Enterprise Linux kernel signing key: 4249689eefc77e95880b...
     ...asymmetric: Red Hat Enterprise Linux kpatch signing key: 4d38fd864ebe18c5f0b7...
     ...asymmetric: Wades own very special kmod v01 signing key: c4ae92e16da94228cd9e...
+#+END_SRC
 
-
-<a id="orgc41e782"></a>
 
 # Signing a kernel module
 
@@ -481,7 +440,9 @@ script included in the kernel source ./scripts/ directory which provides
 compatible a compatible signing technique that is able to be used for 'out of
 tree' built kernel modules.  An example of singing my\_module
 
+#+BEGIN_SRC shell
     perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
+#+END_SRC
 
 After the signature has been applied, the modinfo command should show the
 newly applied signature in its output.
@@ -490,13 +451,10 @@ Note:  The signing process does not need to be on the machine where the
 module will be loaded.  Module signing keys should be adequately secured with best
 practices for public/private keys.
 
-
-<a id="org92dc606"></a>
-
 # Additional Resources:
 
 [Red Hat guide for Secure
-boot](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>) 
+boot](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>)
 
 [Adding a secondary sign to a Out of Tree kernel module](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>)
 
