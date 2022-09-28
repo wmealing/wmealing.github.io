@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-28 Wed 14:23 -->
+<!-- 2022-09-28 Wed 14:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
@@ -203,24 +203,25 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org80f3513">What is a “signed” kernel module?</a></li>
-<li><a href="#orgdb54187">How is it signed ?</a></li>
-<li><a href="#orgb6c1a2e">Kernel modules information.</a>
+<li><a href="#orgcb0fc20">What is a “signed” kernel module?</a></li>
+<li><a href="#org3f7b9b5">How is it signed ?</a></li>
+<li><a href="#org27c888b">Kernel modules information.</a>
 <ul>
-<li><a href="#orga95e794">Module location</a></li>
-<li><a href="#org56c50e7">Loading kernel modules.</a></li>
-<li><a href="#org0f6ab5c">The signature</a></li>
+<li><a href="#orgce4a446">Module location</a></li>
+<li><a href="#org6634bda">Loading kernel modules.</a></li>
+<li><a href="#org7ce11b4">The signature</a></li>
 </ul>
 </li>
-<li><a href="#org16bcb4d">Source</a></li>
+<li><a href="#org29ae707">Source</a></li>
+<li><a href="#org45c0cd7">Additional Resources:</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org80f3513" class="outline-2">
-<h2 id="org80f3513">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-org80f3513">
+<div id="outline-container-orgcb0fc20" class="outline-2">
+<h2 id="orgcb0fc20">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-orgcb0fc20">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -244,9 +245,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </div>
 
 
-<div id="outline-container-orgdb54187" class="outline-2">
-<h2 id="orgdb54187">How is it signed ?</h2>
-<div class="outline-text-2" id="text-orgdb54187">
+<div id="outline-container-org3f7b9b5" class="outline-2">
+<h2 id="org3f7b9b5">How is it signed ?</h2>
+<div class="outline-text-2" id="text-org3f7b9b5">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -303,13 +304,13 @@ signatures.
 
 
 
-<div id="outline-container-orgb6c1a2e" class="outline-2">
-<h2 id="orgb6c1a2e">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-orgb6c1a2e">
+<div id="outline-container-org27c888b" class="outline-2">
+<h2 id="org27c888b">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org27c888b">
 </div>
-<div id="outline-container-orga95e794" class="outline-3">
-<h3 id="orga95e794">Module location</h3>
-<div class="outline-text-3" id="text-orga95e794">
+<div id="outline-container-orgce4a446" class="outline-3">
+<h3 id="orgce4a446">Module location</h3>
+<div class="outline-text-3" id="text-orgce4a446">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -326,9 +327,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </div>
 
 
-<div id="outline-container-org56c50e7" class="outline-3">
-<h3 id="org56c50e7">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-org56c50e7">
+<div id="outline-container-org6634bda" class="outline-3">
+<h3 id="org6634bda">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-org6634bda">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -349,13 +350,13 @@ depmod to locate the relevant module to meet the kernels request.
 </div>
 </div>
 
-<div id="outline-container-org0f6ab5c" class="outline-3">
-<h3 id="org0f6ab5c">The signature</h3>
-<div class="outline-text-3" id="text-org0f6ab5c">
+<div id="outline-container-org7ce11b4" class="outline-3">
+<h3 id="org7ce11b4">The signature</h3>
+<div class="outline-text-3" id="text-org7ce11b4">
 </div>
-<div id="outline-container-orgc3a1be0" class="outline-4">
-<h4 id="orgc3a1be0">Signature metadata.</h4>
-<div class="outline-text-4" id="text-orgc3a1be0">
+<div id="outline-container-orgfcf511d" class="outline-4">
+<h4 id="orgfcf511d">Signature metadata.</h4>
+<div class="outline-text-4" id="text-orgfcf511d">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
@@ -406,7 +407,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="orgae069c4">
+<pre class="example" id="orge4f2247">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -517,9 +518,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 
-<div id="outline-container-org16bcb4d" class="outline-2">
-<h2 id="org16bcb4d">Source</h2>
-<div class="outline-text-2" id="text-org16bcb4d">
+<div id="outline-container-org29ae707" class="outline-2">
+<h2 id="org29ae707">Source</h2>
+<div class="outline-text-2" id="text-org29ae707">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -540,7 +541,7 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="org4c10c44">
+<pre class="example" id="org570ca29">
 init_module() 
  -&gt; load_module() 
   -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
@@ -699,7 +700,7 @@ Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
 </p>
 
-<pre class="example" id="orgb00bd82">
+<pre class="example" id="org1dd6ac0">
 
 [ req ]
 default_bits = 4096
@@ -805,7 +806,12 @@ Note:  The signing process does not need to be on the machine where the
 module will be loaded.  Module signing keys should be adequately secured with best
 practices for public/private keys.
 </p>
+</div>
+</div>
 
+<div id="outline-container-org45c0cd7" class="outline-2">
+<h2 id="org45c0cd7">Additional Resources:</h2>
+<div class="outline-text-2" id="text-org45c0cd7">
 <p>
 <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Red Hat Guide for secure boot</a>
 </p>
@@ -826,7 +832,7 @@ practices for public/private keys.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-09-28 Wed 14:23</p>
+<p class="date">Created: 2022-09-28 Wed 14:25</p>
 </div>
 </body>
 </html>

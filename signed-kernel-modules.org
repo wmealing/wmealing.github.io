@@ -449,7 +449,7 @@ Note:  The signing process does not need to be on the machine where the
 module will be loaded.  Module signing keys should be adequately secured with best
 practices for public/private keys.
 
-# Additional Resources:
+* Additional Resources:
 
 [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot][Red Hat Guide for secure boot]]
 
