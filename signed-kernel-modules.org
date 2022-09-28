@@ -396,8 +396,6 @@ be used to sign the kernel module and also enrolled in the systems "MOK" keychai
 The openssl command should create two files, public\_key.der and
 private\_key.priv.
 
-
-
 # Enrolling the key into the MOK keychain.
 
 #+BEGIN_SRC C
@@ -453,12 +451,12 @@ practices for public/private keys.
 
 # Additional Resources:
 
-[Red Hat guide for Secure
-boot](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>)
+[[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot][Red Hat Guide for secure boot]]
 
-[Adding a secondary sign to a Out of Tree kernel module](<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot>)
+[[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot][Adding a secondary sign to out of tree kernel module]]
 
-[The kernel security subsystem manual (keyring subsection)](<https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf>)
+[[https://mchehab.fedorapeople.org/kernel_docs_pdf/security.pdf][Kernel security subsystem (keyring section)]]
 
-[Secondary trusted keyring ( SECONDARY\_TRUSTED\_KEYRING )](<https://lore.kernel.org/patchwork/patch/665795/>)
+[[https://lore.kernel.org/patchwork/patch/665795/][Secondary trusted keyring ( SECONDARY_TRUSTED_KEYRING )]]
+
 
