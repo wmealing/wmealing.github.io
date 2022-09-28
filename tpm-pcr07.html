@@ -3,11 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-28 Wed 13:52 -->
+<!-- 2022-09-28 Wed 14:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
-<meta name="author" content="Wade Mealing" />
+<title>PCRS on Red Hat Enterprise Linux.</title>
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -193,26 +192,12 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { width: 90%; }
 </style>
+<link rel="stylesheet" href="tufte.css" type="text/css" />
+<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 </head>
 <body>
 <div id="content" class="content">
-<div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#org3105fda">1. PCRS on Red Hat Enterprise Linux.</a>
-<ul>
-<li><a href="#org65a0167">1.1. Option 1 : LUKS decryption on PCRS validation.</a></li>
-<li><a href="#orge1668df">1.2. Option 2: Integrity Measurement Architecture (IMA).</a></li>
-<li><a href="#orga1b30bc">1.3. Additional Information:</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org3105fda" class="outline-2">
-<h2 id="org3105fda"><span class="section-number-2">1.</span> PCRS on Red Hat Enterprise Linux.</h2>
-<div class="outline-text-2" id="text-1">
+<h1 class="title">PCRS on Red Hat Enterprise Linux.</h1>
 <p>
 Most modern systems have a TPM implemented in hardware of the system that is frequently used as a method to ensure platform integrity of system level components.
 </p>
@@ -224,11 +209,10 @@ TPM status is communicated with the operating system through “Trusted Platform
 <p>
 Some attacks may modify the boot process to gain additional privileges while the system is running.
 </p>
-</div>
 
-<div id="outline-container-org65a0167" class="outline-3">
-<h3 id="org65a0167"><span class="section-number-3">1.1.</span> Option 1 : LUKS decryption on PCRS validation.</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-org53012c3" class="outline-2">
+<h2 id="org53012c3">Option 1 : LUKS decryption on PCRS validation.</h2>
+<div class="outline-text-2" id="text-org53012c3">
 <p>
 As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
 </p>
@@ -254,9 +238,9 @@ The device will fail to decrypt at boot time if the PCR has changed between the 
 </div>
 
 
-<div id="outline-container-orge1668df" class="outline-3">
-<h3 id="orge1668df"><span class="section-number-3">1.2.</span> Option 2: Integrity Measurement Architecture (IMA).</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-orgda92545" class="outline-2">
+<h2 id="orgda92545">Option 2: Integrity Measurement Architecture (IMA).</h2>
+<div class="outline-text-2" id="text-orgda92545">
 <p>
 The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
 </p>
@@ -266,11 +250,11 @@ The Red Hat Enterprise Linux 8 documentation covers setting up IMA, please follo
 </p>
 
 <p>
-Once configured, the boot<sub>aggregate</sub> line in /sys/kernel/security/ima/ascii<sub>runtime</sub><sub>measurements</sub> has a value that will be shown as different when changes to the TPM are made between system boots.  
+Once configured, the boot_aggregate line in /sys/kernel/security/ima/ascii_runtime_measurements has a value that will be shown as different when changes to the TPM are made between system boots.  
 </p>
 
 <p>
-The boot<sub>aggregate</sub> entry format depends on the template chosen, being the default for RHEL-8 the following one: 
+The boot_aggregate entry format depends on the template chosen, being the default for RHEL-8 the following one: 
 </p>
 
 <div class="org-src-container">
@@ -289,9 +273,9 @@ There may be a method to fail the boot on this aggregate being different but I d
 </div>
 </div>
 
-<div id="outline-container-orga1b30bc" class="outline-3">
-<h3 id="orga1b30bc"><span class="section-number-3">1.3.</span> Additional Information:</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-org497d49a" class="outline-2">
+<h2 id="org497d49a">Additional Information:</h2>
+<div class="outline-text-2" id="text-org497d49a">
 <p>
 [Wikipedia on TPM](<a href="https://en.wikipedia.org/wiki/Trusted_Platform_Module">https://en.wikipedia.org/wiki/Trusted_Platform_Module</a>)
 </p>
@@ -317,11 +301,6 @@ There may be a method to fail the boot on this aggregate being different but I d
 </p>
 </div>
 </div>
-</div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-09-28 Wed 13:52</p>
 </div>
 </body>
 </html>
