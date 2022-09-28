@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-28 Wed 14:16 -->
+<!-- 2022-09-28 Wed 14:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
@@ -203,24 +203,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org498e327">What is a “signed” kernel module?</a></li>
-<li><a href="#org6d5323c">How is it signed ?</a></li>
-<li><a href="#orgeaa2766">Kernel modules information.</a>
+<li><a href="#org02545ca">What is a “signed” kernel module?</a></li>
+<li><a href="#org61d36f1">How is it signed ?</a></li>
+<li><a href="#org08073e4">Kernel modules information.</a>
 <ul>
-<li><a href="#org5214f02">Module location</a></li>
-<li><a href="#org87713c9">Loading kernel modules.</a></li>
-<li><a href="#org7a1142c">The signature</a></li>
+<li><a href="#org05486a8">Module location</a></li>
+<li><a href="#org26b096b">Loading kernel modules.</a></li>
+<li><a href="#org3fb0065">The signature</a></li>
 </ul>
 </li>
-<li><a href="#org576a00a">Source</a></li>
+<li><a href="#org8e1fec6">Source</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org498e327" class="outline-2">
-<h2 id="org498e327">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-org498e327">
+<div id="outline-container-org02545ca" class="outline-2">
+<h2 id="org02545ca">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-org02545ca">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -244,9 +244,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </div>
 
 
-<div id="outline-container-org6d5323c" class="outline-2">
-<h2 id="org6d5323c">How is it signed ?</h2>
-<div class="outline-text-2" id="text-org6d5323c">
+<div id="outline-container-org61d36f1" class="outline-2">
+<h2 id="org61d36f1">How is it signed ?</h2>
+<div class="outline-text-2" id="text-org61d36f1">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -303,13 +303,13 @@ signatures.
 
 
 
-<div id="outline-container-orgeaa2766" class="outline-2">
-<h2 id="orgeaa2766">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-orgeaa2766">
+<div id="outline-container-org08073e4" class="outline-2">
+<h2 id="org08073e4">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org08073e4">
 </div>
-<div id="outline-container-org5214f02" class="outline-3">
-<h3 id="org5214f02">Module location</h3>
-<div class="outline-text-3" id="text-org5214f02">
+<div id="outline-container-org05486a8" class="outline-3">
+<h3 id="org05486a8">Module location</h3>
+<div class="outline-text-3" id="text-org05486a8">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -326,9 +326,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </div>
 
 
-<div id="outline-container-org87713c9" class="outline-3">
-<h3 id="org87713c9">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-org87713c9">
+<div id="outline-container-org26b096b" class="outline-3">
+<h3 id="org26b096b">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-org26b096b">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -349,13 +349,13 @@ depmod to locate the relevant module to meet the kernels request.
 </div>
 </div>
 
-<div id="outline-container-org7a1142c" class="outline-3">
-<h3 id="org7a1142c">The signature</h3>
-<div class="outline-text-3" id="text-org7a1142c">
+<div id="outline-container-org3fb0065" class="outline-3">
+<h3 id="org3fb0065">The signature</h3>
+<div class="outline-text-3" id="text-org3fb0065">
 </div>
-<div id="outline-container-org72c4b21" class="outline-4">
-<h4 id="org72c4b21">Signature metadata.</h4>
-<div class="outline-text-4" id="text-org72c4b21">
+<div id="outline-container-org1f5ff31" class="outline-4">
+<h4 id="org1f5ff31">Signature metadata.</h4>
+<div class="outline-text-4" id="text-org1f5ff31">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
@@ -406,7 +406,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="org6665776">
+<pre class="example" id="org36866f2">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -517,9 +517,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 
-<div id="outline-container-org576a00a" class="outline-2">
-<h2 id="org576a00a">Source</h2>
-<div class="outline-text-2" id="text-org576a00a">
+<div id="outline-container-org8e1fec6" class="outline-2">
+<h2 id="org8e1fec6">Source</h2>
+<div class="outline-text-2" id="text-org8e1fec6">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -540,159 +540,186 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="orgf870f62">
-    init_module() 
-     -&gt; load_module() 
-      -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
-        -&gt; mod_verify_sig()   &lt;--- verify the signature.
-          -&gt; verify_pkcs7_signature() &lt;-- chcks to see if its valid pkcs7
-           -&gt; pkcs7_verify_one()  &lt;- checks a single signature (from the list)
-            -&gt; public_key_verify_signature() &lt;- actual crypto done here.
-#+BEGIN_EXAMPLE
+<pre class="example" id="orgddc0454">
+init_module() 
+ -&gt; load_module() 
+  -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
+    -&gt; mod_verify_sig()   &lt;--- verify the signature.
+      -&gt; verify_pkcs7_signature() &lt;-- chcks to see if its valid pkcs7
+       -&gt; pkcs7_verify_one()  &lt;- checks a single signature (from the list)
+        -&gt; public_key_verify_signature() &lt;- actual crypto done here.
+</pre>
 
+<p>
 There is provision for the secondary keychain (The comments here don't 
 seem to match the actual code), this is changed in later versions.
+</p>
 
-#+BEGIN_SRC C
-    mod_verify_sig() {
-    
-            /*
-          * Check signature using built-in trusted keys and, if configured,
-          * secondary trusted keys.
-          */
-         err =  verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
-                                       VERIFY_USE_SECONDARY_KEYRING,
-                                       VERIFYING_MODULE_SIGNATURE,
-                                       NULL, NULL);
-         if (IS_ENABLED(CONFIG_INTEGRITY_PLATFORM_KEYRING) &amp;&amp; err) {
-                 /*
-                  * Check signature using platform trusted keys. This does
-                  * not consider the built-in keys, so must be done separately
-                  * from above, if possible and necessary.
-                  */
-                 err =  verify_pkcs7_signature(mod, modlen, mod + modlen,
-                                               sig_len,
-                                               VERIFY_USE_PLATFORM_KEYRING,
-                                               VERIFYING_MODULE_SIGNATURE,
-                                               NULL, NULL);
-         }
-         return err;
-    
-    
-    }
-#+END_SRC
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #00ede1; font-weight: bold;">mod_verify_sig</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
 
+        <span style="color: #74af68;">/*</span>
+<span style="color: #74af68;">      * Check signature using built-in trusted keys and, if configured,</span>
+<span style="color: #74af68;">      * secondary trusted keys.</span>
+<span style="color: #74af68;">      */</span>
+     err =  verify_pkcs7_signature<span style="color: #93a8c6;">(</span>mod, modlen, mod + modlen, sig_len,
+                                   VERIFY_USE_SECONDARY_KEYRING,
+                                   VERIFYING_MODULE_SIGNATURE,
+                                   <span style="color: #008b8b;">NULL</span>, <span style="color: #008b8b;">NULL</span><span style="color: #93a8c6;">)</span>;
+     <span style="color: #ffad29; font-weight: bold;">if</span> <span style="color: #93a8c6;">(</span>IS_ENABLED<span style="color: #b0b1a3;">(</span>CONFIG_INTEGRITY_PLATFORM_KEYRING<span style="color: #b0b1a3;">)</span> &amp;&amp; err<span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
+             <span style="color: #74af68;">/*</span>
+<span style="color: #74af68;">              * Check signature using platform trusted keys. This does</span>
+<span style="color: #74af68;">              * not consider the built-in keys, so must be done separately</span>
+<span style="color: #74af68;">              * from above, if possible and necessary.</span>
+<span style="color: #74af68;">              */</span>
+             err =  verify_pkcs7_signature<span style="color: #b0b1a3;">(</span>mod, modlen, mod + modlen,
+                                           sig_len,
+                                           VERIFY_USE_PLATFORM_KEYRING,
+                                           VERIFYING_MODULE_SIGNATURE,
+                                           <span style="color: #008b8b;">NULL</span>, <span style="color: #008b8b;">NULL</span><span style="color: #b0b1a3;">)</span>;
+     <span style="color: #93a8c6;">}</span>
+     <span style="color: #ffad29; font-weight: bold;">return</span> err;
+
+
+<span style="color: #8c8c8c;">}</span>
+</pre>
+</div>
+
+<p>
 From initial research this appears to be the ".builtin\_trusted\_keys"
 keyring. But the Secondary keyring can also be built if configured at 
 build time.  (This is not the case in RHEL systems).
+</p>
 
+<p>
 This secondary keychain must also be trusted by a signer in the primary
 keychain, so.. its not simple.
+</p>
 
+<p>
 Listing the primary keys:
+</p>
 
-#+BEGIN_SRC shell
-    # keyctl list %:.builtin_trusted_keys 
-#+END_SRC
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #74af68;"># </span><span style="color: #74af68;">keyctl list %:.builtin_trusted_keys </span>
+</pre>
+</div>
 
+<p>
 These keys will only show when booted in secureboot mode with secureboot in
 a reputable state.
+</p>
 
 
-# Failure modes.
-
+<p>
 The kernel module signature check 'fails closed' leaving it up to the admin
 controlled parameter to decide on the behavior.
+</p>
 
+<p>
 This is on the decided in module\_sig\_check: 
+</p>
 
-#+BEGIN_SRC C
-    static int module_sig_check(struct load_info *info, int flags) {
-    
-      err = mod_verify_sig(mod, info);
-    
-      switch(err) {
-    
-        case 0: /* module okay to load */
-           return 0;
-    
-        case -ENODATA: /* Loading of unsigned module */
-           goto decide;
-    
-        case -ENOPKG:  /* Unknown crypto on module */
-           goto decide;
-    
-        case -ENOKEY:  /* unavailable key (not in current chain */
-           goto decide;
-    
-        decide:
-          if (is_module_sig_enforced()) {
-                    pr_notice("%s: %s is rejected\n", info-&gt;name, reason);
-                    return -EKEYREJECTED;
-          }
-    
-          return security_locked_down(LOCKDOWN_MODULE_SIGNATURE);
-    
-          /* All other errors are fatal, including nomem, unparseable */
-    
-        default:
-          return err;
-    
-      }
-    }  
-#+END_SRC
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #ffad29; font-weight: bold;">static</span> <span style="color: #34cae2;">int</span> <span style="color: #00ede1; font-weight: bold;">module_sig_check</span><span style="color: #8c8c8c;">(</span><span style="color: #ffad29; font-weight: bold;">struct</span> <span style="color: #34cae2;">load_info</span> *<span style="color: #dbdb95; font-weight: bold;">info</span>, <span style="color: #34cae2;">int</span> <span style="color: #dbdb95; font-weight: bold;">flags</span><span style="color: #8c8c8c;">)</span> <span style="color: #8c8c8c;">{</span>
 
+  err = mod_verify_sig<span style="color: #93a8c6;">(</span>mod, info<span style="color: #93a8c6;">)</span>;
+
+  <span style="color: #ffad29; font-weight: bold;">switch</span><span style="color: #93a8c6;">(</span>err<span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
+
+    <span style="color: #ffad29; font-weight: bold;">case</span> 0: <span style="color: #74af68;">/* </span><span style="color: #74af68;">module okay to load</span><span style="color: #74af68;"> */</span>
+       <span style="color: #ffad29; font-weight: bold;">return</span> 0;
+
+    <span style="color: #ffad29; font-weight: bold;">case</span> -ENODATA: <span style="color: #74af68;">/* </span><span style="color: #74af68;">Loading of unsigned module</span><span style="color: #74af68;"> */</span>
+       <span style="color: #ffad29; font-weight: bold;">goto</span> <span style="color: #008b8b;">decide</span>;
+
+    <span style="color: #ffad29; font-weight: bold;">case</span> -ENOPKG:  <span style="color: #74af68;">/* </span><span style="color: #74af68;">Unknown crypto on module</span><span style="color: #74af68;"> */</span>
+       <span style="color: #ffad29; font-weight: bold;">goto</span> <span style="color: #008b8b;">decide</span>;
+
+    <span style="color: #ffad29; font-weight: bold;">case</span> -ENOKEY:  <span style="color: #74af68;">/* </span><span style="color: #74af68;">unavailable key (not in current chain</span><span style="color: #74af68;"> */</span>
+       <span style="color: #ffad29; font-weight: bold;">goto</span> <span style="color: #008b8b;">decide</span>;
+
+    <span style="color: #008b8b;">decide</span>:
+      <span style="color: #ffad29; font-weight: bold;">if</span> <span style="color: #b0b1a3;">(</span>is_module_sig_enforced<span style="color: #97b098;">()</span><span style="color: #b0b1a3;">)</span> <span style="color: #b0b1a3;">{</span>
+                pr_notice<span style="color: #97b098;">(</span><span style="color: #e67128;">"%s: %s is rejected</span><span style="color: #FFFFFF; font-weight: bold;">\</span><span style="color: #FFFFFF; font-weight: bold;">n</span><span style="color: #e67128;">"</span>, info-&gt;name, reason<span style="color: #97b098;">)</span>;
+                <span style="color: #ffad29; font-weight: bold;">return</span> -EKEYREJECTED;
+      <span style="color: #b0b1a3;">}</span>
+
+      <span style="color: #ffad29; font-weight: bold;">return</span> security_locked_down<span style="color: #b0b1a3;">(</span>LOCKDOWN_MODULE_SIGNATURE<span style="color: #b0b1a3;">)</span>;
+
+      <span style="color: #74af68;">/* </span><span style="color: #74af68;">All other errors are fatal, including nomem, unparseable</span><span style="color: #74af68;"> */</span>
+
+    <span style="color: #ffad29; font-weight: bold;">default</span>:
+      <span style="color: #ffad29; font-weight: bold;">return</span> err;
+
+  <span style="color: #93a8c6;">}</span>
+<span style="color: #8c8c8c;">}</span>  
+</pre>
+</div>
+
+<p>
 The code also heavily defaults to the 'lockdown' mode state.
+</p>
 
-# Adding a second signature to the keychain for third party modules:
-
+<p>
 If the system is not UEFI-based or if UEFI Secure Boot is not
 enabled, then only the keys that are embedded in the kernel are loaded onto the
 system key ring and you have no ability to augment that set of keys without
 rebuilding the kernel and signing all kernel modules with your own key.
+</p>
 
+<p>
 However, if you do have secureboot as an option.
+</p>
 
+<p>
 Secureboot has a provision for adding 'additional' keys to the 'platform'
 keyring, it uses a Machine Owner Key (MOK) to add additional keys to the UEFI
 secure boot database, adding them to 'system' keyring for use.
+</p>
 
+<p>
 The Red Hat Enterprise Linux boot process uses the shim.efi, MokManager.efi,
 grubx64.efi and each of these supports the "MOK" style keyring addition.
+</p>
 
+<p>
 Once a key has been added to generated and added to the via mokutil, on the
 next reboot the user will required to input a passphrase at the physical
 console (the same that was generated when the key was created).
+</p>
 
+<p>
 This allows local users to be able to add keys to the system keychain that
 are able to be used to validate signatures of kernel modules.
+</p>
 
-# Creating a public and private key
-
+<p>
 Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
+</p>
 
-#+BEGIN_EXAMPLE
+<pre class="example" id="org0443483">
 
-    [ req ]
-    default_bits = 4096
-    distinguished_name = req_distinguished_name
-    prompt = no
-    string_mask = utf8only
-    x509_extensions = myexts
-    
-    [ req_distinguished_name ]
-    O = Organization
-    CN = Organization signing key
-    emailAddress = E-mail address
-    
-    [ myexts ]
-    basicConstraints=critical,CA:FALSE
-    keyUsage=digitalSignature
-    subjectKeyIdentifier=hash
-    authorityKeyIdentifier=keyid
-    EOF
-    
+[ req ]
+default_bits = 4096
+distinguished_name = req_distinguished_name
+prompt = no
+string_mask = utf8only
+x509_extensions = myexts
+
+[ req_distinguished_name ]
+O = Organization
+CN = Organization signing key
+emailAddress = E-mail address
+
+[ myexts ]
+basicConstraints=critical,CA:FALSE
+keyUsage=digitalSignature
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid
+EOF
+
 </pre>
 
 
@@ -802,7 +829,7 @@ boot](<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-09-28 Wed 14:16</p>
+<p class="date">Created: 2022-09-28 Wed 14:18</p>
 </div>
 </body>
 </html>

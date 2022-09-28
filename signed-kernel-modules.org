@@ -238,7 +238,7 @@ An overview of the function calls in the 'useful' codepath.
           -> verify_pkcs7_signature() <-- chcks to see if its valid pkcs7
            -> pkcs7_verify_one()  <- checks a single signature (from the list)
             -> public_key_verify_signature() <- actual crypto done here.
-#+BEGIN_EXAMPLE
+#+END_EXAMPLE
 
 There is provision for the secondary keychain (The comments here don't 
 seem to match the actual code), this is changed in later versions.
