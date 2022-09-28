@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-28 Wed 13:52 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Wade Mealing" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3105fda">1. PCRS on Red Hat Enterprise Linux.</a>
+<ul>
+<li><a href="#org65a0167">1.1. Option 1 : LUKS decryption on PCRS validation.</a></li>
+<li><a href="#orge1668df">1.2. Option 2: Integrity Measurement Architecture (IMA).</a></li>
+<li><a href="#orga1b30bc">1.3. Additional Information:</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3105fda" class="outline-2">
+<h2 id="org3105fda"><span class="section-number-2">1.</span> PCRS on Red Hat Enterprise Linux.</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Most modern systems have a TPM implemented in hardware of the system that is frequently used as a method to ensure platform integrity of system level components.
+</p>
+
+<p>
+TPM status is communicated with the operating system through “Trusted Platform Configuration Register (PCR) settings.   The TPM has several different PCR which are used for different, specific purposes. Some of these registers are intended to be used as hardware and software validation methods to ensure that an “Evil maid” attack has not taken place between boots.
+</p>
+
+<p>
+Some attacks may modify the boot process to gain additional privileges while the system is running.
+</p>
+</div>
+
+<div id="outline-container-org65a0167" class="outline-3">
+<h3 id="org65a0167"><span class="section-number-3">1.1.</span> Option 1 : LUKS decryption on PCRS validation.</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
+</p>
+
+<p>
+Any block devices that are configured to ‘bind’ against these PCRs will fail to decrypt.  
+</p>
+
+<p>
+For example, if /dev/sda3 was required to validate against PCR 7 with the command:
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #74af68;"># </span><span style="color: #74af68;">clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'</span>
+</pre>
+</div>
+
+<p>
+The device will fail to decrypt at boot time if the PCR has changed between the time that the command was issued and boot.  Using PCR 7 specifically means that operating system upgrades will not affect the ability of a system to booth.  Other PCR’s may be reset or modified.  If an attacker manages to evade secure boot PCR-7 will be modified.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orge1668df" class="outline-3">
+<h3 id="orge1668df"><span class="section-number-3">1.2.</span> Option 2: Integrity Measurement Architecture (IMA).</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
+</p>
+
+<p>
+The Red Hat Enterprise Linux 8 documentation covers setting up IMA, please follow this guide for initial configuration of IMA in the environment.
+</p>
+
+<p>
+Once configured, the boot<sub>aggregate</sub> line in /sys/kernel/security/ima/ascii<sub>runtime</sub><sub>measurements</sub> has a value that will be shown as different when changes to the TPM are made between system boots.  
+</p>
+
+<p>
+The boot<sub>aggregate</sub> entry format depends on the template chosen, being the default for RHEL-8 the following one: 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ cat /sys/kernel/security/ima/ascii_runtime_measurements | grep boot_aggregate
+10 ef2be9c304d9bbbd8ecb40f0d296176d2b5d3078 ima-ng sha1:4663ed64e5dbbb9755a0914b1a15fa76a1797806 boot_aggregate
+</pre>
+</div>
+
+<p>
+Once a known good value is obtained, this aggregate will persist between reboots of the same boot shim/ bootloader and kernel.  Periodically comparing this value to known trusted states will ensure the system is in a known-good state.
+</p>
+
+<p>
+There may be a method to fail the boot on this aggregate being different but I do not know it yet. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga1b30bc" class="outline-3">
+<h3 id="orga1b30bc"><span class="section-number-3">1.3.</span> Additional Information:</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+[Wikipedia on TPM](<a href="https://en.wikipedia.org/wiki/Trusted_Platform_Module">https://en.wikipedia.org/wiki/Trusted_Platform_Module</a>)
+</p>
+
+<p>
+[MJG on TPM](<a href="https://mjg59.dreamwidth.org/48897.html">https://mjg59.dreamwidth.org/48897.html</a>)
+</p>
+
+<p>
+[TPM spec](<a href="https://trustedcomputinggroup.org/wp-content/uploads/PC-ClientSpecific_Platform_Profile_for_TPM_2p0_Systems_v51.pdf">https://trustedcomputinggroup.org/wp-content/uploads/PC-ClientSpecific_Platform_Profile_for_TPM_2p0_Systems_v51.pdf</a>)
+</p>
+
+<p>
+[TPM unlucking](<a href="https://blog.dowhile0.org/2017/10/18/automatic-luks-volumes-unlocking-using-a-tpm2-chip/">https://blog.dowhile0.org/2017/10/18/automatic-luks-volumes-unlocking-using-a-tpm2-chip/</a>)
+</p>
+
+<p>
+[Red Hats guide on TPM and Security](<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel</a>)
+</p>
+
+<p>
+[LWN](<a href="https://lwn.net/Articles/137306/">https://lwn.net/Articles/137306/</a>)
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Wade Mealing</p>
+<p class="date">Created: 2022-09-28 Wed 13:52</p>
+</div>
+</body>
+</html>
