@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-10-23 Sun 00:02 -->
+<!-- 2022-10-23 Sun 00:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lfe Flavored Erlang Gen Server</title>
@@ -214,9 +214,9 @@ Think of it like a 'program skeleton'.  There are other "x-server" relatives in 
 mac daddy of them all.
 </p>
 
-<div id="outline-container-org1a6f3af" class="outline-3">
-<h3 id="org1a6f3af">What is a gen server ?</h3>
-<div class="outline-text-3" id="text-org1a6f3af">
+<div id="outline-container-org9c5ee95" class="outline-3">
+<h3 id="org9c5ee95">What is a gen server ?</h3>
+<div class="outline-text-3" id="text-org9c5ee95">
 <p>
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 </p>
@@ -258,7 +258,7 @@ your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fix
 that you read this, you can find the bugreport <a href="https://github.com/lfe/rebar3_lfe/issues/72">here</a>.
 </p>
 
-<pre class="example" id="org00c5669">
+<pre class="example" id="org4b8cf9d">
 {deps, [
     {lfe, "2.0.1"},
     {ltest, "0.13.0"}
@@ -305,9 +305,7 @@ Using your editor create a file <code>pseudobank/tests/pseudobank-tests.lfe</cod
 <span style="color: #D05010;">;;; </span><span style="color: #D05010;">-----------</span>
 <span style="color: #FF4F00;">(</span>deftest account-server-starts
     <span style="color: #E14400;">(</span><span style="color: #FF5A00;">let</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span><span style="color: #FF4F00;">(</span>tuple 'ok pid<span style="color: #FF4F00;">)</span> <span style="color: #FF4F00;">(</span>account:start<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-      <span style="color: #D04000;">(</span>is <span style="color: #AA3A00;">(</span>is_pid pid<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span>
-  <span style="color: #FF4F00;">)</span>
-
+      <span style="color: #D04000;">(</span>is <span style="color: #AA3A00;">(</span>is_pid pid<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
 </pre>
 </div>
 
@@ -401,7 +399,7 @@ startup code used for any gen_server.
 Now when you run the test, we can see the test fails.
 </p>
 
-<pre class="example" id="org6e777b6">
+<pre class="example" id="org1aad4ab">
 module: pseudobank-tests
   module 'pseudobank-tests' ....................................... [fail]
 
@@ -451,7 +449,7 @@ If it returns #(error anything), thats a good sign that the initialization proce
 Now when we run the test again:
 </p>
 
-<pre class="example" id="org5b92463">
+<pre class="example" id="orgec8876e">
 module: pseudobank-tests
   module 'pseudobank-tests' ......................................... [ok]
 </pre>
@@ -462,9 +460,9 @@ We can see the test passes.
 </div>
 </div>
 
-<div id="outline-container-org2bbe340" class="outline-3">
-<h3 id="org2bbe340">Getting the balance</h3>
-<div class="outline-text-3" id="text-org2bbe340">
+<div id="outline-container-org6ac63b8" class="outline-3">
+<h3 id="org6ac63b8">Getting the balance</h3>
+<div class="outline-text-3" id="text-org6ac63b8">
 <p>
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 </p>
@@ -505,7 +503,7 @@ goodies, but its something to work from.
 
 <div class="org-src-container">
 <pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">get-balance</span> <span style="color: #E14400;">()</span>
-    0<span style="color: #FF4F00;">)</span>
+  0<span style="color: #FF4F00;">)</span>
 </pre>
 </div>
 
@@ -562,7 +560,7 @@ We can see the <code>CRASH REPORT</code> in the <code>undefined function account
 when the code is looking for handle_call, which we have not created.
 </p>
 
-<pre class="example" id="orgfebae8b">
+<pre class="example" id="org3b59e2f">
 =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
 crasher:
   initial call: account:init/1
@@ -601,7 +599,7 @@ Words that start with an underscore, means 'we dont care about it' so in this ca
 Now when we run the tests, we can see what it is returning.
 </p>
 
-<pre class="example" id="orga6528e2">
+<pre class="example" id="orge227033">
 account_server_starts_with_zero_balance ......................... [fail]
 
     Assertion failure:
@@ -647,9 +645,9 @@ test to deposit money into the account.
 </div>
 </div>
 
-<div id="outline-container-org86b5a52" class="outline-3">
-<h3 id="org86b5a52">Making a deposit.</h3>
-<div class="outline-text-3" id="text-org86b5a52">
+<div id="outline-container-orgb74f9a8" class="outline-3">
+<h3 id="orgb74f9a8">Making a deposit.</h3>
+<div class="outline-text-3" id="text-orgb74f9a8">
 <p>
 Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositing money.
 </p>
@@ -716,7 +714,7 @@ The return value from this match is the same format, we're not going to tell the
 we need to update the state in the most naive method.  Lets check the test run output:
 </p>
 
-<pre class="example" id="org2a8f657">
+<pre class="example" id="orgd49d311">
 module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
@@ -755,9 +753,9 @@ I'd say we had desposits nailed.
 </div>
 </div>
 
-<div id="outline-container-orgd31ccaa" class="outline-3">
-<h3 id="orgd31ccaa">Making a withdrawal</h3>
-<div class="outline-text-3" id="text-orgd31ccaa">
+<div id="outline-container-orgac7571c" class="outline-3">
+<h3 id="orgac7571c">Making a withdrawal</h3>
+<div class="outline-text-3" id="text-orgac7571c">
 <p>
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -827,8 +825,7 @@ And now the test..
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">
-account_server_withdrawal_works ................................. [fail]
+<pre class="src src-lisp">account_server_withdrawal_works ................................. [fail]
 
   Assertion failure:
   #<span style="color: #FF4F00;">(</span>assertEqual
@@ -848,9 +845,9 @@ we can run after the test finishes to reset the state.
 </div>
 </div>
 
-<div id="outline-container-orgddac561" class="outline-3">
-<h3 id="orgddac561">Withraw Interlude: gen_server shutdown.</h3>
-<div class="outline-text-3" id="text-orgddac561">
+<div id="outline-container-orgd6fb5d7" class="outline-3">
+<h3 id="orgd6fb5d7">Withraw Interlude: gen_server shutdown.</h3>
+<div class="outline-text-3" id="text-orgd6fb5d7">
 <p>
 As the LFE gen-server piggy backs on the <code>erlang</code> implementation of gen_server the
 <a href="https://www.erlang.org/doc/man/gen_server.html">stdlib reference manual</a> includes a method to shut down the server.
@@ -861,7 +858,7 @@ The manual goes into return values for <a href="https://www.erlang.org/doc/man/g
 can be terminated if handle_call returns the right tuple.
 </p>
 
-<pre class="example" id="orgae5149b">
+<pre class="example" id="orgab5e184">
 {stop,Reason,NewState}
 </pre>
 
@@ -947,9 +944,9 @@ withdraw and its rules
 </div>
 </div>
 
-<div id="outline-container-orgb7911ea" class="outline-3">
-<h3 id="orgb7911ea">Withdraw resumed:</h3>
-<div class="outline-text-3" id="text-orgb7911ea">
+<div id="outline-container-orgc43a9fc" class="outline-3">
+<h3 id="orgc43a9fc">Withdraw resumed:</h3>
+<div class="outline-text-3" id="text-orgc43a9fc">
 <p>
 Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
 you cant withdraw can not put it the account balance into negative value. Here's the test.
@@ -985,8 +982,7 @@ on if the amount is greater than the balance.
    <span style="color: #D05010;">;; </span><span style="color: #D05010;">true condition</span>
    `#<span style="color: #D04000;">(</span>reply ,'insufficient-funds ,state<span style="color: #D04000;">)</span>
    <span style="color: #D05010;">;; </span><span style="color: #D05010;">false condition</span>
-   `#<span style="color: #D04000;">(</span>reply ,'ok ,<span style="color: #AA3A00;">(</span>map-update state 'balance <span style="color: #FF4F00;">(</span>- <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-   <span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+   `#<span style="color: #D04000;">(</span>reply ,'ok ,<span style="color: #AA3A00;">(</span>map-update state 'balance <span style="color: #FF4F00;">(</span>- <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
 </pre>
 </div>
 
@@ -1025,9 +1021,9 @@ link right here soon.
 </div>
 </div>
 
-<div id="outline-container-org3287809" class="outline-2">
-<h2 id="org3287809">Resources:</h2>
-<div class="outline-text-2" id="text-org3287809">
+<div id="outline-container-org56a3d61" class="outline-2">
+<h2 id="org56a3d61">Resources:</h2>
+<div class="outline-text-2" id="text-org56a3d61">
 <ul class="org-ul">
 <li><a href="https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3</a></li>
 <li><a href="https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf">https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf</a></li>

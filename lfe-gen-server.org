@@ -86,9 +86,7 @@ Using your editor create a file =pseudobank/tests/pseudobank-tests.lfe=
   ;;; -----------
   (deftest account-server-starts
       (let (((tuple 'ok pid) (account:start)))
-        (is (is_pid pid)))
-    )
-
+        (is (is_pid pid))))
 #+end_src
 
 This test "starts" the gen_server (we're going to make one called account).  Like normal 'programs'
@@ -235,7 +233,7 @@ goodies, but its something to work from.
 
 #+begin_src lisp
   (defun get-balance ()
-      0)
+    0)
 #+end_src
 
 Lets use the gen_servers "state" to store the balance, so as long as the "account" process
@@ -466,7 +464,6 @@ It doesn't do any validation of values.
 And now the test..
 
 #+begin_src lisp
-
   account_server_withdrawal_works ................................. [fail]
 
     Assertion failure:
@@ -581,8 +578,7 @@ on if the amount is greater than the balance.
      ;; true condition
      `#(reply ,'insufficient-funds ,state)
      ;; false condition
-     `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))
-     ))
+     `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))))
 #+end_src
 
 All tests should now pass.
