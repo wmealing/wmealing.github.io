@@ -553,9 +553,7 @@ withdraw and its rules working.
 
 ## Withdraw resumed:
 
-TBC fixing this.
-
-
+Working on this.
 
 
 * Resources:

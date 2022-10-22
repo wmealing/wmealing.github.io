@@ -3,6 +3,13 @@
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
 
+* Lisp flavored erlang (gen_server)
+
+I decided to collapse two of my interests, lisp and erlang.  Lisp flavored erlang isnt going to win
+any popularity contests, but it is something that I dont entirely hate  working on.  Ive written
+a quick tutorial describing one of the 
+
+
 * Choosing the wrong roads.
 
 I've spent the last week reflecting on some poor programming life choices that I've made.
