@@ -478,7 +478,7 @@ And now the test..
               #(value 10.23)))
 #+end_src
 
-Ok, so thats weird, it looks like the value of 10.23 is 1.00 dollar less than the final state
+Ok, thats weird.  It looks like the value of 10.23 is 1.00 dollar less than the final state
 from the last test.  We're going to have to implement some kind of shutdown mechanism which
 we can run after the test finishes to reset the state.
 
@@ -549,12 +549,69 @@ module: pseudobank-tests
 #+end_src
 
 Giddy up, now we have the server restarting, but back to the topic at hand getting
-withdraw and its rules working.
+withdraw and its rules
 
-## Withdraw resumed:
+** Withdraw resumed:
 
-Working on this.
+Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
+you cant withdraw can not put it the account balance into negative value. Here's the test.
 
+#+begin_src lisp
+(deftest account-server-withdraw-negative-test
+  (account:start)
+    (let* ((starting-balance (account:get-balance))
+          (deposit-amount 1.00)
+          (withdraw-amount 200.00))
+      (account:deposit deposit-amount)
+      (is (=:= (account:withdraw withdraw-amount) 'insufficient-funds))))
+#+end_src
+
+This test will fail when we run the test because there has been no error condition
+returning 'insufficient-funds when the withdraw amount exceeds available balance.
+
+Fixing that now, we're modifying =handle_call= to include a conditional return based
+on if the amount is greater than the balance.
+
+#+begin_src lisp
+  ;; withdraw
+  (((tuple 'withdraw amount) _caller state)
+
+   ;; first step, check that amount is less than the current balance.
+   (if (> amount (map-get state 'balance))
+     ;; true condition
+     `#(reply ,'insufficient-funds ,state)
+     ;; false condition
+     `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))
+     ))
+#+end_src
+
+All tests should now pass.
+
+#+begin_src sh
+$ rebar3 as test lfe ltest
+===> Verifying dependencies...
+===> Compiling pseudobank
+================================ ltest =================================
+
+------------------------------ Unit Tests ------------------------------
+
+module: pseudobank-tests
+  account_server_starts ............................................. [ok]
+  account_server_starts_with_zero_balance ........................... [ok]
+  account_server_deposit_works ...................................... [ok]
+  account_server_withdrawal_works ................................... [ok]
+  account_server_starts_and_stops ................................... [ok]
+  account_server_withdraw_negative_test ............................. [ok]
+  time: 25ms
+
+summary:
+  Tests: 6  Passed: 6  Skipped: 0  Failed: 0 Erred: 0
+  Total time: 43ms
+#+end_src
+
+This isnt an exhaustive test suite, but its the basics of the gen_server and
+test driven development for lfe.  I'll upload the project to github and put a
+link right here soon.
 
 * Resources:
 

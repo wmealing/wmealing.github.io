@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-10-22 Sat 21:50 -->
+<!-- 2022-10-23 Sun 00:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lfe Flavored Erlang Gen Server</title>
@@ -214,9 +214,9 @@ Think of it like a 'program skeleton'.  There are other "x-server" relatives in 
 mac daddy of them all.
 </p>
 
-<div id="outline-container-orgd842882" class="outline-3">
-<h3 id="orgd842882">What is a gen server ?</h3>
-<div class="outline-text-3" id="text-orgd842882">
+<div id="outline-container-org50b0925" class="outline-3">
+<h3 id="org50b0925">What is a gen server ?</h3>
+<div class="outline-text-3" id="text-org50b0925">
 <p>
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 </p>
@@ -258,7 +258,7 @@ your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fix
 that you read this, you can find the bugreport <a href="https://github.com/lfe/rebar3_lfe/issues/72">here</a>.
 </p>
 
-<pre class="example" id="org9389167">
+<pre class="example" id="org5b0454c">
 {deps, [
     {lfe, "2.0.1"},
     {ltest, "0.13.0"}
@@ -401,7 +401,7 @@ startup code used for any gen_server.
 Now when you run the test, we can see the test fails.
 </p>
 
-<pre class="example" id="orgfd3a69c">
+<pre class="example" id="orge4be187">
 module: pseudobank-tests
   module 'pseudobank-tests' ....................................... [fail]
 
@@ -451,7 +451,7 @@ If it returns #(error anything), thats a good sign that the initialization proce
 Now when we run the test again:
 </p>
 
-<pre class="example" id="org21b4b46">
+<pre class="example" id="org7a2be4d">
 module: pseudobank-tests
   module 'pseudobank-tests' ......................................... [ok]
 </pre>
@@ -462,9 +462,9 @@ We can see the test passes.
 </div>
 </div>
 
-<div id="outline-container-org94f70dc" class="outline-3">
-<h3 id="org94f70dc">Getting the balance</h3>
-<div class="outline-text-3" id="text-org94f70dc">
+<div id="outline-container-org0bd850f" class="outline-3">
+<h3 id="org0bd850f">Getting the balance</h3>
+<div class="outline-text-3" id="text-org0bd850f">
 <p>
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 </p>
@@ -562,7 +562,7 @@ We can see the <code>CRASH REPORT</code> in the <code>undefined function account
 when the code is looking for handle_call, which we have not created.
 </p>
 
-<pre class="example" id="orgf724567">
+<pre class="example" id="org97280dc">
 =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
 crasher:
   initial call: account:init/1
@@ -601,7 +601,7 @@ Words that start with an underscore, means 'we dont care about it' so in this ca
 Now when we run the tests, we can see what it is returning.
 </p>
 
-<pre class="example" id="org5446d23">
+<pre class="example" id="org7e42770">
 account_server_starts_with_zero_balance ......................... [fail]
 
     Assertion failure:
@@ -647,9 +647,9 @@ test to deposit money into the account.
 </div>
 </div>
 
-<div id="outline-container-org6bcc4ee" class="outline-3">
-<h3 id="org6bcc4ee">Making a deposit.</h3>
-<div class="outline-text-3" id="text-org6bcc4ee">
+<div id="outline-container-org186b796" class="outline-3">
+<h3 id="org186b796">Making a deposit.</h3>
+<div class="outline-text-3" id="text-org186b796">
 <p>
 Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositing money.
 </p>
@@ -716,7 +716,7 @@ The return value from this match is the same format, we're not going to tell the
 we need to update the state in the most naive method.  Lets check the test run output:
 </p>
 
-<pre class="example" id="org61207c3">
+<pre class="example" id="org111a19d">
 module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
@@ -755,9 +755,9 @@ I'd say we had desposits nailed.
 </div>
 </div>
 
-<div id="outline-container-orgd2a5ce3" class="outline-3">
-<h3 id="orgd2a5ce3">Making a withdrawal</h3>
-<div class="outline-text-3" id="text-orgd2a5ce3">
+<div id="outline-container-orgf8d8f9c" class="outline-3">
+<h3 id="orgf8d8f9c">Making a withdrawal</h3>
+<div class="outline-text-3" id="text-orgf8d8f9c">
 <p>
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -841,16 +841,16 @@ account_server_withdrawal_works ................................. [fail]
 </div>
 
 <p>
-Ok, so thats weird, it looks like the value of 10.23 is 1.00 dollar less than the final state
+Ok, thats weird.  It looks like the value of 10.23 is 1.00 dollar less than the final state
 from the last test.  We're going to have to implement some kind of shutdown mechanism which
 we can run after the test finishes to reset the state.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org81ebaea" class="outline-3">
-<h3 id="org81ebaea">Withraw Interlude: gen_server shutdown.</h3>
-<div class="outline-text-3" id="text-org81ebaea">
+<div id="outline-container-orgf9b3b4c" class="outline-3">
+<h3 id="orgf9b3b4c">Withraw Interlude: gen_server shutdown.</h3>
+<div class="outline-text-3" id="text-orgf9b3b4c">
 <p>
 As the LFE gen-server piggy backs on the <code>erlang</code> implementation of gen_server the
 <a href="https://www.erlang.org/doc/man/gen_server.html">stdlib reference manual</a> includes a method to shut down the server.
@@ -861,7 +861,7 @@ The manual goes into return values for <a href="https://www.erlang.org/doc/man/g
 can be terminated if handle_call returns the right tuple.
 </p>
 
-<pre class="example" id="orgcbb88ee">
+<pre class="example" id="orgc4fb387">
 {stop,Reason,NewState}
 </pre>
 
@@ -942,23 +942,92 @@ Now lets run the test.
 
 <p>
 Giddy up, now we have the server restarting, but back to the topic at hand getting
-withdraw and its rules working.
-</p>
-
-<p>
-## Withdraw resumed:
-</p>
-
-<p>
-Working on this.
+withdraw and its rules
 </p>
 </div>
 </div>
 
+<div id="outline-container-org794c2c6" class="outline-3">
+<h3 id="org794c2c6">Withdraw resumed:</h3>
+<div class="outline-text-3" id="text-org794c2c6">
+<p>
+Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
+you cant withdraw can not put it the account balance into negative value. Here's the test.
+</p>
 
-<div id="outline-container-orga50e3c5" class="outline-2">
-<h2 id="orga50e3c5">Resources:</h2>
-<div class="outline-text-2" id="text-orga50e3c5">
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>deftest account-server-withdraw-negative-test
+  <span style="color: #E14400;">(</span>account:start<span style="color: #E14400;">)</span>
+    <span style="color: #E14400;">(</span><span style="color: #FF5A00;">let*</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>starting-balance <span style="color: #FF4F00;">(</span>account:get-balance<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span>
+          <span style="color: #AA3A00;">(</span>deposit-amount 1.00<span style="color: #AA3A00;">)</span>
+          <span style="color: #AA3A00;">(</span>withdraw-amount 200.00<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
+      <span style="color: #D04000;">(</span>account:deposit deposit-amount<span style="color: #D04000;">)</span>
+      <span style="color: #D04000;">(</span>is <span style="color: #AA3A00;">(</span>=:= <span style="color: #FF4F00;">(</span>account:withdraw withdraw-amount<span style="color: #FF4F00;">)</span> 'insufficient-funds<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+</pre>
+</div>
+
+<p>
+This test will fail when we run the test because there has been no error condition
+returning 'insufficient-funds when the withdraw amount exceeds available balance.
+</p>
+
+<p>
+Fixing that now, we're modifying <code>handle_call</code> to include a conditional return based
+on if the amount is greater than the balance.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #D05010;">;; </span><span style="color: #D05010;">withdraw</span>
+<span style="color: #FF4F00;">(</span><span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>tuple 'withdraw amount<span style="color: #D04000;">)</span> _caller state<span style="color: #E14400;">)</span>
+
+ <span style="color: #D05010;">;; </span><span style="color: #D05010;">first step, check that amount is less than the current balance.</span>
+ <span style="color: #E14400;">(</span><span style="color: #FF5A00;">if</span> <span style="color: #D04000;">(</span>&gt; amount <span style="color: #AA3A00;">(</span>map-get state 'balance<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
+   <span style="color: #D05010;">;; </span><span style="color: #D05010;">true condition</span>
+   `#<span style="color: #D04000;">(</span>reply ,'insufficient-funds ,state<span style="color: #D04000;">)</span>
+   <span style="color: #D05010;">;; </span><span style="color: #D05010;">false condition</span>
+   `#<span style="color: #D04000;">(</span>reply ,'ok ,<span style="color: #AA3A00;">(</span>map-update state 'balance <span style="color: #FF4F00;">(</span>- <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
+   <span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+</pre>
+</div>
+
+<p>
+All tests should now pass.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ rebar3 as test lfe ltest
+===&gt; Verifying dependencies...
+===&gt; Compiling pseudobank
+================================ ltest =================================
+
+------------------------------ Unit Tests ------------------------------
+
+module: pseudobank-tests
+  account_server_starts ............................................. <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  account_server_starts_with_zero_balance ........................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  account_server_deposit_works ...................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  account_server_withdrawal_works ................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  account_server_starts_and_stops ................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  account_server_withdraw_negative_test ............................. <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  <span style="color: #FF5A00;">time</span>: 25ms
+
+summary:
+  Tests: 6  Passed: 6  Skipped: 0  Failed: 0 Erred: 0
+  Total time: 43ms
+</pre>
+</div>
+
+<p>
+This isnt an exhaustive test suite, but its the basics of the gen_server and
+test driven development for lfe.  I'll upload the project to github and put a
+link right here soon.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga4f39aa" class="outline-2">
+<h2 id="orga4f39aa">Resources:</h2>
+<div class="outline-text-2" id="text-orga4f39aa">
 <p>
 <a href="https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3</a>
 <a href="https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf">https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf</a>
