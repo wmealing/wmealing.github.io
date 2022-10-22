@@ -615,7 +615,7 @@ link right here soon.
 
 * Resources:
 
-https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3
-https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf
-https://github.com/lfex/ltest
+- https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3
+- https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf
+- https://github.com/lfex/ltest
 
