@@ -7,8 +7,7 @@
 
 I decided to collapse two of my interests, lisp and erlang.  Lisp flavored erlang isnt going to win
 any popularity contests, but it is something that I dont entirely hate  working on.  Ive written
-a quick tutorial describing one of the 
-
+a quick tutorial describing one of the [[https://wmealing.github.io/lfe-gen-server.html][core features of erlang]].
 
 * Choosing the wrong roads.
 
