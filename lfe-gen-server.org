@@ -1,0 +1,566 @@
+#+TITLE: Lfe Flavored Erlang Gen Server
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+Recently I’ve spent some time learning Lfe Flavored Erlang. So far I'm really enjoying it.  I've done
+quite a bit of erlang in my past and this is how I think i could branch out into something a little more
+modern.  I did consider Elixir, but it feels too alien to me.
+
+This particular entry talks about my method of using TDD to develop a simple application using a concept
+from erlang named [[https://www.erlang.org/doc/man/gen_server.html][gen_server]].
+
+Think of it like a 'program skeleton'.  There are other "x-server" relatives in erlang, but gen_server is the
+mac daddy of them all.
+
+**  What is a gen server ?
+
+A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
+
+Erlang heavily uses processes, they are super cheap so why not.  Using the gen_server behavior creates a predictable implementation
+that other erlang, elixir or lfe programmers would know and expect how to use.  It also fits nicely into the ability for the BEAM vm to supervise gen_servers and
+restart them when they crash.  This allows us to bring the erlang "Let it crash" mentality to a lfe, and I think that is pretty neat.
+
+As the LFE lies heavily on the erlang and BEAM, I'll be referncing the erlang docs as I go.
+
+Lets start off our test driven adventure by making a new project, lets call it the pseudobank.
+
+This assumes you have rebar3 installed and ready to rock.
+
+#+begin_src sh
+$ rebar3 new lfe-app name="pseudobank"
+===> Writing pseudobank/README.md
+===> Writing pseudobank/LICENSE
+===> Writing pseudobank/rebar.config
+===> Writing pseudobank/.gitignore
+===> Writing pseudobank/src/pseudobank.lfe
+===> Writing pseudobank/src/pseudobank-app.lfe
+===> Writing pseudobank/src/pseudobank-sup.lfe
+===> Writing pseudobank/src/pseudobank.app.src
+#+end_src
+
+The rebar.config file has a problem, it wont build because software is complex, you should change
+your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fixed by the time
+that you read this, you can find the bugreport [[https://github.com/lfe/rebar3_lfe/issues/72][here]].
+
+#+begin_example
+{deps, [
+    {lfe, "2.0.1"},
+    {ltest, "0.13.0"}
+]}.
+
+{plugins, [
+    {rebar3_lfe, "0.4.0"}
+]}.
+
+#+end_example
+
+This created a pretty standard "app" for lfe, with a default structure. The
+keen eye may notice the "sup" (standing for supervisor) and we'll get to that later.
+
+One thing it doesn't have is any testing!  The "lfe-app" template is wired up for tests
+but doesn't have the directory or templates to work from so, lets make that now.
+
+#+begin_src sh
+$ mkdir pseudobank/test/
+#+end_src
+
+Inside this directory lets start our test driven development by making a file containing
+a test that we know will fail.
+
+Using your editor create a file =pseudobank/tests/pseudobank-tests.lfe=
+
+#+begin_src lisp
+  (defmodule pseudobank-tests
+     (behaviour ltest-unit))
+
+  (include-lib "ltest/include/ltest-macros.lfe")
+
+  ;;; -----------
+  ;;; library API
+  ;;; -----------
+  (deftest account-server-starts
+      (let (((tuple 'ok pid) (account:start)))
+        (is (is_pid pid)))
+    )
+
+#+end_src
+
+This test "starts" the gen_server (we're going to make one called account).  Like normal 'programs'
+that run on the computer, the gen_server has a 'process' id that is returned when the start function
+is calle.d  We're pattern matching the return value and checking that the return value is a pid
+with the "is_pid".
+
+The "is" function above is part of the ltest macros.n
+
+We can now run the test, its going to fail because we haven't written the 'account' gen server
+but lets start.
+
+From the shell within the 'pseudobank' directory:
+
+#+begin_src sh
+$ rebar3 lfe ltest
+    ===> Verifying dependencies...
+    ===> Compiling pseudobank
+    ================================ ltest =================================
+
+    ------------------------------ Unit Tests ------------------------------
+
+    module: pseudobank-tests
+      module 'pseudobank-tests' ....................................... [fail]
+
+          Assertion failure:
+          undef
+
+      time: 14ms
+
+    summary:
+      Tests: 1  Passed: 0  Skipped: 0  Failed: 1 Erred: 0
+      Total time: 14ms
+
+
+    ========================================================================
+#+end_src
+
+Your version will likely be much more colorful, I'm sure you can use your imagination. More specific
+tests can be run, but you can check out how to do that with the command "rebar3 help lfe ltest"
+
+Lets fix that.. we'll make the account gen server first.
+
+Lets make one in =src/account.lfe=
+
+
+#+begin_src lisp
+  (defmodule account
+                  (behaviour gen_server)
+                  (export all))
+
+  ;;; helper functions
+  (defun server-name () (MODULE))
+  (defun register-name () `#(local ,(server-name)))
+  (defun callback-module () (MODULE))
+  (defun initial-state () 0)
+  (defun genserver-opts () '())
+
+  ;;; gen_server implementation
+
+  (defun start ()
+    (gen_server:start (register-name)
+                      (callback-module)
+                      (initial-state)
+                      (genserver-opts)))
+#+end_src
+
+Now we have the start function, this looks like quite a lot of noise but this is the skeleton
+startup code used for any gen_server.
+
+Now when you run the test, we can see the test fails.
+
+#+begin_example sh
+module: pseudobank-tests
+  module 'pseudobank-tests' ....................................... [fail]
+
+      Assertion failure:
+=CRASH REPORT==== 22-Oct-2022::02:48:36.950759 ===
+  crasher:
+    initial call: account:init/1
+    pid: <0.400.0>
+    registered_name: []
+    exception error: undefined function account:init/1
+      in function  gen_server:init_it/2 (gen_server.erl, line 423)
+      in call from gen_server:init_it/6 (gen_server.erl, line 390)
+
+      <snip>
+#+end_example
+
+We have a backtrace, which shows the path of the callback from gen_server initialization. Its crashing
+in "account:init" which is not surprisingly really, we are missing the account:init function,
+
+This is one of thoe callbacks that gen_server expects. Fortunately the gen_server page outlines the callbacks
+expected, however not all are required.
+
+Lets add the init callback by appending the following to the =account.lfe=
+
+#+begin_src lisp
+  (defun init (initial-state)
+    `#(ok ,initial-state))
+#+end_src
+
+This function initiates the initial internal state that the gen_server keeps with itself until it dies or restarts.
+
+This function can return #(ok anything) as long as its 'ok' the gen_server doesn't care what we have done, it could hold state for any reason.
+If it returns #(error anything), thats a good sign that the initialization procedure didnt work correctly.
+
+Now when we run the test again:
+
+#+begin_example sh
+module: pseudobank-tests
+  module 'pseudobank-tests' ......................................... [ok]
+#+end_example
+
+We can see the test passes.
+
+** Getting the balance
+
+Now, lets talk about money.  Lets check to see if it starts with zero balance.
+
+Start by writing the test, I add a new test in the =pseudobank-test.lfe= file.
+
+#+begin_src lisp
+  (deftest account-server-starts-with-zero-balance
+    (account:start)
+    (is-equal 0.00 (account:get-balance)))
+#+end_src
+
+When running the test, you'll see it returns 'undef' again.
+
+#+begin_src sh
+  account_server_starts_with_zero_balance ......................... [fail]
+
+  Assertion failure:
+    undef
+#+end_src
+
+This is of course, because get-balance function doesn't exist.  The simple
+solution is to start, making a get-balance function in the file.  Lets do that.
+
+I usually try to do the simplest possible thing to get a test passing.  So i'm going
+to make a function that returns a hard-coded 0.  This wont be using all the 'gen_server'
+goodies, but its something to work from.
+
+#+begin_src lisp
+  (defun get-balance ()
+      0)
+#+end_src
+
+Lets use the gen_servers "state" to store the balance, so as long as the "account" process
+is running we can access the current account value.
+
+We'll modfy 'init' to return a map.  In LFE the map is represented as #M( key value ... ...),
+Below is the modified init, to use a monetary value for the amount in the account.
+
+#+begin_src lisp
+  (defun init (initial-state)
+    `#(ok ,#M(balance 0.00)))
+#+end_src
+
+Now we modify the get-balance/0 function to call the =gen_server:call/3= function.
+The first argument is the process ID, the second parameter is passed to the =handle_call/3= callback that
+gen_server expects the user to provide.
+
+The gen_server:call function is synchronous, so your application will wait around for however long the work done takes.
+
+Lets fix up get-balance as we talked about earlier:
+
+#+begin_src lisp
+(defun get-balance ()
+  (gen_server:call (server-name) 'get-balance))
+#+end_src
+
+This uses the (server-name) helper function to look up the 'gen_server' by its name.
+
+The gen_server will relay the call function back to handle_call function which we will implement now.
+
+Lets run the test to check our expectations.
+
+We can see the =CRASH REPORT= in the =undefined function account:handle_call/3=
+when the code is looking for handle_call, which we have not created.
+
+#+begin_example
+  =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
+  crasher:
+    initial call: account:init/1
+    pid: <0.536.0>
+    registered_name: account
+    exception error: undefined function account:handle_call/3
+      in function  gen_server:try_handle_call/4 (gen_server.erl, line 721)
+      in call from gen_server:handle_msg/6 (gen_server.erl, line 750)
+#+end_example
+
+Lets make that now, the simplest possible implementation
+
+#+begin_src lisp 
+ (handle_call
+  ((_message _caller state)
+   `#(reply 0.00 ,state)))
+#+end_src
+
+
+For those who dont write much lisp or erlang, you can specify a pattern matching operation
+on the functions heads, its a pretty neat feature but will be surprising if you dont remember/know about it.
+The LFE tutorial talks about it [[https://lfe.gitbooks.io/tutorial/content/sequential/conds.html#function-heads-as-conditionals][here]].
+
+
+Words that start with an underscore, means 'we dont care about it' so in this case we're accepting
+-every- message and not matching on the first term.  This wont be the case later but it works for now.
+
+Now when we run the tests, we can see what it is returning.
+
+#+begin_example
+  account_server_starts_with_zero_balance ......................... [fail]
+
+      Assertion failure:
+      #(assertEqual
+               (#(module pseudobank-tests)
+                #(line 15)
+                #(expression "(account:get-balance)")
+                #(expected 0)
+                #(value 'message-goes-here)))
+#+end_example
+
+We can see its returning the "message-goes-here" from the callback instead of the zero.  Lets return
+the current balance (0.00) now.
+
+#+begin_src lisp
+  (defun handle_call
+  ((_message  _caller state)
+   `#(reply ,(map-get state 'balance),state)))
+#+end_src
+
+At this point it still ignores the message and the caller, but it returns the balance
+that was set created/set during the init function.
+
+The change is to the second return arguement,  we use =(map-get <mapname> <key> )= to get the value,
+we know the key is an atom called 'balance so this would transform into after all values are evaluated.
+
+#+begin_src lisp
+  #(reply 0 #M(balance 0.00))
+#+end_src
+
+Cool, so now we have a basic "get the current balance" =gen_server= working, lets add a new
+test to deposit money into the account.
+
+** Making a deposit.
+
+Back in =pseudobank-test.lfe= to add a new failing test for depositing money.
+
+#+begin_src lisp
+  (deftest account-server-deposit-works
+    (account:start)
+    (let ((starting-balance (account:get-balance))
+          (deposit-amount 1.23))
+      (account:deposit deposit-amount)
+      (is-equal (+ starting-balance deposit-amount) (account:get-balance))))
+#+end_src
+
+This test is a little more involved, it starts the account process (its probably already started by another test),
+then sets two values, 'starting-balance' to the accounts current-balance and 'deposit-amount' is an arbitrary amount. value was chosen, just because it looks fun.
+
+When we run this module tests, ltest cant find the account:deposit function, lets make it.
+
+This is the 'helper' function which can be called, which in turn calls gen-server with the two parameters.
+
+#+begin_src lisp
+(defun deposit (amount)
+  (gen_server:call (server-name) ('deposit amount)))
+#+end_src
+
+Like the =get-balance= function, it will also be sent to the =handle_call/3= callback function, however it
+passes a tuple of the 'deposit atom and an amount instead of just an atom.
+
+Lets fix up =handle_call/3= to match this new callback request.
+
+#+begin_src lisp
+  (defun handle_call
+  (('get-balance _caller state)
+   `#(reply ,(map-get state 'balance) ,state))
+  (((tuple 'deposit amount) _caller state)
+   `#(reply 'ok, ,(map-update state 'balance 1.23))))
+#+end_src
+
+The changes are: ='get-balance= in the first match, as we have multiple entries into the handle_call
+we now need to get more specific and have the ='get-balance= specifically handle only the calls from
+the 'get-balance helper, otherwise it will match for when we try to do a deposit.
+
+We added the 'second' match clause for handle_call when it the first parameter is (tuple 'deposit some-amount).
+
+The return value from this match is the same format, we're not going to tell the caller the new balance, but
+we need to update the state in the most naive method.  Lets check the test run output:
+
+#+begin_example
+module: pseudobank-tests
+  account_server_starts ............................................. [ok]
+  account_server_starts_with_zero_balance ........................... [ok]
+  account_server_deposit_works ...................................... [ok]
+#+end_example
+
+The =handle_call/3= callback is only returning a hard coded value, and what is
+required is to to find the current value, add the deposit value and update the proccesses
+internal state with the newly computed value.
+
+Back to the =account.lfe= file, to fix this oversight:
+
+#+begin_src lisp
+(defun handle_call
+  (('get-balance _caller state)
+   `#(reply ,(map-get state 'balance) ,state))
+  (((tuple 'deposit amount) _caller state)
+   `#(reply 'ok
+            ,(map-update state 'balance
+                         (+ (map-get state 'balance) amount)))))
+#+end_src
+
+The difference is now that it checks the previous value, adds the requested amount to the previous vale
+and updates the process state by returning all this in the third element of the tuple from the function =handle_call=.
+
+I'd say we had desposits nailed.
+
+** Making a withdrawal
+
+The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
+logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
+money to go to YOU!)  Lets start by writing a test to ensure we can take money from the account.
+
+#+begin_src lisp
+    (deftest account-server-withdrawal-works
+    (account:start)
+    (let ((starting-balance (account:get-balance))
+          (deposit-amount 10.00)
+          (withdraw-amount 1.00))
+      (account:deposit deposit-amount)
+      (account:withdraw withdraw-amount)
+      (is-equal (- deposit-amount withdraw-amount) (account:get-balance))))
+#+end_src
+
+This is a little more complex, we deposit 10.00 and then take away 1.00.  This should
+lead to having 9.00 in the account.  When we run this test , it once again returns 'undef'
+because the withdraw function is not implemented.  Hop to it then.
+
+Back in =account.lfe=, we'll make the helper function.
+
+#+begin_src lisp
+(defun withdraw ( amount )
+  (gen_server:call (server-name) (tuple 'withdraw amount)))
+#+end_src
+
+The callback doesn't handle the (tuple 'withdraw amount), make it happen.
+
+#+begin_src lisp
+  (defun handle_call
+
+    ;; get balance functionality
+    (('get-balance _caller state)
+     `#(reply ,(map-get state 'balance) ,state))
+
+    ;; deposit functionality
+    (((tuple 'deposit amount) _caller state)
+     `#(reply 'ok
+              ,(map-update state 'balance
+                           (+ (map-get state 'balance) amount))))
+
+    ;; withdraw money functionality.
+    (((tuple 'withdraw amount) _caller state)
+     `#(reply 'ok
+              ,(map-update state 'balance
+                           (- (map-get state 'balance) amount)))))
+#+end_src
+
+The withdraw callback isnt feature complete, its pretty much a basic modification of 'deposit feature.
+It doesn't do any validation of values.
+
+And now the test..
+
+#+begin_src lisp
+
+  account_server_withdrawal_works ................................. [fail]
+
+    Assertion failure:
+    #(assertEqual
+             (#(module pseudobank-tests)
+              #(line 26)
+              #(expression "(account:get-balance)")
+              #(expected 9.0)
+              #(value 10.23)))
+#+end_src
+
+Ok, so thats weird, it looks like the value of 10.23 is 1.00 dollar less than the final state
+from the last test.  We're going to have to implement some kind of shutdown mechanism which
+we can run after the test finishes to reset the state.
+
+** Withraw Interlude: gen_server shutdown.
+
+As the LFE gen-server piggy backs on the =erlang= implementation of gen_server the
+[[https://www.erlang.org/doc/man/gen_server.html][stdlib reference manual]] includes a method to shut down the server.
+
+The manual goes into return values for [[https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3][handle_call/3]] specifies that the gen_server
+can be terminated if handle_call returns the right tuple.
+
+#+begin_example
+ {stop,Reason,NewState}
+#+end_example
+
+Which would call the (module:terminate Reason NewState) function.
+
+In our example we could just ignore the values sent to the terminate function, but
+there may be cases where you could use it, like stuffing it into a database, logging
+or firing the state up again after some modification.
+
+Here is the helper function, which triggers handle_call with the argument ='stop=.
+
+#+begin_src lisp
+  (defun stop ()
+    (gen_server:call (server-name) 'stop))
+#+end_src
+
+And now lets add this to handle_call, i'll only include the match part of handle_call, You can check the
+[[http://github.com/wmealing/psuedobank/src/account.lfe][file in github]] for the full function, here is the basics.
+
+#+begin_src lisp
+ (('stop _caller state-data)
+    `#(stop shutdown ok state-data))
+#+end_src
+
+And the matching expected terminate function.
+
+#+begin_src lisp
+(defun terminate ( _reason _newstate )
+    'ok)
+#+end_src
+
+Now that the shutdown function is implemented, add a test to see if starting, shutting down
+and starting up again works.
+
+Here is our test:
+
+#+begin_src lisp
+  (deftest account-server-starts-and-stops
+    (let ((stop-val (account:stop))
+          (start-val-pid (tref (account:start) 2))
+          (stop-again-val (account:stop)))
+      (is-equal stop-val 'ok)
+      (is-equal (is_pid start-val-pid) 'true)
+      (is-equal stop-again-val 'ok)))
+#+end_src
+
+Now lets run the test.
+
+#+begin_src sh
+module: pseudobank-tests
+  account_server_starts ............................................. [ok]
+  account_server_starts_with_zero_balance ........................... [ok]
+  account_server_deposit_works ...................................... [ok]
+  account_server_withdrawal_works ................................... [ok]
+  account_server_starts_and_stops ................................... [ok]
+#+end_src
+
+Giddy up, now we have the server restarting, but back to the topic at hand getting
+withdraw and its rules working.
+
+## Withdraw resumed:
+
+TBC fixing this.
+
+
+
+
+* Resources:
+
+https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3
+https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf
+https://github.com/lfex/ltest
+
