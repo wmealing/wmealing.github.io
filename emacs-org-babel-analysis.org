@@ -1,0 +1,393 @@
+#+TITLE:  Emacs and Org-babel for flaw analysis.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+
+
+* Introduction
+
+I am a long time emacs user, and wanted to automate as much of my workflow as possible.  Just understanding flaws in C can be a time-consuming process, especially when working with large git trees like the kernel. However, Emacs offers a useful tool called org-babel (part of org-mode)  that can help speed up analysis workflows. Org-babel allows you to execute code blocks in Org mode files and capture the results, figures, and tables.  I will work through a fictional flaw in the kernel, because I’m not allowed to share the *exact* secret sauce of a flaw, but this should be a good starting point.
+
+The full file is available here, although I imagine that most people will want to modify it for their own particular use case.
+
+I will walk through the file contents, explaining how org-babel works and how it fits the workflow.  A link to the final file is in the Resources section at the bottom of this article.
+
+I continually update a template of this file with workflow or things that I need to improve or remember to do, so that I dont make that category of error again.  New ‘investigations’ are created from the template so it means I shouldnt make that mistake again going forward.
+
+Rather than switching between Emacs and your terminal, org-babel can run data processing commands like sorting, filtering, and aggregating directly in your Org mode file using org-babel. This avoids the context switching that can slow you down and helps keep your analysis workflow organized in one place.
+
+* File metadata
+
+Each flaw that is analysed starts from a template, the template contains the a “Org-mode” tree-structured file which where headings can have subheadings.  This allows you to organize the output of my work hierarchically and fold/unfold sections of the tree.
+
+Before any of the tree structure there is some file specific metadata:
+
+#+BEGIN_EXAMPLE
+
+#+TITLE: Evaluation of flaw: **CVE-YYYY-NNNNN**
+#+TODO: [_] [✓] [x] [x] [NA]
+#+options: num:nil
+
+
+#+PROPERTY:  header-args:sh  :var FLAWBZ="**CVE-YYYY-NNNNN**"
+#+PROPERTY:  header-args:sh+ :var TASKBZ="**BZ-NUMBER**"
+#+PROPERTY:  header-args:sh+ :var UPSTREAM_COMMIT="**012345AFFFF**"
+#+PROPERTY:  header-args:sh+ :async :exports results
+#+PROPERTY:  :LOGGING: nil
+
+#+END_EXAMPLE
+
+This is at the top of each file and requires some explanation.  
+
+The :var SOMETHING=”something” is defining a “buffer scoped” variable, inside any of the org-babel code blocks, I can use these variables as it was set when the file was loaded.
+
+I keep my “private notes” in the bugzilla bug numbered “TASKBZ” and the the “FLAWBZ” is the bug alias for the CVE flaw.  This page ends up with content that makes an entry on the [[https://access.redhat.com/security/security-updates/#/][Red Hat CVE pages.]]
+
+After modifying the org-mode header properties, org-mode must be restarted for the changes to take affect.  Now we introduce the meat and potatoes of org-mode the code-block.
+
+To create a code block in org-babel, you use the #+BEGIN_SRC and #+END_SRC lines to delimit the block. On the line after #+BEGIN_SRC, specify the language of your code block. 
+
+For example: 
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC emacs-lisp
+(org-mode-restart)
+#+END_SRC
+#+END_EXAMPLE
+
+Will make mean that any content between BEGIN_SRC and END_SRC is emacs-lisp code and it can be execute  with **C-c C-c**.
+
+Org-babel caches the results, figures, and tables produced by code blocks, allowing you to quickly review them without having to re-run the code. This is useful when you want to double check something or refer back to an earlier part of your analysis. The cached results save you the time of re-executing the code.
+
+In our example, though when we put the cursor inside the code-block and hit **C-c C-c**, org-mode will be restarted and the variables changed in the header will immediately take affect.
+
+*  The power of the checklist.
+
+Its easy to forget things, I know as I do it all the time.  Many people [preach the power of checklists](http://atulgawande.com/book/the-checklist-manifesto/) , it minimises mistakes because I need to ensure that each checklist item is at least acknowledged as being done, undone or invalid.  I use each item in org-modes tree structure as a checklist item, and checklists can have subchecklists, etc.   This reduced errors in my analysis by approximately 22.5% .  I know this because each flaw is being checked by another engineer inside the Red Hat product security group.
+
+I start by reading through the upstream commit that either fixes the flaw or the any kind of analysis done either the reporter or myself.
+
+This is my first checklist item, did I read it and explain the flaw.
+
+#+BEGIN_EXAMPLE
+ * [_] Briefly explain the flaw in your own words and discuss its severity.
+#+END_EXAMPLE
+
+This is prefixed with the asterix as it s a heading, adn the [_] is one of the possible ‘states’ that this checklist item is in, it starts in the ‘unknown’ state.   This is a top-level tree element with no branches.  Usually I’d write a quick description like this below the checklist item.  
+
+#+BEGIN_EXAMPLE
+This flaw appears to be a flaw in the management of the multiplication overflow
+when a user can specify x,y,z in conditions m.  This can incorrectly create a
+condition where writes allocation may end up being less than expected, but when
+written to can overwrite memory as these requests end up being in kernel memory.
+
+This error is in the fictional fake_function in fs/fake-read-only-no-block-device.c
+#+END_EXAMPLE
+
+Its not always right, but its a start.    When i’m done i hit C-c C-t and it changes it from the ‘unknown’ state to the Ticked state, looking good.  
+
+The next thing we do is identify which part of the kernel source code that this affects.  Usually you can get a pretty good idea from where it is reported, lets say its in the fictional file fs/fake-read-only-no-block-device.c
+
+We should start of to see if this code is built for any of the released kernels.   I have each of the kernel sources for each release of the linux checked out on an NVME disk because I do often need to grep large chunks checkouts and NVME ends up making the interactions much faster.
+
+#+BEGIN_EXAMPLE
+ * [_] Which kernels include this faulty code ?
+#+END_EXAMPLE
+
+The kernel build process uses CONFIG directives in build files to set which code is built. Each CONFIG directives allow selecting specific kernel options and features, and based on which options are selected, the corresponding code is compiled into the kernel. By determining which CONFIG options enable the faulty code in fs/fake-read-only-no-block-device.c, we can determine which kernel versions will contain this flaw.
+
+The general rule of thumb is that if file exists in fs, you can see the CONFIG directive that builds it by looking in the Makekfile in the same directory.  This is not always the case, sometimes it may be the prent directory, but its frequently the case.
+
+#+BEGIN_EXAMPLE
+ ** [_] Upstream
+ :PROPERTIES:
+ :header-args:sh+: :dir "/home/wmealing/fast/linux/"
+ :END:
+#+END_EXAMPLE
+
+This is a child node of the above, which usually right below it has the following org-babel block:
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :exports both
+cat fs/Makefile | grep -B 2 -A 2 fake-read-only-no-block-device.c
+#+END_SRC
+
+#+RESULTS
+CONFIG_SOMETHING:= fake-read-only-no-block-device.o
+#+END_EXAMPLE
+
+When executed (C-c C-c), this codeblock executes some ‘bash’,  (I prefer this to colorful zfs, etc) and will usually show the CONFIG_SOMETHING option that is used to build the option into the kernel.
+
+For good habit, I manually check this and dont export it to a variable, because it can be a little tricky to correctly parse the Kbuild structure, but it quickly becomes obvious after doing this a few times.
+
+I then explicitly export the variable for use in future code blocks by execute a “named” codeblock and the ouput is saved as the variable CONFIG_DIRECTIVE
+
+ 
+
+#+BEGIN_EXAMPLE
+#+name: CONFIG_DIRECTIVE
+#+BEGIN_SRC sh :exports none
+echo -n "CONFIG_SOMETHING"
+#+END_SRC
+
+#+RESULT
+CONFIG_SOMETHING
+#+END_EXAMPLE
+
+Now we break this down into specific releases. I will cover fedora and rhel-9 as two examples, the other RHEL releases are similar but have different default settings that are more relevant to the lifecycle.
+
+#+BEGIN_EXAMPLE
+ ** [_] Fedora
+ :PROPERTIES:
+ :header-args:sh+: :dir "/home/wmealing/fast/fedora/"
+ :END:
+#+END_EXAMPLE
+
+This contains the current fedora kernel checked out from git, along with the “.config” files used to set build directives.  These files are ‘vendor driven’ which end up making the build time configuration of the kernel.  Fortunately they are pretty sanely set out so searching them isnt a big deal.
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :results verbatim  :exports results :cache yes :var config=CONFIG_DIRECTIVE
+grep -R  "$config=" /home/wmealing/fast/fedora/redhat/configs/*  
+#+END_SRC
+
+#+RESULT:
+CONFIG_SOMETHING=y
+#+END_EXAMPLE
+
+This will usually return a value if its set, these seem to be pretty consistent across most kernel releases, however there are times when CONFIG_ directives have changed names for whatever reason.
+
+If Fedora kernels include the build option, now it is time to check to see if it includes the bug.
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :exports both :async :cache yes :var config=CONFIG_DIRECTIVE
+git grep -W 'broken_function_name' *.c 
+#+END_SRC
+
+#+RESULT:
+int broken_function_name(void) {
+  /* This is the broken function contents */
+
+  int a;
+  int c;
+
+  called_this();
+  
+}
+#+END_EXAMPLE
+
+This will search through all files ending in .c , but if you wanted to reduce the time you could explicitly point to the file, youc an also pipe the command through ‘head’ and or ‘tail’ shell commands if only part of the function is needed.
+
+Now i would mark it affected or unaffected.  I use a tool which I’m not allowed to talk about, but very equivalent tooling can be completed with the wonderful [python-bugzilla tool.](https://github.com/python-bugzilla/python-bugzilla)
+
+
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :exports both :async :cache yes :var config=CONFIG_DIRECTIVE
+ sfm2 $FLAWBZ fedora/kernel=affected,fix
+#+END_SRC
+#+END_EXAMPLE
+
+Once I’m done i hit **C-c C-t**, and the tickbox in the “Fedora” is then set. 
+
+And the same for Red Hat Enterprise LInux 9.
+
+#+BEGIN_EXAMPLE
+ ** [_] Red Hat Enterprise Linux 9
+ :PROPERTIES:
+ :header-args:sh+: :dir "/home/wmealing/fast/rhel-9/"
+ :END:
+#+END_EXAMPLE
+
+The below shell is automatically run from within the :dir directory setting as set in the “rhel-9”  draw above.
+
+I dont include the result in the template, but an example is shown below so you can see what the output kinda would look like.
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :exports both :async :cache yes 
+git grep -W 'broken_function_name' *.c 
+#+END_SRC
+
+#+RESULT:
+int broken_function_name(void) {
+  /* This is the broken function contents but its rhel9 code.*/
+
+  int a;
+  int c;
+
+  BUG();
+ 
+return 0; 
+}
+#+END_EXAMPLE
+
+Another useful feature of org-babel is the ability to parameterize code blocks. Parameters allow you to pass variables and options to the code block, without having to edit the code itself. This avoids wasted time rewriting and re-testing code when you want to try different inputs or options.
+
+Now usually, i’d write a reproducer that exercises this code, so that i can make the system crash or execute a specific payload.  I’m not going to provide an example reproducer, but this should be enough to get someone interested in the workflow.  Releasing exploit code publicly before a fix is available can be dangerous because it alerts malicious actors to the vulnerability, giving them an opportunity to exploit systems before administrators have had time to apply patches.. It is generally advisable to disclose vulnerabilities to vendors privately and give them time to develop and release a fix before publishing exploit details publicly.
+
+I also make the reproducer in org-babel, I did at one point have this “[tangling](https://orgmode.org/manual/Extracting-Source-Code.html)” but I had since changed back to the following bash snippet to get my reproducer.
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ :cache yes 
+cat << EOF > ~/reproducers/$FLAWBZ.c
+
+#include <stdio.h>
+
+int main(void) {
+
+	// write exploit() here.
+
+	return 0;
+}
+EOF
+
+gcc -static  ~/reproducers/$FLAWBZ.c -o ~/builds/$FLAWBZ
+#+END_SRC
+#+END_EXAMPLE
+
+This creates the reproducer and builds it in one step, I usually try to keep this as short as possible, but it can end up being hundreds of lines.  This is complied statically so that the same binary can be executed across different releases without having to recompile.
+
+After creating the reproducer, we should deploy and test it in the specific environment to confirm findings.    
+
+First I need to reserve a system.
+
+
+#+BEGIN_EXAMPLE
+#+NAME: reserved-system
+#+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ  :cache yes 
+SYSTEM=`system-reserve rhel-9 5.14.0-162.6.1`
+scp ~/builds/$FLAWBZ $SYSTEM
+ssh $SYSTEM ~/$FLAWBZ
+#+END_SRC
+#+END_EXAMPLE
+
+Sometimes i break this up into two blocks if i need a quicker  build/test .
+
+Finally, i mark the release affected.
+
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ  :cache yes 
+ sfm2 $FLAWBZ rhel-9/kernel=affected,fix
+ sfm2 $FLAWBZ rhel-9/kernel-rt=affected,fix
+#+END_SRC
+#+END_EXAMPLE
+
+This uses the sfm2 command is a tool created internally to modify the bugzilla state.  Equivalent functionality can be achieved by manipulating the relevant bug tracker (in this case bugzilla with https://github.com/python-bugzilla/python-bugzilla ) sfm2 can manipulate most of bugzillas tooling, howeve[r it will be replaced with OSIDB soon.](https://www.openhealthnews.com/story/2022-12-16/new-generation-tools-open-source-vulnerability-management)
+
+Both kernel and kernel-rt have very similar -build- CONFIG_ directives, but if i dont see the CONFIG_ directive for kernel-rt, I dont consider it affected (I rarely see this unless a flaw is architecture specific)
+
+* All other releases
+
+Each release of Red Hat Enterprise Linux has a heading that points to a directory of the current git trees used to build that version of RHEL
+
+Some releases require special handling, as they are in different parts of the product lifecycle, I set sensible defaults in the template to ensure that less time is wasted when new flaws are created.  Some releases are removed when they are no longer supported.
+
+* Setting the CVSS.
+
+
+The CVSS score is commonly shared between different vulnerability databases, NVD/Mitre can often score flaws different to Red Hat, if there is a difference I should email them and explain why as they may not have the same understanding of the flaw.  I have disagreed with NVD approximately 32 times in my entire time, they have modified their flaws with this new rating 30 times.
+
+
+
+#+BEGIN_EXAMPLE
+
+ * [_] Setting the CVSS score
+
+  Current CVSS score:
+
+  #+BEING_SRC sh :export results
+  sfm2 flaw $FLAWBZ | grep CVSSv3
+  #+end_src
+
+  #+BEING_SRC sh :export results
+  sfm2 flaw $FLAWBZ CVSSv3 AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+  #+end_src
+
+#+END_EXAMPLE
+
+This shows the current cvssv3 score, and then you can set the score immediately after if it is not completed.  I just remove the last code block, if its not necessary, then i mark the scoring task as done (C-c C-t).
+
+## Fixed in upstream:
+
+NVD for some reason ask Red Hat to submit where things are fixed in upstreams release (As a rule all fixes must be upstreamed before being included in the kernel, this way everyone wins) so for some reason it falls to me to chase that down, even though we never ship ‘upstream’ code.
+
+
+#+BEGIN_EXAMPLE
+ ** [_] Upstream fixed in version.
+ :PROPERTIES:
+ :header-args:sh+: :dir "/home/wmealing/fast/linux/"
+ :END:
+#+END_EXAMPLE
+
+
+Once again we use the :dir option to infuence the children code-blocks (Think of the CHILDREN!) so that it runs against the upstream kernel source.  I need to find the commit that fixed this flaw, if I dont have it already, or if its fixed in various trees or have incorrect information I need to consult the source.  I use gits ‘blame’ feature which annotates each line with useful metata.
+
+
+#+BEGIN_EXAMPLE
+#+begin_src sh :dir ~/fast/linux :exports results
+git blame fs/fake-read-only-no-block-device.c  |grep -A5 -B5 'identifier'
+#+end_src
+
+#+RESULTS:
+...
+^72FG2AF (Some Coder 2022-07-03 06:55:55 -0300  7)  *p = container_of(ptr_a); 
+...
+#+END_EXAMPLE
+
+I include an identifier that i know is usually in the patch, usually part of one of the lines where I know there is a problem.   The commit identifier ( 72FG2AF ) can be then used to find out which tag introduced this problem.
+
+I did have some trickery written to pull the commit ID off the line, but it ended up being more work thatn it was worth, so i input it now, every time.
+
+
+#+BEGIN_EXAMPLE
+#+begin_src sh :exports results :dir ~/fast/linux
+git tag --contains 72FG2AF
+#+END_SRC
+
+#+RESULTS:
+
+v5.14rc2
+#+END_EXAMPLE
+
+So, i’d then set it with the command:
+
+#+BEGIN_EXAMPLE
+#+begin_src sh
+sfm2 flaw $FLAWBZ change --fixed-in "kernel v5.14-rc2"
+#+end_src
+#+END_EXAMPLE
+
+* Other workflow and exporting data.
+
+There are significant number of other checklist items that I have not covered here, that you can see in the demonstration template.  The large number of items that I had to remember made it obvious to me that checklisting and automation was the only way to reduce mistakes and increase the quality.
+
+Once all of the checklist items were complete, I would use the [org-export](https://orgmode.org/manual/Exporting.html) functionality to export a UTF-8 text file (Gotta preserve those tickboxes) for manually pasting into bugzilla. I did have some automation setup for this, however it was a little unwieldly and copy-and-paste into bugzilla meant that I knew it got there reliably.
+
+* Conclusion
+
+Org-babel makes it easy to interleave text, code, and the results of running that code. This integrated workflow reduces the time spent switching between editing text, running code, and reviewing the results. You can focus on telling a coherent story with your data analysis without disruptive context switches.
+
+In conclusion, org-babel offers these benefits that can speed up your data analysis workflow:
+
+1. Execute data processing commands directly in Org mode
+2. Cache results, figures, and tables for fast access
+3. Integrate text, code, and results in a seamless workflow
+By taking advantage of these org-babel features, you can significantly reduce the time spent analyzing your data and focus on gaining key insights.
+
+The seamless mix of ‘my local context’ and the checklist requirements and process required to complete the task allows me to reduce the time that I take between flaws down by 45 minutes on average, along with significantly lower error rates.
+
+I have yet to see tooling written that ensures a reliable workflow to build a report that shows the logical path taken to understand a security flaw to resolution through the maintenance process.     Maybe it can be done, I just haven’t seen anyone else do this.
+
+If you have structured work that repeats commonly , I would strongly suggest looking into org-babel to smooth out any rough parts of your workflow, and let you spend your time on solving the issue, not dealing with process.
+
+* Resources:
+
+ - [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org-babel introduction]]
+ - [[https://orgmode.org/manual/Environment-of-a-Code-Block.html][Environment of a Code Block]]
+ - [[file:template-flaw.org][Template Flaw]]
