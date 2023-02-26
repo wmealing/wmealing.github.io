@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-02-26 Sun 17:33 -->
+<!-- 2023-02-26 Sun 17:36 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs and Org-babel for flaw analysis.</title>
@@ -201,9 +201,9 @@
 
 
 
-<div id="outline-container-org3db742c" class="outline-2">
-<h2 id="org3db742c">Introduction</h2>
-<div class="outline-text-2" id="text-org3db742c">
+<div id="outline-container-orgddd7237" class="outline-2">
+<h2 id="orgddd7237">Introduction</h2>
+<div class="outline-text-2" id="text-orgddd7237">
 <p>
 I am a long time emacs user, and wanted to automate as much of my workflow as possible.  Just understanding flaws in C can be a time-consuming process, especially when working with large git trees like the kernel. However, Emacs offers a useful tool called org-babel (part of org-mode)  that can help speed up analysis workflows. Org-babel allows you to execute code blocks in Org mode files and capture the results, figures, and tables.  I will work through a fictional flaw in the kernel, because I’m not allowed to share the <b>exact</b> secret sauce of a flaw, but this should be a good starting point.
 </p>
@@ -226,9 +226,9 @@ Rather than switching between Emacs and your terminal, org-babel can run data pr
 </div>
 </div>
 
-<div id="outline-container-org99d43e3" class="outline-2">
-<h2 id="org99d43e3">File metadata</h2>
-<div class="outline-text-2" id="text-org99d43e3">
+<div id="outline-container-org7d73c74" class="outline-2">
+<h2 id="org7d73c74">File metadata</h2>
+<div class="outline-text-2" id="text-org7d73c74">
 <p>
 Each flaw that is analysed starts from a template, the template contains the a “Org-mode” tree-structured file which where headings can have subheadings.  This allows you to organize the output of my work hierarchically and fold/unfold sections of the tree.
 </p>
@@ -237,7 +237,7 @@ Each flaw that is analysed starts from a template, the template contains the a �
 Before any of the tree structure there is some file specific metadata:
 </p>
 
-<pre class="example" id="org8bc5471">
+<pre class="example" id="org51f999b">
 
 #+TITLE: Evaluation of flaw: **CVE-YYYY-NNNNN**
 #+TODO: [_] [✓] [x] [x] [NA]
@@ -276,7 +276,7 @@ To create a code block in org-babel, you use the #+BEGIN_SRC and #+END_SRC lines
 For example: 
 </p>
 
-<pre class="example" id="orgaf54907">
+<pre class="example" id="org2392068">
 #+BEGIN_SRC emacs-lisp
 (org-mode-restart)
 #+END_SRC
@@ -296,9 +296,9 @@ In our example, though when we put the cursor inside the code-block and hit <b><
 </div>
 </div>
 
-<div id="outline-container-orgadc10f2" class="outline-2">
-<h2 id="orgadc10f2">The power of the checklist.</h2>
-<div class="outline-text-2" id="text-orgadc10f2">
+<div id="outline-container-org772e8e4" class="outline-2">
+<h2 id="org772e8e4">The power of the checklist.</h2>
+<div class="outline-text-2" id="text-org772e8e4">
 <p>
 Its easy to forget things, I know as I do it all the time.  Many people [preach the power of checklists](<a href="http://atulgawande.com/book/the-checklist-manifesto/">http://atulgawande.com/book/the-checklist-manifesto/</a>) , it minimises mistakes because I need to ensure that each checklist item is at least acknowledged as being done, undone or invalid.  I use each item in org-modes tree structure as a checklist item, and checklists can have subchecklists, etc.   This reduced errors in my analysis by approximately 22.5% .  I know this because each flaw is being checked by another engineer inside the Red Hat product security group.
 </p>
@@ -311,7 +311,7 @@ I start by reading through the upstream commit that either fixes the flaw or the
 This is my first checklist item, did I read it and explain the flaw.
 </p>
 
-<pre class="example" id="orgdb810ae">
+<pre class="example" id="org7b5cd74">
 * [_] Briefly explain the flaw in your own words and discuss its severity.
 </pre>
 
@@ -319,7 +319,7 @@ This is my first checklist item, did I read it and explain the flaw.
 This is prefixed with the asterix as it s a heading, adn the [_] is one of the possible ‘states’ that this checklist item is in, it starts in the ‘unknown’ state.   This is a top-level tree element with no branches.  Usually I’d write a quick description like this below the checklist item.  
 </p>
 
-<pre class="example" id="orgb61f02b">
+<pre class="example" id="org11493b1">
 This flaw appears to be a flaw in the management of the multiplication overflow
 when a user can specify x,y,z in conditions m.  This can incorrectly create a
 condition where writes allocation may end up being less than expected, but when
@@ -340,7 +340,7 @@ The next thing we do is identify which part of the kernel source code that this 
 We should start of to see if this code is built for any of the released kernels.   I have each of the kernel sources for each release of the linux checked out on an NVME disk because I do often need to grep large chunks checkouts and NVME ends up making the interactions much faster.
 </p>
 
-<pre class="example" id="orga689f99">
+<pre class="example" id="org4324294">
 * [_] Which kernels include this faulty code ?
 </pre>
 
@@ -352,7 +352,7 @@ The kernel build process uses CONFIG directives in build files to set which code
 The general rule of thumb is that if file exists in fs, you can see the CONFIG directive that builds it by looking in the Makekfile in the same directory.  This is not always the case, sometimes it may be the prent directory, but its frequently the case.
 </p>
 
-<pre class="example" id="org44c0b62">
+<pre class="example" id="org7135d37">
 ** [_] Upstream
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/linux/"
@@ -363,7 +363,7 @@ The general rule of thumb is that if file exists in fs, you can see the CONFIG d
 This is a child node of the above, which usually right below it has the following org-babel block:
 </p>
 
-<pre class="example" id="org2525d69">
+<pre class="example" id="org899aae5">
 #+BEGIN_SRC sh :exports both
 cat fs/Makefile | grep -B 2 -A 2 fake-read-only-no-block-device.c
 #+END_SRC
@@ -386,7 +386,7 @@ I then explicitly export the variable for use in future code blocks by execute a
 
 
 
-<pre class="example" id="org9df6cd5">
+<pre class="example" id="org8e42659">
 #+name: CONFIG_DIRECTIVE
 #+BEGIN_SRC sh :exports none
 echo -n "CONFIG_SOMETHING"
@@ -400,7 +400,7 @@ CONFIG_SOMETHING
 Now we break this down into specific releases. I will cover fedora and rhel-9 as two examples, the other RHEL releases are similar but have different default settings that are more relevant to the lifecycle.
 </p>
 
-<pre class="example" id="orga3ea681">
+<pre class="example" id="org58d30c9">
 ** [_] Fedora
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/fedora/"
@@ -411,7 +411,7 @@ Now we break this down into specific releases. I will cover fedora and rhel-9 as
 This contains the current fedora kernel checked out from git, along with the “.config” files used to set build directives.  These files are ‘vendor driven’ which end up making the build time configuration of the kernel.  Fortunately they are pretty sanely set out so searching them isnt a big deal.
 </p>
 
-<pre class="example" id="org5a2b3e7">
+<pre class="example" id="orgbc1d014">
 #+BEGIN_SRC sh :results verbatim  :exports results :cache yes :var config=CONFIG_DIRECTIVE
 grep -R  "$config=" /home/wmealing/fast/fedora/redhat/configs/*  
 #+END_SRC
@@ -428,7 +428,7 @@ This will usually return a value if its set, these seem to be pretty consistent 
 If Fedora kernels include the build option, now it is time to check to see if it includes the bug.
 </p>
 
-<pre class="example" id="orga33512e">
+<pre class="example" id="org8301460">
 #+BEGIN_SRC sh :exports both :async :cache yes :var config=CONFIG_DIRECTIVE
 git grep -W 'broken_function_name' *.c 
 #+END_SRC
@@ -455,7 +455,7 @@ Now i would mark it affected or unaffected.  I use a tool which I’m not allowe
 
 
 
-<pre class="example" id="org3f1f586">
+<pre class="example" id="orgcd77383">
 #+BEGIN_SRC sh :exports both :async :cache yes :var config=CONFIG_DIRECTIVE
  sfm2 $FLAWBZ fedora/kernel=affected,fix
 #+END_SRC
@@ -469,7 +469,7 @@ Once I’m done i hit <b><b>C-c C-t</b></b>, and the tickbox in the “Fedora”
 And the same for Red Hat Enterprise LInux 9.
 </p>
 
-<pre class="example" id="org687e6f0">
+<pre class="example" id="orgdef2e6f">
 ** [_] Red Hat Enterprise Linux 9
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/rhel-9/"
@@ -484,7 +484,7 @@ The below shell is automatically run from within the :dir directory setting as s
 I dont include the result in the template, but an example is shown below so you can see what the output kinda would look like.
 </p>
 
-<pre class="example" id="org980bbb9">
+<pre class="example" id="orge663b88">
 #+BEGIN_SRC sh :exports both :async :cache yes 
 git grep -W 'broken_function_name' *.c 
 #+END_SRC
@@ -514,7 +514,7 @@ Now usually, i’d write a reproducer that exercises this code, so that i can ma
 I also make the reproducer in org-babel, I did at one point have this “[tangling](<a href="https://orgmode.org/manual/Extracting-Source-Code.html">https://orgmode.org/manual/Extracting-Source-Code.html</a>)” but I had since changed back to the following bash snippet to get my reproducer.
 </p>
 
-<pre class="example" id="org5283ac9">
+<pre class="example" id="org0e8c0e6">
 #+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ :cache yes 
 cat &lt;&lt; EOF &gt; ~/reproducers/$FLAWBZ.c
 
@@ -545,7 +545,7 @@ First I need to reserve a system.
 </p>
 
 
-<pre class="example" id="org975a682">
+<pre class="example" id="org5f8f58a">
 #+NAME: reserved-system
 #+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ  :cache yes 
 SYSTEM=`system-reserve rhel-9 5.14.0-162.6.1`
@@ -563,7 +563,7 @@ Finally, i mark the release affected.
 </p>
 
 
-<pre class="example" id="org587d4c6">
+<pre class="example" id="org8a19b7e">
 #+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ  :cache yes 
  sfm2 $FLAWBZ rhel-9/kernel=affected,fix
  sfm2 $FLAWBZ rhel-9/kernel-rt=affected,fix
@@ -580,9 +580,9 @@ Both kernel and kernel-rt have very similar -build- CONFIG_ directives, but if i
 </div>
 </div>
 
-<div id="outline-container-orgec50663" class="outline-2">
-<h2 id="orgec50663">All other releases</h2>
-<div class="outline-text-2" id="text-orgec50663">
+<div id="outline-container-org297fdc6" class="outline-2">
+<h2 id="org297fdc6">All other releases</h2>
+<div class="outline-text-2" id="text-org297fdc6">
 <p>
 Each release of Red Hat Enterprise Linux has a heading that points to a directory of the current git trees used to build that version of RHEL
 </p>
@@ -593,16 +593,16 @@ Some releases require special handling, as they are in different parts of the pr
 </div>
 </div>
 
-<div id="outline-container-org0789593" class="outline-2">
-<h2 id="org0789593">Setting the CVSS.</h2>
-<div class="outline-text-2" id="text-org0789593">
+<div id="outline-container-org2762ba9" class="outline-2">
+<h2 id="org2762ba9">Setting the CVSS.</h2>
+<div class="outline-text-2" id="text-org2762ba9">
 <p>
 The CVSS score is commonly shared between different vulnerability databases, NVD/Mitre can often score flaws different to Red Hat, if there is a difference I should email them and explain why as they may not have the same understanding of the flaw.  I have disagreed with NVD approximately 32 times in my entire time, they have modified their flaws with this new rating 30 times.
 </p>
 
 
 
-<pre class="example" id="org5f68ba3">
+<pre class="example" id="orge5aba17">
 
 * [_] Setting the CVSS score
 
@@ -621,17 +621,17 @@ The CVSS score is commonly shared between different vulnerability databases, NVD
 <p>
 This shows the current cvssv3 score, and then you can set the score immediately after if it is not completed.  I just remove the last code block, if its not necessary, then i mark the scoring task as done (C-c C-t).
 </p>
+</div>
 
-<p>
-## Fixed in upstream:
-</p>
-
+<div id="outline-container-org7219a62" class="outline-3">
+<h3 id="org7219a62">Fixed in upstream:</h3>
+<div class="outline-text-3" id="text-org7219a62">
 <p>
 NVD for some reason ask Red Hat to submit where things are fixed in upstreams release (As a rule all fixes must be upstreamed before being included in the kernel, this way everyone wins) so for some reason it falls to me to chase that down, even though we never ship ‘upstream’ code.
 </p>
 
 
-<pre class="example" id="org5bec584">
+<pre class="example" id="org52e28b5">
 ** [_] Upstream fixed in version.
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/linux/"
@@ -644,7 +644,7 @@ Once again we use the :dir option to infuence the children code-blocks (Think of
 </p>
 
 
-<pre class="example" id="orgc586624">
+<pre class="example" id="org9ba900e">
 #+begin_src sh :dir ~/fast/linux :exports results
 git blame fs/fake-read-only-no-block-device.c  |grep -A5 -B5 'identifier'
 #+end_src
@@ -664,7 +664,7 @@ I did have some trickery written to pull the commit ID off the line, but it ende
 </p>
 
 
-<pre class="example" id="orge823867">
+<pre class="example" id="org05189f0">
 #+begin_src sh :exports results :dir ~/fast/linux
 git tag --contains 72FG2AF
 #+END_SRC
@@ -678,17 +678,18 @@ v5.14rc2
 So, i’d then set it with the command:
 </p>
 
-<pre class="example" id="orga866bcf">
+<pre class="example" id="org48abcce">
 #+begin_src sh
 sfm2 flaw $FLAWBZ change --fixed-in "kernel v5.14-rc2"
 #+end_src
 </pre>
 </div>
 </div>
+</div>
 
-<div id="outline-container-orge3277c7" class="outline-2">
-<h2 id="orge3277c7">Other workflow and exporting data.</h2>
-<div class="outline-text-2" id="text-orge3277c7">
+<div id="outline-container-org634b5e1" class="outline-2">
+<h2 id="org634b5e1">Other workflow and exporting data.</h2>
+<div class="outline-text-2" id="text-org634b5e1">
 <p>
 There are significant number of other checklist items that I have not covered here, that you can see in the demonstration template.  The large number of items that I had to remember made it obvious to me that checklisting and automation was the only way to reduce mistakes and increase the quality.
 </p>
@@ -699,9 +700,9 @@ Once all of the checklist items were complete, I would use the [org-export](<a h
 </div>
 </div>
 
-<div id="outline-container-orgf667411" class="outline-2">
-<h2 id="orgf667411">Conclusion</h2>
-<div class="outline-text-2" id="text-orgf667411">
+<div id="outline-container-org0cbc5da" class="outline-2">
+<h2 id="org0cbc5da">Conclusion</h2>
+<div class="outline-text-2" id="text-org0cbc5da">
 <p>
 Org-babel makes it easy to interleave text, code, and the results of running that code. This integrated workflow reduces the time spent switching between editing text, running code, and reviewing the results. You can focus on telling a coherent story with your data analysis without disruptive context switches.
 </p>
@@ -733,9 +734,9 @@ If you have structured work that repeats commonly , I would strongly suggest loo
 </div>
 </div>
 
-<div id="outline-container-orgbd68ac7" class="outline-2">
-<h2 id="orgbd68ac7">Resources:</h2>
-<div class="outline-text-2" id="text-orgbd68ac7">
+<div id="outline-container-org987c201" class="outline-2">
+<h2 id="org987c201">Resources:</h2>
+<div class="outline-text-2" id="text-org987c201">
 <ul class="org-ul">
 <li><a href="https://orgmode.org/worg/org-contrib/babel/intro.html">Org-babel introduction</a></li>
 <li><a href="https://orgmode.org/manual/Environment-of-a-Code-Block.html">Environment of a Code Block</a></li>

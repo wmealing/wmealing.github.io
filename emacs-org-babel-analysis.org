@@ -313,7 +313,7 @@ The CVSS score is commonly shared between different vulnerability databases, NVD
 
 This shows the current cvssv3 score, and then you can set the score immediately after if it is not completed.  I just remove the last code block, if its not necessary, then i mark the scoring task as done (C-c C-t).
 
-## Fixed in upstream:
+** Fixed in upstream:
 
 NVD for some reason ask Red Hat to submit where things are fixed in upstreams release (As a rule all fixes must be upstreamed before being included in the kernel, this way everyone wins) so for some reason it falls to me to chase that down, even though we never ship ‘upstream’ code.
 
