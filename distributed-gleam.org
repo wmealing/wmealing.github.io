@@ -96,7 +96,7 @@ The second parameter "linked: true", creates a "link" between two processes.
 If either of the proccesses participating ink a link terminates, it will send an exit message to
 the other participant.  The exit message will contain the reason of the terminated participant.
 
-In this case, there is no need to know if a process has terminated as no action will be taken.  This
+In this simple example, there is no need to know if a process has terminated as no action will be taken.  This
 is not a supervisor.
 
 ** Sending messages
