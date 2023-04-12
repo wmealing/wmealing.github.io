@@ -74,7 +74,7 @@ Supervisors can supervise workers, and supervisors can supervise supervisors.
 Before understanding the worker/supervisor implementation,  We should create a basic example
 of starting a 'process' and sending messages to it.
 
-A process is not a OS level process, it is a 'thread' running within the single "beam"
+A process is not a OS level process, it is a 'thread' running within the single [[https://www.erlang.org/blog/a-brief-beam-primer/][BEAM]] 
 virtual machine process. It doesn't come with the memory use and synchronization requirements that
 traditional operating sytem thread or processes require.
 
@@ -170,9 +170,10 @@ if required.
      process.send(target, Allocate)
 #+END_SRC
 
-Listed below is an example of a process sending a message to another process using the method described above.
+Listed below is a module (derived from its filename called "aserver"  It is an example of a process sending a
+message to another process using the method described above.
 
-// TODO: Should i go into details on selecting a message here, or cut the demonstration down a little more ?
+It contains some more advanced functionality that we will touch on later.
 
 #+BEGIN_SRC gleam
 
@@ -289,7 +290,6 @@ Listed below is an example of a process sending a message to another process usi
          rest
        }
        Free(id) -> {
-         // io.debug("freeing channel " <> int.to_string(id) )
         let assert Allocated(channel) = id
         io.debug("Freeing channel: " <> int.to_string(channel))
         list.append([channel], channels)
@@ -303,8 +303,11 @@ Listed below is an example of a process sending a message to another process usi
 
     loop(my_subject, parent_subject, new_channels)
   }
-
 #+END_SRC
+
+#+begin_comment
+Remember not name your module the same name as other erlang modules or you will end up with very strange results.
+#+end_comment
 
 
 ** The Worker
