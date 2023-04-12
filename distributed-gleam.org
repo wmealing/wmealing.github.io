@@ -75,7 +75,7 @@ Before understanding the worker/supervisor implementation,  We should create a b
 of starting a 'process' and sending messages to it.
 
 A process is not a OS level process, it is a 'thread' running within the single "beam"
-virtual machine. It doesn't come with the memory use and synchronization requirements that
+virtual machine process. It doesn't come with the memory use and synchronization requirements that
 traditional operating sytem thread or processes require.
 
 ** Starting a process.
