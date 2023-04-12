@@ -67,10 +67,6 @@ In the following figure, square boxes represents supervisors and circles represe
 [[file:supervisors_and_processes.png]]
 
 
-
-Supervisors can supervise workers, and supervisors can supervise supervisors.
-
-
 ** Simple Processes example.
 
 Before understanding the worker/supervisor implementation,  We should create a basic example
