@@ -147,8 +147,8 @@ pub type ChannelRequest {
 As stated earlier, to be able to send to the process, a subject in the new process context will need to be sent
 to the parent process.
 
-This message will need to be captured and used when making the request.
-
+This message will need to be captured and used when making the request.  Below is a sequence diagram showing the basics of
+starting processes.
 
 #+BEGIN_SRC plantuml :file hello-uml.png
   Parent ->  Child : Here is "my subject" AKA Parent subject, where is passed in process.start.
@@ -158,8 +158,9 @@ This message will need to be captured and used when making the request.
 #+RESULTS:
 [[file:hello-uml.png]]
 
-The "Child" subject can be passed to other processes or used by the parent.  However the typed messages
-to the Child must remain consistent.
+After the "Child subject" has been received by the parent process, it can be  used by the parent process
+or passed to another, However the typed messages to the Child must remain consistent. The "Send" channel
+remains the same as long as the Child Process lives.
 
 Messages can be set to a target subject with the 'process.send'.   The example allocate below is a simple
 message of type "ChannelRequest" with no parameters.  More complex data can be passed with more complex Types
@@ -169,7 +170,9 @@ if required.
      process.send(target, Allocate)
 #+END_SRC
 
-Listed below is a simple example of a process sending a message to another process.
+Listed below is an example of a process sending a message to another process using the method described above.
+
+// TODO: Should i go into details on selecting a message here, or cut the demonstration down a little more ?
 
 #+BEGIN_SRC gleam
 
@@ -237,13 +240,18 @@ Listed below is a simple example of a process sending a message to another proce
     let channel2 = alloc(child_subject, my_subject)
     let channel3 = alloc(child_subject, my_subject)
 
+    // use the channels here.
+    // use_channels(channel1, channel2, channel3)
+
     // show the free channel list:
     show(child_subject, my_subject)
 
+    // return the channels, as we're done with them.
     free(child_subject, my_subject, channel1)
     free(child_subject, my_subject, channel2)
     free(child_subject, my_subject, channel3)
 
+    // show the newly used list, they will be out of order.
     show(child_subject, my_subject)
 
     Ok(process.sleep_forever())
@@ -251,9 +259,11 @@ Listed below is a simple example of a process sending a message to another proce
 
   pub fn init(parent_subject: Subject(ChannelResponse)) {
 
-    // send our channel back to the paren
+    // create another subject, that other processes can use
+    // to address this new process.
     let my_subject = process.new_subject()
 
+    // send the new subject back to the parent, using its subject.
     process.send(parent_subject, ChildSubject(my_subject))
 
     // start the main process loop
@@ -267,7 +277,7 @@ Listed below is a simple example of a process sending a message to another proce
       process.new_selector()
       |> process.selecting(for: my_subject, mapping: function.identity )
 
-    // block forever on parent process
+    // block forever on waiting for a message.
     let msg = process.select_forever(sel)
 
     let new_channels =  case msg {
