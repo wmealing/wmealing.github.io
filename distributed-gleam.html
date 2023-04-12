@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-12 Wed 23:26 -->
+<!-- 2023-04-12 Wed 23:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gleam OTP Design Principles User's Guide</title>
@@ -202,17 +202,17 @@
 This document is a work in progress and will be updated as time permits.
 </p>
 
-<div id="outline-container-orgcbad706" class="outline-2">
-<h2 id="orgcbad706">Overview</h2>
-<div class="outline-text-2" id="text-orgcbad706">
+<div id="outline-container-orgc8b7dbd" class="outline-2">
+<h2 id="orgc8b7dbd">Overview</h2>
+<div class="outline-text-2" id="text-orgc8b7dbd">
 <p>
 The OTP design principles define how to structure Gleam code in terms of processes and modules.
 </p>
 </div>
 
-<div id="outline-container-orgfc53366" class="outline-3">
-<h3 id="orgfc53366">Supervisor Tree</h3>
-<div class="outline-text-3" id="text-orgfc53366">
+<div id="outline-container-orgf67dfe9" class="outline-3">
+<h3 id="orgf67dfe9">Supervisor Tree</h3>
+<div class="outline-text-3" id="text-orgf67dfe9">
 <p>
 A fundamental idea of most BEAM based language is the ability to supervise a process, and be notified of its failure.
 This supervisory idea has roots in the erlang history and has become a well accepted method to deal with process failure.
@@ -242,10 +242,11 @@ In the following figure, square boxes represents supervisors and circles represe
 </p>
 
 
-<div id="org2128bbb" class="figure">
-<p><img src="some_filename.png" alt="some_filename.png" />
+<div id="orga3ec19c" class="figure">
+<p><img src="supervisors_and_processes.png" alt="supervisors_and_processes.png" />
 </p>
 </div>
+
 
 
 <p>
@@ -255,9 +256,9 @@ Supervisors can supervise workers, and supervisors can supervise supervisors.
 </div>
 
 
-<div id="outline-container-org764e499" class="outline-3">
-<h3 id="org764e499">Simple Processes example.</h3>
-<div class="outline-text-3" id="text-org764e499">
+<div id="outline-container-org87fa2a0" class="outline-3">
+<h3 id="org87fa2a0">Simple Processes example.</h3>
+<div class="outline-text-3" id="text-org87fa2a0">
 <p>
 Before understanding the worker/supervisor implementation,  We should create a basic example
 of starting a 'process' and sending messages to it.
@@ -271,9 +272,9 @@ traditional operating sytem thread or processes require.
 </div>
 </div>
 
-<div id="outline-container-orgec1e97d" class="outline-3">
-<h3 id="orgec1e97d">Starting a process.</h3>
-<div class="outline-text-3" id="text-orgec1e97d">
+<div id="outline-container-orga87f6c6" class="outline-3">
+<h3 id="orga87f6c6">Starting a process.</h3>
+<div class="outline-text-3" id="text-orga87f6c6">
 <p>
 A process can be started with "process.start", see the following:
 </p>
@@ -303,9 +304,9 @@ is not a supervisor.
 </div>
 </div>
 
-<div id="outline-container-org0a2f8df" class="outline-3">
-<h3 id="org0a2f8df">Sending messages</h3>
-<div class="outline-text-3" id="text-org0a2f8df">
+<div id="outline-container-org39489d1" class="outline-3">
+<h3 id="org39489d1">Sending messages</h3>
+<div class="outline-text-3" id="text-org39489d1">
 <p>
 Gleam’s process requires type safety for both processes and messages.  When sending messages between
 processes, the first step is to have a 'subject' which references the spawned process.
@@ -378,7 +379,7 @@ This message will need to be captured and used when making the request.
 
 
 
-<div id="org675d9c7" class="figure">
+<div id="org7dd1df2" class="figure">
 <p><img src="hello-uml.png" alt="hello-uml.png" />
 </p>
 </div>
@@ -534,27 +535,27 @@ Listed below is a simple example of a process sending a message to another proce
 </div>
 
 
-<div id="outline-container-orgc8e4d61" class="outline-3">
-<h3 id="orgc8e4d61">The Worker</h3>
-<div class="outline-text-3" id="text-orgc8e4d61">
+<div id="outline-container-org01f6652" class="outline-3">
+<h3 id="org01f6652">The Worker</h3>
+<div class="outline-text-3" id="text-org01f6652">
 <p>
 PUT WORKER EXAMPLE HERE
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc19a4d6" class="outline-3">
-<h3 id="orgc19a4d6">The supervisor</h3>
-<div class="outline-text-3" id="text-orgc19a4d6">
+<div id="outline-container-orgabd31b1" class="outline-3">
+<h3 id="orgabd31b1">The supervisor</h3>
+<div class="outline-text-3" id="text-orgabd31b1">
 <p>
 PUT SUPERVISOR EXAMPLE HERE
 </p>
 </div>
 </div>
 
-<div id="outline-container-org489e543" class="outline-3">
-<h3 id="org489e543">Round the ring</h3>
-<div class="outline-text-3" id="text-org489e543">
+<div id="outline-container-orgc9731f9" class="outline-3">
+<h3 id="orgc9731f9">Round the ring</h3>
+<div class="outline-text-3" id="text-orgc9731f9">
 <p>
 DESCRIBE RING DEMO HERE AND ADD SOURCE.
 </p>
@@ -567,39 +568,39 @@ References: gleam otp source for <a href="https://github.com/gleam-lang/otp/blob
 </div>
 </div>
 
-<div id="outline-container-org2b19f47" class="outline-2">
-<h2 id="org2b19f47">Distribution</h2>
-<div class="outline-text-2" id="text-org2b19f47">
+<div id="outline-container-org237f08d" class="outline-2">
+<h2 id="org237f08d">Distribution</h2>
+<div class="outline-text-2" id="text-org237f08d">
 <p>
 LINK UP EXAMPLE DISTRIBUTION LIBRARY HERE
 </p>
 </div>
 
-<div id="outline-container-org74b4d11" class="outline-3">
-<h3 id="org74b4d11">Starting up nodes.</h3>
-<div class="outline-text-3" id="text-org74b4d11">
+<div id="outline-container-org74c2255" class="outline-3">
+<h3 id="org74c2255">Starting up nodes.</h3>
+<div class="outline-text-3" id="text-org74c2255">
 <p>
 Setup example here.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org78b62a5" class="outline-3">
-<h3 id="org78b62a5">Spawning a process on another node.</h3>
+<div id="outline-container-org8a3f91e" class="outline-3">
+<h3 id="org8a3f91e">Spawning a process on another node.</h3>
 </div>
 
-<div id="outline-container-org7b5acd3" class="outline-3">
-<h3 id="org7b5acd3">Finding processes on another node</h3>
+<div id="outline-container-orga760508" class="outline-3">
+<h3 id="orga760508">Finding processes on another node</h3>
 </div>
 
-<div id="outline-container-org2641c37" class="outline-3">
-<h3 id="org2641c37">Gleam process registry ?</h3>
+<div id="outline-container-org066907b" class="outline-3">
+<h3 id="org066907b">Gleam process registry ?</h3>
 </div>
 </div>
 
 
-<div id="outline-container-org50d95c6" class="outline-2">
-<h2 id="org50d95c6">Resources:</h2>
+<div id="outline-container-org8a55a19" class="outline-2">
+<h2 id="org8a55a19">Resources:</h2>
 </div>
 </div>
 </body>

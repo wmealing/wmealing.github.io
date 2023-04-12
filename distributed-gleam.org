@@ -64,7 +64,8 @@ In the following figure, square boxes represents supervisors and circles represe
 #+end_src
 
 #+RESULTS:
-[[file:some_filename.png]]
+[[file:supervisors_and_processes.png]]
+
 
 
 Supervisors can supervise workers, and supervisors can supervise supervisors.
