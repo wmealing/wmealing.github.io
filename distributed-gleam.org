@@ -170,9 +170,7 @@ if required.
      process.send(target, Allocate)
 #+END_SRC
 
-
 Listed below is a simple example of a process sending a message to another process.
-
 
 #+BEGIN_SRC gleam
 
