@@ -104,9 +104,10 @@ is not a supervisor.
 Gleam’s process requires type safety for both processes and messages.  When sending messages between
 processes, the first step is to have a 'subject' which references the spawned process.
 
-You can do this with process.new_subject, that makes a subject based in the current process.
+You can do this with process.new_subject, that makes a subject based in the current process context.
+
 Subject is an opaque type. An opaque type is a type where the constructors of that type arent
-exposed to other modules that import the type.  You must use the "new_subject" call to create one.
+exposed to other modules that import the type.  You must use the "new_subject" call to create a new subject.
 
 If the "new_subject" call is made in a different process, it would have different contents.
 
