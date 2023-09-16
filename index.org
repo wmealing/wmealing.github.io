@@ -8,6 +8,10 @@
 #+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
+* [[https://wmealing.github.io/htmx-common-lisp.html][Common Lisp and HTMX]]
+
+Common lisp and HTMX provide a sane platform to develop basic applications.  I [[https://wmealing.github.io/htmx-common-lisp.html][outline the reasons]] that I have chosen them.
+This post also marks the new voice I plan to use while blogging. I no longer care to engage in debate with people without being paid.
 
 * [[./emacs-org-babel-analysis.html ][Supercharge your workflow with emacs and org-babel]].
 
