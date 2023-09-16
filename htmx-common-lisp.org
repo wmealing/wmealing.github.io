@@ -1,0 +1,63 @@
+#+TITLE: HTMX in common lisp.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+Out of respect, I cut this to its bone, exposing only what you may find useful.
+
+I want to write online and cross platform apps.  Most of what i need is probably
+suitable to be a web page and text. My needs are not graphics or webGL.  While researching my options I came across [[http://htmx.org][HTMX]] which included
+a haiku that spoke to me on a deeper level.
+
+#+BEGIN_VERSE
+haiku
+ javascript fatigue:
+ longing for a hypertext
+ already in hand
+#+END_VERSE
+
+I don't want to write javascript, I won't.
+
+HTMX says that any language can be used.  I choose common-lisp as my backend language as it strikes the perfect balance between usability and the [[https://en.wikipedia.org/wiki/Lindy_effect][Lindy Effect.]]  There
+is almost no software-churn in the backend. The toolchain runs reliably and quickly and works across multiple platforms.
+
+People talk about the downside is that Lisp ends up cursing its team as there is too much flexability in its syntax and
+that no two programmers will agree on anything.  This is a non issue as I've also never had a patch sent to code I have created
+so it will be functionally no different.
+
+My stack I dub the "CHOW", Common Lisp, Htmx on Whatever.
+
+|------------+-------------|
+| Language   | Common lisp |
+| JS Library | HTMX        |
+| DB         | Sqlite      |
+|------------+-------------|
+
+
+If i need to grow up from Sqlite, i can likely just use postgresql, but I'm not at the point where that matters.  Keep
+my data simple and cached, dont rely on shitty complexities and we should be okay.
+
+I [[https://github.com/wmealing/learn-htmx][worked on translating]]  the example  "contacts.app" from the HTMX site to common-lisp. It is still being
+developed and I will use it as a testing ground to see how I can improve my workflow.
+
+I haven't demonstrated a single line of HTMX in this post to ensure that my reasons for doing this is clear.  I will
+make posts on this topic in the future.
+
+I still have many questions on how to ensure that web apps I write work predictably, reliably and portably.
+
+
+
+* Resources:
+
+https://htmx.org/
+https://github.com/wmealing/learn-htmx
+

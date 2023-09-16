@@ -3,11 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-09-16 Sat 03:03 -->
+<!-- 2023-09-16 Sat 18:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>For when I'm gone.</title>
-<meta name="author" content="Wade Mealing" />
+<title>HTMX in common lisp.</title>
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -202,164 +201,100 @@
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">For when I'm gone.</h1>
-
-
-<div id="outline-container-org0ac62c4" class="outline-2">
-<h2 id="org0ac62c4"><a href="./emacs-org-babel-analysis.html ">Supercharge your workflow with emacs and org-babel</a>.</h2>
-<div class="outline-text-2" id="text-org0ac62c4">
+<h1 class="title">HTMX in common lisp.</h1>
 <p>
-I do kernel flaw analysis for a living, someone asked me to do a short write up on how I use org-babel to
-do my work. I've documented it <a href="./emacs-org-babel-analysis.html">here</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgb547e6f" class="outline-2">
-<h2 id="orgb547e6f">Lisp flavored erlang (gen_server)</h2>
-<div class="outline-text-2" id="text-orgb547e6f">
-<p>
-I decided to collapse two of my interests, lisp and erlang.  Lisp flavored erlang isnt going to win
-any popularity contests, but it is something that I dont entirely hate  working on.  Ive written
-a quick tutorial describing one of the <a href="https://wmealing.github.io/lfe-gen-server.html">core features of erlang</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgddb0627" class="outline-2">
-<h2 id="orgddb0627">Choosing the wrong roads.</h2>
-<div class="outline-text-2" id="text-orgddb0627">
-<p>
-I've spent the last week reflecting on some poor programming life choices that I've made.
-disagree with the majority, perhaps you are wrong.  I'm not stupid enough to think that i'm smarter
-than most people.  To be honest its probably not worth reading because you already think just like
-this.  If I <a href="https://wmealing.github.io/less-than-optimistic.html">write about it</a>, perhaps it will clear my mind.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6918ede" class="outline-2">
-<h2 id="org6918ede">COBOL - Simple "Curses" like screen to get keyboard input.</h2>
-<div class="outline-text-2" id="text-org6918ede">
-<p>
-On of the simple but effectively powerful things that gnuCOBOL can do is a TUI.  Its not
-fancy (when it implements UTF8 correctly, it will be fancy-af) but it gets the job
-done much quicker than most webapps do.
+Out of respect, I cut this to its bone, exposing only what you may find useful.
 </p>
 
 <p>
-Check out my <a href="./simple-cobol-query.html">Simple example</a> which I've got working on Linux and MacOS X.
+I want to write online and cross platform apps.  Most of what i need is probably
+suitable to be a web page and text. My needs are not graphics or webGL.  While researching my options I came across <a href="http://htmx.org">HTMX</a> which included
+a haiku that spoke to me on a deeper level.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org78bd3fb" class="outline-2">
-<h2 id="org78bd3fb">Python Range function in lisp [Aug 2022]</h2>
-<div class="outline-text-2" id="text-org78bd3fb">
-<p>
-I have wanted a quick way to something similar to the python range function (range n y) in common lisp.
-Sometimes I just want to have some kind of immediate list creation.  <a href="http://wmealing.github.io/lisp-range">See my drivel on this topic.</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-org4c81112" class="outline-2">
-<h2 id="org4c81112">Simple WX example in erlang [July 2022]</h2>
-<div class="outline-text-2" id="text-org4c81112">
-<p>
-I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry.
+<p class="verse">
+haiku<br />
+&#xa0;javascript fatigue:<br />
+&#xa0;longing for a hypertext<br />
+&#xa0;already in hand<br />
 </p>
 
 <p>
-The one that works for me at the moment is <a href="http://wmealing.github.io/wx-erlang-example">WX Erlang</a>
+I don't want to write javascript, I won't.
 </p>
-</div>
-</div>
 
-<div id="outline-container-orgb1e68f7" class="outline-2">
-<h2 id="orgb1e68f7">MIRAI analysis - evasion - deleting the executing code [Nov 2020]</h2>
-<div class="outline-text-2" id="text-orgb1e68f7">
 <p>
-The MIRAI malware deletes itself from disk in an attempt to make it
-harder to analyse. <a href="https://wmealing.github.io/mirai-delete-yourself">This post</a> goes into detail on how it works, a rust
-implementation and a few improvements that could have been done.
+HTMX says that any language can be used.  I choose common-lisp as my backend language as it strikes the perfect balance between usability and the <a href="https://en.wikipedia.org/wiki/Lindy_effect">Lindy Effect.</a>  There
+is almost no software-churn in the backend. The toolchain runs reliably and quickly and works across multiple platforms.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org28fddc2" class="outline-2">
-<h2 id="org28fddc2">MIRAI analysis - watchdog access in rust [Nov 2020]</h2>
-<div class="outline-text-2" id="text-org28fddc2">
 <p>
-The MIRAI malware uses an technique intended to prevent the systems
-watchdog from rebooting the machine when its too busy.  <a href="https://wmealing.github.io/watchdog-in-rust">I share what I learned about this and ported it to rust.</a>
+People talk about the downside is that Lisp ends up cursing its team as there is too much flexability in its syntax and
+that no two programmers will agree on anything.  This is a non issue as I've also never had a patch sent to code I have created
+so it will be functionally no different.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org22a4717" class="outline-2">
-<h2 id="org22a4717">Userspace eBPF [Sep 2 2020]</h2>
-<div class="outline-text-2" id="text-org22a4717">
 <p>
-A few distros have users allowed to insert eBPF programs.  This is disabled in
-some distributions.  <a href="./ebpf-disabled-for-users.html">I've documented my findings</a> after talking to different
-decision holders who made some of these choices.
+My stack I dub the "CHOW", Common Lisp, Htmx on Whatever.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org24e1bb6" class="outline-2">
-<h2 id="org24e1bb6">Anatomy of kernel module signing  [Aug 20 2020]</h2>
-<div class="outline-text-2" id="text-org24e1bb6">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Language</td>
+<td class="org-left">Common lisp</td>
+</tr>
+
+<tr>
+<td class="org-left">JS Library</td>
+<td class="org-left">HTMX</td>
+</tr>
+
+<tr>
+<td class="org-left">DB</td>
+<td class="org-left">Sqlite</td>
+</tr>
+</tbody>
+</table>
+
+
 <p>
-I decided to take a look at the Linux kernel modules signing process.  It seems
-that the recent drovorub malware has some interesting misinformation regarding 
-module signing, so I had decided to take a look at the <a href="./signed-kernel-modules.html">regarding its implementations on Red hat Enterprise Linux</a>.
+If i need to grow up from Sqlite, i can likely just use postgresql, but I'm not at the point where that matters.  Keep
+my data simple and cached, dont rely on shitty complexities and we should be okay.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org5594dd8" class="outline-2">
-<h2 id="org5594dd8">Encrypting a disk to only boot in a specific system. [Aug 9 2020]</h2>
-<div class="outline-text-2" id="text-org5594dd8">
 <p>
-Recent research papers related to flaws in thunderbolt and secureboot have
-piqued my interest in learning more about what can be done to prevent a system
-comprimised in such a way from being abused.  I've written about
-<a href="./tpm-pcr07.html">it here</a>
+I <a href="https://github.com/wmealing/learn-htmx">worked on translating</a>  the example  "contacts.app" from the HTMX site to common-lisp. It is still being
+developed and I will use it as a testing ground to see how I can improve my workflow.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org90d1617" class="outline-2">
-<h2 id="org90d1617">Toshiba Toughpad FZ-G1-3 [Jul 25 2020]</h2>
-<div class="outline-text-2" id="text-org90d1617">
 <p>
-I have recently purchased one of these machines in an auction, and I am -very-
-impressed with its build quality.   While this one is not its current purchase
-release, I've got a page talking about the customizations and things I have
-learned about it <a href="./toshiba-toughpad-fz-g1-3">While making it work for me</a>
+I haven't demonstrated a single line of HTMX in this post to ensure that my reasons for doing this is clear.  I will
+make posts on this topic in the future.
 </p>
-</div>
-</div>
 
-
-
-<div id="outline-container-orgf650e0b" class="outline-2">
-<h2 id="orgf650e0b">Kernel SecuriTea</h2>
-<div class="outline-text-2" id="text-orgf650e0b">
 <p>
-I work on a small youtube channel where I talk about kernel security issues
-that interest me.  I work on quite a lot of these in my work so i'm limited to
-what I can cover.
+I still have many questions on how to ensure that web apps I write work predictably, reliably and portably.
+</p>
+
+
+
+<div id="outline-container-orgf489c08" class="outline-2">
+<h2 id="orgf489c08">Resources:</h2>
+<div class="outline-text-2" id="text-orgf489c08">
+<p>
+<a href="https://htmx.org/">https://htmx.org/</a>
+<a href="https://github.com/wmealing/learn-htmx">https://github.com/wmealing/learn-htmx</a>
 </p>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2023-09-16 Sat 03:03</p>
-<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

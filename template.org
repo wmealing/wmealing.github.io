@@ -1,13 +1,18 @@
-#+TITLE: 
+#+TITLE: Template Goes here
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
 #+OPTIONS: date:nil
 #+OPTIONS: author:nil date:nil
 #+OPTIONS: html-postamble:nil
 
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
+This is a a test, do i even work.
 
 #+BEGIN_EXAMPLE
 #+END_EXAMPLE
