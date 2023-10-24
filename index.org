@@ -8,7 +8,7 @@
 #+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
-* Setting up Github Actions for LFE CI/CD.
+* [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD]]
 
 I'm involved in 'competing' with [[https://spawnfest.org/][spawnfest]] this weekend, I figured its time to setup [[file:lfe-github-actions.html][LFE for CI/CD with GitHub Actions]].
 Its a pretty simple setup that runs the test, i'll expand on this in the future to include creating containers and
