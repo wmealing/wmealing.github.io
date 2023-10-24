@@ -1,0 +1,167 @@
+#+TITLE: Github actions (CI/CD) for LFE.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+* What is CD/CD ?
+
+If you want to take the headache and room for human error out of delivering software, the current trend is to
+use "Continious Integration" and "Continious Delivery" which is a fancy word for automated testing of Merge requests
+and automated delivery (whatever that means for your project).
+
+There are many companies in this space, the one that I'm focusing on is githubs CI/CD platform which they have
+branded as 'GitHub Actions'.
+
+In their words:
+
+#+BEGIN_EXAMPLE
+GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that
+allows you to automate your build, test, and deployment pipeline. You can create workflows
+that build and test every pull request to your repository, or deploy merged pull requests
+to production.
+#+END_EXAMPLE
+
+* Why do I need it ?
+
+Github have a high level overview of their offerings, along with how they expect it to be
+used [[https://resources.github.com/ci-cd/][on their github resources page]]. With minimal effort, you can find many well thought out sites that
+extoll the reasoning and logic of using CI/CD, repeating it here would be pointless.
+
+I'm going to talk about it specifically in the context of automating
+your LFE testing and container image generation.
+
+
+Unlike the GitHub docs, I'm not giving you the shiny version, only how I see it.
+
+
+* How it works.
+
+1. An event occurs on your repository (push, pull, mr ).
+2. GitHub searches the .github/workflows directory in your repository for "yml" workflow files that are present.
+3. A workflow run is triggered for any workflows that have on: values that match the triggering event.
+   Each workflow run will use the version of the workflow that is present in the associated branch at that time.
+
+   (To put it bluntly, it runs with the version that of the '.github/workflow/*.yaml' at the time).
+
+
+So, how to get this up and running quickly, create a .github/config/ci-cd.yaml file.
+
+Here is an example that I used.
+
+#+BEGIN_SRC yaml.
+name: ci/cd
+
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    name: Build and run on OTP-26 and latest LFE.
+    runs-on: ubuntu-latest
+
+    container:
+      image: erlang:26
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Check rebar3 Version
+      run: DEBUG=1 rebar3 --version
+    - name: Compile
+      run: rebar3 lfe compile
+
+    - name: Run Tests
+      run: rebar3 as test lfe ltest
+#+END_SRC
+
+This spins up a basic ubuntu image, with erlang 26 installed, your specific app may require
+another newer (or older) version of the erlang VM (BEAM) please adjust the above as necessary.
+
+Rebar is also installed on the image, and when configured to use lfe, will also fetch the libraries
+configured in the rebar.config file during the build process.
+
+This example compiles and runs the tests. 
+
+Listed below is the rebar.config that
+worked for me.
+
+
+#+BEGIN_SRC erlang
+{erl_opts, [debug_info]}.
+
+{deps, [
+    {lfe, "2.1.2"}
+]}.
+
+{plugins, [
+    {rebar3_lfe, "0.4.8"}
+]}.
+
+
+{provider_hooks, [
+    {pre, [{compile, {lfe, compile}}]}
+]}.
+
+{xref_checks,[
+    undefined_function_calls,undefined_functions,locals_not_used,
+    deprecated_function_calls,deprecated_functions
+]}.
+
+{profiles, [
+    {prod, [
+        {relx, [
+            {dev_mode, false},
+            {include_erts, true}
+       ]}
+    ]},
+    {test, [
+        {deps, [
+            {proper, "1.4.0"}
+        ]},
+        {plugins, [
+            {rebar3_proper, "0.12.1"}
+        ]},
+        {eunit_opts, [verbose]},
+        {erl_opts, [{src_dirs, ["src", "test"]}]}
+    ]}
+]}.
+
+{alias, [
+    {coverage, [
+        {proper, "-c"},
+        {cover, "-v --min_coverage=0"}
+    ]},
+    {check, [
+        compile,
+        xref,
+        %%dialyzer,
+        eunit,
+        coverage
+    ]}
+]}.
+#+END_SRC
+
+Now when you do a 'git push' you should see this 'action' being run under the action tab of your project.
+
+This is a very simple GitHub Action, that will allow you to see the basics of how CI/CD works.  The "Delivery"
+part of this , I will probably expand on in another post.
+
+
+* Resources:
+
+[[https://github.com/wmealing/CI-CD-TEST/tree/main]]
+
+
