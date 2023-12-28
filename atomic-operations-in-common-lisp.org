@@ -8,12 +8,10 @@
 #+PROPERTY: header-args    :results value verbatim :tangle yes
 
 
-#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
-#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
-#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+#+HTML_HEAD: <style> * { sans-serif; } </style>
+#+HTML_HEAD_EXTRA: <meta name="description" content="Using clojures 'atom' type in lisp."  http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
 
 Summary: An example of how to use a clojure style "atom" in common lisp for concurrency control.
 
@@ -254,9 +252,9 @@ Testing:✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
 NIL
 #+END_SRC
 
+I'll update this post if I find any more information, but I'm pleasently surprised with how easy this was.
 
-#+RESULTS:
-: X
+
 
 * Resources:
 

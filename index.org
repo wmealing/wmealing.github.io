@@ -4,7 +4,7 @@
 
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD: <style> * { sans-serif; } </style>
-#+HTML_HEAD_EXTRA: <meta name="for when im gone" http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; font-src fonts.gstatic.com;style-src 'self' fonts.googleapis.com">
+#+HTML_HEAD_EXTRA: <meta name="description" content="Put your description here."  http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; font-src fonts.gstatic.com;style-src 'self' fonts.googleapis.com">
 
 * [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]]
 
@@ -28,7 +28,7 @@ This post also marks the new voice I plan to use while blogging. I no longer car
 * [[./emacs-org-babel-analysis.html ][Supercharge your workflow with emacs and org-babel]].
 
 I do kernel flaw analysis for a living, someone asked me to do a short write up on how I use org-babel to
-do my work. I've documented it [[./emacs-org-babel-analysis.html][here]].
+do my work. I've documented it [[./emacs-org-babel-analysis.html][in this rant]].
 
 * Lisp flavored erlang (gen_server)
 

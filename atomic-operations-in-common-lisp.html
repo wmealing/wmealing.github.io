@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-12-28 Thu 23:43 -->
+<!-- 2023-12-29 Fri 00:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atomic operations in common lisp</title>
@@ -192,12 +192,9 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tufte.css" type="text/css" />
-<style> * { font-family: 'B612', sans-serif; } </style>
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+<style> * { sans-serif; } </style>
+<meta name="description" content="Using clojures 'atom' type in lisp."  http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 </head>
 <body>
 <div id="content" class="content">
@@ -323,9 +320,9 @@ whose CAR is one of the following:
 </pre>
 </div>
 
-<div id="outline-container-org1fd3aee" class="outline-3">
-<h3 id="org1fd3aee">Non threaded example</h3>
-<div class="outline-text-3" id="text-org1fd3aee">
+<div id="outline-container-orgce82716" class="outline-3">
+<h3 id="orgce82716">Non threaded example</h3>
+<div class="outline-text-3" id="text-orgce82716">
 <p>
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -382,9 +379,9 @@ contending it may be run many times.
 </div>
 </div>
 
-<div id="outline-container-org1218b53" class="outline-3">
-<h3 id="org1218b53">Multi-threaded example.</h3>
-<div class="outline-text-3" id="text-org1218b53">
+<div id="outline-container-org6f2e8d5" class="outline-3">
+<h3 id="org6f2e8d5">Multi-threaded example.</h3>
+<div class="outline-text-3" id="text-org6f2e8d5">
 <p>
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
@@ -509,8 +506,8 @@ I'll update this post if I find any more information, but I'm pleasently surpris
 
 
 
-<div id="outline-container-org2f1c855" class="outline-2">
-<h2 id="org2f1c855">Resources:</h2>
+<div id="outline-container-orgcfca66e" class="outline-2">
+<h2 id="orgcfca66e">Resources:</h2>
 </div>
 </div>
 </body>
