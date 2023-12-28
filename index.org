@@ -8,6 +8,14 @@
 #+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
+* [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]]
+
+So, the headline is a bit of a lie.  This entry talks about using clojure like "atoms" to simplify
+management of shared, synchronous, independent state.  Common lisp being the all-singing all-dancing
+monkey of the lisp world, i had to see if atoms can be used this way.  It turns out it is easier
+than I thought. [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Check it.]]
+
+
 * [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD]]
 
 I'm involved in 'competing' with [[https://spawnfest.org/][spawnfest]] this weekend, I figured its time to setup [[file:lfe-github-actions.html][LFE for CI/CD with GitHub Actions]].
