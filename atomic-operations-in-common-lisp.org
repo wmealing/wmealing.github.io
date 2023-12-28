@@ -1,0 +1,262 @@
+#+TITLE: Atomic operations in common lisp
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+PROPERTY: header-args    :results value verbatim :tangle yes
+
+
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+Summary: An example of how to use a clojure style "atom" in common lisp for concurrency control.
+
+I was listening to [[https://www.manning.com/books/data-oriented-programming][Data-Oriented Programming]] chapter on "Advanced concurrency control", the book talks
+about "Atoms" as an alternative to using mutexes and locking to protect critical sections.  This term
+means something different in comon lisp.  I've noticed that a lot of people confuse data oriented design
+with data oriented programming, not sure why.
+
+In common lisp, an atom single "thing" that is not a cons, the [[http://clhs.lisp.se/Body/f_atom.htm][atom]] function can test what an atom is.
+
+#+BEGIN_SRC lisp
+(atom nil) ;; => T
+(atom 'some-symbol) ;; => T
+(atom 3) ;; => T
+(atom "moo") ;; => T
+(atom (cons 1 2)) ;; => NIL
+(atom '(1 . 2)) ;; => NIL
+(atom '(1 2 3 4)) ;; => NIL
+(atom (list 1 2 3 4));;  => NIL
+#+END_SRC
+
+#+RESULTS:
+: NIL
+
+Unfortunately this is *not* the same thing as an [[https://clojure.org/reference/atoms][atom in the clojure language]].  The definition
+of an atom according to the docs is "Atoms provide a way to manage shared, synchronous,
+independent state. They are a reference type like refs and vars.
+
+Not being a clojure programmer, I had to look up what that meant, its a funky way of saying
+that is is thread-safe way to update a variable.  It continues to apply a pure function with
+the 'value to be swapped' as an arguement, and if there are no changes to the variable to be
+swapped, it the value is changed atomicly.
+
+Unlike Clojure, there is no cross-implementation "native" method we can use ensure an atomic
+swap of any lisp variable by portably by using the [[https://github.com/Shinmera/atomics][atomics]] library.  In some languages this is known
+as "CAS" or "Compare and swap".
+
+The *atomics:atomic-update* function wraps many common-lisp implementations atomic operations.
+
+The atomics:atomic-update function definition is:
+
+#+BEGIN_SRC lisp :tangle yes
+(defmacro atomic-update (place update-fn) ....
+#+END_SRC
+
+The SBCL specific implementation that the atomic-update wraps is also named "atomic-update" shown
+here:
+
+#+BEGIN_SRC lisp :tangle yes
+  (sb-xc:defmacro atomic-update (place update-fn &rest arguments &environment env)
+    ....
+#+END_SRC
+
+The documentation for this function describes the arguments:
+
+#+BEGIN_SRC english
+  Updates PLACE atomically to the value returned by calling function
+  designated by UPDATE-FN with ARGUMENTS and the previous value of PLACE.
+
+  PLACE may be read and UPDATE-FN evaluated and called multiple times before the
+  update succeeds: atomicity in this context means that the value of PLACE did
+  not change between the time it was read, and the time it was replaced with the
+  computed value.
+
+  PLACE can be any place supported by *SB-EXT:COMPARE-AND-SWAP*.
+#+END_SRC
+
+For your convience, I'll get the documentation about the "supported places" in the
+*SB-EXT:COMPARE-AND-SWAP* macro.
+
+#+BEGIN_SRC english
+Atomically stores NEW in PLACE if OLD matches the current value of PLACE.
+
+Two values are considered to match if they are EQ. Returns the previous value
+of PLACE: if the returned value is EQ to OLD, the swap was carried out.
+
+PLACE must be an CAS-able place. Built-in CAS-able places are accessor forms
+whose CAR is one of the following:
+
+ CAR, CDR, FIRST, REST, SVREF, SYMBOL-PLIST, SYMBOL-VALUE, SVREF, SLOT-VALUE
+ SB-MOP:STANDARD-INSTANCE-ACCESS, SB-MOP:FUNCALLABLE-STANDARD-INSTANCE-ACCESS,
+
+or the name of a DEFSTRUCT created accessor for a slot whose storage type
+is not raw. (Refer to the the "Efficiency" chapter of the manual
+for the list of raw slot types.  Future extensions to this macro may allow
+it to work on some raw slot types.)
+#+END_SRC 
+
+This documention was confusing for me.  I think what they meant to say is.
+
+#+BEGIN_SRC english
+PLACE must be an CAS-able place. Built-in CAS-able places *have* accessor forms
+whose CAR is one of the following:
+#+END_SRC
+
+** Non threaded example
+
+Putting that knowledge into work, we can start by making a single-threaded / single process
+demonstration that mutates the list in place.
+
+#+BEGIN_SRC lisp :tangle yes
+
+  (defparameter cas-able-place '(1 2 3 4 ))
+
+  (defun a-pure-function (a)
+    (rest a))
+
+  (defun process ()
+        (atomics:atomic-update cas-able-place 'a-pure-function))
+
+  #+END_SRC
+
+  The variable "cas-able-place" is a list and  the 'car' function can be used to iterate through
+  elements of the list. This means it meets the CAS requirements for an place.
+
+  So now every time we run 'process' function, the value of cas-able-place should have
+  one less item, lets test:
+
+#+BEGIN_SRC lisp
+  CL-USER> cas-able-place
+  (CAR 1 2 3 4)
+  CL-USER> (process)
+  (1 2 3 4)
+  CL-USER> (process)
+  (2 3 4)
+  CL-USER> (process)
+  (3 4)
+  CL-USER> (process)
+  (4)
+  CL-USER> (process)
+  NIL
+#+END_SRC
+
+As we expected, The (process) call makes a modification to the cas-able-place list, and the
+returned value of *a-pure-function* also produces cas-valid objects.
+
+As stated in the sbcl docs, it important that the function call to update the issue is pure as when
+contending it may be run many times.
+
+** Multi-threaded example.
+
+Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
+of printing to the screen so that we can visualize each time the pure function is run.
+
+We'll use these libraries available in quicklisp:
+
+The [[https://github.com/Shinmera/atomics][Atomics]] library has a portable method of compare-and-swap.
+The [[https://github.com/sionescu/bordeaux-threads][bordeaux-threads]] library is the accepted multi-threading library for common-lisp.
+The [[https://alexandria.common-lisp.dev/draft/alexandria.html][Alexandria]] library, has a cheap and easy method to create a list of numbers
+
+#+BEGIN_SRC lisp :tangle yes
+  (ql:quickload "atomics")
+  (ql:quickload "bordeaux-threads")
+  (ql:quickload "alexandria")
+  (ql:quickload "arrows")
+#+END_SRC
+
+#+RESULTS:
+: ("arrows")
+
+We're going to make a simple variable named 'original-list' which we will update atomically, see
+the example below, its just a normal lisp list.
+
+#+BEGIN_SRC lisp :tangle yes
+  (defparameter original-list (alexandria:iota 100 :start 0 :step 1))
+#+END_SRC
+
+#+RESULTS:
+(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+ 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54
+ 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+ 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99)
+
+
+#+BEGIN_SRC lisp :tangle yes
+
+  ;same function as earlier.
+  (defun a-pure-function (a)
+    (format t ".")
+    (finish-output)
+    (rest a))
+
+  (defun demo-race-condition-locks ()
+    (dotimes (n 5)
+    (bt2:make-thread (lambda ()
+                      (dotimes (n 20)
+                        (atomics:atomic-update original-list 'a-pure-function)))))
+                        )
+#+END_SRC
+
+#+RESULTS:
+: DEMO-RACE-CONDITION-LOCKS
+CL-USER> (demo-race-condition-locks)
+.....
+NIL
+.............................................................................................................
+
+However, we can see that there are 114 dots, which means that 5 threads there were 14 times that the
+locking function was contending for the original value.
+
+This however, doesn't prove that the readers were all looking at the value in a 'safe state', so lets
+lets try that.  We'll only take 50 out of 100 valuesof the list, if there were two readers taking access to the original list
+at the same time, there would not be exactly 50 values left.  For completeness, we will run the test 1000 times
+just to assist in triggering some kind of problem.
+
+#+BEGIN_SRC lisp :tangle yes
+
+  (defun a-pure-function (a)
+    (rest a))
+
+  (defun take-only-50 ()
+    (loop for i from 1 to 5
+          collect (bt2:make-thread
+                   (lambda ()
+                     (dotimes (n 10)
+                       (atomics:atomic-update original-list 'a-pure-function))))))
+
+  (defun trigger ()
+    (format t "Testing:")
+    (dotimes (n 1000)
+      (progn
+        (defparameter original-list (alexandria:iota 100 :start 0 :step 1))
+        (mapcar (lambda (thread) (bt2:join-thread thread)) (take-only-50)))
+        (if (= 50 (length original-list))
+            (format t "✓")
+            (format t "❌")))))
+#+END_SRC
+
+This program creates 5 threads, each will take 10 values from the list.  Meaning that at
+the end there should be 50 values left.  If there is  exactly 50 items left at the end
+of each run a tick will be printed, if anything else, a cross will be printed.
+
+A demo run of this creates this output:
+
+#+BEGIN_SRC english
+CL-USER> (trigger)
+Testing:✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+NIL
+#+END_SRC
+
+
+#+RESULTS:
+: X
+
+* Resources:
+
