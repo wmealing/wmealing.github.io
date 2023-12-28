@@ -1,10 +1,10 @@
 #+TITLE: For when I'm gone.
 #+OPTIONS: ^:nil num:nil toc:nil 
 
-
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD: <style> * { sans-serif; } </style>
-#+HTML_HEAD_EXTRA: <meta name="description" content="Put your description here."  http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; font-src fonts.gstatic.com;style-src 'self' fonts.googleapis.com">
+#+HTML_HEAD: <meta name="description" content="Using clojure atoms in common lisp"> 
+#+HTML_HEAD_EXTRA: <meta name="description" content="Main page for technical content"  http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
 * [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]]
 
