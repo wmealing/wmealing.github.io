@@ -108,7 +108,7 @@ PLACE must be an CAS-able place. Built-in CAS-able places *have* accessor forms
 whose CAR is one of the following:
 #+END_SRC
 
-** Non threaded example
+* Non threaded example
 
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -152,7 +152,7 @@ returned value of *a-pure-function* also produces cas-valid objects.
 As stated in the sbcl docs, it important that the function call to update the issue is pure as when
 contending it may be run many times.
 
-** Multi-threaded example.
+* Multi-threaded example.
 
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
