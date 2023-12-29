@@ -246,7 +246,6 @@ img {
 
 .sidenote-number:after,
 .sidenote:before {
-    font-family: et-book-roman-old-style;
     position: relative;
     vertical-align: baseline;
 }
