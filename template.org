@@ -1,27 +1,31 @@
 #+TITLE: REPLACE
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+OPTIONS: author:nil date:nil
-#+OPTIONS: html-postamble:nil
 
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
-#+HTML_HEAD: <style> * { sans-serif; } </style>
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+
+#+SETUPFILE: "./setupfile.org"
+
 #+HTML_HEAD: <meta name="description" content="REPLACE>
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';">
 
+* Summary:
 
-Summary: REPLACE
+REPLACE THIS
 
-stuff goes here.
+* Introduction
+Introduction goes here
 
 #+BEGIN_EXAMPLE
+Example box
 #+END_EXAMPLE
 
 
-#+BEGIN_SRC cobol
+#+BEGIN_SRC lisp
+  (Example code)
 #+END_SRC
 
+* Conclusion
+
+Wrap it up here.
 
 * Resources:
+
 
