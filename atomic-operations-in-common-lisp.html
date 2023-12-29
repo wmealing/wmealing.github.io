@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-12-29 Fri 15:07 -->
+<!-- 2023-12-29 Fri 15:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atomic operations in common lisp</title>
@@ -195,7 +195,7 @@
 <link rel="stylesheet" href="tufte.css" type="text/css" />
 <style> * { sans-serif; } </style>
 <meta name="description" content="Using clojure atoms in common lisp">
-<meta name="description" content="Using clojures 'atom' type in lisp."  http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 </head>
 <body>
 <div id="content" class="content">
@@ -321,9 +321,9 @@ whose CAR is one of the following:
 </pre>
 </div>
 
-<div id="outline-container-org0150118" class="outline-2">
-<h2 id="org0150118">Non threaded example</h2>
-<div class="outline-text-2" id="text-org0150118">
+<div id="outline-container-orgf346b7b" class="outline-2">
+<h2 id="orgf346b7b">Non threaded example</h2>
+<div class="outline-text-2" id="text-orgf346b7b">
 <p>
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -380,9 +380,9 @@ contending it may be run many times.
 </div>
 </div>
 
-<div id="outline-container-org70f9e09" class="outline-2">
-<h2 id="org70f9e09">Multi-threaded example.</h2>
-<div class="outline-text-2" id="text-org70f9e09">
+<div id="outline-container-orge24a1dc" class="outline-2">
+<h2 id="orge24a1dc">Multi-threaded example.</h2>
+<div class="outline-text-2" id="text-orge24a1dc">
 <p>
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
@@ -507,8 +507,8 @@ I'll update this post if I find any more information, but I'm pleasently surpris
 
 
 
-<div id="outline-container-org9574b9a" class="outline-2">
-<h2 id="org9574b9a">Resources:</h2>
+<div id="outline-container-org19c4bdc" class="outline-2">
+<h2 id="org19c4bdc">Resources:</h2>
 </div>
 </div>
 </body>
