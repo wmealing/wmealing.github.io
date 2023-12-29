@@ -11,7 +11,7 @@
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD: <style> * { sans-serif; } </style>
 #+HTML_HEAD: <meta name="description" content="Using clojure atoms in common lisp"> 
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';">
 
 
 Summary: An example of how to use a clojure style "atom" in common lisp for concurrency control.
