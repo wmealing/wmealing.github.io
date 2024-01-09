@@ -1,10 +1,12 @@
 #+TITLE: For when I'm gone.
 #+OPTIONS: ^:nil num:nil toc:nil 
 
+#+SETUPFILE: "./setupfile.org"
+
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD: <style> * { sans-serif; } </style>
-#+HTML_HEAD: <meta name="description" content="Using clojure atoms in common lisp">
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
 
 * [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]] [2023]
 
@@ -14,13 +16,13 @@ monkey of the lisp world, i had to see if atoms can be used this way.  It turns 
 than I thought. [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Check it.]]
 
 
-* [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD]]
+* [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD]] [2023]
 
 I'm involved in 'competing' with [[https://spawnfest.org/][spawnfest]] this weekend, I figured its time to setup [[file:lfe-github-actions.html][LFE for CI/CD with GitHub Actions]].
 Its a pretty simple setup that runs the test, i'll expand on this in the future to include creating containers and
 pushing to production.
 
-* [[https://wmealing.github.io/htmx-common-lisp.html][Common Lisp and HTMX]]
+* [[https://wmealing.github.io/htmx-common-lisp.html][Common Lisp and HTMX]] [2023]
 
 Common lisp and HTMX provide a sane platform to develop basic applications.  I [[https://wmealing.github.io/htmx-common-lisp.html][outline the reasons]] that I have chosen them.
 This post also marks the new voice I plan to use while blogging. I no longer care to engage in debate with people without being paid.

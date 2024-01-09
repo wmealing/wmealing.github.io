@@ -1,4 +1,6 @@
 #+TITLE: Atomic operations in common lisp
+#+SETUPFILE: ./setupfile.org
+
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
 #+OPTIONS: date:nil

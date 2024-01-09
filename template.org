@@ -1,10 +1,8 @@
 #+TITLE: REPLACE
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
-
 #+SETUPFILE: "./setupfile.org"
-
-#+HTML_HEAD: <meta name="description" content="REPLACE>
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 
 * Summary:
 
