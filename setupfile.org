@@ -4,6 +4,8 @@
 #+OPTIONS: author:nil date:nil
 #+OPTIONS: html-postamble:nil
 
+
+
 #+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD: <style type="text/css> * { font-family: sans-serif; } </style>
 #+HTML_HEAD: <meta name="author" content="Wade Mealing" />
