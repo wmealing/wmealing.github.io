@@ -2,10 +2,9 @@
 #+OPTIONS: ^:nil num:nil toc:nil 
 
 #+SETUPFILE: "./setupfile.org"
-
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
+
 
 * [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]] [2023]
 
