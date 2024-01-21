@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-21 Sun 21:35 -->
+<!-- 2024-01-21 Sun 21:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Getting firmware from teenage engineering.</title>
@@ -195,25 +195,25 @@
 <link rel="stylesheet" href="tufte.css" type="text/css" />
 <meta name="author" content="Wade Mealing" />
 <meta name="theme-color" content="#fffff8"/>
-<meta name="description" content="Wade Mealings documentation" />
+<meta name="description" content="EP-133 teenage engineering firmware " />
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Getting firmware from teenage engineering.</h1>
 
-<div id="outline-container-org411c1a4" class="outline-2">
-<h2 id="org411c1a4">Summary:</h2>
-<div class="outline-text-2" id="text-org411c1a4">
+<div id="outline-container-orgb03fa7f" class="outline-2">
+<h2 id="orgb03fa7f">Summary:</h2>
+<div class="outline-text-2" id="text-orgb03fa7f">
 <p>
 A nobody like me, getting firmware from teenage engineerings website.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org9080765" class="outline-2">
-<h2 id="org9080765">Introduction</h2>
-<div class="outline-text-2" id="text-org9080765">
+<div id="outline-container-orga2cb0da" class="outline-2">
+<h2 id="orga2cb0da">Introduction</h2>
+<div class="outline-text-2" id="text-orga2cb0da">
 <p>
 Teenage engineering direct people to their website updater <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a>
 which can update a number of Teenage Engineering devices.
@@ -225,7 +225,7 @@ I fire up developer tools and go to the network table, while loading the page:
 </p>
 
 
-<div id="org1379f42" class="figure">
+<div id="org0e1eca7" class="figure">
 <p><img src="images/te-download-1.png" alt="te-download-1.png" width="800px" />
 </p>
 </div>
@@ -246,7 +246,7 @@ of twisted obfustication process to minimise the js.
 If i download the js, its not the entire file:
 </p>
 
-<pre class="example" id="orgf3a9bd7">
+<pre class="example" id="org2fb5a29">
 ()=&gt;{var Mp=Object.create;var Uo=Object.defineProperty;var Np=Object.getOwnPropertyDescriptor;var
 Op=Object.getOwnPropertyNames;var Lp=Object.getPrototypeOf,zp=Object.prototype.hasOwnProperty;var
 pr=(e,t)=&gt;()=&gt;(t||e((t={exports:{}}).exports,t),t.exports),Tu=(e,t)=&gt;{for(var r in t)Uo(e,r,
@@ -267,9 +267,9 @@ and variables, so I'm going to have to take another direction. Great.
 </p>
 </div>
 
-<div id="outline-container-orgb0d405e" class="outline-3">
-<h3 id="orgb0d405e">The midi diversion.</h3>
-<div class="outline-text-3" id="text-orgb0d405e">
+<div id="outline-container-org86bfb05" class="outline-3">
+<h3 id="org86bfb05">The midi diversion.</h3>
+<div class="outline-text-3" id="text-org86bfb05">
 <p>
 So, I noticed that when I visit the page, a prompt appears in chrome asking for permission
 to access a midi device.  So I assume that this means the browser needed to support
@@ -287,9 +287,9 @@ I see 97 mentions of "MIDI" in the javascript, so i'll try another idea.
 </div>
 </div>
 
-<div id="outline-container-orgfe9c875" class="outline-3">
-<h3 id="orgfe9c875">Tracking the download.</h3>
-<div class="outline-text-3" id="text-orgfe9c875">
+<div id="outline-container-org22366ff" class="outline-3">
+<h3 id="org22366ff">Tracking the download.</h3>
+<div class="outline-text-3" id="text-org22366ff">
 <p>
 I found there were, many, many uses of the word, "url" so checking that was going to be painful.
 </p>
@@ -320,7 +320,7 @@ beginning the update.
 So I look for another fetch
 </p>
 
-<pre class="example" id="org2c9407c">
+<pre class="example" id="orgbd9f875">
 let r = (await fetch("/_software/releases.json").then(i=&gt;i.json()).then(i=&gt;i).catch(i=&gt;i)).devices;
 </pre>
 
@@ -417,7 +417,7 @@ I wont upload all three.
 </p>
 
 
-<div id="org79f3055" class="figure">
+<div id="orgdcdcaaf" class="figure">
 <p><img src="images/133-randomness.png" alt="133-randomness.png" width="800px" />
 </p>
 </div>
@@ -462,9 +462,9 @@ need to buy hardware to to do it.
 </div>
 </div>
 
-<div id="outline-container-org1bec805" class="outline-2">
-<h2 id="org1bec805">Conclusion</h2>
-<div class="outline-text-2" id="text-org1bec805">
+<div id="outline-container-orgf82d93c" class="outline-2">
+<h2 id="orgf82d93c">Conclusion</h2>
+<div class="outline-text-2" id="text-orgf82d93c">
 <p>
 Sadly, Teenage Engineering ships encrypted firmware, which I have shown that you
 can get a copy of.  None of the verisons have unencrypted data, so the key to
@@ -482,9 +482,9 @@ and code, that'd be nice, please contact me.
 </div>
 </div>
 
-<div id="outline-container-org89c59ea" class="outline-2">
-<h2 id="org89c59ea">Resources:</h2>
-<div class="outline-text-2" id="text-org89c59ea">
+<div id="outline-container-org1709a87" class="outline-2">
+<h2 id="org1709a87">Resources:</h2>
+<div class="outline-text-2" id="text-org1709a87">
 <ul class="org-ul">
 <li>Teenage engineering update utility  - <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a></li>
 <li>Binwalk (firwmare analysis tool) - <a href="https://github.com/ReFirmLabs/binwalk">https://github.com/ReFirmLabs/binwalk</a></li>
