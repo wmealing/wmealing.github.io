@@ -5,6 +5,11 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
 
+* [[./reverse-engineering-teenage-engineering.html][Downloading the EP133 firmware from Teenage Engineering]]
+
+Teenage Engineering released the EP-133, a mid range sampler/synth, I looked into the updater
+to find out as much as I can before I buy one.  The firmware provided from teenage engineering
+is encrypted, but i've [[./reverse-engineering-teenage-engineering.html][documented what i have found so far.]]
 
 * [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]] [2023]
 
