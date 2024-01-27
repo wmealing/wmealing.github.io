@@ -5,7 +5,7 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
 
-* [[wmealing.github.io/miniimise.html][Minimise]]
+* [[http://wmealing.github.io/minimise.html][Minimise]]
 
 In the interest of not polluting the internet with my ill-informed opinion and staying
 away from the madness that is modern culture, I've deleted a bunch of social media and
