@@ -1,0 +1,65 @@
+#+TITLE: Minimise myself.
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+
+* Summary:
+
+Why I've deleted my social media accounts.
+
+* The why.
+
+For those that know me, and there isn't many of you.  I struggle with having empathy
+for people.  I dont have the social graces that people are innately born with, I feel
+that I can fake it, but it takes a lot of energy.
+
+Each social media platform is just another sap of energy on my already busy life.  Deleting
+apps reduces these energy vampires and allows me to focus on things that I want to do.
+
+* What is gone.
+
+- Twitter
+- Instagram
+- Mastadon
+- IRC
+- Slack (except work)
+- Discord
+- WhatsApp
+- About 50 email lists.
+- Most github repositories.
+- Most gitlab repositories.
+
+* What is left
+
+- Facebook Chat (I need this for my parents, its too hard to educate them on anything else)
+- Person Gmail.
+- This blog ( Nobody reads this so, maybe I should trash it)
+- Google Chat (If I could delete this, I would).
+- Signal (This is probably the only protocol I want to keep)
+
+* Questions I have got
+
+-- 
+Q: Won't you miss out on big news from people ?
+
+A: Yes, I likely will.  Lets be honest though, is it really important though if you dont talk to me ?
+--
+
+--
+Q: Can you install X to talk to me ?
+
+A: Sadly no, call me or email me.
+--
+
+--
+Q: What about future work prospects / networking ?
+
+A: Yeah, things might suck but doesn't everything, toughen up.
+---
+
+--
+Q: Are you depressed or suicidal ?
+
+A: Not anymore than any other day of my life.
+--
