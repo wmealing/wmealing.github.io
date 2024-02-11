@@ -19,6 +19,7 @@ apps reduces these energy vampires and allows me to focus on things that I want 
 
 * What is gone.
 
+#+begin_cross_bg
 - Twitter
 - Instagram
 - Mastadon
@@ -29,6 +30,7 @@ apps reduces these energy vampires and allows me to focus on things that I want 
 - About 50 email lists.
 - Most github repositories.
 - Most gitlab repositories.
+#+end_cross_bg
 
 * What is left
 

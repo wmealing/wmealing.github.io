@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-30 Tue 22:56 -->
+<!-- 2024-02-11 Sun 20:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Minimise myself.</title>
+<title>Mac OS X Sonoma midi router is broken.</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css" >
   #content { max-width: 60em; margin: auto; }
@@ -195,113 +195,213 @@
 <link rel="stylesheet" href="tufte.css" type="text/css" />
 <meta name="author" content="Wade Mealing" />
 <meta name="theme-color" content="#fffff8"/>
-<meta name="description" content="Wade Mealings documentation" />
+<meta name="description" content="Actual midi routing in osx." />
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">Minimise myself.</h1>
+<h1 class="title">Mac OS X Sonoma midi router is broken.</h1>
 
-<div id="outline-container-org99f12e7" class="outline-2">
-<h2 id="org99f12e7">Summary:</h2>
-<div class="outline-text-2" id="text-org99f12e7">
+<div id="outline-container-orgaffad1f" class="outline-2">
+<h2 id="orgaffad1f">Summary:</h2>
+<div class="outline-text-2" id="text-orgaffad1f">
 <p>
-Why I've deleted my social media accounts.
+How to connect a USB midi keyboard (Minilab3) to a synthesizer (KO2) using
+a USB MIDI host.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf1582e1" class="outline-2">
-<h2 id="orgf1582e1">The why.</h2>
-<div class="outline-text-2" id="text-orgf1582e1">
+<div id="outline-container-orgf2cb992" class="outline-2">
+<h2 id="orgf2cb992">Introduction</h2>
+<div class="outline-text-2" id="text-orgf2cb992">
 <p>
-For those that know me, and there isn't many of you.  I struggle with having empathy
-for people.  I dont have the social graces that people are innately born with, I feel
-that I can fake it, but it takes a lot of energy.
+I believed there should be a method of connecting two digital musical instruments
+together via USB.  This shouldn't be too much to ask.  The Musical Instrument
+Digital Interface (MIDI) protocol allows computers, musical instruments and
+other hardware to be controlled/synced with other devices.
 </p>
 
 <p>
-Each social media platform is just another sap of energy on my already busy life.  Deleting
-apps reduces these energy vampires and allows me to focus on things that I want to do.
+In the days of old, MIDI devices had their own DIN (ROUND) style plugs where
+you would connect the devices together.  While industrial looking they required
+connecting to a computers "Sound Card" which may or may not have had a matching
+MIDI connection.
+</p>
+
+<p>
+Everyone got mad with the permutations of connectors on these older systems,
+(MIDI Included), and USB was heralded as the next step forward in Serial Bus
+technology.  A USB Midi standard happened, and that brings you to my recent
+two purchases:
+</p>
+</div>
+
+<div id="outline-container-org63ca79a" class="outline-3">
+<h3 id="org63ca79a">ARTURIA Minilab 3</h3>
+<div class="outline-text-3" id="text-org63ca79a">
+<p>
+A compact MIDI controller known for its versatility and tactile feel, offering
+an array of pads, knobs, and keys for expressive performance.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd584eb6" class="outline-2">
-<h2 id="orgd584eb6">What is gone.</h2>
-<div class="outline-text-2" id="text-orgd584eb6">
-<div class="cross_bg" id="org0d48748">
-<ul class="org-ul">
-<li>Twitter</li>
-<li>Instagram</li>
-<li>Mastadon</li>
-<li>IRC</li>
-<li>Slack (except work)</li>
-<li>Discord</li>
-<li>WhatsApp</li>
-<li>About 50 email lists.</li>
-<li>Most github repositories.</li>
-<li>Most gitlab repositories.</li>
-</ul>
+<div id="outline-container-org9e616af" class="outline-3">
+<h3 id="org9e616af">KO2 Sampler Composer</h3>
+<div class="outline-text-3" id="text-org9e616af">
+<p>
+A powerful sampler and composer, capable of transforming MIDI input into
+rich, textured soundscapes and melodies.  Its the new kid on the block.
+</p>
 
+<p>
+The ARTURIA has only ONE USB PORT, its USB-C and takes power over this port
+as well.  Some people reccomend getting a powered "USB HUB", I happened to have
+a usb hub, and it didnt seem to work.
+</p>
+
+<p>
+The next option that I had was to use a real computer as a host.  I had a friend
+reccomend using a "Mac laptop" as the "USB MIDI host" which would route the
+MIDI data when configured.  He stated "The musicians all use macs! it must work
+well, otherwise they wouldnt use it."
+</p>
+
+<p>
+Fortunately, I had access to one a mac running Sonoma (10.14.1).  I plugged
+both of these devices into the laptop and tried to see if it would automatically
+route data between the two.
+</p>
+
+<p>
+It did not.   I could however see in "Garage Band" that multiple new midi device
+was available.  When pressing the keys on the keyboard  (and with a bit of
+configuration on the KO2, I was able to see midi events flow from each device
+to the host.
+</p>
+
+<p>
+Apple suggests using the MIDI STUDIO built into OSX to be able to route midi events.  I dont know
+if this ever worked, but its not working for me.
+</p>
+
+<p>
+I systematically tried every possible permutation of devices being connected, disabled, enabled, restarted
+and rebooted just to make sure there wasn't anything odd.
+</p>
+
+<p>
+Below is an example of the routing that I had expected to work (IT DOES NOT).
+</p>
+
+
+<div id="orgf4e3fe1" class="figure">
+<p><img src="./images/apple-midi-studio-routing-broken.png" alt="apple-midi-studio-routing-broken.png" width="800px" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Broken midi studio in osx.</p>
+</div>
+
+<p>
+Are my expections insane, other people apparently have done this ? <a href="https://support.apple.com/en-au/guide/audio-midi-setup/ams875bae1e0/mac">Apple</a> apparently believe
+that its possible (Although I reckon they've somehow fucked this up).
+</p>
+
+<p>
+I began to question my sanity, there were many people online who believe this work.  Surely
+this has not slipped thorugh the cracks of Quality Assurance of one of the more profitable
+software companies in the world.  However I assure you that it appears that it does.
+</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga720094" class="outline-2">
-<h2 id="orga720094">What is left</h2>
-<div class="outline-text-2" id="text-orga720094">
-<ul class="org-ul">
-<li>Facebook Chat (I need this for my parents, its too hard to educate them on anything else)</li>
-<li>Person Gmail.</li>
-<li>This blog ( Nobody reads this so, maybe I should trash it)</li>
-<li>Google Chat (If I could delete this, I would).</li>
-<li>Signal (This is probably the only protocol I want to keep)</li>
-</ul>
+
+<div id="outline-container-org6228f7d" class="outline-2">
+<h2 id="org6228f7d">What to do ?</h2>
+<div class="outline-text-2" id="text-org6228f7d">
+<p>
+I was told that there was some software that may help.  It was spoken about in hushed tones.
+The software was named "MIDI PATCHBAY",  Which sounds like exactly what I needed.  I had an
+internal visualization of an ethernet switch patch bay routing things, this sounded good.
+</p>
+
+<p>
+So, I hit up "brew",  big miss.
+</p>
+
+<p>
+I visited github, and found <a href="https://github.com/notahat/midi_patchbay">midi patch bay</a> by notahat, no updates for 5 years.  I tried one of the
+releases and Mac OS complained that the binary was damaged (Narrator: it wasn't)
+</p>
+
+<p>
+<a href="https://github.com/axmonti/midi_patchbay">Another programmer</a> forked this and made some minor improvements.  This has no "github releases"
+so there is no downloadable pre-built packages.
+</p>
+
+<p>
+Fortunately, I looked at the social network of this fork and found that yet another hacker has
+picked it up and forked it as <a href="https://github.com/yaros-eu/midi_router">MIDI router</a>.  This is where the gold is.  It even has a "release"
+on gitlab, THANK YOU yaros-eu.
+</p>
+
+<p>
+I fired up the app with low expectations, Mac OSX midi studio has beaten that out of me.
+It is a tiny app weighing in at 143,897 bytes unpacked, natively built for Apple Silicon.
+</p>
+
+<p>
+It was simple, elegant and most importantly.. it worked.
+</p>
+
+<p>
+You can add a route with the button named "Add New Route". Check out this beautiful app.
+</p>
+
+
+<div id="org48fd7fb" class="figure">
+<p><img src="./images/midi-router.png" alt="midi-router.png" width="800px" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Working application to route midi.</p>
+</div>
+
+<p>
+Click either of the "Input" or "Output" drop downs and it will present the current
+devices on the midi bus.  Tick the route to enable, untick it to disable.
+</p>
+
+<p>
+It is possible to route multiple devices to a single output. Now when I press keys on the Minilab3
+the midi events are sent through to the KO2 and it works.
+</p>
 </div>
 </div>
 
-<div id="outline-container-orgb7afd4c" class="outline-2">
-<h2 id="orgb7afd4c">Questions I have got</h2>
-<div class="outline-text-2" id="text-orgb7afd4c">
+
+<div id="outline-container-org274b949" class="outline-2">
+<h2 id="org274b949">Conclusion</h2>
+<div class="outline-text-2" id="text-org274b949">
 <p>
-&#x2013; 
-Q: Won't you miss out on big news from people ?
+Apple OSX midi configuration software is likely broken, I found "Midi router" that seems to route midi
+messages.  It works great.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgedd7ea9" class="outline-2">
+<h2 id="orgedd7ea9">Resources:</h2>
+<div class="outline-text-2" id="text-orgedd7ea9">
+<p>
+<a href="https://github.com/yaros-eu/midi_router/tree/master">Midi Router</a>
 </p>
 
 <p>
-A: Yes, I likely will.  Lets be honest though, is it really important though if you dont talk to me ?
-&#x2013;
+<a href="https://en.wikipedia.org/wiki/MIDI">MIDI (wikipedia)</a>
 </p>
 
 <p>
-&#x2013;
-Q: Can you install X to talk to me ?
-</p>
-
-<p>
-A: Sadly no, call me or email me.
-&#x2013;
-</p>
-
-<p>
-&#x2013;
-Q: What about future work prospects / networking ?
-</p>
-
-<p>
-A: Yeah, things might suck but doesn't everything, toughen up.
-&#x2014;
-</p>
-
-<p>
-&#x2013;
-Q: Are you depressed or suicidal ?
-</p>
-
-<p>
-A: Not anymore than any other day of my life.
-&#x2013;
+<a href="https://www.makeuseof.com/using-a-linux-daw-with-a-usb-connected-midi-keyboard/">Using a Linux DAW With a USB-Connected MIDI Keyboard</a>
 </p>
 </div>
 </div>

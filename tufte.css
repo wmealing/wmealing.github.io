@@ -18,7 +18,7 @@ body {
     margin-right: auto;
     padding-left: 12.5%;
     font-family: Georgia, serif;
-    background-color: #fffff8;
+    background-color: #fff6e9;
     color: #111;
     max-width: 1400px;
     counter-reset: sidenote-counter;
@@ -433,4 +433,13 @@ label.margin-toggle:not(.sidenote-number) {
     img {
         width: 100%;
     }
+}
+
+
+.cross_bg {
+   background-image: url( 'images/cross.svg' );
+   background-repeat: no-repeat;
+   background-color: rgba(255,255,255,0.8);
+   background-blend-mode: lighten;
+   background-position: center;
 }

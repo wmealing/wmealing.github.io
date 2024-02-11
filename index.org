@@ -5,6 +5,12 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
 
+* [[http://wmealing.github.io/mac-os-midi-router-broken.html][Apple Mac OS Midi routing is broken.]]
+
+I have some new music making hardware, and wanted to try to get them to talk together.  Use a Mac they
+say 'everything just works',   No clearly it doesnt.  I did however find a work around.  If anyone
+is trying to use a USB host to route a midi controller (USB organ) to a synth (USB) start [[http://wmealing.github.io/mac-os-midi-router-broken.html][Reading]].
+
 * [[http://wmealing.github.io/minimise.html][Minimise]]
 
 In the interest of not polluting the internet with my ill-informed opinion and staying
