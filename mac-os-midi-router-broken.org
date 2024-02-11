@@ -127,4 +127,6 @@ messages.  It works great.
 
 [[https://www.makeuseof.com/using-a-linux-daw-with-a-usb-connected-midi-keyboard/][Using a Linux DAW With a USB-Connected MIDI Keyboard]]
 
+[[https://www.youtube.com/watch?v=JYslZkc90GI][Programming with midi]]
+
 
