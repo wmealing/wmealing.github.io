@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-19 Mon 22:59 -->
+<!-- 2024-02-20 Tue 00:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Decoding the KO2 Sysex messages.</title>
@@ -202,18 +202,18 @@
 <div id="content" class="content">
 <h1 class="title">Decoding the KO2 Sysex messages.</h1>
 
-<div id="outline-container-org77acc9d" class="outline-2">
-<h2 id="org77acc9d">Summary:</h2>
-<div class="outline-text-2" id="text-org77acc9d">
+<div id="outline-container-orgb96836b" class="outline-2">
+<h2 id="orgb96836b">Summary:</h2>
+<div class="outline-text-2" id="text-orgb96836b">
 <p>
 We're going to dive into what I can find out about the teenage engineering
 </p>
 </div>
 </div>
 
-<div id="outline-container-org90057b8" class="outline-2">
-<h2 id="org90057b8">Introduction</h2>
-<div class="outline-text-2" id="text-org90057b8">
+<div id="outline-container-org3f35af4" class="outline-2">
+<h2 id="org3f35af4">Introduction</h2>
+<div class="outline-text-2" id="text-org3f35af4">
 <p>
 Sysex is a subtype of midi messages.
 </p>
@@ -236,13 +236,13 @@ I'm using "Midi monitor" in "Spy mode", which dumps both sides of the conversati
 On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https://teenage.engineering/apps/ep-sample-tool</a> ) connect:
 </p>
 
-<pre class="example" id="org7c2e860">
-20:17:26.941	From EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
-20:17:27.201	To EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
-20:17:27.209	From EP-133	SysEx		Universal Non-Real Time 17 bytes	F0 7E 33 06 02 00 20 76 20 00 01 00 00 00 00 00 F7
-20:17:27.209	To EP-133	SysEx		Teenage Engineering 10 bytes	F0 00 20 76 33 40 77 14 01 F7
-20:17:27.209	From EP-133	SysEx		Teenage Engineering 139 bytes	F0 00 20 76 33 40 37 14 01 00 00 70 72 6F 64 75 63 74 00 3A 45 50 2D 31 33 33 00 3B 6D 6F 64 65 3A 6E 00 6F 72 6D 61 6C 3B 73 00 6B 75 3A 54 45 30 33 00 32 41 53 30 30 31 3B 00 6F 73 5F 76 65 72 73 00 69 6F 6E 3A 31 2E 31 00 2E 32 3B 73 77 5F 76 00 65 72 73 69 6F 6E 3A 00 31 2E 31 2E 32 3B 62 00 6C 5F 76 65 72 73 69 00 6F 6E 3A 31 30 30 30 00 2E 30 2E 31 30 3B 73 00 65 72 69 61 6C 3A 45 00 33 50 54 56 32 4A 54 F7
-20:17:27.219	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 15 05 00 01 01 00 40 00 00 F7
+<pre class="example" id="orga3e36ef">
+0 20:17:26.941	From EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
+1 20:17:27.201	To EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
+2 20:17:27.209	From EP-133	SysEx		Universal Non-Real Time 17 bytes	F0 7E 33 06 02 00 20 76 20 00 01 00 00 00 00 00 F7
+3 20:17:27.209	To EP-133	SysEx		Teenage Engineering 10 bytes	F0 00 20 76 33 40 77 14 01 F7
+4 20:17:27.209	From EP-133	SysEx		Teenage Engineering 139 bytes	F0 00 20 76 33 40 37 14 01 00 00 70 72 6F 64 75 63 74 00 3A 45 50 2D 31 33 33 00 3B 6D 6F 64 65 3A 6E 00 6F 72 6D 61 6C 3B 73 00 6B 75 3A 54 45 30 33 00 32 41 53 30 30 31 3B 00 6F 73 5F 76 65 72 73 00 69 6F 6E 3A 31 2E 31 00 2E 32 3B 73 77 5F 76 00 65 72 73 69 6F 6E 3A 00 31 2E 31 2E 32 3B 62 00 6C 5F 76 65 72 73 69 00 6F 6E 3A 31 30 30 30 00 2E 30 2E 31 30 3B 73 00 65 72 69 61 6C 3A 45 00 33 50 54 56 32 4A 54 F7
+5 20:17:27.219	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 15 05 00 01 01 00 40 00 00 F7
 20:17:27.296	From EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 37 15 05 00 00 0C 00 00 02 00 F7
 20:17:27.297	To EP-133	SysEx		Teenage Engineering 16 bytes	F0 00 20 76 33 40 77 16 05 00 04 00 00 00 00 F7
 20:17:27.298	From EP-133	SysEx		Teenage Engineering 48 bytes	F0 00 20 76 33 40 37 16 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08 73 00 07 50 0E 00 00 00 00 00 70 72 6F 6A 65 00 63 74 73 00 F7
@@ -345,13 +345,13 @@ On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https
 20:17:27.433	To EP-133	SysEx		Teenage Engineering 16 bytes	F0 00 20 76 33 40 77 47 05 10 04 00 10 03 68 F7
 20:17:27.435	From EP-133	SysEx		Teenage Engineering 48 bytes	F0 00 20 76 33 40 37 47 05 00 00 00 10 02 2E 1D 00 08 02 06 40 35 35 38 2E 70 00 63 6D 00 02 2F 1D 00 04 07 73 08 35 35 39 2E 00 70 63 6D 00 F7
 20:17:27.435	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 48 05 08 07 02 0C 03 00 00 F7
-20:17:27.436	From EP-133	SysEx		Teenage Engineering 256 bytes	F0 00 20 76 33 40 37 48 05 00 00 00 00 7B 22 73 79 6D 00 22 3A 31 31 33 2C 22 00 73 6F 75 6E 64 2E 70 00 6C 61 79 6D 6F 64 65 00 22 3A 22 6F 6E 65 73 00 68 6F 74 22 2C 22 73 00 61 6D 70 6C 65 2E 73 00 74 61 72 74 22 3A 30 00 2C 22 73 61 6D 70 6C 00 65 2E 65 6E 64 22 3A 00 31 37 36 37 34 2C 22 00 65 6E 76 65 6C 6F 70 00 65 2E 61 74 74 61 63 00 6B 22 3A 30 2C 22 65 00 6E 76 65 6C 6F 70 65 00 2E 72 65 6C 65 61 73 00 65 22 3A 32 35 35 2C 00 22 73 6F 75 6E 64 2E 00 70 69 74 63 68 22 3A 00 30 2C 22 73 6F 75 6E 00 64 2E 61 6D 70 6C 69 00 74 75 64 65 22 3A 31 00 30 30 2C 22 73 6F 75 00 6E 64 2E 70 61 6E 22 00 3A 30 2C 22 73 6F 75 00 6E 64 2E 6D 75 74 65 00 67 72 6F 75 70 22 3A 00 66 61 6C 73 65 2C 22 00 62 65 61 74 6D 61 74 00 63 68 2E 6D 6F 64 65 00 22 3A 30 2C F7
+20:17:27.43#6	From EP-133	SysEx		Teenage Engineering 256 bytes	F0 00 20 76 33 40 37 48 05 00 00 00 00 7B 22 73 79 6D 00 22 3A 31 31 33 2C 22 00 73 6F 75 6E 64 2E 70 00 6C 61 79 6D 6F 64 65 00 22 3A 22 6F 6E 65 73 00 68 6F 74 22 2C 22 73 00 61 6D 70 6C 65 2E 73 00 74 61 72 74 22 3A 30 00 2C 22 73 61 6D 70 6C 00 65 2E 65 6E 64 22 3A 00 31 37 36 37 34 2C 22 00 65 6E 76 65 6C 6F 70 00 65 2E 61 74 74 61 63 00 6B 22 3A 30 2C 22 65 00 6E 76 65 6C 6F 70 65 00 2E 72 65 6C 65 61 73 00 65 22 3A 32 35 35 2C 00 22 73 6F 75 6E 64 2E 00 70 69 74 63 68 22 3A 00 30 2C 22 73 6F 75 6E 00 64 2E 61 6D 70 6C 69 00 74 75 64 65 22 3A 31 00 30 30 2C 22 73 6F 75 00 6E 64 2E 70 61 6E 22 00 3A 30 2C 22 73 6F 75 00 6E 64 2E 6D 75 74 65 00 67 72 6F 75 70 22 3A 00 66 61 6C 73 65 2C 22 00 62 65 61 74 6D 61 74 00 63 68 2E 6D 6F 64 65 00 22 3A 30 2C F7
 20:17:27.437	To EP-133	SysEx		Teenage Engineering 14 bytes	F0 00 20 76 33 40 77 49 05 04 0B 0C 00 F7
 20:17:27.438	From EP-133	SysEx		Teenage Engineering 24 bytes	F0 00 20 76 33 40 37 49 05 00 02 0C 00 0C 1C 0E 00 00 00 00 00 41 00 F7
 20:17:27.438	To EP-133	SysEx		Teenage Engineering 16 bytes	F0 00 20 76 33 40 77 4A 05 10 04 00 11 03 68 F7
 20:17:27.439	From EP-133	SysEx		Teenage Engineering 14 bytes	F0 00 20 76 33 40 37 4A 05 00 00 00 11 F7
 20:17:27.439	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 4B 05 08 07 02 0C 03 00 01 F7
-20:17:27.440	From EP-133	SysEx		Teenage Engineering 34 bytes	F0 00 20 76 33 40 37 4B 05 00 00 00 01 22 6D 69 64 69 00 2E 63 68 61 6E 6E 65 00 6C 22 3A 30 7D 00 F7
+20:17:27.4400	From EP-133	SysEx		Teenage Engineering 34 bytes	F0 00 20 76 33 40 37 4B 05 00 00 00 01 22 6D 69 64 69 00 2E 63 68 61 6E 6E 65 00 6C 22 3A 30 7D 00 F7
 20:17:27.440	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 4C 05 08 07 02 0C 00 00 00 F7
 20:17:27.441	From EP-133	SysEx		Teenage Engineering 32 bytes	F0 00 20 76 33 40 37 4C 05 00 00 00 00 7B 22 61 63 74 00 69 76 65 22 3A 33 32 00 30 31 7D 00 F7
 20:17:27.441	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 4D 05 00 07 02 00 01 00 00 F7
@@ -1199,9 +1199,191 @@ On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https
 </pre>
 </div>
 
-<div id="outline-container-orgcea04b2" class="outline-3">
-<h3 id="orgcea04b2">Packet #0 (System Configuration Request) Explained</h3>
-<div class="outline-text-3" id="text-orgcea04b2">
+<div id="outline-container-orga5021b1" class="outline-3">
+<h3 id="orga5021b1">Packet #1 (System Identity Request) - HOST -&gt; EP-133 (Uuniveral non-real ?)</h3>
+<div class="outline-text-3" id="text-orga5021b1">
+<p>
+I am unsure if this packet is generated by the operating system or the client application.
+</p>
+
+<p>
+F0 7E 7F 06 01 F7
+</p>
+
+<p>
+<a href="https://www.virtualdj.com/wiki/Controller%20Identification.html">VirtualDJ</a> talks about this and says:
+</p>
+
+<p>
+If the controller supports SysEx ID, it will respond with a string of digits that can be used to uniquely identify it.
+This should be in the following format: F0 7E 7F 06 02 00 00 11 11 22 22 33 33 01 00 00 00 F7
+</p>
+
+<p>
+7F is the SysEx channel, which can vary, so is normally replaced with wildcards ?? in the definition.
+00 11 11 is the manufacturer's ID. If the first byte is 00 then the following two bytes (11 11 in this example) are the manufacturer's 4-byte unique ID. Otherwise, it is a single byte in the range 01 to 7F.
+22 22 is the manufacturer's family code, which should normally be the same as the USB VID.
+33 33 is the model number, which should normally be the same as the USB PID.
+01 00 00 00 is the version number. This will normally change with each revision to the firmware, so this should normally be replaced with wildcards ???????? in the definition.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6191b1f" class="outline-3">
+<h3 id="org6191b1f">Packet #1 (System Identity Response) EP-133 -&gt; HOST (Uuniveral non-real ?)</h3>
+<div class="outline-text-3" id="text-org6191b1f">
+<p>
+I am unsure if this packet is generated by the operating system or the client application.
+</p>
+
+<div class="FIXED" id="org3264d96">
+<p>
+F0 7E 33 06 02 00 20 76 20 00 01 00 00 00 00 00 F7
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">INCR</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">-----</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#x2013;&#x2014; MODEL</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+<p>
+Universal   || || || FAMILY      ------&#x2013;&#x2014;
+Non Real ?  || || || CODE          VERSION
+</p>
+<hr />
+<p>
+TEENAGE
+ENGEERING
+ID
+</p>
+
+</div>
+
+<p>
+This looks mostly right, the 02 is incremented from 01, so thats maybe normal. To me this
+feels like OS level responsibility not application level.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf220187" class="outline-3">
+<h3 id="orgf220187">Packet #3 (System Configuration Request) Explained</h3>
+<div class="outline-text-3" id="text-orgf220187">
 <p>
 This packet was sent from the host TO the EP-133.
 </p>
@@ -1214,7 +1396,7 @@ F0 00 20 76 33 40 77 14 01 F7
 I have deduced that this is the explanation of the packet
 </p>
 
-<div class="FIXED" id="org4a83fff">
+<div class="FIXED" id="org9e14b16">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1230,14 +1412,15 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 
 <p>
-"14 01" together might be a command "get current system configuration"
+"14 01" together might be a command "get current system configuration", although it appears 14 is the
+sequence number start ?
 </p>
 </div>
 </div>
 
-<div id="outline-container-org489877c" class="outline-3">
-<h3 id="org489877c">Packet #1-&gt;N (System Configuration Response) Explained</h3>
-<div class="outline-text-3" id="text-org489877c">
+<div id="outline-container-org948ab60" class="outline-3">
+<h3 id="org948ab60">Packet #4 (System Configuration Response) Explained</h3>
+<div class="outline-text-3" id="text-org948ab60">
 <p>
 This packet was sent from the EP-133 to the host.
 </p>
@@ -1246,7 +1429,7 @@ This packet was sent from the EP-133 to the host.
 F0 00 20 76 33 40 37 14 01 00 00 70 72 6F 64 75 63 74 00 3A 45 50 2D 31 33 33 00 3B 6D 6F 64 65 3A 6E 00 6F 72 6D 61 6C 3B 73 00 6B 75 3A 54 45 30 33 00 32 41 53 30 30 31 3B 00 6F 73 5F 76 65 72 73 00 69 6F 6E 3A 31 2E 31 00 2E 32 3B 73 77 5F 76 00 65 72 73 69 6F 6E 3A 00 31 2E 31 2E 32 3B 62 00 6C 5F 76 65 72 73 69 00 6F 6E 3A 31 30 30 30 00 2E 30 2E 31 30 3B 73 00 65 72 69 61 6C 3A 45 00 33 50 54 56 32 4A 54 F7
 </p>
 
-<div class="FIXED" id="orgcc1b8d2">
+<div class="FIXED" id="org8c606d2">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering as per <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1258,7 +1441,7 @@ F0 - Start of System Exclusive (known as SOX)
 00 - null padding (or continuations of previous command value)
 00 - null padding start.
 Rest: =  "ascii string with every 8th char a null"
-^product :EP-133 ;mode:n ormal;s ku:TE03 2AS001; os_vers ion:1.1 .2;sw_v ersion: 1.1.2;b l_versi on:1000 .0.10;s erial:E 3PTV2JT
+product :EP-133 ;mode:n ormal;s ku:TE03 2AS001; os_vers ion:1.1 .2;sw_v ersion: 1.1.2;b l_versi on:1000 .0.10;s erial:E 3PTV2JT
 F7 = End of System Exclusive (known as EOX)
 </p>
 
@@ -1278,11 +1461,9 @@ These all seem to be 00, so the 7bit ascii strings do not have any data in the l
 </div>
 </div>
 
-
-
-<div id="outline-container-org37d4be0" class="outline-3">
-<h3 id="org37d4be0">Packet #2-&gt;N (Continuation ? ACK ?)</h3>
-<div class="outline-text-3" id="text-org37d4be0">
+<div id="outline-container-org34d3781" class="outline-3">
+<h3 id="org34d3781">Packet #5 (Continuation ? ACK ?)</h3>
+<div class="outline-text-3" id="text-org34d3781">
 <p>
 This packet was sent from the host TO the EP-133.
 </p>
@@ -1291,7 +1472,7 @@ This packet was sent from the host TO the EP-133.
 F0 00 20 76 33 40 77 15 05 00 01 01 00 40 00 00 F7
 </p>
 
-<div class="FIXED" id="org255a5a5">
+<div class="FIXED" id="orgd6f90da">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1323,9 +1504,9 @@ something to do with requesting the sample names that are coming up.
 </div>
 </div>
 
-<div id="outline-container-org9fa29a1" class="outline-3">
-<h3 id="org9fa29a1">Packet #3-&gt;N (Continuation ?)</h3>
-<div class="outline-text-3" id="text-org9fa29a1">
+<div id="outline-container-org302bdd0" class="outline-3">
+<h3 id="org302bdd0">Packet #3-&gt;N (Continuation ?)</h3>
+<div class="outline-text-3" id="text-org302bdd0">
 <p>
 From KO-2 To the host:
 </p>
@@ -1334,7 +1515,7 @@ From KO-2 To the host:
 F0 00 20 76 33 40 37 15 05 00 00 0C 00 00 02 00 F7
 </p>
 
-<div class="FIXED" id="orge082801">
+<div class="FIXED" id="orgbf0c4f9">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1369,17 +1550,17 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 </div>
 
-<div id="outline-container-org7b18311" class="outline-2">
-<h2 id="org7b18311">Conclusion</h2>
-<div class="outline-text-2" id="text-org7b18311">
+<div id="outline-container-org800a85f" class="outline-2">
+<h2 id="org800a85f">Conclusion</h2>
+<div class="outline-text-2" id="text-org800a85f">
 <p>
 Wrap it up here.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orge661e12" class="outline-2">
-<h2 id="orge661e12">Resources:</h2>
+<div id="outline-container-org9b7b2c0" class="outline-2">
+<h2 id="org9b7b2c0">Resources:</h2>
 </div>
 </div>
 </body>
