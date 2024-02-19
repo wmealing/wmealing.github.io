@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-19 Mon 22:20 -->
+<!-- 2024-02-19 Mon 22:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Decoding the KO2 Sysex messages.</title>
@@ -202,25 +202,25 @@
 <div id="content" class="content">
 <h1 class="title">Decoding the KO2 Sysex messages.</h1>
 
-<div id="outline-container-org209303a" class="outline-2">
-<h2 id="org209303a">Summary:</h2>
-<div class="outline-text-2" id="text-org209303a">
+<div id="outline-container-org77acc9d" class="outline-2">
+<h2 id="org77acc9d">Summary:</h2>
+<div class="outline-text-2" id="text-org77acc9d">
 <p>
 We're going to dive into what I can find out about the teenage engineering
 </p>
 </div>
 </div>
 
-<div id="outline-container-org63c9a3c" class="outline-2">
-<h2 id="org63c9a3c">Introduction</h2>
-<div class="outline-text-2" id="text-org63c9a3c">
+<div id="outline-container-org90057b8" class="outline-2">
+<h2 id="org90057b8">Introduction</h2>
+<div class="outline-text-2" id="text-org90057b8">
 <p>
 Sysex is a subtype of midi messages.
 </p>
 
 <p>
-this is an attempt to document what I have found out regarding the communication protocols on bring up from the
-KO2 EP-133 device.
+This is an attempt to document what I have found out regarding the communication protocols on bring up from the
+KO2 EP-133 device. No attempt has been made to send sysex messages yet, thats on the todo.
 </p>
 
 <p>
@@ -236,7 +236,7 @@ I'm using "Midi monitor" in "Spy mode", which dumps both sides of the conversati
 On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https://teenage.engineering/apps/ep-sample-tool</a> ) connect:
 </p>
 
-<pre class="example" id="org5d02911">
+<pre class="example" id="org7c2e860">
 20:17:26.941	From EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
 20:17:27.201	To EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
 20:17:27.209	From EP-133	SysEx		Universal Non-Real Time 17 bytes	F0 7E 33 06 02 00 20 76 20 00 01 00 00 00 00 00 F7
@@ -1199,9 +1199,9 @@ On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https
 </pre>
 </div>
 
-<div id="outline-container-org27fb7e0" class="outline-3">
-<h3 id="org27fb7e0">Packet #0 (System Configuration Request) Explained</h3>
-<div class="outline-text-3" id="text-org27fb7e0">
+<div id="outline-container-orgcea04b2" class="outline-3">
+<h3 id="orgcea04b2">Packet #0 (System Configuration Request) Explained</h3>
+<div class="outline-text-3" id="text-orgcea04b2">
 <p>
 This packet was sent from the host TO the EP-133.
 </p>
@@ -1214,7 +1214,7 @@ F0 00 20 76 33 40 77 14 01 F7
 I have deduced that this is the explanation of the packet
 </p>
 
-<div class="FIXED" id="orgc18e8b1">
+<div class="FIXED" id="org4a83fff">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1235,9 +1235,9 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 </div>
 
-<div id="outline-container-orgf692214" class="outline-3">
-<h3 id="orgf692214">Packet #1-&gt;N (System Configuration Response) Explained</h3>
-<div class="outline-text-3" id="text-orgf692214">
+<div id="outline-container-org489877c" class="outline-3">
+<h3 id="org489877c">Packet #1-&gt;N (System Configuration Response) Explained</h3>
+<div class="outline-text-3" id="text-org489877c">
 <p>
 This packet was sent from the EP-133 to the host.
 </p>
@@ -1246,7 +1246,7 @@ This packet was sent from the EP-133 to the host.
 F0 00 20 76 33 40 37 14 01 00 00 70 72 6F 64 75 63 74 00 3A 45 50 2D 31 33 33 00 3B 6D 6F 64 65 3A 6E 00 6F 72 6D 61 6C 3B 73 00 6B 75 3A 54 45 30 33 00 32 41 53 30 30 31 3B 00 6F 73 5F 76 65 72 73 00 69 6F 6E 3A 31 2E 31 00 2E 32 3B 73 77 5F 76 00 65 72 73 69 6F 6E 3A 00 31 2E 31 2E 32 3B 62 00 6C 5F 76 65 72 73 69 00 6F 6E 3A 31 30 30 30 00 2E 30 2E 31 30 3B 73 00 65 72 69 61 6C 3A 45 00 33 50 54 56 32 4A 54 F7
 </p>
 
-<div class="FIXED" id="org190a353">
+<div class="FIXED" id="orgcc1b8d2">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering as per <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1255,33 +1255,34 @@ F0 - Start of System Exclusive (known as SOX)
 37 - From the KO2
    14 - respond to sequence 14.
    01 - respond to commandn for system configuration (from packet #0)
-00 = null padding
-00 = null padding start
+00 - null padding (or continuations of previous command value)
+00 - null padding start.
 Rest: =  "ascii string with every 8th char a null"
 ^product :EP-133 ;mode:n ormal;s ku:TE03 2AS001; os_vers ion:1.1 .2;sw_v ersion: 1.1.2;b l_versi on:1000 .0.10;s erial:E 3PTV2JT
 F7 = End of System Exclusive (known as EOX)
 </p>
+
+</div>
 
 <p>
 We can see there is a null every 8th character.  I dont know why. I wonder if this is related to <a href="https://www.echevarria.io/blog/midi-sysex/index.html">An interesting way to pack bytes into a MIDI SysEx message</a> by <a href="https://www.echevarria.io/index.html">Ivan Echevarria</a>.
 </p>
 
 <p>
-These all seem to be 00, so the 7bit ascii strings do not have any data in the left most bit, so maybe
-there is nothing there yet.
+These all seem to be 00, so the 7bit ascii strings do not have any data in the left most bit, so maybe this only gets used 
 </p>
 
 <p>
 139 bytes in total.
 </p>
-
-</div>
 </div>
 </div>
 
-<div id="outline-container-orgf689ef5" class="outline-3">
-<h3 id="orgf689ef5">Packet #2-&gt;N (Continuation ? ACK ?)</h3>
-<div class="outline-text-3" id="text-orgf689ef5">
+
+
+<div id="outline-container-org37d4be0" class="outline-3">
+<h3 id="org37d4be0">Packet #2-&gt;N (Continuation ? ACK ?)</h3>
+<div class="outline-text-3" id="text-org37d4be0">
 <p>
 This packet was sent from the host TO the EP-133.
 </p>
@@ -1290,7 +1291,7 @@ This packet was sent from the host TO the EP-133.
 F0 00 20 76 33 40 77 15 05 00 01 01 00 40 00 00 F7
 </p>
 
-<div class="FIXED" id="org7db4e06">
+<div class="FIXED" id="org255a5a5">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1316,24 +1317,69 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 
 <p>
-These values are not a random or pointless, they must have some value.
+These values are not a random or pointless, they must have some value, I don't know them yet.  Its probably
+something to do with requesting the sample names that are coming up.
 </p>
 </div>
 </div>
+
+<div id="outline-container-org9fa29a1" class="outline-3">
+<h3 id="org9fa29a1">Packet #3-&gt;N (Continuation ?)</h3>
+<div class="outline-text-3" id="text-org9fa29a1">
+<p>
+From KO-2 To the host:
+</p>
+
+<p>
+F0 00 20 76 33 40 37 15 05 00 00 0C 00 00 02 00 F7
+</p>
+
+<div class="FIXED" id="orge082801">
+<p>
+F0 - Start of System Exclusive (known as SOX)
+00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
+33 - Every message has "33"
+40 - Every message has "40"
+37 - FROM THE KO-2
+15 - Sequence Reply to Previous packet #15.
+</p>
+
+<p>
+Prev: 05 00 01 01 00 40 00 00
+This: 05 00 00 0C 00 00 02 00
+</p>
+
+<p>
+05 - Unknown (Same as previous packet) Responding to "command 05"
+00 - Unknown (Same as previous packet) Could be Null separator
+00 - Unknown (-1 from previous packet)
+0C - Unknown (previous packet was 01)  12 in decimal, 12 somethings ?
+00 - Unknown (same as previous packet)
+00 - Unknown (was 40)
+02 - Unknown (was 00)
+00 - Unknown (Same as previous packet)
+</p>
+
+<p>
+F7 - End of System Exclusive (known as EOX)
+</p>
+
+</div>
+</div>
+</div>
 </div>
 
-
-<div id="outline-container-org93566f6" class="outline-2">
-<h2 id="org93566f6">Conclusion</h2>
-<div class="outline-text-2" id="text-org93566f6">
+<div id="outline-container-org7b18311" class="outline-2">
+<h2 id="org7b18311">Conclusion</h2>
+<div class="outline-text-2" id="text-org7b18311">
 <p>
 Wrap it up here.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5523aa3" class="outline-2">
-<h2 id="org5523aa3">Resources:</h2>
+<div id="outline-container-orge661e12" class="outline-2">
+<h2 id="orge661e12">Resources:</h2>
 </div>
 </div>
 </body>

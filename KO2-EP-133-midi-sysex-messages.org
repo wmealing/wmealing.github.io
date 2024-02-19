@@ -1024,6 +1024,7 @@ F0 - Start of System Exclusive (known as SOX)
 Rest: =  "ascii string with every 8th char a null"
 ^product :EP-133 ;mode:n ormal;s ku:TE03 2AS001; os_vers ion:1.1 .2;sw_v ersion: 1.1.2;b l_versi on:1000 .0.10;s erial:E 3PTV2JT
 F7 = End of System Exclusive (known as EOX)
+#+END_FIXED
 
 We can see there is a null every 8th character.  I dont know why. I wonder if this is related to [[https://www.echevarria.io/blog/midi-sysex/index.html][An interesting way to pack bytes into a MIDI SysEx message]] by [[https://www.echevarria.io/index.html][Ivan Echevarria]].
 
@@ -1031,7 +1032,7 @@ These all seem to be 00, so the 7bit ascii strings do not have any data in the l
 
 139 bytes in total.
 
-#+END_FIXED
+
 
 ** Packet #2->N (Continuation ? ACK ?)
 
