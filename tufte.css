@@ -443,3 +443,14 @@ label.margin-toggle:not(.sidenote-number) {
    background-blend-mode: lighten;
    background-position: center;
 }
+
+.FIXED {
+    padding-above: 10px;
+    white-space: pre;
+    font-family: monospace;
+    display: block;
+}
+
+.outline-text-3 {
+    padding: 0px;
+}
