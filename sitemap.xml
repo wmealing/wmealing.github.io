@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-<url><loc>https://wmealing.github.io/</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/lfe-gen-server.html</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/ebpf-disabled-for-users.html</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/simple-cobol-query.html</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/watchdog-in-rust</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/less-than-optimistic.html</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/mirai-delete-yourself</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/tpm-pcr07.html</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/signed-kernel-modules.html</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/toshiba-toughpad-fz-g1-3</loc><lastmod>2022-10-22T11:48:46+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/lisp-range</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/wx-erlang-example</loc><lastmod>2022-10-22T11:48:41+00:00</lastmod></url>
-<url><loc>https://wmealing.github.io/toughpad-fz-g1-buttons-acpi.html</loc><lastmod>2022-10-22T11:48:46+00:00</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://wmealing.github.io/</loc>
+<lastmod>2024-02-11</lastmod>
+</url>
+<url>
+<loc>https://wmealing.github.io//reverse-engineering-teenage-engineering.html</loc>
+<lastmod>2024-02-11</lastmod>
+</url>
+<url>
+<loc>https://wmealing.github.io/atomic-operations-in-common-lisp.html</loc>
+<lastmod>2024-02-11</lastmod>
+</url>
+<url>
+<loc>https://wmealing.github.io/htmx-common-lisp.html</loc>
+<lastmod>2024-02-11</lastmod>
+</url>
+<url>
+<loc>https://wmealing.github.io//emacs-org-babel-analysis.html</loc>
+<lastmod>2024-02-11</lastmod>
+</url>
 </urlset>
