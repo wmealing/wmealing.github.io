@@ -19,6 +19,9 @@ KO2 - EP-133 device. No attempt has been made to send sysex messages yet, thats 
 I'm using "Midi monitor" in "Spy mode", which dumps both sides of the conversation.  This needed to be enabled
 in the  I needed to reboot the mac afterwards otherwise I could only see one side of the conversation.
 
+I have NOT tested that these command are working.
+I WOULD appreciate a dump of your ko2 long with any insight you can provide (even a blank/brand new ko2)
+If you use this data in a library or document, please give me a reference for the work done here that has helped you.
 
 ** How you can help:
 
@@ -30,7 +33,10 @@ Its pretty involved, the first step is to run this against the TE sample tool wh
 
 Wait for the system to stop generating midi events, then save the communciations.
 
-Below is my data for comparison: (Analaysis to follow)
+Below is my data for comparison: (Analaysis to follow), if you can provide evidence or even ideas for
+further decoding these packets, please email me at the name of this blog (ie the part before github.io) @gmail.com.
+
+
 
 * Stage 1: On sample tool ( https://teenage.engineering/apps/ep-sample-tool )
 
@@ -54,12 +60,12 @@ Connect the EP-133 to the USB, visit the website, power on the device:
 14 20:17:27.301	From EP-133	SysEx		Teenage Engineering 14 bytes	F0 00 20 76 33 40 37 19 05 00 00 00 01 F7
 15 20:17:27.301	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 1A 05 08 07 02 07 50 00 00 F7
 16 20:17:27.317	From EP-133	SysEx		Teenage Engineering 32 bytes	F0 00 20 76 33 40 37 1A 05 00 00 00 00 7B 22 61 63 74 00 69 76 65 22 3A 33 30 00 30 30 7D 00 F7
-20:17:27.317	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 1B 05 08 07 02 03 68 00 00 F7
-20:17:27.334	From EP-133	SysEx		Teenage Engineering 79 bytes	F0 00 20 76 33 40 37 1B 05 00 00 00 00 7B 22 6D 61 78 00 5F 63 61 70 61 63 69 00 74 79 22 3A 36 32 38 00 35 33 31 32 30 2C 22 00 66 72 65 65 5F 73 70 00 61 63 65 5F 69 6E 5F 00 62 79 74 65 73 22 3A 00 31 32 30 35 35 30 33 00 32 7D 00 F7
-20:17:27.334	To EP-133	SysEx		Teenage Engineering 14 bytes	F0 00 20 76 33 40 77 1C 05 04 0B 0B 38 F7
-20:17:27.335	From EP-133	SysEx		Teenage Engineering 25 bytes	F0 00 20 76 33 40 37 1C 05 00 0A 0B 38 07 50 0E 00 00 00 00 00 30 31 00 F7
-20:17:27.335	To EP-133	SysEx		Teenage Engineering 16 bytes	F0 00 20 76 33 40 77 1D 05 10 04 00 00 03 68 F7
-20:17:27.337	From EP-133	SysEx		Teenage Engineering 374 bytes	F0 00 20 76 33 40 37 1D 05 00 00 00 00 00 01 1D 00 00 01 2F 18 30 30 31 2E 70 00 63 6D 00 00 02 1D 00 02 00 29 06 30 30 32 2E 00 70 63 6D 00 00 03 1D 08 00 01 05 0E 30 30 33 00 2E 70 63 6D 00 00 04 10 1D 00 01 08 72 30 30 00 34 2E 70 63 6D 00 00 20 05 1D 00 00 61 20 30 00 30 35 2E 70 63 6D 00 60 00 06 1D 00 00 2B 28 00 30 30 36 2E 70 63 6D 00 00 00 07 1D 00 00 4A 00 00 30 30 37 2E 70 63 00 6D 00 00 08 1D 00 00 01 1C 00 30 30 38 2E 70 00 63 6D 00 00 09 1D 00 00 00 1A 02 30 30 39 2E 00 70 63 6D 00 00 0A 1D 08 00 00 44 10 30 31 30 00 2E 70 63 6D 00 00 0B 10 1D 00 00 37 52 30 31 00 31 2E 70 63 6D 00 00 20 0C 1D 00 00 61 5A 30 00 31 32 2E 70 63 6D 00 20 00 0D 1D 00 00 24 30 00 30 31 33 2E 70 63 6D 00 00 00 0E 1D 00 00 5B 01 0C 30 31 34 2E 70 63 00 6D 00 00 0F 1D…
+17 20:17:27.317	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 1B 05 08 07 02 03 68 00 00 F7
+18 20:17:27.334	From EP-133	SysEx		Teenage Engineering 79 bytes	F0 00 20 76 33 40 37 1B 05 00 00 00 00 7B 22 6D 61 78 00 5F 63 61 70 61 63 69 00 74 79 22 3A 36 32 38 00 35 33 31 32 30 2C 22 00 66 72 65 65 5F 73 70 00 61 63 65 5F 69 6E 5F 00 62 79 74 65 73 22 3A 00 31 32 30 35 35 30 33 00 32 7D 00 F7
+19 20:17:27.334	To EP-133	SysEx		Teenage Engineering 14 bytes	F0 00 20 76 33 40 77 1C 05 04 0B 0B 38 F7
+20 20:17:27.335	From EP-133	SysEx		Teenage Engineering 25 bytes	F0 00 20 76 33 40 37 1C 05 00 0A 0B 38 07 50 0E 00 00 00 00 00 30 31 00 F7
+21 20:17:27.335	To EP-133	SysEx		Teenage Engineering 16 bytes	F0 00 20 76 33 40 77 1D 05 10 04 00 00 03 68 F7
+22 20:17:27.337	From EP-133	SysEx		Teenage Engineering 374 bytes	F0 00 20 76 33 40 37 1D 05 00 00 00 00 00 01 1D 00 00 01 2F 18 30 30 31 2E 70 00 63 6D 00 00 02 1D 00 02 00 29 06 30 30 32 2E 00 70 63 6D 00 00 03 1D 08 00 01 05 0E 30 30 33 00 2E 70 63 6D 00 00 04 10 1D 00 01 08 72 30 30 00 34 2E 70 63 6D 00 00 20 05 1D 00 00 61 20 30 00 30 35 2E 70 63 6D 00 60 00 06 1D 00 00 2B 28 00 30 30 36 2E 70 63 6D 00 00 00 07 1D 00 00 4A 00 00 30 30 37 2E 70 63 00 6D 00 00 08 1D 00 00 01 1C 00 30 30 38 2E 70 00 63 6D 00 00 09 1D 00 00 00 1A 02 30 30 39 2E 00 70 63 6D 00 00 0A 1D 08 00 00 44 10 30 31 30 00 2E 70 63 6D 00 00 0B 10 1D 00 00 37 52 30 31 00 31 2E 70 63 6D 00 00 20 0C 1D 00 00 61 5A 30 00 31 32 2E 70 63 6D 00 20 00 0D 1D 00 00 24 30 00 30 31 33 2E 70 63 6D 00 00 00 0E 1D 00 00 5B 01 0C 30 31 34 2E 70 63 00 6D 00 00 0F 1D…
 20:17:27.342	To EP-133	SysEx		Teenage Engineering 17 bytes	F0 00 20 76 33 40 77 1E 05 08 07 02 07 50 00 00 F7
 20:17:27.343	From EP-133	SysEx		Teenage Engineering 32 bytes	F0 00 20 76 33 40 37 1E 05 00 00 00 00 7B 22 61 63 74 00 69 76 65 22 3A 33 30 00 30 30 7D 00 F7
 20:17:27.344	To EP-133	SysEx		Teenage Engineering 16 bytes	F0 00 20 76 33 40 77 1F 05 10 04 00 01 03 68 F7
@@ -998,7 +1004,7 @@ Connect the EP-133 to the USB, visit the website, power on the device:
 20:17:30.568	From EP-133	SysEx		Teenage Engineering 198 bytes	F0 00 20 76 33 40 3A 71 05 00 00 00 00 7B 22 63 68 61 00 6E 6E 65 6C 73 22 3A 00 32 2C 22 73 61 6D 70 00 6C 65 5F 72 61 74 65 00 22 3A 34 36 38 37 35 00 2C 22 66 6F 72 6D 61 00 74 22 3A 22 73 31 36 00 22 2C 22 63 72 63 22 00 3A 33 34 32 36 35 32 00 38 35 38 36 2C 22 6C 00 6F 6F 70 5F 73 74 61 00 72 74 22 3A 2D 31 2C 00 22 6C 6F 6F 70 5F 65 00 6E 64 22 3A 2D 31 2C 00 22 6E 61 6D 65 22 3A 00 22 73 65 61 72 63 68 00 20 63 68 6F 72 64 22 00 2C 22 61 6D 70 6C 69 00 74 75 64 65 22 3A 39 00 30 2C 22 70 6C 61 79 00 6D 6F 64 65 22 3A 32 00 2C 22 72 65 6C 65 61 00 73 65 22 3A 31 32 38 00 7D 00 F7
 #+END_EXAMPLE
 
-** Packet #1 (System Identity Request) - HOST -> EP-133 (Uuniveral non-real ?)
+** Message #1 (System Identity Request) - HOST -> EP-133 (Uuniveral non-real ?)
 
 I am unsure if this packet is generated by the operating system or the client application.
 
@@ -1015,13 +1021,12 @@ This should be in the following format: F0 7E 7F 06 02 00 00 11 11 22 22 33 33 0
 33 33 is the model number, which should normally be the same as the USB PID.
 01 00 00 00 is the version number. This will normally change with each revision to the firmware, so this should normally be replaced with wildcards ???????? in the definition.
 
-** Packet #1 (System Identity Response) EP-133 -> HOST (Uuniveral non-real ?)
+** Message #1 (System Identity Response) EP-133 -> HOST (Uuniveral non-real ?)
 
 I am unsure if this packet is generated by the operating system or the client application.
 
-
-#+CAPTION: Discovery Packet
-#+NAME:   Packet #0 system identity response
+#+CAPTION: Discovery Message
+#+NAME:   Message #0 system identity response
 #+ATTR_HTML: :width 400px
 #+ATTR_ORG: :width 400px 
 [[./images/midi-sysex-discovery-packet.png]]
@@ -1030,7 +1035,7 @@ I am unsure if this packet is generated by the operating system or the client ap
 This looks mostly right, the 02 is incremented from 01, so thats maybe normal. To me this
 feels like OS level responsibility not application level.
 
-** Packet #3 (System Configuration Request) HOST -> EP-133 
+** Message #3 (System Configuration Request) HOST -> EP-133 
 
 This packet was sent from the host TO the EP-133.
 
@@ -1050,10 +1055,12 @@ F0 - Start of System Exclusive (known as SOX)
 F7 - End of System Exclusive (known as EOX)
 #+END_FIXED
 
+From this point on, "F0 00 20 76 33 40" I'm going to refer to as "Message Prologue"
+
 "14 01" together might be a command "get current system configuration", although it appears 14 is the
 sequence number start ?
 
-** Packet #4 (System Configuration Response) EP-133 -> HOST
+** Message #4 (System Configuration Response) EP-133 -> HOST
 
 
 F0 00 20 76 33 40 37 14 01 00 00 70 72 6F 64 75 63 74 00 3A 45 50 2D 31 33 33 00 3B 6D 6F 64 65 3A 6E 00 6F 72 6D 61 6C 3B 73 00 6B 75 3A 54 45 30 33 00 32 41 53 30 30 31 3B 00 6F 73 5F 76 65 72 73 00 69 6F 6E 3A 31 2E 31 00 2E 32 3B 73 77 5F 76 00 65 72 73 69 6F 6E 3A 00 31 2E 31 2E 32 3B 62 00 6C 5F 76 65 72 73 69 00 6F 6E 3A 31 30 30 30 00 2E 30 2E 31 30 3B 73 00 65 72 69 61 6C 3A 45 00 33 50 54 56 32 4A 54 F7
@@ -1081,7 +1088,7 @@ I think these are key : value ; separated by semicolons.
 
 139 bytes in total.
 
-** Packet #5 (Continuation ? Next Message ?)  HOST -> EP-133
+** Message #5 (Continuation ? Next Message ?)  HOST -> EP-133
 
 This packet was sent from the host TO the EP-133.
 
@@ -1110,7 +1117,7 @@ F7 - End of System Exclusive (known as EOX)
 These values are not a random or pointless, they must have some value, I don't know them yet.  Its probably
 something to do with requesting the sample names that are coming up.
 
-** Packet #6  (Continuation ?) EP-133 -> HOST
+** Message #6  (Continuation ?) EP-133 -> HOST
 
 F0 00 20 76 33 40 37 15 05 00 00 0C 00 00 02 00 F7
 
@@ -1138,7 +1145,7 @@ This resp: 05 00 00 0C 00 00 02 00
 F7 - End of System Exclusive (known as EOX)
 #+END_FIXED
 
-** Packet #7 (New command)  HOST -> EP-133
+** Message #7 (New command)  HOST -> EP-133
 
 F0 00 20 76 33 40 77 16 05 00 04 00 00 00 00 F7
 
@@ -1164,7 +1171,7 @@ This resp: 05 00 04 00 00 00 00
 F7 - End of System Exclusive (known as EOX)
 #+END_FIXED
 
-** Packet #8 (Response to #7)  EP-133 -> HOST
+** Message #8 (Response to #7)  EP-133 -> HOST
 
 F0 00 20 76 33 40 37 16 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08 73 00 07 50 0E 00 00 00 00 00 70 72 6F 6A 65 00 63 74 73 00 F7
 
@@ -1187,7 +1194,7 @@ Both of these words are part of the KO-133 lexicon.   I dont know what.. this is
 
 It might be possible that this is letting the 'host' know it can query for "sounds" and "projects"
 
-** Packet #9 (Project Request maybe ?)  HOST -> EP-133
+** Message #9 (Project Request maybe ?)  HOST -> EP-133
 
 F0 00 20 76 33 40 77 17 05 00 04 00 00 00 00 F7
 
@@ -1206,7 +1213,7 @@ F0 00 20 76 33 40 - Explained earlier
 F7 - End of System Exclusive (known as EOX)
 #+END_FIXED
 
-** Packet #10 (WHAT?)   EP-133 -> HOST
+** Message #10 (WHAT?)   EP-133 -> HOST
 
 F0 00 20 76 33 40 37 17 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08 73 00 07 50 0E 00 00 00 00 00 70 72 6F 6A 65 00 63 74 73 00 F7
 
@@ -1226,7 +1233,7 @@ F7 - End of System Exclusive (known as EOX)
 This looks very similar to the previous.. packet of the same type.. what is this Did i screw up analaysis, going back, no .. no i didnt this is different to the previous package
 #8 because the "Sequence" number is differnent, maybe there is abug ? noise, i dont know.  Cable problem ?
 
-** Packet #11 (WHAT?)  HOST -> EP-133
+** Message #11 (WHAT?)  HOST -> EP-133
 
 F0 00 20 76 33 40 77 18 05 00 04 00 01 00 00 F7
 
@@ -1246,7 +1253,7 @@ F0 00 20 76 33 40 - Explained earlier
 F7 - End of System Exclusive (known as EOX)
 #+END_FIXED
 
-** Packet #12 (WHAT?) EP-133 -> HOST
+** Message #12 (WHAT?) EP-133 -> HOST
 
 F0 00 20 76 33 40 37 18 05 00 00 00 01 F7
 
@@ -1264,7 +1271,7 @@ F7 - End of System Exclusive (known as EOX)
 
 I have more than one project, more than one custom sound, more than 1 of most things on the KO.
 
-** Packet #13 (WHAT?)  HOST -> EP-133
+** Message #13 (WHAT?)  HOST -> EP-133
 
 F0 00 20 76 33 40 77 19 05 00 04 00 01 00 00 F7
 
@@ -1285,14 +1292,14 @@ F7 - End of System Exclusive (known as EOX)
 This looks same as packet 11.. No real change.. sequence number thats it ?
 
 
-** Packet #14 (What) EP-133 -> HOST
+** Message #14 (What) EP-133 -> HOST
 
 F0 00 20 76 33 40 37 19 05 00 00 00 01 F7
 
 #+BEGIN_FIXED
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM  THE EP-133
-19 - Response eo Packet #13.
+19 - Response eo Message #13.
 05 - Command 5 (continued, forever..apparently)
   00
   00
@@ -1303,7 +1310,7 @@ F7 - End of System Exclusive (known as EOX)
 
 Looks the same as #12.
 
-** Packet #15: (What) HOST -> EP-133
+** Message #15: (What) HOST -> EP-133
 
 F0 00 20 76 33 40 77 1A 05 08 07 02 07 50 00 00 F7
 
@@ -1324,7 +1331,201 @@ F0 00 20 76 33 40 - Explained earlier
 F7 - End of System Exclusive (known as EOX)
 #+END_FIXED
 
-** Packet #16 (What)
+These are values from the host, numbers that probably mean something
+in an enum lookup in the teenage engineering source code.
+
+** Message #16 ( "active" json response ) PE-133 -> HOST
+
+F0 00 20 76 33 40 37 1A 05 00 00 00 00 7B 22 61 63 74 00 69 76 65 22 3A 33 30 00 30 30 7D 00 F7
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Explained earlier
+37 - FROM THE EP-133
+1A - Sequence response to Message #15.
+05 - Command 5 (continued, forever..apparently)
+
+00 00 00 00 7B 22 61 63 74 00 69 76 65 22 3A 33 30 00 30 30 7D 00 F
+
+This converts to "{"active":3000}"
+
+F7 - End of System Exclusive (known as EOX)
+#+END_FIXED
+
+This might be battery mAH ?  I sampled this while getting USB power.
+Whatever the previous query in packet #15, this is the response.
+
+Oddly this looks like JSON,  I could look through the sampler code
+to see how it is used, if you can find out drop me a line.
+
+** Message #17 (Storage capacity query)  HOST -> EP-133
+
+F0 00 20 76 33 40 77 1B 05 08 07 02 03 68 00 00 F7
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Explained earlier
+77 - TO THE EP-133
+1B - New Sequence
+05 - Command 5 (continued, forever..apparently)
+  08
+  07
+  02
+  03
+  68
+  00
+  00
+F7 - End of System Exclusive (known as EOX)
+#+END_FIXED
+
+This command looks -very- similar to the sequence a few packets back in packet 15.
+
+|----------+-------------|
+| this seq | previous se |
+|----------+-------------|
+|       08 |          08 |
+|       07 |          07 |
+|       02 |          02 |
+|       03 |          07 |
+|       68 |          50 |
+|       00 |          00 |
+|       00 |          00 |
+|----------+-------------|
+
+Its likely a similar type as packet #15.
+
+
+** Message #18 (What)  EP-133 -> HOST
+
+F0 00 20 76 33 40 37 1B 05 00 00 00 00 7B 22 6D 61 78 00 5F 63 61 70 61 63 69 00 74 79 22 3A 36 32 38 00 35 33 31 32 30 2C 22 00 66 72 65 65 5F 73 70 00 61 63 65 5F 69 6E 5F 00 62 79 74 65 73 22 3A 00 31 32 30 35 35 30 33 00 32 7D 00 F7
+
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Explained earlier
+37 - FROM THE EP-133
+1B - Response to packet #16.
+05 - Command 5 (continued, forever..apparently)
+00 00 00 00 - Padding ?
+7B 22 6D 61 78 00 5F 63 61 70 61 63 69 00 74 79 22 3A 36 32 38 00 35 33 31 32 30 2C 22 00 66 72 65 65 5F 73 70 00 61 63 65 5F 69 6E 5F 00 62 79 74 65 73 22 3A 00 31 32 30 35 35 30 33 00 32 7D 00 F7
+Translated to {"max_capacity":62853120,"free_space_in_bytes":12055032}
+F7 - End of System Exclusive (known as EOX)
+#+END_FIXED
+
+Ok, so I think we can say packet 16 was a 'storage space capacity' query.
+
+** Message #19 (What)  HOST -> EP-133
+
+F0 00 20 76 33 40 77 1C 05 04 0B 0B 38 F7
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Message Prologue
+76 - TO THE EP-133
+1C - New Sequence
+05 - Command 5 (continued, forever..apparently)
+  04 
+  0B
+  0B
+  38
+F7 - End of System Exclusive (known as EOX)
+#+END_FIXED
+
+This is likely another query, (they are short, responses are longer)
+
+** Message #20 (What)  EP-133 -> HOST
+
+F0 00 20 76 33 40 37 1C 05 00 0A 0B 38 07 50 0E 00 00 00 00 00 30 31 00 F7
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Message Prologue
+37 - FROM THE EP-133
+1C - Sequence response to previous message.
+05 - Command 5 (continued, forever..apparently)
+  00 -
+  0A -
+  0B -
+  38 -
+  07 -
+  50 -
+  0E - 
+  00 -
+  00 - 
+  00 -
+  00 -
+  00 - 
+  30 - 
+  31 - 
+  00 -
+F7 - End of System Exclusive (known as EOX)
+#+END_FIXED
+
+I dont know what this is.
+
+
+** Message #21 (What) HOST -> EP-133.
+
+F0 00 20 76 33 40 77 1D 05 10 04 00 00 03 68 F7
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Message Prologue
+76 - TO THE EP-133
+1D - New Sequence
+05 - Command 5 (continued, forever..apparently)
+  10
+  04
+  00
+  00
+  03
+  68
+F7 - End of System Exclusive (known as EOX)
+#+END_FIXED
+
+This is a status command executed from the host.
+
+** Message #21 (What)  EP-133 -> HOST
+
+F0 00 20 76 33 40 37 1D 05 00 00 00 00 00 01 1D 00 00 01 2F 18 30 30 31 2E 70 00 63 6D 00 00 02 1D 00 02 00 29 06 30 30 32 2E 00 70 63 6D 00 00 03 1D 08 00 01 05 0E 30 30 33 00 2E 70 63 6D 00 00 04 10 1D 00 01 08 72 30 30 00 34 2E 70 63 6D 00 00 20 05 1D 00 00 61 20 30 00 30 35 2E 70 63 6D 00 60 00 06 1D 00 00 2B 28 00 30 30 36 2E 70 63 6D 00 00 00 07 1D 00 00 4A 00 00 30 30 37 2E 70 63 00 6D 00 00 08 1D 00 00 01 1C 00 30 30 38 2E 70 00 63 6D 00 00 09 1D 00 00 00 1A 02 30 30 39 2E 00 70 63 6D 00 00 0A 1D 08 00 00 44 10 30 31 30 00 2E 70 63 6D 00 00 0B 10 1D 00 00 37 52 30 31 00 31 2E 70 63 6D 00 00 20 0C 1D 00 00 61 5A 30 00 31 32 2E 70 63 6D 00 20 00 0D 1D 00 00 24 30 00 30 31 33 2E 70 63 6D 00 00 00 0E 1D 00 00 5B 01 0C 30 31 34 2E 70 63 00 6D 00 00 0F 1D 00 00 03 2E 78 30 31 35 2E 70 00 63 6D 00 00 10 1D 00 04 00 6C 24 30 31 36 2E 00 70 63 6D 00 00 11 1D 00 00 01 2D 40 30 31 37 00 2E 70 63 6D 00 00 12 18 1D 00 00 07 50 30 31 00 38 2E 70 63 6D 00 00 20 13 1D 00 00 6F 5C 30 00 31 39 2E 70 63 6D 00 00 00 14 1D 00 00 55 28 00 30 32 30 2E 70 63 6D 40 00 00 15 1D 00 01 06 01 74 30 32 31 2E 70 63 00 6D 00 F7
+
+#+BEGIN_FIXED
+F0 00 20 76 33 40 - Message Prologue
+76 - TO THE EP-133
+1D - Sequence response to previous message.
+05 - Command 5 (continued, forever..apparently)
+  00 00 00 00 00 01 1D 00 00 01 2F 18 30 30 31 2E 70 00 63 6D 00 00 02 1D 00 02 00 29 06 30 30 32 2E 00 70 63 6D 00 00 03 1D 08 00 01 05 0E 30 30 33 00 2E 70 63 6D 00 00 04 10 1D 00 01 08 72 30 30 00 34 2E 70 63 6D 00 00 20 05 1D 00 00 61 20 30 00 30 35 2E 70 63 6D 00 60 00 06 1D 00 00 2B 28 00 30 30 36 2E 70 63 6D 00 00 00 07 1D 00 00 4A 00 00 30 30 37 2E 70 63 00 6D 00 00 08 1D 00 00 01 1C 00 30 30 38 2E 70 00 63 6D 00 00 09 1D 00 00 00 1A 02 30 30 39 2E 00 70 63 6D 00 00 0A 1D 08 00 00 44 10 30 31 30 00 2E 70 63 6D 00 00 0B 10 1D 00 00 37 52 30 31 00 31 2E 70 63 6D 00 00 20 0C 1D 00 00 61 5A 30 00 31 32 2E 70 63 6D 00 20 00 0D 1D 00 00 24 30 00 30 31 33 2E 70 63 6D 00 00 00 0E 1D 00 00 5B 01 0C 30 31 34 2E 70 63 00 6D 00 00 0F 1D 00 00 03 2E 78 30 31 35 2E 70 00 63 6D 00 00 10 1D 00 04 00 6C 24 30 31 36 2E 00 70 63 6D 00 00 11 1D 00 00 01 2D 40 30 31 37 00 2E 70 63 6D 00 00 12 18 1D 00 00 07 50 30 31 00 38 2E 70 63 6D 00 00 20 13 1D 00 00 6F 5C 30 00 31 39 2E 70 63 6D 00 00 00 14 1D 00 00 55 28 00 30 32 30 2E 70 63 6D 40 00 00 15 1D 00 01 06 01 74 30 32 31 2E 70 63 00 6D 00 F7
+#+END_FIXED
+
+This is almost definitely ascii text.
+Decoded, i have noticed ^A ... ^B.. but  multiples sometimes ?
+
+
+/001.pcm
+)002.pcm
+003.pcm
+r004.pcm
+a 005.pcm`
++(006.pcm
+J007.pcm
+008.pcm
+009.pcm
+D010.pcm
+7R011.pcm 
+aZ012.pcm
+$0013.pcm
+[014.pcm
+.x015.pcm
+l$016.pcm
+-@017.pcm
+P018.pcm
+o\019.pcm
+U(020.pcm@
+t021.pcm
+
+I noticed ^A ^B ^C -> ^U  in this response.
+
+
+* Areas of improvement.
+
+I could script the capture of the data, change one thing, turn it off
+regenerate the capture, compare the two to find what changed.
+
+That'd be nice, but its not done yet.
 
 * Conclusion
 Wrap it up here.
