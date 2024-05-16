@@ -232,7 +232,7 @@ technical it can also be a link to the source code for more capable users to sel
 I consider these 4 basics to be the first generation of improvements. You will find new
 and useful improvements; do not be afraid to use them.
 
-These  "Wilbert-Hofmann" error messages are used heavily in the group of the company where I work.
+These  "Wilbert-Hofmann" error messages are used heavily in the group of the company where I [[https://gitlab.com/cki-project/kernel-workflow/][work]].
 
 ** Generating documentation from error conditions for support staff.
 
@@ -268,6 +268,6 @@ their software systems.
 https://www.smashingmagazine.com/2022/08/error-messages-ux-design/
 https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas
 https://uxwritinghub.com/error-message-examples/
-
+https://gitlab.com/cki-project/kernel-workflow/
 
 
