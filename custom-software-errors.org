@@ -16,7 +16,7 @@ custom software will be created.
 Because the software is created with customized intent, the error messages presented to users can have
 additional benefits that off-the-shelf software doesn't offer.  Business process backed error messages.
 
-In the company I work at, these improved error helpers  are called "Wilson-Hoffman" error messages.
+In the company I work at, these improved error helpers  are called "Wilbert-Hofman" error messages.
 It would be great to see these error types in wider use.
 
 * Introduction
@@ -224,14 +224,15 @@ use the same source code with no variance.
 ** Online References (hyperlinks)
 
 This is more than just linking to a wiki page; error pages could link to specific URI's of company
-resources such as Slack, shared drives, or source repositories.
+resources such as Slack, shared drives, or source repositories.  If your userbase is sufficiently
+technical it can also be a link to the source code for more capable users to self-diagnose the root cause.
 
 ** Extending this idea.
 
 I consider these 4 basics to be the first generation of improvements. You will find new
 and useful improvements; do not be afraid to use them.
 
-These 4 basic features are called the "wilson-hoffman" errors in the company where I work.
+These  "Wilbert-Hofman" error messages are used heavily in the group of the company where I work.
 
 ** Generating documentation from error conditions for support staff.
 
