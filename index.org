@@ -5,11 +5,20 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
 
+
+* The best error messages I have ever seen.
+
+Writing clear and effective error messages is a crucial skill for any programmer, no matter what the language.  Well-crafted error messages will
+improve the usability of software by guiding users to understand and resolve issues quickly. A good error message not only informs the user about
+what went wrong but also suggests potential solutions or next steps. In this introductory paragraph, we will explore key principles and techniques
+that can help developers create error messages that are informative, actionable, and user-friendly and more importantly take advantage of any
+assistance and resources that you may have at your disposal.  I expanded on this a bit more [[https://wmealing.github.io/custom-software-errors.html][here]].
+
 * [[http://wmealing.github.io/mac-os-midi-router-broken.html][Apple Mac OS Midi routing is broken.]]
 
 I have some new music making hardware, and wanted to try to get them to talk together.  Use a Mac they
 say 'everything just works',   No clearly it doesnt.  I did however find a work around.  If anyone
-is trying to use a USB host to route a midi controller (USB organ) to a synth (USB) start [[http://wmealing.github.io/mac-os-midi-router-broken.html][Reading]].
+is trying to use a USB host to route a midi controller (USB organ) to a synth (USB) start [[http://wmealing.github.io/mac-os-midi-router-broken.html][Reading]]
 
 * [[http://wmealing.github.io/minimise.html][Minimise]]
 
