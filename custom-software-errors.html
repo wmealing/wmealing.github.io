@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-05-14 Tue 20:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Higher quality errors for custom software.</title>
+<meta name="generator" content="Org Mode" />
+<style type="text/css" >
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" href="tufte.css" type="text/css" />
+<meta name="author" content="Wade Mealing" />
+<meta name="theme-color" content="#fffff8"/>
+<meta name="description" content="Seriously useful error messages" />
+<meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Higher quality errors for custom software.</h1>
+
+<div id="outline-container-org0950217" class="outline-2">
+<h2 id="org0950217">Summary:</h2>
+<div class="outline-text-2" id="text-org0950217">
+<p>
+In-house business software is a very different beast; it is usually target-built to solve
+a very specific problem.  Company bean counters encourage buying off-the-shelf software when it is
+advertised to solve a problem. Sometimes the benefits of customized, specific software
+can provide too much value, and the company can't turn away from those sweet productivity gains, so
+custom software will be created.
+</p>
+
+<p>
+Because the software is created with customized intent, the error messages presented to users can have
+additional benefits that off-the-shelf software doesn't offer.  Business process backed error messages.
+</p>
+
+<p>
+In the company I work at, these improved error helpers  are called "Wilson-Hoffman" error messages.
+It would be great to see these error types in wider use.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org05dd894" class="outline-2">
+<h2 id="org05dd894">Introduction</h2>
+<div class="outline-text-2" id="text-org05dd894">
+<p>
+Effective resolution of errors plays a pivotal role in shaping the user experience within
+software applications. The content of the messages, along with information, should not only
+alert users of the problem  but also equip them with the necessary resources to
+troubleshoot effectively, even in challenging scenarios.
+</p>
+
+<p>
+Contrary to the notion that error messages are an "anti-pattern" indicative of weaknesses
+in code or design, they serve as vital conduits of information for end users. Familiarity with error
+messages and their corresponding well-known user-interaction patterns show how deeply engrained error
+handling is.
+</p>
+</div>
+
+<div id="outline-container-orga0bb089" class="outline-3">
+<h3 id="orga0bb089">The basics.</h3>
+<div class="outline-text-3" id="text-orga0bb089">
+<p>
+Rather than re-iterate what has already been said, Google has a very good course, in the <a href="https://developers.google.com/tech-writing/error-messages/error-handling">technical writing</a>
+category, which focuses on writing better error messages. It also contains excellent advice for programmers
+when generating errors for their users.
+</p>
+
+<p>
+To paraphrase, the best errors are:
+</p>
+
+<ul class="org-ul">
+<li>Deliver the best user experience.</li>
+<li>Are actionable.</li>
+<li>Are universally accessible.</li>
+<li>Enable users to help themselves.</li>
+<li>Reduce the support workload.</li>
+<li>Enable faster resolution of issues.</li>
+</ul>
+
+<p>
+The original course is aimed at writing software for general use, but if the software is intended
+for use in a corporate setting, additional features can be added to error messages.
+</p>
+
+<p>
+I would like to believe that a certain subset of users are capable of solving many problems they
+run into, and are also able to help others who can run into the same problem.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfd38c5f" class="outline-2">
+<h2 id="orgfd38c5f">Improved example.</h2>
+<div class="outline-text-2" id="text-orgfd38c5f">
+<p>
+So, let's provide a before and after.  This particular example was chosen as a bland and boring
+example so we wouldn't focus on the error itself.
+</p>
+
+<p>
+Kept in ascii art to remove distractions and debate on how poor my CSS theming skills are.
+</p>
+</div>
+
+<div id="outline-container-org2fa8d0d" class="outline-3">
+<h3 id="org2fa8d0d">Before:</h3>
+<div class="outline-text-3" id="text-org2fa8d0d">
+<pre class="example" id="org09ea1a9">
+|--------------------------------------------------------------|
+| ⚠️ Error:                                                    |
+|                                                              |
+| Loan applications can not continue without approval.         |
+|                                                              |
+| Approvals take between 2-3 business days after lodgement     |
+|                                                              |
+| Please contact the approvals team if this needs expedition   |
+|                                                              |
+|                                            [ CANCEL ] [ OK ] |
+|                                                              |
+|--------------------------------------------------------------|
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb8f96f5" class="outline-3">
+<h3 id="orgb8f96f5">After:</h3>
+<div class="outline-text-3" id="text-orgb8f96f5">
+<pre class="example" id="org64740f7">
++------------------------------------------------------------------------+
+| ⚠️ Error #90210C                                                        |
+|                                                                        |
+| Loan applications can not continue without approval.                   |
+|                                                                        |
+| Loan approvals take between 2-3 business days after lodgement          |
+|                                                                        |
+| Please contact the approvals team if this needs expedition             |
+|                                                                        |
+|                                                      [ CANCEL ] [ OK ] |
+|                                                                        |
++------------------------------------------------------------------------+
+| CrowdSourced Docs | Message the Approvals Team | Approvals Queue  | 📋 |
++------------------------------------------------------------------------+
+</pre>
+
+<p>
+Each error condition should have at least 4 basic "error additions" not
+seen in most traditional software.
+</p>
+
+<p>
+The naming conventions need not match and should match the terminology and
+tooling used in business; you should adjust accordingly.
+</p>
+
+<p>
+&#x2013; CrowdSourced Docs.
+</p>
+
+<p>
+This will not be the first thing that an end user reads. We 'all know' that
+nobody wants to read documentation; however that doesn't mean that it won't
+be used.
+</p>
+
+<p>
+Making documentation immediately linked to this exact error means that new
+users can get additional information on documentation and update documentation
+when they find an answer.
+</p>
+
+<p>
+In most cases, this could be a company wiki, but it may also be something built
+into the program itself if offered.
+</p>
+
+<p>
+For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #F07010;">a</span> <span style="color: #FF4A00;">href</span>=<span style="color: #FF6A00;">"https://&lt;organization&gt;.com/documentation/&lt;error-code&gt;/"</span>&gt;
+  Crowdsourced Docs.
+&lt;/<span style="color: #F07010;">a</span>&gt;
+</pre>
+</div>
+
+<p>
+&#x2013; Message the Approvals team (communicate with help).
+</p>
+
+<p>
+This should be a direct link to the company's internal messaging platform; it may be Teams,
+Slack, Discord, or email.   It really doesn't matter as long as it gets to the right people
+who can help deal with this particular error.
+</p>
+
+<p>
+Programmers may believe this is useless or could confuse end users;
+however, having the team directly responsible for the resolution available can reduce the back
+and forth of contacting the wrong team to solve the wrong problem.
+</p>
+
+<p>
+For example, the hyperlink:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #F07010;">a</span> <span style="color: #FF4A00;">href</span>=<span style="color: #FF6A00;">"https://&lt;organization&gt;.slack.com/messages/&lt;channel&gt;/"</span>&gt;
+Approvals Team Slack
+&lt;/<span style="color: #F07010;">a</span>&gt;
+</pre>
+</div>
+
+<p>
+If the approvals team is more focused on emails, this instead could be a link to a template "mailto" url.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #F07010;">a</span> <span style="color: #FF4A00;">href</span>=<span style="color: #FF6A00;">"mailto:approvals@example.com?subject=This loan needs exposition&amp;body=Please expedite loan id: 12345 because [insert reason here] "</span>&gt;Email approvals&lt;/<span style="color: #F07010;">a</span>&gt;
+</pre>
+</div>
+
+<p>
+When clicked, the browser will fire the mailto protocol handler (mail program) with part of the template already filled out.
+</p>
+
+<p>
+It doesn't have to be the approvals team, but if there is a support team that deals with the specific area, contact information should be here.
+</p>
+
+<p>
+&#x2013; Approvals Queue ( Advanced Information )
+</p>
+
+<p>
+This is the "why" of the error condition.  This is the part that we as programmers try to
+hide from the user, however, I believe that for anything but the most basic of users, hiding
+the logic behind why errors occur is a net loss.
+</p>
+
+<p>
+For example, if there are several conditions that are not met in the approval process, but
+you are also waiting for someone to approve the loan, this logic could be outlined.
+</p>
+
+<p>
+Knowing the position in the queue, may mean they can re-prioritize work or understand if there
+is no progress being made at all (Approvals people are on holiday).  Exactly what this is will
+depend on the error.
+</p>
+
+<p>
+&#x2013; The 📋 "Copy error to Clipboard" button (share this with someone helping)
+</p>
+
+<p>
+Having the exact error message available with single click can reduce the
+time to resolution. Without a simple way to copy and share errors, users will take poor
+screenshots, incorrectly type out the message, or take photos of it with their phone camera
+(including company confidential data).
+</p>
+
+<p>
+Additional data to aid in resolution can be included in this clipboard to help someone
+attempting to diagnose the problem, such as the <i>loan ID</i>, the <i>user ID</i> or <i>permissions</i>.  If a
+user's question could be solved with additional data, this is where the data should be included.
+</p>
+
+<p>
+Exactly how to do this will depend on the platform being used, and in the worst-case scenario,
+you can present the text to be copied to a clipboard if the underlying toolchain does not
+support this functionality.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org436df36" class="outline-2">
+<h2 id="org436df36">Introducing change</h2>
+<div class="outline-text-2" id="text-org436df36">
+<p>
+Rolling changes like this into an existing code base will likely be complicated; one possible
+solution is incremental improvements.
+</p>
+
+<p>
+Areas to start with can be identified either through application telemetry (i.e., how often
+users view error messages) or by talking to support staff and dealing with the  most frequent
+offenders.
+</p>
+</div>
+
+<div id="outline-container-org3530f24" class="outline-3">
+<h3 id="org3530f24">Incremental Improvements</h3>
+<div class="outline-text-3" id="text-org3530f24">
+<p>
+Incremental improvement of error messages involves advancing beyond basic error handling.  Not
+all error conditions will benefit from the additional information. However, if there is an "error
+display widget" used consistently in software, extending this widget to show this additional
+data would be a great place to start.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfc42d9b" class="outline-3">
+<h3 id="orgfc42d9b">Error Categories.</h3>
+<div class="outline-text-3" id="text-orgfc42d9b">
+<p>
+Introducing a common "error category" simplifies the initial rollout of the new error fields. By
+grouping related issues, error categories provide a simplified reference point, facilitating
+collaboration and solution-sharing through wiki pages or discussion forums.
+</p>
+
+<p>
+While there are effective categories for common errors, error categories alone are insufficient for
+addressing complex or unique issues. Complex errors should be supplemented with robust reporting
+and proactive problem-solving approaches addressing the specific issue.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf372c46" class="outline-3">
+<h3 id="orgf372c46">Unique Error Identifier</h3>
+<div class="outline-text-3" id="text-orgf372c46">
+<p>
+By assigning distinct identifiers to each error condition, developers establish
+a standardized method for identifying, tracking, and managing errors throughout the
+software lifecycle. This systematic approach enhances the clarity and precision of error
+reporting, enabling developers and users alike to pinpoint specific issues swiftly and
+accurately.
+</p>
+
+<p>
+Unique identifiers allow customers to quickly identify issues for support teams. When confronted
+with an error, users can quickly reference the unique identifier to access relevant documentation,
+seek assistance, or contribute to discussions regarding the resolution.
+</p>
+
+<p>
+If the condition that creates the error is changed, new unique identifiers should be
+used so that existing documentation doesn't contain out of date information.  Do not
+allow for unique identifiers to be duplicated across products unless they both
+use the same source code with no variance.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb8b06b5" class="outline-3">
+<h3 id="orgb8b06b5">Online References (hyperlinks)</h3>
+<div class="outline-text-3" id="text-orgb8b06b5">
+<p>
+This is more than just linking to a wiki page; error pages could link to specific URI's of company
+resources such as Slack, shared drives, or source repositories.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org603d208" class="outline-3">
+<h3 id="org603d208">Extending this idea.</h3>
+<div class="outline-text-3" id="text-org603d208">
+<p>
+I consider these 4 basics to be the first generation of improvements. You will find new
+and useful improvements; do not be afraid to use them.
+</p>
+
+<p>
+These 4 basic features are called the "wilson-hoffman" errors in the company where I work.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfb544e8" class="outline-3">
+<h3 id="orgfb544e8">Generating documentation from error conditions for support staff.</h3>
+<div class="outline-text-3" id="text-orgfb544e8">
+<p>
+Software should generate a list of error codes and their reasons for any of the support
+staff who may be dealing with the area of code.
+</p>
+
+<p>
+They could also use this to point to the area of code for additional inspection.
+</p>
+
+<p>
+Should be notified of new error codes and if existing codes are removed or deprecated.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9325933" class="outline-3">
+<h3 id="org9325933">Error analysis.</h3>
+<div class="outline-text-3" id="text-org9325933">
+<p>
+Analysis of the error messages
+</p>
+
+<ul class="org-ul">
+<li>Count the number of times error links are visited.</li>
+<li>Statistics on resolution or continued workflow.</li>
+<li>Highlight staff training opportunties.</li>
+<li>Determine areas where the user interface could be improved.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbb97a74" class="outline-2">
+<h2 id="orgbb97a74">Conclusion</h2>
+<div class="outline-text-2" id="text-orgbb97a74">
+<p>
+The suggestions presented in this document serve as fundamental examples of extending common error
+conditions to enhance the user experience and streamline error management. However, it's essential for
+readers to recognize that these suggestions represent just the beginning.
+</p>
+
+<p>
+When implementing these strategies, consider incorporating any additional resources and tools
+that are relevant to the specific context of their errors. By continually expanding and refining
+their error-handling capabilities, developers can ensure robust and effective error management within
+their software systems.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0513be3" class="outline-2">
+<h2 id="org0513be3">Resources:</h2>
+<div class="outline-text-2" id="text-org0513be3">
+<p>
+<a href="https://www.smashingmagazine.com/2022/08/error-messages-ux-design/">https://www.smashingmagazine.com/2022/08/error-messages-ux-design/</a>
+<a href="https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas">https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas</a>
+<a href="https://uxwritinghub.com/error-message-examples/">https://uxwritinghub.com/error-message-examples/</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+
+#+TITLE: Higher quality errors for custom software.
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Seriously useful error messages" />
+
+* Summary:
+
+In-house business software is a very different beast; it is usually target-built to solve
+a very specific problem.  Company bean counters encourage buying off-the-shelf software when it is
+advertised to solve a problem. Sometimes the benefits of customized, specific software
+can provide too much value, and the company can't turn away from those sweet productivity gains, so
+custom software will be created.
+
+Because the software is created with customized intent, the error messages presented to users can have
+additional benefits that off-the-shelf software doesn't offer.  Business process backed error messages.
+
+In the company I work at, these improved error helpers  are called "Wilbert-Hofmann" error messages.
+It would be great to see these error types in wider use.
+
+* Introduction
+
+Effective resolution of errors plays a pivotal role in shaping the user experience within
+software applications. The content of the messages, along with information, should not only
+alert users of the problem  but also equip them with the necessary resources to
+troubleshoot effectively, even in challenging scenarios.
+
+Contrary to the notion that error messages are an "anti-pattern" indicative of weaknesses
+in code or design, they serve as vital conduits of information for end users. Familiarity with error
+messages and their corresponding well-known user-interaction patterns show how deeply engrained error
+handling is.
+
+** The basics.
+
+Rather than re-iterate what has already been said, Google has a very good course, in the [[https://developers.google.com/tech-writing/error-messages/error-handling][technical writing]]
+category, which focuses on writing better error messages. It also contains excellent advice for programmers
+when generating errors for their users.
+
+To paraphrase, the best errors are:
+
+- Deliver the best user experience.
+- Are actionable.
+- Are universally accessible.
+- Enable users to help themselves.
+- Reduce the support workload.
+- Enable faster resolution of issues.
+
+The original course is aimed at writing software for general use, but if the software is intended
+for use in a corporate setting, additional features can be added to error messages.
+
+I would like to believe that a certain subset of users are capable of solving many problems they
+run into, and are also able to help others who can run into the same problem.
+
+* Improved example.
+
+So, let's provide a before and after.  This particular example was chosen as a bland and boring
+example so we wouldn't focus on the error itself.
+
+Kept in ascii art to remove distractions and debate on how poor my CSS theming skills are.
+
+** Before:
+
+#+BEGIN_EXAMPLE
+|--------------------------------------------------------------|
+| ⚠️ Error:                                                    |
+|                                                              |
+| Loan applications can not continue without approval.         |
+|                                                              |
+| Approvals take between 2-3 business days after lodgement     |
+|                                                              |
+| Please contact the approvals team if this needs expedition   |
+|                                                              |
+|                                            [ CANCEL ] [ OK ] |
+|                                                              |
+|--------------------------------------------------------------|
+#+END_EXAMPLE
+
+** After:
+
+#+BEGIN_EXAMPLE
++------------------------------------------------------------------------+
+| ⚠️ Error #90210C                                                        |
+|                                                                        |
+| Loan applications can not continue without approval.                   |
+|                                                                        |
+| Loan approvals take between 2-3 business days after lodgement          |
+|                                                                        |
+| Please contact the approvals team if this needs expedition             |
+|                                                                        |
+|                                                      [ CANCEL ] [ OK ] |
+|                                                                        |
++------------------------------------------------------------------------+
+| CrowdSourced Docs | Message the Approvals Team | Approvals Queue  | 📋 |
++------------------------------------------------------------------------+
+#+END_EXAMPLE
+
+Each error condition should have at least 4 basic "error additions" not
+seen in most traditional software.
+
+The naming conventions need not match and should match the terminology and
+tooling used in business; you should adjust accordingly.
+
+-- CrowdSourced Docs.
+
+   This will not be the first thing that an end user reads. We 'all know' that
+   nobody wants to read documentation; however that doesn't mean that it won't
+   be used.
+
+   Making documentation immediately linked to this exact error means that new
+   users can get additional information on documentation and update documentation
+   when they find an answer.
+
+   In most cases, this could be a company wiki, but it may also be something built
+   into the program itself if offered.
+
+   For example:
+
+   #+BEGIN_SRC html
+     <a href="https://<organization>.com/documentation/<error-code>/">
+       Crowdsourced Docs.
+     </a>
+   #+END_SRC
+
+-- Message the Approvals team (communicate with help).
+
+   This should be a direct link to the company's internal messaging platform; it may be Teams,
+   Slack, Discord, or email.   It really doesn't matter as long as it gets to the right people
+   who can help deal with this particular error.
+
+   Programmers may believe this is useless or could confuse end users;
+   however, having the team directly responsible for the resolution available can reduce the back
+   and forth of contacting the wrong team to solve the wrong problem.
+
+   For example, the hyperlink:
+
+   #+BEGIN_SRC html
+   <a href="https://<organization>.slack.com/messages/<channel>/">
+   Approvals Team Slack
+   </a>
+   #+END_SRC
+
+   If the approvals team is more focused on emails, this instead could be a link to a template "mailto" url.
+
+   #+BEGIN_SRC html
+   <a href="mailto:approvals@example.com?subject=This loan needs exposition&body=Please expedite loan id: 12345 because [insert reason here] ">Email approvals</a>
+   #+END_SRC
+
+   When clicked, the browser will fire the mailto protocol handler (mail program) with part of the template already filled out.
+
+   It doesn't have to be the approvals team, but if there is a support team that deals with the specific area, contact information should be here.
+
+-- Approvals Queue ( Advanced Information )
+
+   This is the "why" of the error condition.  This is the part that we as programmers try to
+   hide from the user, however, I believe that for anything but the most basic of users, hiding
+   the logic behind why errors occur is a net loss.
+
+   For example, if there are several conditions that are not met in the approval process, but
+   you are also waiting for someone to approve the loan, this logic could be outlined.
+
+   Knowing the position in the queue, may mean they can re-prioritize work or understand if there
+   is no progress being made at all (Approvals people are on holiday).  Exactly what this is will
+   depend on the error.
+
+-- The 📋 "Copy error to Clipboard" button (share this with someone helping)
+
+   Having the exact error message available with single click can reduce the
+   time to resolution. Without a simple way to copy and share errors, users will take poor
+   screenshots, incorrectly type out the message, or take photos of it with their phone camera
+   (including company confidential data).
+
+   Additional data to aid in resolution can be included in this clipboard to help someone
+   attempting to diagnose the problem, such as the /loan ID/, the /user ID/ or /permissions/.  If a
+   user's question could be solved with additional data, this is where the data should be included.
+
+   Exactly how to do this will depend on the platform being used, and in the worst-case scenario,
+   you can present the text to be copied to a clipboard if the underlying toolchain does not
+   support this functionality.
+
+* Introducing change
+
+Rolling changes like this into an existing code base will likely be complicated; one possible
+solution is incremental improvements.
+
+Areas to start with can be identified either through application telemetry (i.e., how often
+users view error messages) or by talking to support staff and dealing with the  most frequent
+offenders.
+
+** Incremental Improvements
+
+Incremental improvement of error messages involves advancing beyond basic error handling.  Not
+all error conditions will benefit from the additional information. However, if there is an "error
+display widget" used consistently in software, extending this widget to show this additional
+data would be a great place to start.
+
+** Error Categories.
+
+Introducing a common "error category" simplifies the initial rollout of the new error fields. By
+grouping related issues, error categories provide a simplified reference point, facilitating
+collaboration and solution-sharing through wiki pages or discussion forums.
+
+While there are effective categories for common errors, error categories alone are insufficient for
+addressing complex or unique issues. Complex errors should be supplemented with robust reporting
+and proactive problem-solving approaches addressing the specific issue.
+
+** Unique Error Identifier
+
+By assigning distinct identifiers to each error condition, developers establish
+a standardized method for identifying, tracking, and managing errors throughout the
+software lifecycle. This systematic approach enhances the clarity and precision of error
+reporting, enabling developers and users alike to pinpoint specific issues swiftly and
+accurately.
+
+Unique identifiers allow customers to quickly identify issues for support teams. When confronted
+with an error, users can quickly reference the unique identifier to access relevant documentation,
+seek assistance, or contribute to discussions regarding the resolution.
+
+If the condition that creates the error is changed, new unique identifiers should be
+used so that existing documentation doesn't contain out of date information.  Do not
+allow for unique identifiers to be duplicated across products unless they both
+use the same source code with no variance.
+
+** Online References (hyperlinks)
+
+This is more than just linking to a wiki page; error pages could link to specific URI's of company
+resources such as Slack, shared drives, or source repositories.  If your userbase is sufficiently
+technical it can also be a link to the source code for more capable users to self-diagnose the root cause.
+
+** Extending this idea.
+
+I consider these 4 basics to be the first generation of improvements. You will find new
+and useful improvements; do not be afraid to use them.
+
+These  "Wilbert-Hofmann" error messages are used heavily in the group of the company where I [[https://gitlab.com/cki-project/kernel-workflow/][work]].
+
+** Generating documentation from error conditions for support staff.
+
+Software should generate a list of error codes and their reasons for any of the support
+staff who may be dealing with the area of code.
+
+They could also use this to point to the area of code for additional inspection.
+
+Should be notified of new error codes and if existing codes are removed or deprecated.
+
+** Error analysis.
+
+Analysis of the error messages
+
+- Count the number of times error links are visited.
+- Statistics on resolution or continued workflow.
+- Highlight staff training opportunties.
+- Determine areas where the user interface could be improved.
+
+* Conclusion
+
+The suggestions presented in this document serve as fundamental examples of extending common error
+conditions to enhance the user experience and streamline error management. However, it's essential for
+readers to recognize that these suggestions represent just the beginning.
+
+When implementing these strategies, consider incorporating any additional resources and tools
+that are relevant to the specific context of their errors. By continually expanding and refining
+their error-handling capabilities, developers can ensure robust and effective error management within
+their software systems.
+
+* Resources:
+
+https://www.smashingmagazine.com/2022/08/error-messages-ux-design/
+https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas
+https://uxwritinghub.com/error-message-examples/
+https://gitlab.com/cki-project/kernel-workflow/
+
+
