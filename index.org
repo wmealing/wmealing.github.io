@@ -3,10 +3,13 @@
 
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
 
 * [[https://wmealing.github.io/custom-software-errors.html][The best error messages ive ever seen]]
+:LOGBOOK:
+- Note taken on [2024-09-08 Sun 21:42]
+:END:
 
 Writing clear and effective error messages is a crucial skill for any programmer, no matter what the language.  Well-crafted error messages will
 improve the usability of software by guiding users to understand and resolve issues quickly. A good error message not only informs the user about
