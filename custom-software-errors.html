@@ -3,195 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-08 Sun 19:37 -->
+<!-- 2024-09-08 Sun 19:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Higher quality errors for custom software.</title>
 <meta name="generator" content="Org Mode" />
-<style>
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="reset.css">
@@ -204,9 +20,9 @@
 <div id="content" class="content">
 <h1 class="title">Higher quality errors for custom software.</h1>
 
-<div id="outline-container-orgbbf0f14" class="outline-2">
-<h2 id="orgbbf0f14">Summary:</h2>
-<div class="outline-text-2" id="text-orgbbf0f14">
+<div id="outline-container-org92724de" class="outline-2">
+<h2 id="org92724de">Summary:</h2>
+<div class="outline-text-2" id="text-org92724de">
 <p>
 In-house business software is a very different beast; it is usually target-built to solve
 a very specific problem.  Company bean counters encourage buying off-the-shelf software when it is
@@ -227,9 +43,9 @@ It would be great to see these error types in wider use.
 </div>
 </div>
 
-<div id="outline-container-org748edd0" class="outline-2">
-<h2 id="org748edd0">Introduction</h2>
-<div class="outline-text-2" id="text-org748edd0">
+<div id="outline-container-org4fa2b56" class="outline-2">
+<h2 id="org4fa2b56">Introduction</h2>
+<div class="outline-text-2" id="text-org4fa2b56">
 <p>
 Effective resolution of errors plays a pivotal role in shaping the user experience within
 software applications. The content of the messages, along with information, should not only
@@ -245,9 +61,9 @@ handling is.
 </p>
 </div>
 
-<div id="outline-container-org6ff0daa" class="outline-3">
-<h3 id="org6ff0daa">The basics.</h3>
-<div class="outline-text-3" id="text-org6ff0daa">
+<div id="outline-container-org777a968" class="outline-3">
+<h3 id="org777a968">The basics.</h3>
+<div class="outline-text-3" id="text-org777a968">
 <p>
 Rather than re-iterate what has already been said, Google has a very good course, in the <a href="https://developers.google.com/tech-writing/error-messages/error-handling">technical writing</a>
 category, which focuses on writing better error messages. It also contains excellent advice for programmers
@@ -280,9 +96,9 @@ run into, and are also able to help others who can run into the same problem.
 </div>
 </div>
 
-<div id="outline-container-orgdbeba2b" class="outline-2">
-<h2 id="orgdbeba2b">Improved example.</h2>
-<div class="outline-text-2" id="text-orgdbeba2b">
+<div id="outline-container-org37d649a" class="outline-2">
+<h2 id="org37d649a">Improved example.</h2>
+<div class="outline-text-2" id="text-org37d649a">
 <p>
 So, let's provide a before and after.  This particular example was chosen as a bland and boring
 example so we wouldn't focus on the error itself.
@@ -293,12 +109,12 @@ Kept in ascii art to remove distractions and debate on how poor my CSS theming s
 </p>
 </div>
 
-<div id="outline-container-org59fc6f9" class="outline-3">
-<h3 id="org59fc6f9">Before:</h3>
-<div class="outline-text-3" id="text-org59fc6f9">
-<pre class="example" id="org515de4c">
+<div id="outline-container-org153c6ea" class="outline-3">
+<h3 id="org153c6ea">Before:</h3>
+<div class="outline-text-3" id="text-org153c6ea">
+<pre class="example" id="orgae3bbac">
 |--------------------------------------------------------------|
-| ⚠️ Error:                                                    |
+| ⚠️ Error:                                                     |
 |                                                              |
 | Loan applications can not continue without approval.         |
 |                                                              |
@@ -313,10 +129,10 @@ Kept in ascii art to remove distractions and debate on how poor my CSS theming s
 </div>
 </div>
 
-<div id="outline-container-orgaea7ce1" class="outline-3">
-<h3 id="orgaea7ce1">After:</h3>
-<div class="outline-text-3" id="text-orgaea7ce1">
-<pre class="example" id="org4d8492b">
+<div id="outline-container-org61018bf" class="outline-3">
+<h3 id="org61018bf">After:</h3>
+<div class="outline-text-3" id="text-org61018bf">
+<pre class="example" id="org8bfa692">
 +------------------------------------------------------------------------+
 | ⚠️ Error #90210C                                                        |
 |                                                                        |
@@ -466,9 +282,9 @@ support this functionality.
 </div>
 </div>
 
-<div id="outline-container-orge2efdab" class="outline-2">
-<h2 id="orge2efdab">Introducing change</h2>
-<div class="outline-text-2" id="text-orge2efdab">
+<div id="outline-container-orgee68a35" class="outline-2">
+<h2 id="orgee68a35">Introducing change</h2>
+<div class="outline-text-2" id="text-orgee68a35">
 <p>
 Rolling changes like this into an existing code base will likely be complicated; one possible
 solution is incremental improvements.
@@ -481,9 +297,9 @@ offenders.
 </p>
 </div>
 
-<div id="outline-container-org0c5f230" class="outline-3">
-<h3 id="org0c5f230">Incremental Improvements</h3>
-<div class="outline-text-3" id="text-org0c5f230">
+<div id="outline-container-org2796c5b" class="outline-3">
+<h3 id="org2796c5b">Incremental Improvements</h3>
+<div class="outline-text-3" id="text-org2796c5b">
 <p>
 Incremental improvement of error messages involves advancing beyond basic error handling.  Not
 all error conditions will benefit from the additional information. However, if there is an "error
@@ -493,9 +309,9 @@ data would be a great place to start.
 </div>
 </div>
 
-<div id="outline-container-org4f1e6cd" class="outline-3">
-<h3 id="org4f1e6cd">Error Categories.</h3>
-<div class="outline-text-3" id="text-org4f1e6cd">
+<div id="outline-container-org8fc18e4" class="outline-3">
+<h3 id="org8fc18e4">Error Categories.</h3>
+<div class="outline-text-3" id="text-org8fc18e4">
 <p>
 Introducing a common "error category" simplifies the initial rollout of the new error fields. By
 grouping related issues, error categories provide a simplified reference point, facilitating
@@ -510,9 +326,9 @@ and proactive problem-solving approaches addressing the specific issue.
 </div>
 </div>
 
-<div id="outline-container-orga8a1ae4" class="outline-3">
-<h3 id="orga8a1ae4">Unique Error Identifier</h3>
-<div class="outline-text-3" id="text-orga8a1ae4">
+<div id="outline-container-orgf0f42f3" class="outline-3">
+<h3 id="orgf0f42f3">Unique Error Identifier</h3>
+<div class="outline-text-3" id="text-orgf0f42f3">
 <p>
 By assigning distinct identifiers to each error condition, developers establish
 a standardized method for identifying, tracking, and managing errors throughout the
@@ -536,9 +352,9 @@ use the same source code with no variance.
 </div>
 </div>
 
-<div id="outline-container-org670612a" class="outline-3">
-<h3 id="org670612a">Online References (hyperlinks)</h3>
-<div class="outline-text-3" id="text-org670612a">
+<div id="outline-container-orgaf10be8" class="outline-3">
+<h3 id="orgaf10be8">Online References (hyperlinks)</h3>
+<div class="outline-text-3" id="text-orgaf10be8">
 <p>
 This is more than just linking to a wiki page; error pages could link to specific URI's of company
 resources such as Slack, shared drives, or source repositories.  If your userbase is sufficiently
@@ -547,9 +363,9 @@ technical it can also be a link to the source code for more capable users to sel
 </div>
 </div>
 
-<div id="outline-container-org5813d01" class="outline-3">
-<h3 id="org5813d01">Extending this idea.</h3>
-<div class="outline-text-3" id="text-org5813d01">
+<div id="outline-container-orgd30a0d4" class="outline-3">
+<h3 id="orgd30a0d4">Extending this idea.</h3>
+<div class="outline-text-3" id="text-orgd30a0d4">
 <p>
 I consider these 4 basics to be the first generation of improvements. You will find new
 and useful improvements; do not be afraid to use them.
@@ -561,9 +377,9 @@ These  "Wilbert-Hofmann" error messages are used heavily in the group of the com
 </div>
 </div>
 
-<div id="outline-container-org675cdd7" class="outline-3">
-<h3 id="org675cdd7">Generating documentation from error conditions for support staff.</h3>
-<div class="outline-text-3" id="text-org675cdd7">
+<div id="outline-container-orgd1b3217" class="outline-3">
+<h3 id="orgd1b3217">Generating documentation from error conditions for support staff.</h3>
+<div class="outline-text-3" id="text-orgd1b3217">
 <p>
 Software should generate a list of error codes and their reasons for any of the support
 staff who may be dealing with the area of code.
@@ -579,9 +395,9 @@ Should be notified of new error codes and if existing codes are removed or depre
 </div>
 </div>
 
-<div id="outline-container-org9ce9d2c" class="outline-3">
-<h3 id="org9ce9d2c">Error analysis.</h3>
-<div class="outline-text-3" id="text-org9ce9d2c">
+<div id="outline-container-orge948c46" class="outline-3">
+<h3 id="orge948c46">Error analysis.</h3>
+<div class="outline-text-3" id="text-orge948c46">
 <p>
 Analysis of the error messages
 </p>
@@ -596,9 +412,9 @@ Analysis of the error messages
 </div>
 </div>
 
-<div id="outline-container-org668f5e3" class="outline-2">
-<h2 id="org668f5e3">Conclusion</h2>
-<div class="outline-text-2" id="text-org668f5e3">
+<div id="outline-container-org28831bc" class="outline-2">
+<h2 id="org28831bc">Conclusion</h2>
+<div class="outline-text-2" id="text-org28831bc">
 <p>
 The suggestions presented in this document serve as fundamental examples of extending common error
 conditions to enhance the user experience and streamline error management. However, it's essential for
@@ -614,9 +430,9 @@ their software systems.
 </div>
 </div>
 
-<div id="outline-container-orge4f504c" class="outline-2">
-<h2 id="orge4f504c">Resources:</h2>
-<div class="outline-text-2" id="text-orge4f504c">
+<div id="outline-container-orgc994797" class="outline-2">
+<h2 id="orgc994797">Resources:</h2>
+<div class="outline-text-2" id="text-orgc994797">
 <p>
 <a href="https://www.smashingmagazine.com/2022/08/error-messages-ux-design/">https://www.smashingmagazine.com/2022/08/error-messages-ux-design/</a>
 <a href="https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas">https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas</a>

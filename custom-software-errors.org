@@ -1,4 +1,3 @@
-
 #+TITLE: Higher quality errors for custom software.
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
@@ -63,7 +62,7 @@ Kept in ascii art to remove distractions and debate on how poor my CSS theming s
 
 #+BEGIN_EXAMPLE
 |--------------------------------------------------------------|
-| ⚠️ Error:                                                    |
+| ⚠️ Error:                                                     |
 |                                                              |
 | Loan applications can not continue without approval.         |
 |                                                              |
