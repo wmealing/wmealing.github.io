@@ -3,7 +3,9 @@
 #+OPTIONS: date:nil
 #+OPTIONS: author:nil date:nil
 
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
+#+HTML_HEAD: <meta charset="utf-8">
+#+HTML_HEAD:  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+#+HTML_HEAD:  <link rel="stylesheet" href="reset.css">
+#+HTML_HEAD:  <link rel="stylesheet" href="index.css">
 #+HTML_HEAD: <meta name="author" content="Wade Mealing" />
-#+HTML_HEAD: <meta name="theme-color" content="#fffff8"/>
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
