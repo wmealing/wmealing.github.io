@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-09-13 Fri 01:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sending email in common-lisp</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="reset.css">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Wade Mealings documentation" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Sending email in common-lisp</h1>
+
+<div id="outline-container-orgae2f140" class="outline-2">
+<h2 id="orgae2f140">Summary:</h2>
+<div class="outline-text-2" id="text-orgae2f140">
+<p>
+This page covers how to send an email from your common-lisp coding using the cl-smtp library using googles gmail servers.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgdd80b9e" class="outline-2">
+<h2 id="orgdd80b9e">Introduction</h2>
+<div class="outline-text-2" id="text-orgdd80b9e">
+<p>
+This post covers a working example on how to send email from the common-lisp (cl) language using googles servers.  The provided
+example has been tested as an individual, and regularly used from the 'google workspace' account.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org2e5c2e3" class="outline-2">
+<h2 id="org2e5c2e3">Requirements:</h2>
+<div class="outline-text-2" id="text-org2e5c2e3">
+<p>
+An Application password.
+</p>
+
+<p>
+<a href="https://knowledge.workspace.google.com/kb/how-to-create-app-passwords-000009237">Google detailed getting one here.</a>  One fact that was missed is that you now need 2FA
+configured for the account or you can not make app passwords.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga5ee93e" class="outline-2">
+<h2 id="orga5ee93e">Ideas for improvement.</h2>
+<div class="outline-text-2" id="text-orga5ee93e">
+</div>
+<div id="outline-container-org04c158c" class="outline-3">
+<h3 id="org04c158c">1. Secret Storage mechanism.</h3>
+<div class="outline-text-3" id="text-org04c158c">
+<p>
+The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
+</p>
+
+<p>
+If your application is hosted on a containerized platform, you can pass it as environment variables, or
+some of them have secrets file. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a19f84" class="outline-3">
+<h3 id="org7a19f84">2. Preventing secret leaks.</h3>
+<div class="outline-text-3" id="text-org7a19f84">
+<p>
+After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
+to abuse the information.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #eaeaea;">(</span>setf <span style="color: #70c0b1;">(</span>uiop:getenv <span style="color: #95e454;">"SOME_ENVIRONMENT_VARIABLE"</span><span style="color: #70c0b1;">)</span> <span style="color: #95e454;">"PASSWORD-REMOVED-FOR-SECURITY-REASONS"</span><span style="color: #eaeaea;">)</span>
+</pre>
+</div>
+
+<p>
+When it is loaded, use  <a href="https://github.com/rotatef/secret-values">Secret Values</a> which will prevent passwords appearing in backtraces or logs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org04181ea" class="outline-3">
+<h3 id="org04181ea">3. Preventing accidental/intention spamming.</h3>
+<div class="outline-text-3" id="text-org04181ea">
+<p>
+Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
+It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org779c13b" class="outline-2">
+<h2 id="org779c13b">The code:</h2>
+<div class="outline-text-2" id="text-org779c13b">
+<p>
+Listed below is the common-lisp code that is required to send email.   The "password" is stored
+in the environment variable GMAIL_KEY, as a single string.  Google often displays on the 'app password'
+page as 4 sets of 4 characters, aka xxxx xxxx xxxx xxxx , however experience shows that there was no space required.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">
+<span style="color: #eaeaea;">(</span>ql:quickload <span style="color: #95e454;">"cl-smtp"</span><span style="color: #eaeaea;">)</span>
+<span style="color: #eaeaea;">(</span>ql:quickload <span style="color: #95e454;">"cl-mime"</span><span style="color: #eaeaea;">)</span>
+
+<span style="color: #eaeaea;">(</span><span style="color: #8ac6f2; font-weight: bold;">defun</span> <span style="color: #cae682;">email-report</span> <span style="color: #70c0b1;">(</span><span style="color: #92a65e; font-weight: bold;">&amp;key</span> to cc subject html<span style="color: #70c0b1;">)</span>
+       <span style="color: #c397d8;">"Generic send SMTP mail with some TEXT to RECIEPIENTS"</span>
+       <span style="color: #70c0b1;">(</span><span style="color: #8ac6f2; font-weight: bold;">let</span> <span style="color: #e7c547;">(</span><span style="color: #b9ca4a;">(</span>from <span style="color: #95e454;">"your@gmail.com"</span><span style="color: #b9ca4a;">)</span>
+             <span style="color: #b9ca4a;">(</span>login <span style="color: #95e454;">"youraccount@gmail.com"</span><span style="color: #b9ca4a;">)</span>
+             <span style="color: #b9ca4a;">(</span>passwd <span style="color: #7aa6da;">(</span>uiop:getenv <span style="color: #95e454;">"GMAIL_KEY"</span><span style="color: #7aa6da;">)</span><span style="color: #b9ca4a;">)</span><span style="color: #e7c547;">)</span>
+
+         <span style="color: #e7c547;">(</span><span style="color: #8ac6f2; font-weight: bold;">cl-smtp:with-smtp-mail</span> <span style="color: #b9ca4a;">(</span>out <span style="color: #95e454;">"smtp.gmail.com"</span> to cc
+                                      <span style="color: #e5786d;">:ssl</span> <span style="color: #e5786d;">:tls</span>
+                                      <span style="color: #e5786d;">:authentication</span> `<span style="color: #7aa6da;">(</span>,login ,passwd<span style="color: #7aa6da;">)</span><span style="color: #b9ca4a;">)</span>
+
+           <span style="color: #b9ca4a;">(</span>format out <span style="color: #95e454;">"To: ~A~%"</span> to <span style="color: #b9ca4a;">)</span>
+           <span style="color: #b9ca4a;">(</span>format out <span style="color: #95e454;">"Subject: ~A~%"</span> subject<span style="color: #b9ca4a;">)</span>
+
+           <span style="color: #b9ca4a;">(</span>cl-mime:print-mime out <span style="color: #7aa6da;">(</span>make-instance 'cl-mime:mime
+                                                  <span style="color: #e5786d;">:type</span> <span style="color: #95e454;">"text"</span> <span style="color: #e5786d;">:subtype</span> <span style="color: #95e454;">"html"</span>
+                                                  <span style="color: #e5786d;">:encoding</span> <span style="color: #e5786d;">:base64</span>
+                                                  <span style="color: #e5786d;">:content</span> html<span style="color: #7aa6da;">)</span> <span style="color: #ccaa8f; font-weight: bold;">t t</span><span style="color: #b9ca4a; font-weight: bold;">)</span><span style="color: #e7c547; font-weight: bold;">)</span><span style="color: #70c0b1; font-weight: bold;">)</span><span style="color: #eaeaea; font-weight: bold;">)</span>
+
+<span style="color: #eaeaea;">(</span>devar html-mail-content <span style="color: #95e454;">"&lt;html&gt;&lt;h1&gt; THis is html, but not really. &lt;/h1&gt;&lt;/html&gt;"</span><span style="color: #eaeaea;">)</span>
+
+<span style="color: #eaeaea;">(</span>email-report <span style="color: #e5786d;">:to</span> <span style="color: #95e454;">"someone@example.com"</span>
+              <span style="color: #e5786d;">:cc</span> *cc-list*
+              <span style="color: #e5786d;">:subject</span> email-subject
+              <span style="color: #e5786d;">:html</span> html-content<span style="color: #eaeaea;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgff6d522" class="outline-2">
+<h2 id="orgff6d522">Conclusion</h2>
+<div class="outline-text-2" id="text-orgff6d522">
+<p>
+This example works for both personal and google workspace accounts. 
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-org720aaab" class="outline-2">
+<h2 id="org720aaab">Resources:</h2>
+<div class="outline-text-2" id="text-org720aaab">
+<p>
+<a href="https://gitlab.common-lisp.net/cl-smtp/cl-smtp">https://gitlab.common-lisp.net/cl-smtp/cl-smtp</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
