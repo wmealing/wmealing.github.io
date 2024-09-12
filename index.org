@@ -5,6 +5,12 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
+* [[http://wmealing.github.io/sending-email-in-common-lisp.html][Sending email in common-lisp (Sep 2024)]]
+
+Want to integrate email functionality into your common-lisp applications, the cl-smtp library can help. In this blog entry, we’ll walk you through the process of using cl-smtp
+to send emails via Google’s mail servers. Whether you're setting up notifications, alerts, or just automating your email processes, this guide will help you configure cl-smtp to
+work seamlessly with Gmail’s SMTP server.  
+
 
 * [[https://wmealing.github.io/custom-software-errors.html][The best error messages ive ever seen]]
 :LOGBOOK:
