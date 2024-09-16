@@ -24,31 +24,6 @@ example has been tested as an individual, and regularly used from the 'google wo
    configured for the account or you can not make app passwords.
 
 
-* Ideas for improvement.
-
-** 1. Secret Storage mechanism.
-
-   The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
-
-   If your application is hosted on a containerized platform, you can pass it as environment variables, or
-   some of them have secrets file. 
-
-** 2. Preventing secret leaks.
-
-   After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
-   to abuse the information.
-
-   #+BEGIN_SRC lisp
-  (setf (uiop:getenv "SOME_ENVIRONMENT_VARIABLE") "PASSWORD-REMOVED-FOR-SECURITY-REASONS")
-   #+END_SRC
-
-   When it is loaded, use  [[https://github.com/rotatef/secret-values][Secret Values]] which will prevent passwords appearing in backtraces or logs.
-
-** 3. Preventing accidental/intention spamming.
-
-   Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
-   It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
-
 
 * The code:
 :LOGBOOK:
@@ -60,14 +35,13 @@ example has been tested as an individual, and regularly used from the 'google wo
    page as 4 sets of 4 characters, aka xxxx xxxx xxxx xxxx , however experience shows that there was no space required.
 
    #+BEGIN_SRC lisp
-     
+
      (ql:quickload "cl-smtp")
      (ql:quickload "cl-mime")
 
      (defun email-report (&key to cc subject html)
             "Generic send SMTP mail with some TEXT to RECIEPIENTS"
-            (let ((from "your@gmail.com")
-                  (login "youraccount@gmail.com")
+            (let ((login "youraccount@gmail.com")
                   (passwd (uiop:getenv "GMAIL_KEY")))
 
               (cl-smtp:with-smtp-mail (out "smtp.gmail.com" to cc
@@ -90,9 +64,32 @@ example has been tested as an individual, and regularly used from the 'google wo
                    :html html-content)
    #+END_SRC
 
-* Conclusion
+* Ideas for improvement.
 
-This example works for both personal and google workspace accounts. 
+** 1. Secret Storage mechanism.
+
+   The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
+
+   If your application is hosted on a containerized platform, you can pass it as environment variables, or
+   some of them have secrets file.
+
+** 2. Preventing secret leaks.
+
+   After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
+   to abuse the information.
+
+   #+BEGIN_SRC lisp
+  (setf (uiop:getenv "SOME_ENVIRONMENT_VARIABLE") "PASSWORD-REMOVED-FOR-SECURITY-REASONS")
+   #+END_SRC
+
+   When it is loaded, use  [[https://github.com/rotatef/secret-values][Secret Values]] which will prevent passwords appearing in backtraces or logs.
+
+** 3. Preventing accidental/intention spamming.
+
+   Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
+   It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
+
+* Conclusion
 
 
 
