@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-24 Thu 18:36 -->
+<!-- 2025-04-24 Thu 18:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -20,9 +20,9 @@
 <div id="content" class="content">
 <h1 class="title">Using "style-dictionary" from Clojure.</h1>
 
-<div id="outline-container-org67082fa" class="outline-2">
-<h2 id="org67082fa">Summary:</h2>
-<div class="outline-text-2" id="text-org67082fa">
+<div id="outline-container-org6bc3674" class="outline-2">
+<h2 id="org6bc3674">Summary:</h2>
+<div class="outline-text-2" id="text-org6bc3674">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -31,9 +31,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </div>
 </div>
 
-<div id="outline-container-org93c3fd0" class="outline-2">
-<h2 id="org93c3fd0">Introduction</h2>
-<div class="outline-text-2" id="text-org93c3fd0">
+<div id="outline-container-orgab5aae0" class="outline-2">
+<h2 id="orgab5aae0">Introduction</h2>
+<div class="outline-text-2" id="text-orgab5aae0">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -48,7 +48,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="org4d24ba4">
+<pre class="example" id="orgb6594f1">
 
 A style dictionary consists of:
 
@@ -77,9 +77,9 @@ explain what the complexities here easily, please drop me a line.
 </p>
 </div>
 
-<div id="outline-container-org2a38abf" class="outline-3">
-<h3 id="org2a38abf">Getting the 'design tokens' / 'style dictionary'.</h3>
-<div class="outline-text-3" id="text-org2a38abf">
+<div id="outline-container-orgcf3c088" class="outline-3">
+<h3 id="orgcf3c088">Getting the 'design tokens' / 'style dictionary'.</h3>
+<div class="outline-text-3" id="text-orgcf3c088">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
@@ -114,27 +114,22 @@ I imagine this only needs to be done once.
 The files it generated were created in the ./json
 </p>
 
-<p>
-#+BEGIN_SRC shell
-</p>
 
-<p>
-$ tree
+<div class="org-src-container">
+<pre class="src src-shell">$ tree
 .
-├── rhds.tokens.flat.json
-└── rhds.tokens.json
-</p>
+&#9500;&#9472;&#9472; rhds.tokens.flat.json
+&#9492;&#9472;&#9472; rhds.tokens.json
 
-<p>
- 1 directory, 2 files
-#END_SRC
-</p>
+1 directory, 2 files
+</pre>
+</div>
 </div>
 </div>
 
-<div id="outline-container-org8e6c96c" class="outline-3">
-<h3 id="org8e6c96c">Using the token json files.</h3>
-<div class="outline-text-3" id="text-org8e6c96c">
+<div id="outline-container-org6317bb4" class="outline-3">
+<h3 id="org6317bb4">Using the token json files.</h3>
+<div class="outline-text-3" id="text-org6317bb4">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
@@ -291,18 +286,18 @@ Along with its 'dark sibling'
 </div>
 </div>
 
-<div id="outline-container-org8aeb4be" class="outline-2">
-<h2 id="org8aeb4be">Conclusion</h2>
-<div class="outline-text-2" id="text-org8aeb4be">
+<div id="outline-container-org014292c" class="outline-2">
+<h2 id="org014292c">Conclusion</h2>
+<div class="outline-text-2" id="text-org014292c">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org15d56b4" class="outline-2">
-<h2 id="org15d56b4">Resources:</h2>
-<div class="outline-text-2" id="text-org15d56b4">
+<div id="outline-container-org661acdf" class="outline-2">
+<h2 id="org661acdf">Resources:</h2>
+<div class="outline-text-2" id="text-org661acdf">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>

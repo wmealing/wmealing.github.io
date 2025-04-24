@@ -64,15 +64,15 @@ I imagine this only needs to be done once.
 
 The files it generated were created in the ./json
 
-#+BEGIN_SRC shell
 
+#+BEGIN_SRC shell
  $ tree
  .
  ├── rhds.tokens.flat.json
  └── rhds.tokens.json
 
  1 directory, 2 files
-#END_SRC
+#+END_SRC
 
 ** Using the token json files.
 
