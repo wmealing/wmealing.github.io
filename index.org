@@ -5,6 +5,13 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
+* [[https://wmealing.github.io/using-style-dictionaries.html][Using Style Dictionaries from clojure]]
+
+Unify your design system and codebase the functional way. In this post, I’ll show you how to harness the power of Style Dictionary
+from Clojure—turning token files for use in your clojure code with minimal fuss. Learn how to bring structured, scalable theming into
+your Clojure workflow.
+
+
 * [[http://wmealing.github.io/sending-email-in-common-lisp.html][Sending email in common-lisp (Sep 2024)]]
 
 Want to integrate email functionality into your common-lisp applications, the cl-smtp library can help. In this blog entry, we’ll walk you through the process of using cl-smtp
