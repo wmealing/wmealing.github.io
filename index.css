@@ -455,3 +455,7 @@ label input {
 .debug-toggle-label {
   text-align: right;
 }
+
+.src-shell {
+  background-color: #4b4c4d;
+}
