@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-16 Mon 19:28 -->
+<!-- 2025-07-19 Sat 17:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sending email in common-lisp</title>
@@ -13,37 +13,32 @@
 <link rel="stylesheet" href="reset.css">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta name="description" content="Wade Mealings documentation" />
+<meta name="description" content="Sending email from common lisp, (CL)" />
 <meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Sending email in common-lisp</h1>
-
-<div id="outline-container-orgfafbbdd" class="outline-2">
-<h2 id="orgfafbbdd">Summary:</h2>
-<div class="outline-text-2" id="text-orgfafbbdd">
+<div id="outline-container-org433da17" class="outline-2">
+<h2 id="org433da17">Summary:</h2>
+<div class="outline-text-2" id="text-org433da17">
 <p>
 This page covers how to send an email from your common-lisp coding using the cl-smtp library using googles gmail servers.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org551a7e3" class="outline-2">
-<h2 id="org551a7e3">Introduction</h2>
-<div class="outline-text-2" id="text-org551a7e3">
+<div id="outline-container-org330d333" class="outline-2">
+<h2 id="org330d333">Introduction</h2>
+<div class="outline-text-2" id="text-org330d333">
 <p>
 This post covers a working example on how to send email from the common-lisp (cl) language using googles servers.  The provided
 example has been tested as an individual, and regularly used from the 'google workspace' account.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org298502d" class="outline-2">
-<h2 id="org298502d">Requirements:</h2>
-<div class="outline-text-2" id="text-org298502d">
+<div id="outline-container-org9724101" class="outline-2">
+<h2 id="org9724101">Requirements:</h2>
+<div class="outline-text-2" id="text-org9724101">
 <p>
 An Application password.
 </p>
@@ -54,12 +49,9 @@ configured for the account or you can not make app passwords.
 </p>
 </div>
 </div>
-
-
-
-<div id="outline-container-org2af1223" class="outline-2">
-<h2 id="org2af1223">The code:</h2>
-<div class="outline-text-2" id="text-org2af1223">
+<div id="outline-container-org1a1b457" class="outline-2">
+<h2 id="org1a1b457">The code:</h2>
+<div class="outline-text-2" id="text-org1a1b457">
 <p>
 Listed below is the common-lisp code that is required to send email.   The "password" is stored
 in the environment variable GMAIL_KEY, as a single string.  Google often displays on the 'app password'
@@ -68,44 +60,43 @@ page as 4 sets of 4 characters, aka xxxx xxxx xxxx xxxx , however experience sho
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-<span style="color: #eaeaea;">(</span>ql:quickload <span style="color: #70c0b1;">"cl-smtp"</span><span style="color: #eaeaea;">)</span>
-<span style="color: #eaeaea;">(</span>ql:quickload <span style="color: #70c0b1;">"cl-mime"</span><span style="color: #eaeaea;">)</span>
+(ql:quickload "cl-smtp")
+(ql:quickload "cl-mime")
 
-<span style="color: #eaeaea;">(</span><span style="color: #b9ca4a;">defun</span> <span style="color: #e78c45;">email-report</span> <span style="color: #70c0b1;">(</span><span style="color: #7aa6da;">&amp;key</span> to cc subject html<span style="color: #70c0b1;">)</span>
-       <span style="color: #c397d8;">"Generic send SMTP mail with some TEXT to RECIEPIENTS"</span>
-       <span style="color: #70c0b1;">(</span><span style="color: #b9ca4a;">let</span> <span style="color: #e7c547;">(</span><span style="color: #b9ca4a;">(</span>login <span style="color: #70c0b1;">"youraccount@gmail.com"</span><span style="color: #b9ca4a;">)</span>
-             <span style="color: #b9ca4a;">(</span>passwd <span style="color: #7aa6da;">(</span>uiop:getenv <span style="color: #70c0b1;">"GMAIL_KEY"</span><span style="color: #7aa6da;">)</span><span style="color: #b9ca4a;">)</span><span style="color: #e7c547;">)</span>
+(defun email-report (&amp;key to cc subject html)
+       "Generic send SMTP mail with some TEXT to RECIEPIENTS"
+       (let ((login "youraccount@gmail.com")
+             (passwd (uiop:getenv "GMAIL_KEY")))
 
-         <span style="color: #e7c547;">(</span><span style="color: #b9ca4a;">cl-smtp:with-smtp-mail</span> <span style="color: #b9ca4a;">(</span>out <span style="color: #70c0b1;">"smtp.gmail.com"</span> to cc
-                                      <span style="color: #c397d8;">:ssl</span> <span style="color: #c397d8;">:tls</span>
-                                      <span style="color: #c397d8;">:authentication</span> `<span style="color: #7aa6da;">(</span>,login ,passwd<span style="color: #7aa6da;">)</span><span style="color: #b9ca4a;">)</span>
+         (cl-smtp:with-smtp-mail (out "smtp.gmail.com" to cc
+                                      :ssl :tls
+                                      :authentication `(,login ,passwd))
 
-           <span style="color: #b9ca4a;">(</span>format out <span style="color: #70c0b1;">"To: ~A~%"</span> to <span style="color: #b9ca4a;">)</span>
-           <span style="color: #b9ca4a;">(</span>format out <span style="color: #70c0b1;">"Subject: ~A~%"</span> subject<span style="color: #b9ca4a;">)</span>
+           (format out "To: ~A~%" to )
+           (format out "Subject: ~A~%" subject)
 
-           <span style="color: #b9ca4a;">(</span>cl-mime:print-mime out <span style="color: #7aa6da;">(</span>make-instance 'cl-mime:mime
-                                                  <span style="color: #c397d8;">:type</span> <span style="color: #70c0b1;">"text"</span> <span style="color: #c397d8;">:subtype</span> <span style="color: #70c0b1;">"html"</span>
-                                                  <span style="color: #c397d8;">:encoding</span> <span style="color: #c397d8;">:base64</span>
-                                                  <span style="color: #c397d8;">:content</span> html<span style="color: #7aa6da;">)</span> <span style="color: #d54e53; font-weight: bold;">t t</span><span style="color: #b9ca4a; font-weight: bold;">)</span><span style="color: #e7c547; font-weight: bold;">)</span><span style="color: #70c0b1; font-weight: bold;">)</span><span style="color: #eaeaea; font-weight: bold;">)</span>
+           (cl-mime:print-mime out (make-instance 'cl-mime:mime
+                                                  :type "text" :subtype "html"
+                                                  :encoding :base64
+                                                  :content html) t t))))
 
-<span style="color: #eaeaea;">(</span>devar html-mail-content <span style="color: #70c0b1;">"&lt;html&gt;&lt;h1&gt; THis is html, but not really. &lt;/h1&gt;&lt;/html&gt;"</span><span style="color: #eaeaea;">)</span>
+(devar html-mail-content "&lt;html&gt;&lt;h1&gt; THis is html, but not really. &lt;/h1&gt;&lt;/html&gt;")
 
-<span style="color: #eaeaea;">(</span>email-report <span style="color: #c397d8;">:to</span> <span style="color: #70c0b1;">"someone@example.com"</span>
-              <span style="color: #c397d8;">:cc</span> *cc-list*
-              <span style="color: #c397d8;">:subject</span> email-subject
-              <span style="color: #c397d8;">:html</span> html-content<span style="color: #eaeaea;">)</span>
+(email-report :to "someone@example.com"
+              :cc *cc-list*
+              :subject email-subject
+              :html html-content)
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgaed93e4" class="outline-2">
-<h2 id="orgaed93e4">Ideas for improvement.</h2>
-<div class="outline-text-2" id="text-orgaed93e4">
+<div id="outline-container-org3c72c45" class="outline-2">
+<h2 id="org3c72c45">Ideas for improvement.</h2>
+<div class="outline-text-2" id="text-org3c72c45">
 </div>
-<div id="outline-container-orgf334639" class="outline-3">
-<h3 id="orgf334639">1. Secret Storage mechanism.</h3>
-<div class="outline-text-3" id="text-orgf334639">
+<div id="outline-container-org2c15d8c" class="outline-3">
+<h3 id="org2c15d8c">1. Secret Storage mechanism.</h3>
+<div class="outline-text-3" id="text-org2c15d8c">
 <p>
 The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
 </p>
@@ -116,17 +107,16 @@ some of them have secrets file.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb2c5bb8" class="outline-3">
-<h3 id="orgb2c5bb8">2. Preventing secret leaks.</h3>
-<div class="outline-text-3" id="text-orgb2c5bb8">
+<div id="outline-container-org13f127c" class="outline-3">
+<h3 id="org13f127c">2. Preventing secret leaks.</h3>
+<div class="outline-text-3" id="text-org13f127c">
 <p>
 After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
 to abuse the information.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #eaeaea;">(</span>setf <span style="color: #70c0b1;">(</span>uiop:getenv <span style="color: #70c0b1;">"SOME_ENVIRONMENT_VARIABLE"</span><span style="color: #70c0b1;">)</span> <span style="color: #70c0b1;">"PASSWORD-REMOVED-FOR-SECURITY-REASONS"</span><span style="color: #eaeaea;">)</span>
+<pre class="src src-lisp">(setf (uiop:getenv "SOME_ENVIRONMENT_VARIABLE") "PASSWORD-REMOVED-FOR-SECURITY-REASONS")
 </pre>
 </div>
 
@@ -135,10 +125,9 @@ When it is loaded, use  <a href="https://github.com/rotatef/secret-values">Secre
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4aaffd1" class="outline-3">
-<h3 id="org4aaffd1">3. Preventing accidental/intention spamming.</h3>
-<div class="outline-text-3" id="text-org4aaffd1">
+<div id="outline-container-orgcace3e5" class="outline-3">
+<h3 id="orgcace3e5">3. Preventing accidental/intention spamming.</h3>
+<div class="outline-text-3" id="text-orgcace3e5">
 <p>
 Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
 It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
@@ -146,16 +135,15 @@ It is important that the program keep an accurate, reliable mechanism to know wh
 </div>
 </div>
 </div>
-
-<div id="outline-container-org96293c8" class="outline-2">
-<h2 id="org96293c8">Conclusion</h2>
+<div id="outline-container-org093e3ef" class="outline-2">
+<h2 id="org093e3ef">Conclusion</h2>
 </div>
 
 
 
-<div id="outline-container-org7c01fdf" class="outline-2">
-<h2 id="org7c01fdf">Resources:</h2>
-<div class="outline-text-2" id="text-org7c01fdf">
+<div id="outline-container-org4542739" class="outline-2">
+<h2 id="org4542739">Resources:</h2>
+<div class="outline-text-2" id="text-org4542739">
 <p>
 <a href="https://gitlab.common-lisp.net/cl-smtp/cl-smtp">https://gitlab.common-lisp.net/cl-smtp/cl-smtp</a>
 </p>

@@ -2,7 +2,7 @@
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
-#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+#+HTML_HEAD: <meta name="description" content="Sending email from common lisp, (CL)" />
 
 * Summary:
 
