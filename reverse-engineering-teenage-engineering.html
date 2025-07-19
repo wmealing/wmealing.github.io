@@ -3,217 +3,33 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-21 Sun 21:46 -->
+<!-- 2025-07-19 Sat 17:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Getting firmware from teenage engineering.</title>
 <meta name="generator" content="Org Mode" />
-<style type="text/css" >
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
-<link rel="stylesheet" href="tufte.css" type="text/css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="reset.css">
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta name="theme-color" content="#fffff8"/>
 <meta name="description" content="EP-133 teenage engineering firmware " />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Getting firmware from teenage engineering.</h1>
-
-<div id="outline-container-org7b19443" class="outline-2">
-<h2 id="org7b19443">Summary:</h2>
-<div class="outline-text-2" id="text-org7b19443">
+<div id="outline-container-orga73667b" class="outline-2">
+<h2 id="orga73667b">Summary:</h2>
+<div class="outline-text-2" id="text-orga73667b">
 <p>
 A nobody like me, getting firmware from teenage engineerings website.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org511d8a3" class="outline-2">
-<h2 id="org511d8a3">Introduction</h2>
-<div class="outline-text-2" id="text-org511d8a3">
+<div id="outline-container-orga099cc1" class="outline-2">
+<h2 id="orga099cc1">Introduction</h2>
+<div class="outline-text-2" id="text-orga099cc1">
 <p>
 Teenage engineering direct people to their website updater <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a>
 which can update a number of Teenage Engineering devices.
@@ -225,7 +41,7 @@ I fire up developer tools and go to the network table, while loading the page:
 </p>
 
 
-<div id="orgdada07d" class="figure">
+<div id="org9430bc5" class="figure">
 <p><img src="images/te-download-1.png" alt="te-download-1.png" width="800px" />
 </p>
 </div>
@@ -246,7 +62,7 @@ of twisted obfustication process to minimise the js.
 If i download the js, its not the entire file:
 </p>
 
-<pre class="example" id="org9321867">
+<pre class="example" id="org8a64ee3">
 ()=&gt;{var Mp=Object.create;var Uo=Object.defineProperty;var Np=Object.getOwnPropertyDescriptor;var
 Op=Object.getOwnPropertyNames;var Lp=Object.getPrototypeOf,zp=Object.prototype.hasOwnProperty;var
 pr=(e,t)=&gt;()=&gt;(t||e((t={exports:{}}).exports,t),t.exports),Tu=(e,t)=&gt;{for(var r in t)Uo(e,r,
@@ -266,10 +82,9 @@ Unfortunately, its a mess of react and minification has stripped useful names fr
 and variables, so I'm going to have to take another direction. Great.
 </p>
 </div>
-
-<div id="outline-container-org44b1111" class="outline-3">
-<h3 id="org44b1111">The midi diversion.</h3>
-<div class="outline-text-3" id="text-org44b1111">
+<div id="outline-container-org249cae3" class="outline-3">
+<h3 id="org249cae3">The midi diversion.</h3>
+<div class="outline-text-3" id="text-org249cae3">
 <p>
 So, I noticed that when I visit the page, a prompt appears in chrome asking for permission
 to access a midi device.  So I assume that this means the browser needed to support
@@ -286,10 +101,9 @@ I see 97 mentions of "MIDI" in the javascript, so i'll try another idea.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org6ec3591" class="outline-3">
-<h3 id="org6ec3591">Tracking the download.</h3>
-<div class="outline-text-3" id="text-org6ec3591">
+<div id="outline-container-orgf8b3f86" class="outline-3">
+<h3 id="orgf8b3f86">Tracking the download.</h3>
+<div class="outline-text-3" id="text-orgf8b3f86">
 <p>
 I found there were, many, many uses of the word, "url" so checking that was going to be painful.
 </p>
@@ -303,12 +117,13 @@ means that this is likely using 'fetch' somewhere beneath the covers.
 The first use is here:
 </p>
 
-<pre class="example">
-static async fetchFirmware(e) {
+<div class="org-src-container">
+<pre class="src src-nil">static async fetchFirmware(e) {
     let t = await fetch(e);
     return new Uint8Array(await t.arrayBuffer())
 }
 </pre>
+</div>
 
 <p>
 I don't have an "EP-133" to plug in and test, otherwise at this point
@@ -320,7 +135,7 @@ beginning the update.
 So I look for another fetch
 </p>
 
-<pre class="example" id="org5a7618a">
+<pre class="example" id="orgfe8d437">
 let r = (await fetch("/_software/releases.json").then(i=&gt;i.json()).then(i=&gt;i).catch(i=&gt;i)).devices;
 </pre>
 
@@ -339,45 +154,45 @@ Which looks something like this
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json"><span style="color: #458588;">{</span>
-  <span style="color: #fb4933;">"devices"</span>: <span style="color: #b16286;">[</span>
-    <span style="color: #8ec07c;">{</span>
-      <span style="color: #fb4933;">"sku"</span>: <span style="color: #b8bb26;">"TE028AS"</span>,
-      <span style="color: #fb4933;">"version"</span>: <span style="color: #b8bb26;">"1.2.10"</span>,
-      <span style="color: #fb4933;">"fw_url"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/_software/tx-6/tx-6_firmware_1_2_10.tfw"</span>,
-      <span style="color: #fb4933;">"link"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/downloads/tx-6"</span>,
-      <span style="color: #fb4933;">"release_notes"</span>: <span style="color: #b8bb26;">"- integration with TP-7 recorder and new usb audio mode\n- usb audio host mode support and integration with CM-15 microphone\n- control master volume with OR-1 remote\n- compensate clock for more accurate sample rate"</span>
-    <span style="color: #8ec07c;">}</span>,
-    <span style="color: #8ec07c;">{</span>
-      <span style="color: #fb4933;">"sku"</span>: <span style="color: #b8bb26;">"TE002AS002"</span>,
-      <span style="color: #fb4933;">"version"</span>: <span style="color: #b8bb26;">"1.5.0"</span>,
-      <span style="color: #fb4933;">"fw_url"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/_software/op-1/field/op1_field_firmware_1_5_0.tfw"</span>,
-      <span style="color: #fb4933;">"link"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/downloads/op-1/field"</span>,
-      <span style="color: #fb4933;">"release_notes"</span>: <span style="color: #b8bb26;">"- new effect: terminal\n- tape merge drop\n- bug fixes"</span>
-    <span style="color: #8ec07c;">}</span>,
-    <span style="color: #8ec07c;">{</span>
-      <span style="color: #fb4933;">"sku"</span>: <span style="color: #b8bb26;">"TE029AS"</span>,
-      <span style="color: #fb4933;">"version"</span>: <span style="color: #b8bb26;">"1.0.5"</span>,
-      <span style="color: #fb4933;">"fw_url"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/_software/cm-15/cm-15_firmware_1_0_5.tfw"</span>,
-      <span style="color: #fb4933;">"link"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/downloads/cm-15"</span>,
-      <span style="color: #fb4933;">"release_notes"</span>: <span style="color: #b8bb26;">"- initial release"</span>
-    <span style="color: #8ec07c;">}</span>,
-    <span style="color: #8ec07c;">{</span>
-      <span style="color: #fb4933;">"sku"</span>: <span style="color: #b8bb26;">"TE025AS"</span>,
-      <span style="color: #fb4933;">"version"</span>: <span style="color: #b8bb26;">"1.0.8"</span>,
-      <span style="color: #fb4933;">"fw_url"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/_software/tp-7/tp-7_firmware_1_0_8.tfw"</span>,
-      <span style="color: #fb4933;">"link"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/downloads/tp-7"</span>,
-      <span style="color: #fb4933;">"release_notes"</span>: <span style="color: #b8bb26;">"- recording sample rate selectable\n- continue recording on new file\n- adjust led strength in three levels\n- dim display on inactivity\n- option to disable memo wake\n- rocker tuning\n- faster mtp transfer\n- tuning of internal speaker\n- bug fixes"</span>
-    <span style="color: #8ec07c;">}</span>,
-    <span style="color: #8ec07c;">{</span>
-      <span style="color: #fb4933;">"sku"</span>: <span style="color: #b8bb26;">"TE032AS001"</span>,
-      <span style="color: #fb4933;">"version"</span>: <span style="color: #b8bb26;">"1.1.2"</span>,
-      <span style="color: #fb4933;">"fw_url"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/_software/ep-133/ep-133_firmware_1_1_2.tfw"</span>,
-      <span style="color: #fb4933;">"link"</span>: <span style="color: #b8bb26;">"https://teenage.engineering/downloads/ep-133"</span>,
-      <span style="color: #fb4933;">"release_notes"</span>: <span style="color: #b8bb26;">"- while holding fader button, red leds will blink to show which fader functions have been tweaked\n- hold erase+fader two seconds while stopped to reset all fader levels of the selected group and pattern\n- group project volume are now reset when loading a project\n- floppy icon enabled to show when data is being saved and will blink to indicate space is being freed up in the background after erasing a sound\n- usb icon is now lit when there is a connection. icon blinks when there is activity\n- tweaked envelope release and filter resonance\n- fixed various stability problems\n- fixed lost midi messages\n- fixed chorus audio glitch\n- fixed swapped left/right channels"</span>
-    <span style="color: #8ec07c;">}</span>
-  <span style="color: #b16286;">]</span>
-<span style="color: #458588;">}</span>
+<pre class="src src-json">{
+  "devices": [
+    {
+      "sku": "TE028AS",
+      "version": "1.2.10",
+      "fw_url": "https://teenage.engineering/_software/tx-6/tx-6_firmware_1_2_10.tfw",
+      "link": "https://teenage.engineering/downloads/tx-6",
+      "release_notes": "- integration with TP-7 recorder and new usb audio mode\n- usb audio host mode support and integration with CM-15 microphone\n- control master volume with OR-1 remote\n- compensate clock for more accurate sample rate"
+    },
+    {
+      "sku": "TE002AS002",
+      "version": "1.5.0",
+      "fw_url": "https://teenage.engineering/_software/op-1/field/op1_field_firmware_1_5_0.tfw",
+      "link": "https://teenage.engineering/downloads/op-1/field",
+      "release_notes": "- new effect: terminal\n- tape merge drop\n- bug fixes"
+    },
+    {
+      "sku": "TE029AS",
+      "version": "1.0.5",
+      "fw_url": "https://teenage.engineering/_software/cm-15/cm-15_firmware_1_0_5.tfw",
+      "link": "https://teenage.engineering/downloads/cm-15",
+      "release_notes": "- initial release"
+    },
+    {
+      "sku": "TE025AS",
+      "version": "1.0.8",
+      "fw_url": "https://teenage.engineering/_software/tp-7/tp-7_firmware_1_0_8.tfw",
+      "link": "https://teenage.engineering/downloads/tp-7",
+      "release_notes": "- recording sample rate selectable\n- continue recording on new file\n- adjust led strength in three levels\n- dim display on inactivity\n- option to disable memo wake\n- rocker tuning\n- faster mtp transfer\n- tuning of internal speaker\n- bug fixes"
+    },
+    {
+      "sku": "TE032AS001",
+      "version": "1.1.2",
+      "fw_url": "https://teenage.engineering/_software/ep-133/ep-133_firmware_1_1_2.tfw",
+      "link": "https://teenage.engineering/downloads/ep-133",
+      "release_notes": "- while holding fader button, red leds will blink to show which fader functions have been tweaked\n- hold erase+fader two seconds while stopped to reset all fader levels of the selected group and pattern\n- group project volume are now reset when loading a project\n- floppy icon enabled to show when data is being saved and will blink to indicate space is being freed up in the background after erasing a sound\n- usb icon is now lit when there is a connection. icon blinks when there is activity\n- tweaked envelope release and filter resonance\n- fixed various stability problems\n- fixed lost midi messages\n- fixed chorus audio glitch\n- fixed swapped left/right channels"
+    }
+  ]
+}
 </pre>
 </div>
 
@@ -417,7 +232,7 @@ I wont upload all three.
 </p>
 
 
-<div id="org129f09d" class="figure">
+<div id="org115f2f0" class="figure">
 <p><img src="images/133-randomness.png" alt="133-randomness.png" width="800px" />
 </p>
 </div>
@@ -427,8 +242,8 @@ I wont upload all three.
 The first chunk of data up to 0x480 do not contain randomness.
 </p>
 
-<pre class="example">
-00000000: babe cafe 003b 5200 0100 0100 0200 0000  .....;R.........
+<div class="org-src-container">
+<pre class="src src-nil">00000000: babe cafe 003b 5200 0100 0100 0200 0000  .....;R.........
 00000010: 0800 0100 0000 0000 0000 0000 0000 0000  ................
 00000020: 0000 0000 0000 0000 0000 0000 0000 0000  ................
 00000030: 0000 0000 0000 0000 0000 0000 0000 0000  ................
@@ -447,6 +262,7 @@ The first chunk of data up to 0x480 do not contain randomness.
 00000470: 0000 0000 0000 0000 0000 0000 0000 0000  ................
 
 </pre>
+</div>
 
 <p>
 Some of these fields can be mapped to values if we read the javascript
@@ -461,10 +277,9 @@ need to buy hardware to to do it.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org3ece7b7" class="outline-2">
-<h2 id="org3ece7b7">Conclusion</h2>
-<div class="outline-text-2" id="text-org3ece7b7">
+<div id="outline-container-org899e5a5" class="outline-2">
+<h2 id="org899e5a5">Conclusion</h2>
+<div class="outline-text-2" id="text-org899e5a5">
 <p>
 Sadly, Teenage Engineering ships encrypted firmware, which I have shown that you
 can get a copy of.  None of the verisons have unencrypted data, so the key to
@@ -481,10 +296,9 @@ and code, that'd be nice, please contact me.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org50518ed" class="outline-2">
-<h2 id="org50518ed">Resources:</h2>
-<div class="outline-text-2" id="text-org50518ed">
+<div id="outline-container-org3c716c2" class="outline-2">
+<h2 id="org3c716c2">Resources:</h2>
+<div class="outline-text-2" id="text-org3c716c2">
 <ul class="org-ul">
 <li>Teenage engineering update utility  - <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a></li>
 <li>Binwalk (firwmare analysis tool) - <a href="https://github.com/ReFirmLabs/binwalk">https://github.com/ReFirmLabs/binwalk</a></li>
