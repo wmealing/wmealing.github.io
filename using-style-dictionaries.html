@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-24 Thu 18:43 -->
+<!-- 2025-07-19 Sat 17:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -19,10 +19,9 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Using "style-dictionary" from Clojure.</h1>
-
-<div id="outline-container-org6bc3674" class="outline-2">
-<h2 id="org6bc3674">Summary:</h2>
-<div class="outline-text-2" id="text-org6bc3674">
+<div id="outline-container-orgb5c75b8" class="outline-2">
+<h2 id="orgb5c75b8">Summary:</h2>
+<div class="outline-text-2" id="text-orgb5c75b8">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -30,10 +29,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgab5aae0" class="outline-2">
-<h2 id="orgab5aae0">Introduction</h2>
-<div class="outline-text-2" id="text-orgab5aae0">
+<div id="outline-container-org32a5b21" class="outline-2">
+<h2 id="org32a5b21">Introduction</h2>
+<div class="outline-text-2" id="text-org32a5b21">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -48,7 +46,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="orgb6594f1">
+<pre class="example" id="org4512b6d">
 
 A style dictionary consists of:
 
@@ -76,10 +74,9 @@ They seem to call their tooling "design tokens" rather than "style dictionary", 
 explain what the complexities here easily, please drop me a line.
 </p>
 </div>
-
-<div id="outline-container-orgcf3c088" class="outline-3">
-<h3 id="orgcf3c088">Getting the 'design tokens' / 'style dictionary'.</h3>
-<div class="outline-text-3" id="text-orgcf3c088">
+<div id="outline-container-orgcd97cc3" class="outline-3">
+<h3 id="orgcd97cc3">Getting the 'design tokens' / 'style dictionary'.</h3>
+<div class="outline-text-3" id="text-orgcd97cc3">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
@@ -118,36 +115,35 @@ The files it generated were created in the ./json
 <div class="org-src-container">
 <pre class="src src-shell">$ tree
 .
-&#9500;&#9472;&#9472; rhds.tokens.flat.json
-&#9492;&#9472;&#9472; rhds.tokens.json
+├── rhds.tokens.flat.json
+└── rhds.tokens.json
 
 1 directory, 2 files
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org6317bb4" class="outline-3">
-<h3 id="org6317bb4">Using the token json files.</h3>
-<div class="outline-text-3" id="text-org6317bb4">
+<div id="outline-container-org38be9e2" class="outline-3">
+<h3 id="org38be9e2">Using the token json files.</h3>
+<div class="outline-text-3" id="text-org38be9e2">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #eaeaea;">(</span><span style="color: #b9ca4a;">ns</span> <span style="color: #7aa6da;">simple-web-app.theme</span>
-  <span style="color: #70c0b1;">(</span><span style="color: #7aa6da;">:require</span> <span style="color: #e7c547;">[</span>cheshire.core <span style="color: #7aa6da;">:as</span> json<span style="color: #e7c547;">]</span>
-            <span style="color: #e7c547;">[</span>clojure.java.io <span style="color: #7aa6da;">:as</span> io<span style="color: #e7c547;">]</span><span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
+<pre class="src src-clojure">(ns simple-web-app.theme
+  (:require [cheshire.core :as json]
+            [clojure.java.io :as io]))
 
-<span style="color: #eaeaea;">(</span><span style="color: #b9ca4a;">defn</span> <span style="color: #e78c45;">load-style-dict</span> <span style="color: #70c0b1;">[</span>path<span style="color: #70c0b1;">]</span>
-  <span style="color: #70c0b1;">(</span><span style="color: #b9ca4a;">with-open</span> <span style="color: #e7c547;">[</span>r <span style="color: #b9ca4a;">(</span><span style="color: #7aa6da;">io</span>/reader path<span style="color: #b9ca4a;">)</span><span style="color: #e7c547;">]</span>
-    <span style="color: #e7c547;">(</span><span style="color: #7aa6da;">json</span>/parse-stream r <span style="color: #7aa6da;">true</span><span style="color: #e7c547;">)</span><span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
+(defn load-style-dict [path]
+  (with-open [r (io/reader path)]
+    (json/parse-stream r true)))
 
-<span style="color: #eaeaea;">(</span><span style="color: #b9ca4a;">def</span> <span style="color: #e7c547;">style-dictionary</span>
-  <span style="color: #70c0b1;">(</span>load-style-dictionary <span style="color: #70c0b1;">"resources/red-hat-design-tokens/json/rhds.tokens.json"</span><span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
+(def style-dictionary
+  (load-style-dictionary "resources/red-hat-design-tokens/json/rhds.tokens.json"))
 
-<span style="color: #eaeaea;">(</span><span style="color: #b9ca4a;">defn</span> <span style="color: #e78c45;">get-style</span> <span style="color: #70c0b1;">[</span>l<span style="color: #70c0b1;">]</span>
-  <span style="color: #70c0b1;">(</span>get-in style-dictionary l<span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
+(defn get-style [l]
+  (get-in style-dictionary l))
 </pre>
 </div>
 
@@ -168,21 +164,21 @@ You can investigate the 'top level' keys with clojure commands.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt;  <span style="color: #eaeaea;">(</span>keys <span style="color: #70c0b1;">(</span><span style="color: #7aa6da;">simple-web-app.theme</span>/get-style <span style="color: #e7c547;">[]</span><span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
+<pre class="src src-clojure">user&gt;  (keys (simple-web-app.theme/get-style []))
 
-<span style="color: #eaeaea;">(</span><span style="color: #7aa6da;">:line-height</span>
- <span style="color: #7aa6da;">:space</span>
- <span style="color: #7aa6da;">:box-shadow</span>
- <span style="color: #7aa6da;">:animation</span>
- <span style="color: #7aa6da;">:color</span>
- <span style="color: #7aa6da;">:breakpoint</span>
- <span style="color: #7aa6da;">:font</span>
- <span style="color: #7aa6da;">:size</span>
- <span style="color: #7aa6da;">:opacity</span>
- <span style="color: #7aa6da;">:length</span>
- <span style="color: #7aa6da;">:letter-spacing</span>
- <span style="color: #7aa6da;">:border</span>
- <span style="color: #7aa6da;">:media</span><span style="color: #eaeaea;">)</span>
+(:line-height
+ :space
+ :box-shadow
+ :animation
+ :color
+ :breakpoint
+ :font
+ :size
+ :opacity
+ :length
+ :letter-spacing
+ :border
+ :media)
 
 </pre>
 </div>
@@ -192,32 +188,32 @@ And then query those &#x2026;
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; <span style="color: #eaeaea;">(</span>keys <span style="color: #70c0b1;">(</span><span style="color: #7aa6da;">simple-web-app.theme</span>/get-style <span style="color: #e7c547;">[</span><span style="color: #7aa6da;">:color</span><span style="color: #e7c547;">]</span><span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
-<span style="color: #eaeaea;">(</span><span style="color: #7aa6da;">:orange</span>
- <span style="color: #7aa6da;">:$extensions</span>
- <span style="color: #7aa6da;">:white-hsl</span>
- <span style="color: #7aa6da;">:gray</span>
- <span style="color: #7aa6da;">:white</span>
- <span style="color: #7aa6da;">:interactive</span>
- <span style="color: #7aa6da;">:yellow</span>
- <span style="color: #7aa6da;">:green</span>
- <span style="color: #7aa6da;">:black-hsl</span>
- <span style="color: #7aa6da;">:icon</span>
- <span style="color: #7aa6da;">:canvas</span>
- <span style="color: #7aa6da;">:brand</span>
- <span style="color: #7aa6da;">:black-rgb</span>
- <span style="color: #7aa6da;">:white-rgb</span>
- <span style="color: #7aa6da;">:red-orange</span>
- <span style="color: #7aa6da;">:status</span>
- <span style="color: #7aa6da;">:red</span>
- <span style="color: #7aa6da;">:blue</span>
- <span style="color: #7aa6da;">:teal</span>
- <span style="color: #7aa6da;">:purple</span>
- <span style="color: #7aa6da;">:border</span>
- <span style="color: #7aa6da;">:accent</span>
- <span style="color: #7aa6da;">:surface</span>
- <span style="color: #7aa6da;">:text</span>
- <span style="color: #7aa6da;">:black</span><span style="color: #eaeaea;">)</span>
+<pre class="src src-clojure">user&gt; (keys (simple-web-app.theme/get-style [:color]))
+(:orange
+ :$extensions
+ :white-hsl
+ :gray
+ :white
+ :interactive
+ :yellow
+ :green
+ :black-hsl
+ :icon
+ :canvas
+ :brand
+ :black-rgb
+ :white-rgb
+ :red-orange
+ :status
+ :red
+ :blue
+ :teal
+ :purple
+ :border
+ :accent
+ :surface
+ :text
+ :black)
 </pre>
 </div>
 
@@ -226,7 +222,7 @@ Then look up the :blue..
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; <span style="color: #eaeaea;">(</span>keys <span style="color: #70c0b1;">(</span><span style="color: #7aa6da;">simple-web-app.theme</span>/get-style <span style="color: #e7c547;">[</span><span style="color: #7aa6da;">:color</span> <span style="color: #7aa6da;">:blue</span><span style="color: #e7c547;">]</span><span style="color: #70c0b1;">)</span><span style="color: #eaeaea;">)</span>
+<pre class="src src-clojure">user&gt; (keys (simple-web-app.theme/get-style [:color :blue]))
 </pre>
 </div>
 
@@ -235,8 +231,8 @@ and the "40" variant until you get to a :$value.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; <span style="color: #eaeaea;">(</span><span style="color: #7aa6da;">simple-web-app.theme</span>/get-style <span style="color: #70c0b1;">[</span><span style="color: #7aa6da;">:color</span> <span style="color: #7aa6da;">:blue</span> <span style="color: #7aa6da;">:40</span> <span style="color: #7aa6da;">:$value</span><span style="color: #70c0b1;">]</span><span style="color: #eaeaea;">)</span>
-      <span style="color: #70c0b1;">"#4394e5"</span>
+<pre class="src src-clojure">user&gt; (simple-web-app.theme/get-style [:color :blue :40 :$value])
+      "#4394e5"
 </pre>
 </div>
 
@@ -246,29 +242,29 @@ the expectations of font colors, for example
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; <span style="color: #eaeaea;">(</span><span style="color: #7aa6da;">simple-web-app.theme</span>/get-style <span style="color: #70c0b1;">[</span><span style="color: #7aa6da;">:color</span> <span style="color: #7aa6da;">:text</span> <span style="color: #7aa6da;">:primary</span> <span style="color: #7aa6da;">:on-light</span><span style="color: #70c0b1;">]</span><span style="color: #eaeaea;">)</span>
-<span style="color: #eaeaea;">{</span><span style="color: #7aa6da;">:path</span> <span style="color: #70c0b1;">[</span><span style="color: #70c0b1;">"color"</span> <span style="color: #70c0b1;">"text"</span> <span style="color: #70c0b1;">"primary"</span> <span style="color: #70c0b1;">"on-light"</span><span style="color: #70c0b1;">]</span>,
- <span style="color: #7aa6da;">:$type</span> <span style="color: #70c0b1;">"color"</span>,
- <span style="color: #7aa6da;">:isSource</span> <span style="color: #7aa6da;">true</span>,
- <span style="color: #7aa6da;">:$description</span> <span style="color: #70c0b1;">"Primary text color for light theme"</span>,
- <span style="color: #7aa6da;">:name</span> <span style="color: #70c0b1;">"rh-color-text-primary-on-light"</span>,
- <span style="color: #7aa6da;">:original</span>
- <span style="color: #70c0b1;">{</span><span style="color: #7aa6da;">:$value</span> <span style="color: #70c0b1;">"{color.gray.95}"</span>,
-  <span style="color: #7aa6da;">:$description</span> <span style="color: #70c0b1;">"Primary text color for light theme"</span>,
-  <span style="color: #7aa6da;">:attributes</span> <span style="color: #e7c547;">{</span><span style="color: #7aa6da;">:category</span> <span style="color: #70c0b1;">"typography"</span>, <span style="color: #7aa6da;">:type</span> <span style="color: #70c0b1;">"color"</span><span style="color: #e7c547;">}</span>,
-  <span style="color: #7aa6da;">:$type</span> <span style="color: #70c0b1;">"color"</span><span style="color: #70c0b1;">}</span>,
- <span style="color: #7aa6da;">:$value</span> <span style="color: #70c0b1;">"#151515"</span>,
- <span style="color: #7aa6da;">:filePath</span> <span style="color: #70c0b1;">"tokens/color/text.yaml"</span>,
- <span style="color: #7aa6da;">:attributes</span>
- <span style="color: #70c0b1;">{</span><span style="color: #7aa6da;">:category</span> <span style="color: #70c0b1;">"typography"</span>,
-  <span style="color: #7aa6da;">:isLight</span> <span style="color: #7aa6da;">false</span>,
-  <span style="color: #7aa6da;">:item</span> <span style="color: #70c0b1;">"primary"</span>,
-  <span style="color: #7aa6da;">:rgb</span> <span style="color: #e7c547;">{</span><span style="color: #7aa6da;">:r</span> 21, <span style="color: #7aa6da;">:g</span> 21, <span style="color: #7aa6da;">:b</span> 21, <span style="color: #7aa6da;">:a</span> 1<span style="color: #e7c547;">}</span>,
-  <span style="color: #7aa6da;">:subitem</span> <span style="color: #70c0b1;">"on-light"</span>,
-  <span style="color: #7aa6da;">:type</span> <span style="color: #70c0b1;">"color"</span>,
-  <span style="color: #7aa6da;">:hsl</span> <span style="color: #e7c547;">{</span><span style="color: #7aa6da;">:h</span> 0, <span style="color: #7aa6da;">:s</span> 0, <span style="color: #7aa6da;">:l</span> 8.235294117647058, <span style="color: #7aa6da;">:a</span> 1<span style="color: #e7c547;">}</span>,
-  <span style="color: #7aa6da;">:hsv</span> <span style="color: #e7c547;">{</span><span style="color: #7aa6da;">:h</span> 0, <span style="color: #7aa6da;">:s</span> 0, <span style="color: #7aa6da;">:v</span> 0.08235294117647059, <span style="color: #7aa6da;">:a</span> 1<span style="color: #e7c547;">}</span>,
-  <span style="color: #7aa6da;">:hex</span> <span style="color: #70c0b1;">"151515"</span><span style="color: #70c0b1;">}</span><span style="color: #eaeaea;">}</span>
+<pre class="src src-clojure">user&gt; (simple-web-app.theme/get-style [:color :text :primary :on-light])
+{:path ["color" "text" "primary" "on-light"],
+ :$type "color",
+ :isSource true,
+ :$description "Primary text color for light theme",
+ :name "rh-color-text-primary-on-light",
+ :original
+ {:$value "{color.gray.95}",
+  :$description "Primary text color for light theme",
+  :attributes {:category "typography", :type "color"},
+  :$type "color"},
+ :$value "#151515",
+ :filePath "tokens/color/text.yaml",
+ :attributes
+ {:category "typography",
+  :isLight false,
+  :item "primary",
+  :rgb {:r 21, :g 21, :b 21, :a 1},
+  :subitem "on-light",
+  :type "color",
+  :hsl {:h 0, :s 0, :l 8.235294117647058, :a 1},
+  :hsv {:h 0, :s 0, :v 0.08235294117647059, :a 1},
+  :hex "151515"}}
 
 </pre>
 </div>
@@ -278,26 +274,24 @@ Along with its 'dark sibling'
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt;  <span style="color: #eaeaea;">(</span><span style="color: #7aa6da;">simple-web-app.theme</span>/get-style <span style="color: #70c0b1;">[</span><span style="color: #7aa6da;">:color</span> <span style="color: #7aa6da;">:text</span> <span style="color: #7aa6da;">:primary</span> <span style="color: #7aa6da;">:on-dark</span><span style="color: #70c0b1;">]</span><span style="color: #eaeaea;">)</span>
+<pre class="src src-clojure">user&gt;  (simple-web-app.theme/get-style [:color :text :primary :on-dark])
 ....
 </pre>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org014292c" class="outline-2">
-<h2 id="org014292c">Conclusion</h2>
-<div class="outline-text-2" id="text-org014292c">
+<div id="outline-container-org239c677" class="outline-2">
+<h2 id="org239c677">Conclusion</h2>
+<div class="outline-text-2" id="text-org239c677">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org661acdf" class="outline-2">
-<h2 id="org661acdf">Resources:</h2>
-<div class="outline-text-2" id="text-org661acdf">
+<div id="outline-container-orge9588d6" class="outline-2">
+<h2 id="orge9588d6">Resources:</h2>
+<div class="outline-text-2" id="text-orge9588d6">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>
