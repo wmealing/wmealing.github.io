@@ -460,3 +460,15 @@ label input {
   border: 5px;
   margin: 5px;
 }
+
+.src {
+  background-color: #CCCCCC;
+  padding: 10px;
+  border: 5px;
+  margin: 5px;
+}
+
+.content {
+    width: 1000px;
+    
+}

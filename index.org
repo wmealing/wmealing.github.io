@@ -5,6 +5,17 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
+* [[./robust-recovery.html][Robust Recovery in Erlang]]
+
+Managing failureis a common challenge, especially when some of those tasks are prone to failure.
+
+Erlang, with its actor process model, offers an elegant solution.
+
+This post dives into a practical example of how to orchestrate a number of jobs, monitor each one for success or
+failure, and then compile a report on theff outcomes. We'll explore how Erlang's unique approach to
+fault tolerance allows a central process to supervise many workers, and handling their failure however you see fit. 
+
+
 * [[https://wmealing.github.io/using-style-dictionaries.html][Using Style Dictionaries from clojure]]
 
 Unify your design system and codebase the functional way. In this post, I’ll show you how to harness the power of Style Dictionary

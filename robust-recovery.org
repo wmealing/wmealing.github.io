@@ -1,0 +1,172 @@
+
+#+TITLE: Robust Recovery of Erlang Crashes: Handling faillures and Error Reporting
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+OPTIONS: html-style:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+#+AUTHOR: Wade Mealing
+#+DATE: 2025-08-15
+
+* Let It Crash? Sure. But Also: Resolve the Failure.
+
+Erlang’s “let it crash” mantra is great. Recently, its been reframed as “let it heal.”, I like adding a third concept: *propono postea* or
+“resolve it later.”
+
+This is about running a batch of jobs, tracking the failures, and being able to choose what to do when you have the failures.
+
+We’ll do it with standard erlang, message passing, and a little crash theatre.
+
+* The Pattern
+
+We have three functions:
+
+1. ~run/0~ – the coordinator. Spawns workers, monitors them, and waits for results.
+2. ~worker/2~ – does the work (or crashes on purpose).
+3. ~collect_results/3~ – grabs every result, good or bad.
+
+* Process/Information Flow Diagram
+
+#+begin_example
+          +-------------+
+          | run/0       |
+          | (Coordinator|
+          +-------------+
+                 |
+                 v
+         +-----------------+
+         | spawn_monitor   |
+         | 30 workers      |
+         +-----------------+
+           |     |     |
+     ------+     |     +--------
+     |           |             |
+     v           v             v
++--------+   +--------+   +--------+
+|worker/2|   |worker/2|   |worker/2|  ...
++--------+   +--------+   +--------+
+   |            |              |
+  OK           CRASH          OK
+   |            |              |
+   v            v              v
+{ok,...}     'DOWN'         {ok,...}
+   |            |              |
+   +------------+--------------+
+                |
+                v
+     +----------------------+
+     | collect_results/3    |
+     | merge successes/fails|
+     +----------------------+
+                |
+                v
+      Final report (io:format(.....))
+   
+#+end_example
+
+* Worker Decision Logic
+
+The worker itself is a basic random choice to crash, The code manually crashes, but this same behavior occurs when erlang
+normally fails.
+
+#+begin_example
+ [worker/2]
+    |
+    v
+ Generate random number
+    |
+    v
+Sum = WorkerID + Random
+    |
+   / \
+  /   \
+>10   <=10
+ |      |
+Crash   Send {ok, Num, Sum}
+#+end_example
+
+* How It Works
+
+- Spawn 30 workers, each with a unique ID.
+- Use ~spawn_monitor~ so the parent gets a `'DOWN'` message when a worker dies.
+- Keep a ~Pid -> number ~ mapping so we know who which "number" failed.
+
+- Workers:
+  - Generate a random number.
+  - Add it to their ID.
+  - If > 10, ~erlang:error~ (simulate failure).
+  - Else, send ~{ok, Num, Sum}~ to the parent.
+
+- Collector:
+  - On ~{ok, ...}~ → mark success.
+  - On `'DOWN'` → mark fail.
+  - Keep going until all jobs are done.
+
+End result: One run, printing a list of success and failures to the screen.  In your scenario though,
+you can retry,  log these to disk, email them, make jira tickets to understand whatever went wrong.
+
+There is another way to do this using erlangs built in 'supervisor' which includes retry logic, and ~process_flag(trap_exit, true)~,
+I will get around to that sometime.
+
+* Example Code
+#+begin_src erlang
+-module(batch_jobs).
+-export([run/0, worker/2]).
+
+run() ->
+    Config = #{config => #{file => "./error_log.log"}, level => debug},
+    logger:remove_handler(default),
+    logger:add_handler(to_file_handler, logger_std_h, Config),
+
+    rand:seed(exs1024,
+              {erlang:monotonic_time(),
+               erlang:unique_integer(),
+               erlang:phash2(self())}),
+
+    Parent = self(),
+
+    %% Spawn 30 workers and build pid->num map
+    Pairs = [begin
+                 {Pid, _Ref} = spawn_monitor(?MODULE, worker, [Parent, N]),
+                 {Pid, N}
+             end || N <- lists:seq(1, 30)],
+    PidMap = maps:from_list(Pairs),
+
+    %% Collect results
+    Results = collect_results(30, PidMap, []),
+
+    Successes = [Num || {Num, ok, _} <- Results],
+    Failures  = [Num || {Num, fail, _} <- Results],
+
+    io:format("Successes: ~p~n", [Successes]),
+    io:format("Failures: ~p~n", [Failures]).
+
+collect_results(0, _PidMap, Acc) ->
+    Acc;
+collect_results(Remaining, PidMap, Acc) ->
+    receive
+        {ok, Num, Sum} ->
+            collect_results(Remaining - 1, PidMap, [{Num, ok, Sum} | Acc]);
+        {'DOWN', _Ref, process, Pid, Reason} ->
+            Num = maps:get(Pid, PidMap),
+            collect_results(Remaining - 1, PidMap, [{Num, fail, Reason} | Acc])
+    end.
+
+worker(Parent, Num) ->
+    R = rand:uniform(10),
+    Sum = Num + R,
+    if
+        Sum > 10 ->
+            erlang:error({too_big, Num, Sum});
+        true ->
+            Parent ! {ok, Num, Sum}
+    end.
+#+end_src
+
+* Wrap-Up
+Once you’ve captured the failures, you can retry, log, email, file Jira tickets — whatever fits your pipeline.
+
+
+I beleive that similar results can be created with *process_flag(trap_exit, true)* and using the built in
+supervisor pattern, which will be an entry for another day.
+
+Want a “supervisors do this for me” version? That’s a post for another day.

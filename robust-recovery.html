@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-08-15 Fri 17:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Robust Recovery of Erlang Crashes: Handling faillures and Error Reporting</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Wade Mealings documentation" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Robust Recovery of Erlang Crashes: Handling faillures and Error Reporting</h1>
+<div id="outline-container-orga2bc240" class="outline-2">
+<h2 id="orga2bc240">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
+<div class="outline-text-2" id="text-orga2bc240">
+<p>
+Erlang’s “let it crash” mantra is great. Recently, its been reframed as “let it heal.”, I like adding a third concept: <b>propono postea</b> or
+“resolve it later.”
+</p>
+
+<p>
+This is about running a batch of jobs, tracking the failures, and being able to choose what to do when you have the failures.
+</p>
+
+<p>
+We’ll do it with standard erlang, message passing, and a little crash theatre.
+</p>
+</div>
+</div>
+<div id="outline-container-org40cd1fa" class="outline-2">
+<h2 id="org40cd1fa">The Pattern</h2>
+<div class="outline-text-2" id="text-org40cd1fa">
+<p>
+We have three functions:
+</p>
+
+<ol class="org-ol">
+<li><code>run/0</code> – the coordinator. Spawns workers, monitors them, and waits for results.</li>
+<li><code>worker/2</code> – does the work (or crashes on purpose).</li>
+<li><code>collect_results/3</code> – grabs every result, good or bad.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org53d7321" class="outline-2">
+<h2 id="org53d7321">Process/Information Flow Diagram</h2>
+<div class="outline-text-2" id="text-org53d7321">
+<pre class="example" id="org352b82a">
+          +-------------+
+          | run/0       |
+          | (Coordinator|
+          +-------------+
+                 |
+                 v
+         +-----------------+
+         | spawn_monitor   |
+         | 30 workers      |
+         +-----------------+
+           |     |     |
+     ------+     |     +--------
+     |           |             |
+     v           v             v
++--------+   +--------+   +--------+
+|worker/2|   |worker/2|   |worker/2|  ...
++--------+   +--------+   +--------+
+   |            |              |
+  OK           CRASH          OK
+   |            |              |
+   v            v              v
+{ok,...}     'DOWN'         {ok,...}
+   |            |              |
+   +------------+--------------+
+                |
+                v
+     +----------------------+
+     | collect_results/3    |
+     | merge successes/fails|
+     +----------------------+
+                |
+                v
+      Final report (io:format(.....))
+   
+</pre>
+</div>
+</div>
+<div id="outline-container-orgdf353f7" class="outline-2">
+<h2 id="orgdf353f7">Worker Decision Logic</h2>
+<div class="outline-text-2" id="text-orgdf353f7">
+<p>
+The worker itself is a basic random choice to crash, The code manually crashes, but this same behavior occurs when erlang
+normally fails.
+</p>
+
+<pre class="example" id="orgaee2fb8">
+ [worker/2]
+    |
+    v
+ Generate random number
+    |
+    v
+Sum = WorkerID + Random
+    |
+   / \
+  /   \
+&gt;10   &lt;=10
+ |      |
+Crash   Send {ok, Num, Sum}
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf398431" class="outline-2">
+<h2 id="orgf398431">How It Works</h2>
+<div class="outline-text-2" id="text-orgf398431">
+<ul class="org-ul">
+<li>Spawn 30 workers, each with a unique ID.</li>
+<li>Use <code>spawn_monitor</code> so the parent gets a `'DOWN'` message when a worker dies.</li>
+<li>Keep a ~Pid -&gt; number ~ mapping so we know who which "number" failed.</li>
+
+<li>Workers:
+<ul class="org-ul">
+<li>Generate a random number.</li>
+<li>Add it to their ID.</li>
+<li>If &gt; 10, <code>erlang:error</code> (simulate failure).</li>
+<li>Else, send <code>{ok, Num, Sum}</code> to the parent.</li>
+</ul></li>
+
+<li>Collector:
+<ul class="org-ul">
+<li>On <code>{ok, ...}</code> → mark success.</li>
+<li>On `'DOWN'` → mark fail.</li>
+<li>Keep going until all jobs are done.</li>
+</ul></li>
+</ul>
+
+<p>
+End result: One run, printing a list of success and failures to the screen.  In your scenario though,
+you can retry,  log these to disk, email them, make jira tickets to understand whatever went wrong.
+</p>
+
+<p>
+There is another way to do this using erlangs built in 'supervisor' which includes retry logic, and <code>process_flag(trap_exit, true)</code>,
+I will get around to that sometime.
+</p>
+</div>
+</div>
+<div id="outline-container-org4d823ef" class="outline-2">
+<h2 id="org4d823ef">Example Code</h2>
+<div class="outline-text-2" id="text-org4d823ef">
+<div class="org-src-container">
+<pre class="src src-erlang">-module(batch_jobs).
+-export([run/0, worker/2]).
+
+run() -&gt;
+    Config = #{config =&gt; #{file =&gt; "./error_log.log"}, level =&gt; debug},
+    logger:remove_handler(default),
+    logger:add_handler(to_file_handler, logger_std_h, Config),
+
+    rand:seed(exs1024,
+              {erlang:monotonic_time(),
+               erlang:unique_integer(),
+               erlang:phash2(self())}),
+
+    Parent = self(),
+
+    %% Spawn 30 workers and build pid-&gt;num map
+    Pairs = [begin
+                 {Pid, _Ref} = spawn_monitor(?MODULE, worker, [Parent, N]),
+                 {Pid, N}
+             end || N &lt;- lists:seq(1, 30)],
+    PidMap = maps:from_list(Pairs),
+
+    %% Collect results
+    Results = collect_results(30, PidMap, []),
+
+    Successes = [Num || {Num, ok, _} &lt;- Results],
+    Failures  = [Num || {Num, fail, _} &lt;- Results],
+
+    io:format("Successes: ~p~n", [Successes]),
+    io:format("Failures: ~p~n", [Failures]).
+
+collect_results(0, _PidMap, Acc) -&gt;
+    Acc;
+collect_results(Remaining, PidMap, Acc) -&gt;
+    receive
+        {ok, Num, Sum} -&gt;
+            collect_results(Remaining - 1, PidMap, [{Num, ok, Sum} | Acc]);
+        {'DOWN', _Ref, process, Pid, Reason} -&gt;
+            Num = maps:get(Pid, PidMap),
+            collect_results(Remaining - 1, PidMap, [{Num, fail, Reason} | Acc])
+    end.
+
+worker(Parent, Num) -&gt;
+    R = rand:uniform(10),
+    Sum = Num + R,
+    if
+        Sum &gt; 10 -&gt;
+            erlang:error({too_big, Num, Sum});
+        true -&gt;
+            Parent ! {ok, Num, Sum}
+    end.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org461f31b" class="outline-2">
+<h2 id="org461f31b">Wrap-Up</h2>
+<div class="outline-text-2" id="text-org461f31b">
+<p>
+Once you’ve captured the failures, you can retry, log, email, file Jira tickets — whatever fits your pipeline.
+</p>
+
+
+<p>
+I beleive that similar results can be created with <b>process_flag(trap_exit, true)</b> and using the built in
+supervisor pattern, which will be an entry for another day.
+</p>
+
+<p>
+Want a “supervisors do this for me” version? That’s a post for another day.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

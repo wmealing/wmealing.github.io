@@ -6,10 +6,8 @@
 
 #+HTML_HEAD: <meta charset="utf-8">
 #+HTML_HEAD:  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-#+HTML_HEAD:  <link rel="stylesheet" href="reset.css">
 #+HTML_HEAD:  <link rel="stylesheet" href="index.css">
 #+HTML_HEAD: <meta name="author" content="Wade Mealing" />
---- #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 
 
