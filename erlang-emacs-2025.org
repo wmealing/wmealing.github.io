@@ -1,0 +1,203 @@
+#+TITLE: Setting up Emacs for Erlang in 2025
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Emacs and erlang in 2025" />
+
+Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. Some things still haven’t changed since
+2005 (hello, `distel`), while others are new enough that the documentation hasn’t caught up yet (tree-sitter Erlang,
+WhatsApp’s Erlang Language Platform). Here is what i have working.
+
+* Installing Erlang
+
+If you install Erlang with Homebrew, beware: you don’t always get the optional extras — like the Emacs Lisp files.
+You need the full OTP installation (with all the developer tooling), you’re better off using [[https://github.com/kerl/kerl]].
+
+As a fallback: clone the repository and point Emacs directly at it in the later steps.
+
+#+BEGIN_SRC bash
+  git clone https://github.com/erlang/otp.git
+#+END_SRC
+
+This gets the most recent version of OTP source, it works with most versions of emacs past 25, for reference I am running emacs 30.
+
+* Setting up Emacs
+
+You need both the classic ~erlang~ mode and the newer tree-sitter based ~erlang-ts~ mode. Both need to be installed.
+
+#+BEGIN_SRC emacs-lisp
+  M-x package-install RET erlang RET
+  M-x package-install RET erlang-ts RET
+  M-x package-install RET company-mode RET
+  M-x package-install RET flycheck-popup-tip RET
+#+END_SRC
+
+* Configure ~erlang-mode~
+
+This is based on the official [[https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html][erlang]] docs, except with slightly more modern syntax.
+
+#+BEGIN_SRC emacs-lisp
+  (setq erl-root-dir "/path/to/erlang/otp/")
+  (add-to-list 'load-path (concat erl-root-dir "lib/tools-<version>/emacs"))
+  (add-to-list 'exec-path (concat erl-root-dir "bin"))
+  (setq erlang-man-root-dir (concat erl-root-dir "man"))
+
+  (require 'erlang-start)
+#+END_SRC
+
+* Setup Flycheck
+
+Hook Erlang into ~flycheck~:
+
+#+BEGIN_SRC emacs-lisp
+
+  (flycheck-define-checker erlang
+        "An Erlang syntax checker using the Erlang compiler."
+        :command ("erlc" "-o" temporary-directory "-Wall"
+                  "-I" "../include" "-I" "../../include"
+                  "-I" "../../../include" source)
+        :error-patterns
+        ((warning line-start (file-name) ":" line ": Warning:" (message) line-end)
+         (error line-start (file-name) ":" line ": " (message) line-end))
+        :modes erlang-mode)
+
+    (add-to-list 'flycheck-checkers 'erlang)
+
+    ;; ensure it starts on loading erlang-mode
+    (add-hook 'erlang-mode-hook
+              (lambda ()
+                (flycheck-select-checker 'erlang)
+                (flycheck-mode)))
+
+    ;; helper package (I should turn this into maybe)
+    (require 'flycheck-popup-tip)
+    (flycheck-popup-tip-mode)
+
+#+END_SRC
+
+Evaluate the new flycheck definition above, open an erlang buffer in emacs and run:
+
+#+BEGIN_SRC emacs-lisp
+M-x flycheck-verify-setup
+#+END_SRC
+
+Sample output:
+
+#+BEGIN_EXAMPLE
+Syntax checkers for buffer tui_loop.erl in erlang-mode:
+
+First checker to run:
+
+  erlang-rebar3
+    - may enable: yes
+    - may run:    t
+    - executable: Found at /opt/homebrew/bin/rebar3
+
+Checkers that could run if selected:
+
+  erlang  select
+    - may enable: yes
+    - executable: Found at /opt/homebrew/bin/erlc
+
+
+Flycheck Mode is enabled.  Use C-u M-x flycheck-disable-checker to
+enable disabled checkers.
+
+#+END_EXAMPLE
+
+
+#+BEGIN_SRC emacs-lisp
+  (setq erl-nodename-cache
+        (make-symbol
+         (concat "emacs-node@"
+                 (car (split-string (shell-command-to-string "hostname"))))))
+#+END_SRC
+
+* Rebar3 Integration
+
+#+BEGIN_SRC emacs-lisp
+  (setq inferior-erlang-machine "rebar3")
+  (setq inferior-erlang-machine-options '("shell"))
+  (setq inferior-erlang-shell-type nil)
+#+END_SRC
+
+I've also found out that by default emacs will start any erlang shell
+from the current directory that you have open, which is fine if you have
+the root of the project open, but annoying if you have an erlang source file
+open.
+
+This attempts to set the directory correctly, to the first parent directory that
+contains a rebar.config file.
+
+
+#+BEGIN_SRC emacs-lisp
+(defun my-erlang-set-project-root ()
+  "Set `default-directory` to the parent dir containing `rebar.config` or `rebar.config.script`, if found."
+  (when (derived-mode-p 'erlang-mode)
+    (let* ((start (or (buffer-file-name) default-directory))
+           (proj-root
+            (locate-dominating-file
+             start
+             (lambda (dir)
+               (or (file-exists-p (expand-file-name "rebar.config" dir))
+                   (file-exists-p (expand-file-name "rebar.config.script" dir)))))))
+      (when proj-root
+        (setq-local default-directory proj-root)))))
+
+(add-hook 'erlang-mode-hook #'my-erlang-set-project-root)
+#+END_SRC
+
+Now when opening an erlang file in emacs, it shoud set the cwd.
+
+You can check that by opening any erlang file and then in emacs, executing.
+
+#+BEGIN_SRC emacs-lisp
+M-x pwd
+#+END_SRC
+
+It should be the parent directory which contains a rebar.config file.
+
+
+* Erlang Language Platform (ELP) as the LSP (Language Server Protocol)
+
+Previously I had been using [[https://github.com/erlang-ls/erlang_ls][erlang_ls]] as a language server.  As of Aug 16, 2025, this project has been archived on github, Thank you
+Roberto Aloi for all the hard work that was part of this great tool.  I haven't been able to get elp working reliably with
+lsp-mode in emacs, so eglot seems to be the current method of sanity.
+
+The shiny new thing: WhatsApp’s [[https://github.com/WhatsApp/erlang-language-platform][Erlang Language Platform (ELP)]]. Download \the release and set it up,  I put in
+the home directory ~/bin because thats in the path. 
+
+#+BEGIN_SRC bash
+  wget https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp/<path-arch-specific.tar.gz.
+  tat xvf arch-specific-elptar.gz
+  chmod +x elp
+  mv elp ~/bin/
+#+END_SRC
+
+If your running something like OSX which doesnt inherit from the shell for new executions, take a look at the ~exec-path-from-shell~ package
+(See https://github.com/purcell/exec-path-from-shell), which will make syncing up environments .. much easier.
+
+
+Configure Emacs:
+
+#+BEGIN_SRC emacs-lisp
+  (require 'eglot)
+  (add-to-list 'eglot-server-programs '(erlang-mode . ("elp" "server")))
+  (add-hook 'erlang-mode-hook 'eglot-ensure)
+#+END_SRC
+
+When you open an erlang file now, the LSP should be connected and you should see a mention of a connection to the LSP in the ~*Messages*~
+buffer.
+
+* Closing
+
+That’s my erlang editing stack in 2025: Erlang mode, Erlang tree-sitter, Flycheck, rebar3 integration, and WhatsApp’s LSP server.
+
+Once you glue the bits together you get a modern editing experience in Emacs without losing the battle-tested tools from the past.
+
+If you hit weird errors:
+ - check that your path is correct (maybe m-x exec-path-from-shell-initialize)
+ - check your paths, make sure OTP is built with all the extras
+ - confirm Distel was actually compiled.
+
+If you have another editor setup for Erlang post 2024 contact me and , i'll link it here.

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-08-24 Sun 23:15 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Setting up Emacs for Erlang in 2025</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Emacs and erlang in 2025" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Setting up Emacs for Erlang in 2025</h1>
+<p>
+Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. Some things still haven’t changed since
+2005 (hello, `distel`), while others are new enough that the documentation hasn’t caught up yet (tree-sitter Erlang,
+WhatsApp’s Erlang Language Platform). Here is what i have working.
+</p>
+<div id="outline-container-org744c0e8" class="outline-2">
+<h2 id="org744c0e8">Installing Erlang</h2>
+<div class="outline-text-2" id="text-org744c0e8">
+<p>
+If you install Erlang with Homebrew, beware: you don’t always get the optional extras — like the Emacs Lisp files.
+You need the full OTP installation (with all the developer tooling), you’re better off using <a href="https://github.com/kerl/kerl">https://github.com/kerl/kerl</a>.
+</p>
+
+<p>
+As a fallback: clone the repository and point Emacs directly at it in the later steps.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">git clone https://github.com/erlang/otp.git
+</pre>
+</div>
+
+<p>
+This gets the most recent version of OTP source, it works with most versions of emacs past 25, for reference I am running emacs 30.
+</p>
+</div>
+</div>
+<div id="outline-container-org0e4090d" class="outline-2">
+<h2 id="org0e4090d">Setting up Emacs</h2>
+<div class="outline-text-2" id="text-org0e4090d">
+<p>
+You need both the classic <code>erlang</code> mode and the newer tree-sitter based <code>erlang-ts</code> mode. Both need to be installed.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">M-x package-install RET erlang RET
+M-x package-install RET erlang-ts RET
+M-x package-install RET company-mode RET
+M-x package-install RET flycheck-popup-tip RET
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd4eefcf" class="outline-2">
+<h2 id="orgd4eefcf">Configure <code>erlang-mode</code></h2>
+<div class="outline-text-2" id="text-orgd4eefcf">
+<p>
+This is based on the official <a href="https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html">erlang</a> docs, except with slightly more modern syntax.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq erl-root-dir "/path/to/erlang/otp/")
+(add-to-list 'load-path (concat erl-root-dir "lib/tools-&lt;version&gt;/emacs"))
+(add-to-list 'exec-path (concat erl-root-dir "bin"))
+(setq erlang-man-root-dir (concat erl-root-dir "man"))
+
+(require 'erlang-start)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4c8f561" class="outline-2">
+<h2 id="org4c8f561">Setup Flycheck</h2>
+<div class="outline-text-2" id="text-org4c8f561">
+<p>
+Hook Erlang into <code>flycheck</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(flycheck-define-checker erlang
+      "An Erlang syntax checker using the Erlang compiler."
+      :command ("erlc" "-o" temporary-directory "-Wall"
+                "-I" "../include" "-I" "../../include"
+                "-I" "../../../include" source)
+      :error-patterns
+      ((warning line-start (file-name) ":" line ": Warning:" (message) line-end)
+       (error line-start (file-name) ":" line ": " (message) line-end))
+      :modes erlang-mode)
+
+  (add-to-list 'flycheck-checkers 'erlang)
+
+  ;; ensure it starts on loading erlang-mode
+  (add-hook 'erlang-mode-hook
+            (lambda ()
+              (flycheck-select-checker 'erlang)
+              (flycheck-mode)))
+
+  ;; helper package (I should turn this into maybe)
+  (require 'flycheck-popup-tip)
+  (flycheck-popup-tip-mode)
+
+</pre>
+</div>
+
+<p>
+Evaluate the new flycheck definition above, open an erlang buffer in emacs and run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">M-x flycheck-verify-setup
+</pre>
+</div>
+
+<p>
+Sample output:
+</p>
+
+<pre class="example" id="orgbe8ffc8">
+Syntax checkers for buffer tui_loop.erl in erlang-mode:
+
+First checker to run:
+
+  erlang-rebar3
+    - may enable: yes
+    - may run:    t
+    - executable: Found at /opt/homebrew/bin/rebar3
+
+Checkers that could run if selected:
+
+  erlang  select
+    - may enable: yes
+    - executable: Found at /opt/homebrew/bin/erlc
+
+
+Flycheck Mode is enabled.  Use C-u M-x flycheck-disable-checker to
+enable disabled checkers.
+
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq erl-nodename-cache
+      (make-symbol
+       (concat "emacs-node@"
+               (car (split-string (shell-command-to-string "hostname"))))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2994cc8" class="outline-2">
+<h2 id="org2994cc8">Rebar3 Integration</h2>
+<div class="outline-text-2" id="text-org2994cc8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq inferior-erlang-machine "rebar3")
+(setq inferior-erlang-machine-options '("shell"))
+(setq inferior-erlang-shell-type nil)
+</pre>
+</div>
+
+<p>
+I've also found out that by default emacs will start any erlang shell
+from the current directory that you have open, which is fine if you have
+the root of the project open, but annoying if you have an erlang source file
+open.
+</p>
+
+<p>
+This attempts to set the directory correctly, to the first parent directory that
+contains a rebar.config file.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-erlang-set-project-root ()
+  "Set `default-directory` to the parent dir containing `rebar.config` or `rebar.config.script`, if found."
+  (when (derived-mode-p 'erlang-mode)
+    (let* ((start (or (buffer-file-name) default-directory))
+           (proj-root
+            (locate-dominating-file
+             start
+             (lambda (dir)
+               (or (file-exists-p (expand-file-name "rebar.config" dir))
+                   (file-exists-p (expand-file-name "rebar.config.script" dir)))))))
+      (when proj-root
+        (setq-local default-directory proj-root)))))
+
+(add-hook 'erlang-mode-hook #'my-erlang-set-project-root)
+</pre>
+</div>
+
+<p>
+Now when opening an erlang file in emacs, it shoud set the cwd.
+</p>
+
+<p>
+You can check that by opening any erlang file and then in emacs, executing.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">M-x pwd
+</pre>
+</div>
+
+<p>
+It should be the parent directory which contains a rebar.config file.
+</p>
+</div>
+</div>
+<div id="outline-container-org66afcbe" class="outline-2">
+<h2 id="org66afcbe">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
+<div class="outline-text-2" id="text-org66afcbe">
+<p>
+Previously I had been using <a href="https://github.com/erlang-ls/erlang_ls">erlang_ls</a> as a language server.  As of Aug 16, 2025, this project has been archived on github, Thank you
+Roberto Aloi for all the hard work that was part of this great tool.  I haven't been able to get elp working reliably with
+lsp-mode in emacs, so eglot seems to be the current method of sanity.
+</p>
+
+<p>
+The shiny new thing: WhatsApp’s <a href="https://github.com/WhatsApp/erlang-language-platform">Erlang Language Platform (ELP)</a>. Download \the release and set it up,  I put in
+the home directory ~/bin because thats in the path. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">wget https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp/&lt;path-arch-specific.tar.gz.
+tat xvf arch-specific-elptar.gz
+chmod +x elp
+mv elp ~/bin/
+</pre>
+</div>
+
+<p>
+If your running something like OSX which doesnt inherit from the shell for new executions, take a look at the <code>exec-path-from-shell</code> package
+(See <a href="https://github.com/purcell/exec-path-from-shell">https://github.com/purcell/exec-path-from-shell</a>), which will make syncing up environments .. much easier.
+</p>
+
+
+<p>
+Configure Emacs:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require 'eglot)
+(add-to-list 'eglot-server-programs '(erlang-mode . ("elp" "server")))
+(add-hook 'erlang-mode-hook 'eglot-ensure)
+</pre>
+</div>
+
+<p>
+When you open an erlang file now, the LSP should be connected and you should see a mention of a connection to the LSP in the <code>*Messages*</code>
+buffer.
+</p>
+</div>
+</div>
+<div id="outline-container-orgce29104" class="outline-2">
+<h2 id="orgce29104">Closing</h2>
+<div class="outline-text-2" id="text-orgce29104">
+<p>
+That’s my erlang editing stack in 2025: Erlang mode, Erlang tree-sitter, Flycheck, rebar3 integration, and WhatsApp’s LSP server.
+</p>
+
+<p>
+Once you glue the bits together you get a modern editing experience in Emacs without losing the battle-tested tools from the past.
+</p>
+
+<p>
+If you hit weird errors:
+</p>
+<ul class="org-ul">
+<li>check that your path is correct (maybe m-x exec-path-from-shell-initialize)</li>
+<li>check your paths, make sure OTP is built with all the extras</li>
+<li>confirm Distel was actually compiled.</li>
+</ul>
+
+<p>
+If you have another editor setup for Erlang post 2024 contact me and , i'll link it here.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

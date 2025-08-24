@@ -5,6 +5,11 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
+* [[https://wmealing.github.io/erlang-emacs-2025.html][Setting up Emacs and Erlang in 2025.]]
+
+Using Erlang in Emacs, I'll show  you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into
+a usable setup in 2025.   Its simpler than you think.  If you can think of any improvements please let me know.
+
 * [[./robust-recovery.html][Robust Recovery in Erlang]]
 
 Managing failureis a common challenge, especially when some of those tasks are prone to failure.
