@@ -27,8 +27,7 @@ You need both the classic ~erlang~ mode and the newer tree-sitter based ~erlang-
 
 #+BEGIN_SRC emacs-lisp
   M-x package-install RET erlang RET
-  M-x package-install RET erlang-ts RET
-  M-x package-install RET company-mode RET
+  M-x package-install RET company RET
   M-x package-install RET flycheck-popup-tip RET
 #+END_SRC
 
