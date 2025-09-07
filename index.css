@@ -54,12 +54,12 @@ body {
     width: 100%;
     margin: 0;
     padding: var(--line-height) 2ch;
-    max-width: calc(min(80ch, round(down, 100%, 1ch)));
+    max-width: calc(min(120ch, round(down, 100%, 1ch)));
     line-height: var(--line-height);
     overflow-x: hidden;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
   :root {
     font-size: 14px;
   }
@@ -458,10 +458,10 @@ label input {
 
 .src-shell {
     background-color: #4b4c4d;
-        color: white;
-  padding: 10px;
-  border: 5px;
-  margin: 5px;
+    color: white;
+    padding: 10px;
+    border: 5px;
+    margin: 5px;
 }
 
 .src {
