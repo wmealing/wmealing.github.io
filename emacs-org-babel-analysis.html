@@ -3,207 +3,24 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-02-26 Sun 17:36 -->
+<!-- 2025-09-07 Sun 21:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs and Org-babel for flaw analysis.</title>
 <meta name="generator" content="Org Mode" />
-<style>
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
-<link rel="stylesheet" href="tufte.css" type="text/css" />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Using org-babel for vulnerability analysis" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Emacs and Org-babel for flaw analysis.</h1>
-
-
-
-<div id="outline-container-orgddd7237" class="outline-2">
-<h2 id="orgddd7237">Introduction</h2>
-<div class="outline-text-2" id="text-orgddd7237">
+<div id="outline-container-orga1736b9" class="outline-2">
+<h2 id="orga1736b9">Introduction</h2>
+<div class="outline-text-2" id="text-orga1736b9">
 <p>
 I am a long time emacs user, and wanted to automate as much of my workflow as possible.  Just understanding flaws in C can be a time-consuming process, especially when working with large git trees like the kernel. However, Emacs offers a useful tool called org-babel (part of org-mode)  that can help speed up analysis workflows. Org-babel allows you to execute code blocks in Org mode files and capture the results, figures, and tables.  I will work through a fictional flaw in the kernel, because I’m not allowed to share the <b>exact</b> secret sauce of a flaw, but this should be a good starting point.
 </p>
@@ -225,10 +42,9 @@ Rather than switching between Emacs and your terminal, org-babel can run data pr
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7d73c74" class="outline-2">
-<h2 id="org7d73c74">File metadata</h2>
-<div class="outline-text-2" id="text-org7d73c74">
+<div id="outline-container-orgb370642" class="outline-2">
+<h2 id="orgb370642">File metadata</h2>
+<div class="outline-text-2" id="text-orgb370642">
 <p>
 Each flaw that is analysed starts from a template, the template contains the a “Org-mode” tree-structured file which where headings can have subheadings.  This allows you to organize the output of my work hierarchically and fold/unfold sections of the tree.
 </p>
@@ -237,7 +53,7 @@ Each flaw that is analysed starts from a template, the template contains the a �
 Before any of the tree structure there is some file specific metadata:
 </p>
 
-<pre class="example" id="org51f999b">
+<pre class="example" id="org3bb05d1">
 
 #+TITLE: Evaluation of flaw: **CVE-YYYY-NNNNN**
 #+TODO: [_] [✓] [x] [x] [NA]
@@ -276,7 +92,7 @@ To create a code block in org-babel, you use the #+BEGIN_SRC and #+END_SRC lines
 For example: 
 </p>
 
-<pre class="example" id="org2392068">
+<pre class="example" id="org08246df">
 #+BEGIN_SRC emacs-lisp
 (org-mode-restart)
 #+END_SRC
@@ -295,10 +111,9 @@ In our example, though when we put the cursor inside the code-block and hit <b><
 </p>
 </div>
 </div>
-
-<div id="outline-container-org772e8e4" class="outline-2">
-<h2 id="org772e8e4">The power of the checklist.</h2>
-<div class="outline-text-2" id="text-org772e8e4">
+<div id="outline-container-org2159d31" class="outline-2">
+<h2 id="org2159d31">The power of the checklist.</h2>
+<div class="outline-text-2" id="text-org2159d31">
 <p>
 Its easy to forget things, I know as I do it all the time.  Many people [preach the power of checklists](<a href="http://atulgawande.com/book/the-checklist-manifesto/">http://atulgawande.com/book/the-checklist-manifesto/</a>) , it minimises mistakes because I need to ensure that each checklist item is at least acknowledged as being done, undone or invalid.  I use each item in org-modes tree structure as a checklist item, and checklists can have subchecklists, etc.   This reduced errors in my analysis by approximately 22.5% .  I know this because each flaw is being checked by another engineer inside the Red Hat product security group.
 </p>
@@ -311,7 +126,7 @@ I start by reading through the upstream commit that either fixes the flaw or the
 This is my first checklist item, did I read it and explain the flaw.
 </p>
 
-<pre class="example" id="org7b5cd74">
+<pre class="example" id="orgc51a2c7">
 * [_] Briefly explain the flaw in your own words and discuss its severity.
 </pre>
 
@@ -319,7 +134,7 @@ This is my first checklist item, did I read it and explain the flaw.
 This is prefixed with the asterix as it s a heading, adn the [_] is one of the possible ‘states’ that this checklist item is in, it starts in the ‘unknown’ state.   This is a top-level tree element with no branches.  Usually I’d write a quick description like this below the checklist item.  
 </p>
 
-<pre class="example" id="org11493b1">
+<pre class="example" id="org3c6ebbf">
 This flaw appears to be a flaw in the management of the multiplication overflow
 when a user can specify x,y,z in conditions m.  This can incorrectly create a
 condition where writes allocation may end up being less than expected, but when
@@ -340,7 +155,7 @@ The next thing we do is identify which part of the kernel source code that this 
 We should start of to see if this code is built for any of the released kernels.   I have each of the kernel sources for each release of the linux checked out on an NVME disk because I do often need to grep large chunks checkouts and NVME ends up making the interactions much faster.
 </p>
 
-<pre class="example" id="org4324294">
+<pre class="example" id="org8281a7d">
 * [_] Which kernels include this faulty code ?
 </pre>
 
@@ -352,7 +167,7 @@ The kernel build process uses CONFIG directives in build files to set which code
 The general rule of thumb is that if file exists in fs, you can see the CONFIG directive that builds it by looking in the Makekfile in the same directory.  This is not always the case, sometimes it may be the prent directory, but its frequently the case.
 </p>
 
-<pre class="example" id="org7135d37">
+<pre class="example" id="orgaf7fb42">
 ** [_] Upstream
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/linux/"
@@ -363,7 +178,7 @@ The general rule of thumb is that if file exists in fs, you can see the CONFIG d
 This is a child node of the above, which usually right below it has the following org-babel block:
 </p>
 
-<pre class="example" id="org899aae5">
+<pre class="example" id="orgb652167">
 #+BEGIN_SRC sh :exports both
 cat fs/Makefile | grep -B 2 -A 2 fake-read-only-no-block-device.c
 #+END_SRC
@@ -386,7 +201,7 @@ I then explicitly export the variable for use in future code blocks by execute a
 
 
 
-<pre class="example" id="org8e42659">
+<pre class="example" id="orgc8b384b">
 #+name: CONFIG_DIRECTIVE
 #+BEGIN_SRC sh :exports none
 echo -n "CONFIG_SOMETHING"
@@ -400,7 +215,7 @@ CONFIG_SOMETHING
 Now we break this down into specific releases. I will cover fedora and rhel-9 as two examples, the other RHEL releases are similar but have different default settings that are more relevant to the lifecycle.
 </p>
 
-<pre class="example" id="org58d30c9">
+<pre class="example" id="org27dbc24">
 ** [_] Fedora
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/fedora/"
@@ -411,7 +226,7 @@ Now we break this down into specific releases. I will cover fedora and rhel-9 as
 This contains the current fedora kernel checked out from git, along with the “.config” files used to set build directives.  These files are ‘vendor driven’ which end up making the build time configuration of the kernel.  Fortunately they are pretty sanely set out so searching them isnt a big deal.
 </p>
 
-<pre class="example" id="orgbc1d014">
+<pre class="example" id="orgcbc9c9d">
 #+BEGIN_SRC sh :results verbatim  :exports results :cache yes :var config=CONFIG_DIRECTIVE
 grep -R  "$config=" /home/wmealing/fast/fedora/redhat/configs/*  
 #+END_SRC
@@ -428,7 +243,7 @@ This will usually return a value if its set, these seem to be pretty consistent 
 If Fedora kernels include the build option, now it is time to check to see if it includes the bug.
 </p>
 
-<pre class="example" id="org8301460">
+<pre class="example" id="org2fc885a">
 #+BEGIN_SRC sh :exports both :async :cache yes :var config=CONFIG_DIRECTIVE
 git grep -W 'broken_function_name' *.c 
 #+END_SRC
@@ -455,7 +270,7 @@ Now i would mark it affected or unaffected.  I use a tool which I’m not allowe
 
 
 
-<pre class="example" id="orgcd77383">
+<pre class="example" id="orgeb3c5d7">
 #+BEGIN_SRC sh :exports both :async :cache yes :var config=CONFIG_DIRECTIVE
  sfm2 $FLAWBZ fedora/kernel=affected,fix
 #+END_SRC
@@ -469,7 +284,7 @@ Once I’m done i hit <b><b>C-c C-t</b></b>, and the tickbox in the “Fedora”
 And the same for Red Hat Enterprise LInux 9.
 </p>
 
-<pre class="example" id="orgdef2e6f">
+<pre class="example" id="orgda5a46a">
 ** [_] Red Hat Enterprise Linux 9
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/rhel-9/"
@@ -484,7 +299,7 @@ The below shell is automatically run from within the :dir directory setting as s
 I dont include the result in the template, but an example is shown below so you can see what the output kinda would look like.
 </p>
 
-<pre class="example" id="orge663b88">
+<pre class="example" id="orge0ab5fa">
 #+BEGIN_SRC sh :exports both :async :cache yes 
 git grep -W 'broken_function_name' *.c 
 #+END_SRC
@@ -514,7 +329,7 @@ Now usually, i’d write a reproducer that exercises this code, so that i can ma
 I also make the reproducer in org-babel, I did at one point have this “[tangling](<a href="https://orgmode.org/manual/Extracting-Source-Code.html">https://orgmode.org/manual/Extracting-Source-Code.html</a>)” but I had since changed back to the following bash snippet to get my reproducer.
 </p>
 
-<pre class="example" id="org0e8c0e6">
+<pre class="example" id="org59c8831">
 #+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ :cache yes 
 cat &lt;&lt; EOF &gt; ~/reproducers/$FLAWBZ.c
 
@@ -545,7 +360,7 @@ First I need to reserve a system.
 </p>
 
 
-<pre class="example" id="org5f8f58a">
+<pre class="example" id="org18f4656">
 #+NAME: reserved-system
 #+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ  :cache yes 
 SYSTEM=`system-reserve rhel-9 5.14.0-162.6.1`
@@ -563,7 +378,7 @@ Finally, i mark the release affected.
 </p>
 
 
-<pre class="example" id="org8a19b7e">
+<pre class="example" id="org7154ed5">
 #+BEGIN_SRC sh :exports both :var FLAWBZ=$FLAWBZ  :cache yes 
  sfm2 $FLAWBZ rhel-9/kernel=affected,fix
  sfm2 $FLAWBZ rhel-9/kernel-rt=affected,fix
@@ -579,10 +394,9 @@ Both kernel and kernel-rt have very similar -build- CONFIG_ directives, but if i
 </p>
 </div>
 </div>
-
-<div id="outline-container-org297fdc6" class="outline-2">
-<h2 id="org297fdc6">All other releases</h2>
-<div class="outline-text-2" id="text-org297fdc6">
+<div id="outline-container-orgc5f6de1" class="outline-2">
+<h2 id="orgc5f6de1">All other releases</h2>
+<div class="outline-text-2" id="text-orgc5f6de1">
 <p>
 Each release of Red Hat Enterprise Linux has a heading that points to a directory of the current git trees used to build that version of RHEL
 </p>
@@ -592,17 +406,16 @@ Some releases require special handling, as they are in different parts of the pr
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2762ba9" class="outline-2">
-<h2 id="org2762ba9">Setting the CVSS.</h2>
-<div class="outline-text-2" id="text-org2762ba9">
+<div id="outline-container-org66351f5" class="outline-2">
+<h2 id="org66351f5">Setting the CVSS.</h2>
+<div class="outline-text-2" id="text-org66351f5">
 <p>
 The CVSS score is commonly shared between different vulnerability databases, NVD/Mitre can often score flaws different to Red Hat, if there is a difference I should email them and explain why as they may not have the same understanding of the flaw.  I have disagreed with NVD approximately 32 times in my entire time, they have modified their flaws with this new rating 30 times.
 </p>
 
 
 
-<pre class="example" id="orge5aba17">
+<pre class="example" id="orgf7a2e96">
 
 * [_] Setting the CVSS score
 
@@ -622,16 +435,15 @@ The CVSS score is commonly shared between different vulnerability databases, NVD
 This shows the current cvssv3 score, and then you can set the score immediately after if it is not completed.  I just remove the last code block, if its not necessary, then i mark the scoring task as done (C-c C-t).
 </p>
 </div>
-
-<div id="outline-container-org7219a62" class="outline-3">
-<h3 id="org7219a62">Fixed in upstream:</h3>
-<div class="outline-text-3" id="text-org7219a62">
+<div id="outline-container-org4c589ae" class="outline-3">
+<h3 id="org4c589ae">Fixed in upstream:</h3>
+<div class="outline-text-3" id="text-org4c589ae">
 <p>
 NVD for some reason ask Red Hat to submit where things are fixed in upstreams release (As a rule all fixes must be upstreamed before being included in the kernel, this way everyone wins) so for some reason it falls to me to chase that down, even though we never ship ‘upstream’ code.
 </p>
 
 
-<pre class="example" id="org52e28b5">
+<pre class="example" id="org2ac769e">
 ** [_] Upstream fixed in version.
 :PROPERTIES:
 :header-args:sh+: :dir "/home/wmealing/fast/linux/"
@@ -644,7 +456,7 @@ Once again we use the :dir option to infuence the children code-blocks (Think of
 </p>
 
 
-<pre class="example" id="org9ba900e">
+<pre class="example" id="org835dadd">
 #+begin_src sh :dir ~/fast/linux :exports results
 git blame fs/fake-read-only-no-block-device.c  |grep -A5 -B5 'identifier'
 #+end_src
@@ -664,7 +476,7 @@ I did have some trickery written to pull the commit ID off the line, but it ende
 </p>
 
 
-<pre class="example" id="org05189f0">
+<pre class="example" id="org93f3f6d">
 #+begin_src sh :exports results :dir ~/fast/linux
 git tag --contains 72FG2AF
 #+END_SRC
@@ -678,7 +490,7 @@ v5.14rc2
 So, i’d then set it with the command:
 </p>
 
-<pre class="example" id="org48abcce">
+<pre class="example" id="org93746ce">
 #+begin_src sh
 sfm2 flaw $FLAWBZ change --fixed-in "kernel v5.14-rc2"
 #+end_src
@@ -686,10 +498,9 @@ sfm2 flaw $FLAWBZ change --fixed-in "kernel v5.14-rc2"
 </div>
 </div>
 </div>
-
-<div id="outline-container-org634b5e1" class="outline-2">
-<h2 id="org634b5e1">Other workflow and exporting data.</h2>
-<div class="outline-text-2" id="text-org634b5e1">
+<div id="outline-container-orge2b7ae3" class="outline-2">
+<h2 id="orge2b7ae3">Other workflow and exporting data.</h2>
+<div class="outline-text-2" id="text-orge2b7ae3">
 <p>
 There are significant number of other checklist items that I have not covered here, that you can see in the demonstration template.  The large number of items that I had to remember made it obvious to me that checklisting and automation was the only way to reduce mistakes and increase the quality.
 </p>
@@ -699,10 +510,9 @@ Once all of the checklist items were complete, I would use the [org-export](<a h
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0cbc5da" class="outline-2">
-<h2 id="org0cbc5da">Conclusion</h2>
-<div class="outline-text-2" id="text-org0cbc5da">
+<div id="outline-container-org3ec548f" class="outline-2">
+<h2 id="org3ec548f">Conclusion</h2>
+<div class="outline-text-2" id="text-org3ec548f">
 <p>
 Org-babel makes it easy to interleave text, code, and the results of running that code. This integrated workflow reduces the time spent switching between editing text, running code, and reviewing the results. You can focus on telling a coherent story with your data analysis without disruptive context switches.
 </p>
@@ -733,15 +543,14 @@ If you have structured work that repeats commonly , I would strongly suggest loo
 </p>
 </div>
 </div>
-
-<div id="outline-container-org987c201" class="outline-2">
-<h2 id="org987c201">Resources:</h2>
-<div class="outline-text-2" id="text-org987c201">
+<div id="outline-container-org70a464e" class="outline-2">
+<h2 id="org70a464e">Resources:</h2>
+<div class="outline-text-2" id="text-org70a464e">
 <ul class="org-ul">
 <li><a href="https://orgmode.org/worg/org-contrib/babel/intro.html">Org-babel introduction</a></li>
 <li><a href="https://orgmode.org/manual/Environment-of-a-Code-Block.html">Environment of a Code Block</a></li>
-<li><a href="https://gist.githubusercontent.com/wmealing/41f9995382e664b3da5566d326a819b5/raw/0dc066d046ce8c5cc9952ebd2ff81a27619165fd/gistfile1.txt">Template Flaw</a></li>
-</Ul>
+<li><a href="template-flaw.html">Template Flaw</a></li>
+</ul>
 </div>
 </div>
 </div>
