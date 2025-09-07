@@ -49,13 +49,14 @@ html {
 }
 
 body {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: var(--line-height) 2ch;
-  max-width: calc(min(80ch, round(down, 100%, 1ch)));
-  line-height: var(--line-height);
-  overflow-x: hidden;
+    position: relative;
+    background-color: #D0D0D0;
+    width: 100%;
+    margin: 0;
+    padding: var(--line-height) 2ch;
+    max-width: calc(min(80ch, round(down, 100%, 1ch)));
+    line-height: var(--line-height);
+    overflow-x: hidden;
 }
 
 @media screen and (max-width: 480px) {
@@ -63,7 +64,8 @@ body {
     font-size: 14px;
   }
   body {
-    padding: var(--line-height) 1ch;
+      padding: var(--line-height) 1ch;
+      background-color: #c0c0c0;
   }
 }
 
@@ -455,16 +457,18 @@ label input {
 }
 
 .src-shell {
-  background-color: #4b4c4d;
+    background-color: #4b4c4d;
+        color: white;
   padding: 10px;
   border: 5px;
   margin: 5px;
 }
 
 .src {
-  background-color: #2A2F2A;
-  padding: 10px;
-  border: 5px;
-  margin: 5px;
+    background-color: #2A2F2A;
+    color: white;
+    padding: 10px;
+    border: 5px;
+    margin: 5px;
 }
 
