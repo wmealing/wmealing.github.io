@@ -1,8 +1,7 @@
 #+TITLE: Atomic operations in common lisp
-#+SETUPFILE: ./setupfile.org
-#+PROPERTY: header-args    :results value verbatim :tangle yes
-#+HTML_HEAD: <meta name="description" content="Using clojure atoms in common lisp" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Using atomic operations in common lisp." />
 
 
 Summary: An example of how to use a clojure style "atom" in common lisp for concurrency control.

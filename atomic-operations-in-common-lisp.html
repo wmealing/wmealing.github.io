@@ -3,201 +3,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-10 Wed 03:30 -->
+<!-- 2025-09-07 Sun 21:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atomic operations in common lisp</title>
 <meta name="generator" content="Org Mode" />
-<style type="text/css" >
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
-<link rel="stylesheet" href="tufte.css" type="text/css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta name="theme-color" content="#fffff8"/>
-<meta name="description" content="Using clojure atoms in common lisp" />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
+<meta name="description" content="Using atomic operations in common lisp." />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
@@ -218,14 +34,14 @@ In common lisp, an atom single "thing" that is not a cons, the <a href="http://c
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #458588;">(</span>atom nil<span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; T</span>
-<span style="color: #458588;">(</span>atom 'some-symbol<span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; T</span>
-<span style="color: #458588;">(</span>atom 3<span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; T</span>
-<span style="color: #458588;">(</span>atom <span style="color: #b8bb26;">"moo"</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; T</span>
-<span style="color: #458588;">(</span>atom <span style="color: #b16286;">(</span>cons 1 2<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; NIL</span>
-<span style="color: #458588;">(</span>atom '<span style="color: #b16286;">(</span>1 . 2<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; NIL</span>
-<span style="color: #458588;">(</span>atom '<span style="color: #b16286;">(</span>1 2 3 4<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">=&gt; NIL</span>
-<span style="color: #458588;">(</span>atom <span style="color: #b16286;">(</span>list 1 2 3 4<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #7c6f64;">;;  </span><span style="color: #7c6f64;">=&gt; NIL</span>
+<pre class="src src-lisp">(atom nil) ;; =&gt; T
+(atom 'some-symbol) ;; =&gt; T
+(atom 3) ;; =&gt; T
+(atom "moo") ;; =&gt; T
+(atom (cons 1 2)) ;; =&gt; NIL
+(atom '(1 . 2)) ;; =&gt; NIL
+(atom '(1 2 3 4)) ;; =&gt; NIL
+(atom (list 1 2 3 4));;  =&gt; NIL
 </pre>
 </div>
 
@@ -257,7 +73,7 @@ The atomics:atomic-update function definition is:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #458588;">(</span><span style="color: #fb4933;">defmacro</span> <span style="color: #fabd2f;">atomic-update</span> <span style="color: #b16286;">(</span>place update-fn<span style="color: #b16286;">)</span> ....
+<pre class="src src-lisp">(defmacro atomic-update (place update-fn) ....
 </pre>
 </div>
 
@@ -267,7 +83,7 @@ here:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #458588;">(</span>sb-xc:defmacro atomic-update <span style="color: #b16286;">(</span>place update-fn <span style="color: #d3869b;">&amp;rest</span> arguments <span style="color: #d3869b;">&amp;environment</span> env<span style="color: #b16286;">)</span>
+<pre class="src src-lisp">(sb-xc:defmacro atomic-update (place update-fn &amp;rest arguments &amp;environment env)
   ....
 </pre>
 </div>
@@ -322,10 +138,9 @@ This documention was confusing for me.  I think what they meant to say is.
 whose CAR is one of the following:
 </pre>
 </div>
-
-<div id="outline-container-org0ef6185" class="outline-2">
-<h2 id="org0ef6185">Non threaded example</h2>
-<div class="outline-text-2" id="text-org0ef6185">
+<div id="outline-container-org9ded5c9" class="outline-2">
+<h2 id="org9ded5c9">Non threaded example</h2>
+<div class="outline-text-2" id="text-org9ded5c9">
 <p>
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -333,13 +148,13 @@ demonstration that mutates the list in place.
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defparameter</span> <span style="color: #83a598;">cas-able-place</span> '<span style="color: #b16286;">(</span>1 2 3 4 <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+(defparameter cas-able-place '(1 2 3 4 ))
 
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">a-pure-function</span> <span style="color: #b16286;">(</span>a<span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>rest a<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+(defun a-pure-function (a)
+  (rest a))
 
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">process</span> <span style="color: #b16286;">()</span>
-      <span style="color: #b16286;">(</span>atomics:atomic-update cas-able-place 'a-pure-function<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+(defun process ()
+      (atomics:atomic-update cas-able-place 'a-pure-function))
 
 </pre>
 </div>
@@ -356,16 +171,16 @@ one less item, lets test:
 
 <div class="org-src-container">
 <pre class="src src-lisp">CL-USER&gt; cas-able-place
-<span style="color: #458588;">(</span>CAR 1 2 3 4<span style="color: #458588;">)</span>
-CL-USER&gt; <span style="color: #458588;">(</span>process<span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>1 2 3 4<span style="color: #458588;">)</span>
-CL-USER&gt; <span style="color: #458588;">(</span>process<span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>2 3 4<span style="color: #458588;">)</span>
-CL-USER&gt; <span style="color: #458588;">(</span>process<span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>3 4<span style="color: #458588;">)</span>
-CL-USER&gt; <span style="color: #458588;">(</span>process<span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>4<span style="color: #458588;">)</span>
-CL-USER&gt; <span style="color: #458588;">(</span>process<span style="color: #458588;">)</span>
+(CAR 1 2 3 4)
+CL-USER&gt; (process)
+(1 2 3 4)
+CL-USER&gt; (process)
+(2 3 4)
+CL-USER&gt; (process)
+(3 4)
+CL-USER&gt; (process)
+(4)
+CL-USER&gt; (process)
 NIL
 </pre>
 </div>
@@ -381,10 +196,9 @@ contending it may be run many times.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb6417b6" class="outline-2">
-<h2 id="orgb6417b6">Multi-threaded example.</h2>
-<div class="outline-text-2" id="text-orgb6417b6">
+<div id="outline-container-orgb77a9bd" class="outline-2">
+<h2 id="orgb77a9bd">Multi-threaded example.</h2>
+<div class="outline-text-2" id="text-orgb77a9bd">
 <p>
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
@@ -401,10 +215,10 @@ The <a href="https://alexandria.common-lisp.dev/draft/alexandria.html">Alexandri
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #458588;">(</span>ql:quickload <span style="color: #b8bb26;">"atomics"</span><span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>ql:quickload <span style="color: #b8bb26;">"bordeaux-threads"</span><span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>ql:quickload <span style="color: #b8bb26;">"alexandria"</span><span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>ql:quickload <span style="color: #b8bb26;">"arrows"</span><span style="color: #458588;">)</span>
+<pre class="src src-lisp">(ql:quickload "atomics")
+(ql:quickload "bordeaux-threads")
+(ql:quickload "alexandria")
+(ql:quickload "arrows")
 </pre>
 </div>
 
@@ -414,7 +228,7 @@ the example below, its just a normal lisp list.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #458588;">(</span><span style="color: #fb4933;">defparameter</span> <span style="color: #83a598;">original-list</span> <span style="color: #b16286;">(</span>alexandria:iota 100 <span style="color: #fe8019;">:start</span> 0 <span style="color: #fe8019;">:step</span> 1<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<pre class="src src-lisp">(defparameter original-list (alexandria:iota 100 :start 0 :step 1))
 </pre>
 </div>
 <p>
@@ -427,18 +241,18 @@ the example below, its just a normal lisp list.
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-<span style="color: #7c6f64;">;</span><span style="color: #7c6f64;">same function as earlier.</span>
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">a-pure-function</span> <span style="color: #b16286;">(</span>a<span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>format t <span style="color: #b8bb26;">"."</span><span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>finish-output<span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>rest a<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+;same function as earlier.
+(defun a-pure-function (a)
+  (format t ".")
+  (finish-output)
+  (rest a))
 
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">demo-race-condition-locks</span> <span style="color: #b16286;">()</span>
-  <span style="color: #b16286;">(</span><span style="color: #fb4933;">dotimes</span> <span style="color: #8ec07c;">(</span>n 5<span style="color: #8ec07c;">)</span>
-  <span style="color: #8ec07c;">(</span>bt2:make-thread <span style="color: #d65d0e;">(</span><span style="color: #fb4933;">lambda</span> <span style="color: #458588;">()</span>
-                    <span style="color: #458588;">(</span><span style="color: #fb4933;">dotimes</span> <span style="color: #b16286;">(</span>n 20<span style="color: #b16286;">)</span>
-                      <span style="color: #b16286;">(</span>atomics:atomic-update original-list 'a-pure-function<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-                      <span style="color: #458588;">)</span>
+(defun demo-race-condition-locks ()
+  (dotimes (n 5)
+  (bt2:make-thread (lambda ()
+                    (dotimes (n 20)
+                      (atomics:atomic-update original-list 'a-pure-function)))))
+                      )
 </pre>
 </div>
 <p>
@@ -462,25 +276,25 @@ just to assist in triggering some kind of problem.
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">a-pure-function</span> <span style="color: #b16286;">(</span>a<span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>rest a<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+(defun a-pure-function (a)
+  (rest a))
 
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">take-only-50</span> <span style="color: #b16286;">()</span>
-  <span style="color: #b16286;">(</span><span style="color: #fb4933;">loop</span> for i from 1 to 5
-        collect <span style="color: #8ec07c;">(</span>bt2:make-thread
-                 <span style="color: #d65d0e;">(</span><span style="color: #fb4933;">lambda</span> <span style="color: #458588;">()</span>
-                   <span style="color: #458588;">(</span><span style="color: #fb4933;">dotimes</span> <span style="color: #b16286;">(</span>n 10<span style="color: #b16286;">)</span>
-                     <span style="color: #b16286;">(</span>atomics:atomic-update original-list 'a-pure-function<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+(defun take-only-50 ()
+  (loop for i from 1 to 5
+        collect (bt2:make-thread
+                 (lambda ()
+                   (dotimes (n 10)
+                     (atomics:atomic-update original-list 'a-pure-function))))))
 
-<span style="color: #458588;">(</span><span style="color: #fb4933;">defun</span> <span style="color: #fabd2f;">trigger</span> <span style="color: #b16286;">()</span>
-  <span style="color: #b16286;">(</span>format t <span style="color: #b8bb26;">"Testing:"</span><span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span><span style="color: #fb4933;">dotimes</span> <span style="color: #8ec07c;">(</span>n 1000<span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #fb4933;">progn</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #fb4933;">defparameter</span> <span style="color: #83a598;">original-list</span> <span style="color: #458588;">(</span>alexandria:iota 100 <span style="color: #fe8019;">:start</span> 0 <span style="color: #fe8019;">:step</span> 1<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span>mapcar <span style="color: #458588;">(</span><span style="color: #fb4933;">lambda</span> <span style="color: #b16286;">(</span>thread<span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>bt2:join-thread thread<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #458588;">(</span>take-only-50<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-      <span style="color: #8ec07c;">(</span><span style="color: #fb4933;">if</span> <span style="color: #d65d0e;">(</span>= 50 <span style="color: #458588;">(</span>length original-list<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-          <span style="color: #d65d0e;">(</span>format t <span style="color: #b8bb26;">"&#10003;"</span><span style="color: #d65d0e;">)</span>
-          <span style="color: #d65d0e;">(</span>format t <span style="color: #b8bb26;">"&#10060;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #fdf4c1;">)</span>
+(defun trigger ()
+  (format t "Testing:")
+  (dotimes (n 1000)
+    (progn
+      (defparameter original-list (alexandria:iota 100 :start 0 :step 1))
+      (mapcar (lambda (thread) (bt2:join-thread thread)) (take-only-50)))
+      (if (= 50 (length original-list))
+          (format t "✓")
+          (format t "❌")))))
 </pre>
 </div>
 
@@ -506,16 +320,9 @@ I'll update this post if I find any more information, but I'm pleasently surpris
 </p>
 </div>
 </div>
-
-
-
-<div id="outline-container-org22897ad" class="outline-2">
-<h2 id="org22897ad">Resources:</h2>
+<div id="outline-container-org004988c" class="outline-2">
+<h2 id="org004988c">Resources:</h2>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="date">Created: 2024-01-10 Wed 03:30</p>
-<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
