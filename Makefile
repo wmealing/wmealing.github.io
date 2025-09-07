@@ -1,6 +1,6 @@
 
 all:
-	pip3 install sitemap_maker
+	pipx install sitemap_maker
 	sitemap_maker --url https://wmealing.github.io/ \
     		--sitemap output.xml \
 	    	--depth 1 \
