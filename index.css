@@ -2,7 +2,7 @@
 :root {
   --line-height: 1.20rem;
   --border-thickness: 2px;
-  --text-color: #000;
+  --text-color: #000000;
   --text-color-alt: #666;
   --background-color: #fff;
   --background-color-alt: #eee;
@@ -21,7 +21,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #fff;
+    --text-color: #000000;
     --text-color-alt: #aaa;
     --background-color: #000;
     --background-color-alt: #111;
@@ -473,7 +473,19 @@ label input {
     margin: 5px;
 }
 
-h2 {
-	color: black ;
-        font-size: 28px;
+h2 a {
+  color: #000000; /* Tailwind's blue-500 */
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 1px 0 0 white, 0 3px 0 0 white;
+
 }
+
+a {
+ color: #000000;
+}
+
+a:hover {
+  text-decoration: underline; /* Adds an underline when hovering over a link */
+}
+
