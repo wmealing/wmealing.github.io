@@ -9,6 +9,9 @@ Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. So
 WhatsApp’s Erlang Language Platform). Here is what i have working.
 
 * Installing Erlang
+:LOGBOOK:
+- Note taken on [2025-08-26 Tue 20:28]
+:END:
 
 If you install Erlang with Homebrew, beware: you don’t always get the optional extras — like the Emacs Lisp files.
 You need the full OTP installation (with all the developer tooling), you’re better off using [[https://github.com/kerl/kerl]].
