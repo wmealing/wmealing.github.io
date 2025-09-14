@@ -4,8 +4,8 @@
   --border-thickness: 2px;
   --text-color: #000000;
   --text-color-alt: #666;
-  --background-color: #fff;
-  --background-color-alt: #eee;
+  --background-color: #f6f7dc;
+  --background-color-alt: #eccd93;
 
   --font-weight-normal: 500;
   --font-weight-medium: 600;
@@ -17,15 +17,6 @@
   font-style: normal;
   font-variant-numeric: tabular-nums lining-nums;
   font-size: 16px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-color: #000000;
-    --text-color-alt: #aaa;
-    --background-color: #000;
-    --background-color-alt: #111;
-  }
 }
 
 * {
@@ -50,8 +41,7 @@ html {
 
 body {
     position: relative;
-    background-color: #D0D0D0;
-    color: black;
+    background-color: #eccd93;
     width: 100%;
     margin: 0;
     padding: var(--line-height) 2ch;
@@ -66,7 +56,7 @@ body {
   }
   body {
       padding: var(--line-height) 1ch;
-      background-color: #c0c0c0;
+      background-color: #eccd93;
   }
 }
 
@@ -466,7 +456,7 @@ label input {
 }
 
 .src {
-    background-color: #2A2F2A;
+    background-color: #6c4733;
     color: white;
     padding: 10px;
     border: 5px;
