@@ -1,9 +1,9 @@
 #+TITLE: Python range operator in lisp.
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Python range like operator in lisp" />
 
 
 I've sometimes wanted a quick 'range' equivalent in common lisp.  There are likely other or easier ways to do it
