@@ -8,8 +8,7 @@
 #+HTML_HEAD:  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 #+HTML_HEAD:  <link rel="stylesheet" href="index.css">
 #+HTML_HEAD: <meta name="author" content="Wade Mealing" />
+#+HTML_HEAD: <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 
 
-
-*
