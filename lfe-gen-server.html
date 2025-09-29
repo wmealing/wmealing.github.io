@@ -3,197 +3,18 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-10-23 Sun 00:07 -->
+<!-- 2025-09-29 Mon 14:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lfe Flavored Erlang Gen Server</title>
 <meta name="generator" content="Org Mode" />
-<style>
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-</style>
-<link rel="stylesheet" href="tufte.css" type="text/css" />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<meta name="description" content="Lisp Flavored Erlang - A gen server story" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
@@ -213,10 +34,9 @@ from erlang named <a href="https://www.erlang.org/doc/man/gen_server.html">gen_s
 Think of it like a 'program skeleton'.  There are other "x-server" relatives in erlang, but gen_server is the
 mac daddy of them all.
 </p>
-
-<div id="outline-container-org9c5ee95" class="outline-3">
-<h3 id="org9c5ee95">What is a gen server ?</h3>
-<div class="outline-text-3" id="text-org9c5ee95">
+<div id="outline-container-org9723738" class="outline-3">
+<h3 id="org9723738">What is a gen server ?</h3>
+<div class="outline-text-3" id="text-org9723738">
 <p>
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 </p>
@@ -240,7 +60,7 @@ This assumes you have rebar3 installed and ready to rock.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ rebar3 new lfe-app <span style="color: #FF4A00;">name</span>=<span style="color: #FF6A00;">"pseudobank"</span>
+<pre class="src src-sh">$ rebar3 new lfe-app name="pseudobank"
 ===&gt; Writing pseudobank/README.md
 ===&gt; Writing pseudobank/LICENSE
 ===&gt; Writing pseudobank/rebar.config
@@ -258,7 +78,7 @@ your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fix
 that you read this, you can find the bugreport <a href="https://github.com/lfe/rebar3_lfe/issues/72">here</a>.
 </p>
 
-<pre class="example" id="org4b8cf9d">
+<pre class="example" id="org472252f">
 {deps, [
     {lfe, "2.0.1"},
     {ltest, "0.13.0"}
@@ -295,17 +115,17 @@ Using your editor create a file <code>pseudobank/tests/pseudobank-tests.lfe</cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>defmodule pseudobank-tests
-   <span style="color: #E14400;">(</span>behaviour ltest-unit<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defmodule pseudobank-tests
+   (behaviour ltest-unit))
 
-<span style="color: #FF4F00;">(</span>include-lib <span style="color: #FF6A00;">"ltest/include/ltest-macros.lfe"</span><span style="color: #FF4F00;">)</span>
+(include-lib "ltest/include/ltest-macros.lfe")
 
-<span style="color: #D05010;">;;; </span><span style="color: #D05010;">-----------</span>
-<span style="color: #D05010;">;;; </span><span style="color: #D05010;">library API</span>
-<span style="color: #D05010;">;;; </span><span style="color: #D05010;">-----------</span>
-<span style="color: #FF4F00;">(</span>deftest account-server-starts
-    <span style="color: #E14400;">(</span><span style="color: #FF5A00;">let</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span><span style="color: #FF4F00;">(</span>tuple 'ok pid<span style="color: #FF4F00;">)</span> <span style="color: #FF4F00;">(</span>account:start<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-      <span style="color: #D04000;">(</span>is <span style="color: #AA3A00;">(</span>is_pid pid<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+;;; -----------
+;;; library API
+;;; -----------
+(deftest account-server-starts
+    (let (((tuple 'ok pid) (account:start)))
+      (is (is_pid pid))))
 </pre>
 </div>
 
@@ -338,12 +158,12 @@ From the shell within the 'pseudobank' directory:
     ------------------------------ Unit Tests ------------------------------
 
     module: pseudobank-tests
-      module <span style="color: #FF6A00;">'pseudobank-tests'</span> ....................................... <span style="color: #FF4F00;">[</span>fail<span style="color: #FF4F00;">]</span>
+      module 'pseudobank-tests' ....................................... [fail]
 
           Assertion failure:
           undef
 
-      <span style="color: #FF5A00;">time</span>: 14ms
+      time: 14ms
 
     summary:
       Tests: 1  Passed: 0  Skipped: 0  Failed: 1 Erred: 0
@@ -369,24 +189,24 @@ Lets make one in <code>src/account.lfe</code>
 
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>defmodule account
-                <span style="color: #E14400;">(</span>behaviour gen_server<span style="color: #E14400;">)</span>
-                <span style="color: #E14400;">(</span>export all<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defmodule account
+                (behaviour gen_server)
+                (export all))
 
-<span style="color: #D05010;">;;; </span><span style="color: #D05010;">helper functions</span>
-<span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">server-name</span> <span style="color: #E14400;">()</span> <span style="color: #E14400;">(</span>MODULE<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
-<span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">register-name</span> <span style="color: #E14400;">()</span> `#<span style="color: #E14400;">(</span>local ,<span style="color: #D04000;">(</span>server-name<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
-<span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">callback-module</span> <span style="color: #E14400;">()</span> <span style="color: #E14400;">(</span>MODULE<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
-<span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">initial-state</span> <span style="color: #E14400;">()</span> 0<span style="color: #FF4F00;">)</span>
-<span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">genserver-opts</span> <span style="color: #E14400;">()</span> '<span style="color: #E14400;">()</span><span style="color: #FF4F00;">)</span>
+;;; helper functions
+(defun server-name () (MODULE))
+(defun register-name () `#(local ,(server-name)))
+(defun callback-module () (MODULE))
+(defun initial-state () 0)
+(defun genserver-opts () '())
 
-<span style="color: #D05010;">;;; </span><span style="color: #D05010;">gen_server implementation</span>
+;;; gen_server implementation
 
-<span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">start</span> <span style="color: #E14400;">()</span>
-  <span style="color: #E14400;">(</span>gen_server:start <span style="color: #D04000;">(</span>register-name<span style="color: #D04000;">)</span>
-                    <span style="color: #D04000;">(</span>callback-module<span style="color: #D04000;">)</span>
-                    <span style="color: #D04000;">(</span>initial-state<span style="color: #D04000;">)</span>
-                    <span style="color: #D04000;">(</span>genserver-opts<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+(defun start ()
+  (gen_server:start (register-name)
+                    (callback-module)
+                    (initial-state)
+                    (genserver-opts)))
 </pre>
 </div>
 
@@ -399,7 +219,7 @@ startup code used for any gen_server.
 Now when you run the test, we can see the test fails.
 </p>
 
-<pre class="example" id="org1aad4ab">
+<pre class="example" id="org1426725">
 module: pseudobank-tests
   module 'pseudobank-tests' ....................................... [fail]
 
@@ -431,8 +251,8 @@ Lets add the init callback by appending the following to the <code>account.lfe</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">init</span> <span style="color: #E14400;">(</span>initial-state<span style="color: #E14400;">)</span>
-  `#<span style="color: #E14400;">(</span>ok ,initial-state<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun init (initial-state)
+  `#(ok ,initial-state))
 </pre>
 </div>
 
@@ -449,7 +269,7 @@ If it returns #(error anything), thats a good sign that the initialization proce
 Now when we run the test again:
 </p>
 
-<pre class="example" id="orgec8876e">
+<pre class="example" id="org18394dd">
 module: pseudobank-tests
   module 'pseudobank-tests' ......................................... [ok]
 </pre>
@@ -459,10 +279,9 @@ We can see the test passes.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org6ac63b8" class="outline-3">
-<h3 id="org6ac63b8">Getting the balance</h3>
-<div class="outline-text-3" id="text-org6ac63b8">
+<div id="outline-container-org8075c0d" class="outline-3">
+<h3 id="org8075c0d">Getting the balance</h3>
+<div class="outline-text-3" id="text-org8075c0d">
 <p>
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 </p>
@@ -472,9 +291,9 @@ Start by writing the test, I add a new test in the <code>pseudobank-test.lfe</co
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>deftest account-server-starts-with-zero-balance
-  <span style="color: #E14400;">(</span>account:start<span style="color: #E14400;">)</span>
-  <span style="color: #E14400;">(</span>is-equal 0.00 <span style="color: #D04000;">(</span>account:get-balance<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(deftest account-server-starts-with-zero-balance
+  (account:start)
+  (is-equal 0.00 (account:get-balance)))
 </pre>
 </div>
 
@@ -483,7 +302,7 @@ When running the test, you'll see it returns 'undef' again.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">account_server_starts_with_zero_balance ......................... <span style="color: #FF4F00;">[</span>fail<span style="color: #FF4F00;">]</span>
+<pre class="src src-sh">account_server_starts_with_zero_balance ......................... [fail]
 
 Assertion failure:
   undef
@@ -502,8 +321,8 @@ goodies, but its something to work from.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">get-balance</span> <span style="color: #E14400;">()</span>
-  0<span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun get-balance ()
+  0)
 </pre>
 </div>
 
@@ -518,8 +337,8 @@ Below is the modified init, to use a monetary value for the amount in the accoun
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">init</span> <span style="color: #E14400;">(</span>initial-state<span style="color: #E14400;">)</span>
-  `#<span style="color: #E14400;">(</span>ok ,#M<span style="color: #D04000;">(</span>balance 0.00<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun init (initial-state)
+  `#(ok ,#M(balance 0.00)))
 </pre>
 </div>
 
@@ -538,8 +357,8 @@ Lets fix up get-balance as we talked about earlier:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">get-balance</span> <span style="color: #E14400;">()</span>
-  <span style="color: #E14400;">(</span>gen_server:call <span style="color: #D04000;">(</span>server-name<span style="color: #D04000;">)</span> 'get-balance<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun get-balance ()
+  (gen_server:call (server-name) 'get-balance))
 </pre>
 </div>
 
@@ -560,7 +379,7 @@ We can see the <code>CRASH REPORT</code> in the <code>undefined function account
 when the code is looking for handle_call, which we have not created.
 </p>
 
-<pre class="example" id="org3b59e2f">
+<pre class="example" id="orgdde31cb">
 =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
 crasher:
   initial call: account:init/1
@@ -576,9 +395,9 @@ Lets make that now, the simplest possible implementation
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>handle_call
- <span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>_message _caller state<span style="color: #D04000;">)</span>
-  `#<span style="color: #D04000;">(</span>reply 0.00 ,state<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(handle_call
+ ((_message _caller state)
+  `#(reply 0.00 ,state)))
 </pre>
 </div>
 
@@ -599,7 +418,7 @@ Words that start with an underscore, means 'we dont care about it' so in this ca
 Now when we run the tests, we can see what it is returning.
 </p>
 
-<pre class="example" id="orge227033">
+<pre class="example" id="orgbdb92cb">
 account_server_starts_with_zero_balance ......................... [fail]
 
     Assertion failure:
@@ -617,9 +436,9 @@ the current balance (0.00) now.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">handle_call</span>
-<span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>_message  _caller state<span style="color: #D04000;">)</span>
- `#<span style="color: #D04000;">(</span>reply ,<span style="color: #AA3A00;">(</span>map-get state 'balance<span style="color: #AA3A00;">)</span>,state<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun handle_call
+((_message  _caller state)
+ `#(reply ,(map-get state 'balance),state)))
 </pre>
 </div>
 
@@ -634,7 +453,7 @@ we know the key is an atom called 'balance so this would transform into after al
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">#<span style="color: #FF4F00;">(</span>reply 0 #M<span style="color: #E14400;">(</span>balance 0.00<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">#(reply 0 #M(balance 0.00))
 </pre>
 </div>
 
@@ -644,21 +463,20 @@ test to deposit money into the account.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb74f9a8" class="outline-3">
-<h3 id="orgb74f9a8">Making a deposit.</h3>
-<div class="outline-text-3" id="text-orgb74f9a8">
+<div id="outline-container-org0b61b49" class="outline-3">
+<h3 id="org0b61b49">Making a deposit.</h3>
+<div class="outline-text-3" id="text-org0b61b49">
 <p>
 Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositing money.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>deftest account-server-deposit-works
-  <span style="color: #E14400;">(</span>account:start<span style="color: #E14400;">)</span>
-  <span style="color: #E14400;">(</span><span style="color: #FF5A00;">let</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>starting-balance <span style="color: #FF4F00;">(</span>account:get-balance<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span>
-        <span style="color: #AA3A00;">(</span>deposit-amount 1.23<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-    <span style="color: #D04000;">(</span>account:deposit deposit-amount<span style="color: #D04000;">)</span>
-    <span style="color: #D04000;">(</span>is-equal <span style="color: #AA3A00;">(</span>+ starting-balance deposit-amount<span style="color: #AA3A00;">)</span> <span style="color: #AA3A00;">(</span>account:get-balance<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(deftest account-server-deposit-works
+  (account:start)
+  (let ((starting-balance (account:get-balance))
+        (deposit-amount 1.23))
+    (account:deposit deposit-amount)
+    (is-equal (+ starting-balance deposit-amount) (account:get-balance))))
 </pre>
 </div>
 
@@ -676,8 +494,8 @@ This is the 'helper' function which can be called, which in turn calls gen-serve
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">deposit</span> <span style="color: #E14400;">(</span>amount<span style="color: #E14400;">)</span>
-  <span style="color: #E14400;">(</span>gen_server:call <span style="color: #D04000;">(</span>server-name<span style="color: #D04000;">)</span> <span style="color: #D04000;">(</span>'deposit amount<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun deposit (amount)
+  (gen_server:call (server-name) ('deposit amount)))
 </pre>
 </div>
 
@@ -691,11 +509,11 @@ Lets fix up <code>handle_call/3</code> to match this new callback request.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">handle_call</span>
-<span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>'get-balance _caller state<span style="color: #D04000;">)</span>
- `#<span style="color: #D04000;">(</span>reply ,<span style="color: #AA3A00;">(</span>map-get state 'balance<span style="color: #AA3A00;">)</span> ,state<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span>
-<span style="color: #E14400;">(</span><span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>tuple 'deposit amount<span style="color: #AA3A00;">)</span> _caller state<span style="color: #D04000;">)</span>
- `#<span style="color: #D04000;">(</span>reply 'ok, ,<span style="color: #AA3A00;">(</span>map-update state 'balance 1.23<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun handle_call
+(('get-balance _caller state)
+ `#(reply ,(map-get state 'balance) ,state))
+(((tuple 'deposit amount) _caller state)
+ `#(reply 'ok, ,(map-update state 'balance 1.23))))
 </pre>
 </div>
 
@@ -714,7 +532,7 @@ The return value from this match is the same format, we're not going to tell the
 we need to update the state in the most naive method.  Lets check the test run output:
 </p>
 
-<pre class="example" id="orgd49d311">
+<pre class="example" id="org0ac3e57">
 module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
@@ -732,13 +550,13 @@ Back to the <code>account.lfe</code> file, to fix this oversight:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">handle_call</span>
-  <span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>'get-balance _caller state<span style="color: #D04000;">)</span>
-   `#<span style="color: #D04000;">(</span>reply ,<span style="color: #AA3A00;">(</span>map-get state 'balance<span style="color: #AA3A00;">)</span> ,state<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span>
-  <span style="color: #E14400;">(</span><span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>tuple 'deposit amount<span style="color: #AA3A00;">)</span> _caller state<span style="color: #D04000;">)</span>
-   `#<span style="color: #D04000;">(</span>reply 'ok
-            ,<span style="color: #AA3A00;">(</span>map-update state 'balance
-                         <span style="color: #FF4F00;">(</span>+ <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun handle_call
+  (('get-balance _caller state)
+   `#(reply ,(map-get state 'balance) ,state))
+  (((tuple 'deposit amount) _caller state)
+   `#(reply 'ok
+            ,(map-update state 'balance
+                         (+ (map-get state 'balance) amount)))))
 </pre>
 </div>
 
@@ -752,10 +570,9 @@ I'd say we had desposits nailed.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgac7571c" class="outline-3">
-<h3 id="orgac7571c">Making a withdrawal</h3>
-<div class="outline-text-3" id="text-orgac7571c">
+<div id="outline-container-orga3f2c0c" class="outline-3">
+<h3 id="orga3f2c0c">Making a withdrawal</h3>
+<div class="outline-text-3" id="text-orga3f2c0c">
 <p>
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -763,14 +580,14 @@ money to go to YOU!)  Lets start by writing a test to ensure we can take money f
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>deftest account-server-withdrawal-works
-<span style="color: #E14400;">(</span>account:start<span style="color: #E14400;">)</span>
-<span style="color: #E14400;">(</span><span style="color: #FF5A00;">let</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>starting-balance <span style="color: #FF4F00;">(</span>account:get-balance<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span>
-      <span style="color: #AA3A00;">(</span>deposit-amount 10.00<span style="color: #AA3A00;">)</span>
-      <span style="color: #AA3A00;">(</span>withdraw-amount 1.00<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-  <span style="color: #D04000;">(</span>account:deposit deposit-amount<span style="color: #D04000;">)</span>
-  <span style="color: #D04000;">(</span>account:withdraw withdraw-amount<span style="color: #D04000;">)</span>
-  <span style="color: #D04000;">(</span>is-equal <span style="color: #AA3A00;">(</span>- deposit-amount withdraw-amount<span style="color: #AA3A00;">)</span> <span style="color: #AA3A00;">(</span>account:get-balance<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(deftest account-server-withdrawal-works
+(account:start)
+(let ((starting-balance (account:get-balance))
+      (deposit-amount 10.00)
+      (withdraw-amount 1.00))
+  (account:deposit deposit-amount)
+  (account:withdraw withdraw-amount)
+  (is-equal (- deposit-amount withdraw-amount) (account:get-balance))))
 </pre>
 </div>
 
@@ -785,8 +602,8 @@ Back in <code>account.lfe</code>, we'll make the helper function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">withdraw</span> <span style="color: #E14400;">(</span> amount <span style="color: #E14400;">)</span>
-  <span style="color: #E14400;">(</span>gen_server:call <span style="color: #D04000;">(</span>server-name<span style="color: #D04000;">)</span> <span style="color: #D04000;">(</span>tuple 'withdraw amount<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun withdraw ( amount )
+  (gen_server:call (server-name) (tuple 'withdraw amount)))
 </pre>
 </div>
 
@@ -795,23 +612,23 @@ The callback doesn't handle the (tuple 'withdraw amount), make it happen.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">handle_call</span>
+<pre class="src src-lisp">(defun handle_call
 
-  <span style="color: #D05010;">;; </span><span style="color: #D05010;">get balance functionality</span>
-  <span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>'get-balance _caller state<span style="color: #D04000;">)</span>
-   `#<span style="color: #D04000;">(</span>reply ,<span style="color: #AA3A00;">(</span>map-get state 'balance<span style="color: #AA3A00;">)</span> ,state<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span>
+  ;; get balance functionality
+  (('get-balance _caller state)
+   `#(reply ,(map-get state 'balance) ,state))
 
-  <span style="color: #D05010;">;; </span><span style="color: #D05010;">deposit functionality</span>
-  <span style="color: #E14400;">(</span><span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>tuple 'deposit amount<span style="color: #AA3A00;">)</span> _caller state<span style="color: #D04000;">)</span>
-   `#<span style="color: #D04000;">(</span>reply 'ok
-            ,<span style="color: #AA3A00;">(</span>map-update state 'balance
-                         <span style="color: #FF4F00;">(</span>+ <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span>
+  ;; deposit functionality
+  (((tuple 'deposit amount) _caller state)
+   `#(reply 'ok
+            ,(map-update state 'balance
+                         (+ (map-get state 'balance) amount))))
 
-  <span style="color: #D05010;">;; </span><span style="color: #D05010;">withdraw money functionality.</span>
-  <span style="color: #E14400;">(</span><span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>tuple 'withdraw amount<span style="color: #AA3A00;">)</span> _caller state<span style="color: #D04000;">)</span>
-   `#<span style="color: #D04000;">(</span>reply 'ok
-            ,<span style="color: #AA3A00;">(</span>map-update state 'balance
-                         <span style="color: #FF4F00;">(</span>- <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+  ;; withdraw money functionality.
+  (((tuple 'withdraw amount) _caller state)
+   `#(reply 'ok
+            ,(map-update state 'balance
+                         (- (map-get state 'balance) amount)))))
 </pre>
 </div>
 
@@ -828,12 +645,12 @@ And now the test..
 <pre class="src src-lisp">account_server_withdrawal_works ................................. [fail]
 
   Assertion failure:
-  #<span style="color: #FF4F00;">(</span>assertEqual
-           <span style="color: #E14400;">(</span>#<span style="color: #D04000;">(</span>module pseudobank-tests<span style="color: #D04000;">)</span>
-            #<span style="color: #D04000;">(</span>line 26<span style="color: #D04000;">)</span>
-            #<span style="color: #D04000;">(</span>expression <span style="color: #FF6A00;">"(account:get-balance)"</span><span style="color: #D04000;">)</span>
-            #<span style="color: #D04000;">(</span>expected 9.0<span style="color: #D04000;">)</span>
-            #<span style="color: #D04000;">(</span>value 10.23<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+  #(assertEqual
+           (#(module pseudobank-tests)
+            #(line 26)
+            #(expression "(account:get-balance)")
+            #(expected 9.0)
+            #(value 10.23)))
 </pre>
 </div>
 
@@ -844,10 +661,9 @@ we can run after the test finishes to reset the state.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgd6fb5d7" class="outline-3">
-<h3 id="orgd6fb5d7">Withraw Interlude: gen_server shutdown.</h3>
-<div class="outline-text-3" id="text-orgd6fb5d7">
+<div id="outline-container-orga9d7426" class="outline-3">
+<h3 id="orga9d7426">Withraw Interlude: gen_server shutdown.</h3>
+<div class="outline-text-3" id="text-orga9d7426">
 <p>
 As the LFE gen-server piggy backs on the <code>erlang</code> implementation of gen_server the
 <a href="https://www.erlang.org/doc/man/gen_server.html">stdlib reference manual</a> includes a method to shut down the server.
@@ -858,7 +674,7 @@ The manual goes into return values for <a href="https://www.erlang.org/doc/man/g
 can be terminated if handle_call returns the right tuple.
 </p>
 
-<pre class="example" id="orgab5e184">
+<pre class="example" id="orgb37fdff">
 {stop,Reason,NewState}
 </pre>
 
@@ -877,8 +693,8 @@ Here is the helper function, which triggers handle_call with the argument <code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">stop</span> <span style="color: #E14400;">()</span>
-  <span style="color: #E14400;">(</span>gen_server:call <span style="color: #D04000;">(</span>server-name<span style="color: #D04000;">)</span> 'stop<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun stop ()
+  (gen_server:call (server-name) 'stop))
 </pre>
 </div>
 
@@ -888,8 +704,8 @@ And now lets add this to handle_call, i'll only include the match part of handle
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #E14400;">(</span>'stop _caller state-data<span style="color: #E14400;">)</span>
-   `#<span style="color: #E14400;">(</span>stop shutdown ok state-data<span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(('stop _caller state-data)
+   `#(stop shutdown ok state-data))
 </pre>
 </div>
 
@@ -898,8 +714,8 @@ And the matching expected terminate function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span><span style="color: #FF5A00;">defun</span> <span style="color: #F07010;">terminate</span> <span style="color: #E14400;">(</span> _reason _newstate <span style="color: #E14400;">)</span>
-    'ok<span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(defun terminate ( _reason _newstate )
+    'ok)
 </pre>
 </div>
 
@@ -913,13 +729,13 @@ Here is our test:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>deftest account-server-starts-and-stops
-  <span style="color: #E14400;">(</span><span style="color: #FF5A00;">let</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>stop-val <span style="color: #FF4F00;">(</span>account:stop<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span>
-        <span style="color: #AA3A00;">(</span>start-val-pid <span style="color: #FF4F00;">(</span>tref <span style="color: #E14400;">(</span>account:start<span style="color: #E14400;">)</span> 2<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span>
-        <span style="color: #AA3A00;">(</span>stop-again-val <span style="color: #FF4F00;">(</span>account:stop<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-    <span style="color: #D04000;">(</span>is-equal stop-val 'ok<span style="color: #D04000;">)</span>
-    <span style="color: #D04000;">(</span>is-equal <span style="color: #AA3A00;">(</span>is_pid start-val-pid<span style="color: #AA3A00;">)</span> 'true<span style="color: #D04000;">)</span>
-    <span style="color: #D04000;">(</span>is-equal stop-again-val 'ok<span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(deftest account-server-starts-and-stops
+  (let ((stop-val (account:stop))
+        (start-val-pid (tref (account:start) 2))
+        (stop-again-val (account:stop)))
+    (is-equal stop-val 'ok)
+    (is-equal (is_pid start-val-pid) 'true)
+    (is-equal stop-again-val 'ok)))
 </pre>
 </div>
 
@@ -929,11 +745,11 @@ Now lets run the test.
 
 <div class="org-src-container">
 <pre class="src src-sh">module: pseudobank-tests
-  account_server_starts ............................................. <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_starts_with_zero_balance ........................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_deposit_works ...................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_withdrawal_works ................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_starts_and_stops ................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
+  account_server_starts ............................................. [ok]
+  account_server_starts_with_zero_balance ........................... [ok]
+  account_server_deposit_works ...................................... [ok]
+  account_server_withdrawal_works ................................... [ok]
+  account_server_starts_and_stops ................................... [ok]
 </pre>
 </div>
 
@@ -943,23 +759,22 @@ withdraw and its rules
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc43a9fc" class="outline-3">
-<h3 id="orgc43a9fc">Withdraw resumed:</h3>
-<div class="outline-text-3" id="text-orgc43a9fc">
+<div id="outline-container-orge2c6654" class="outline-3">
+<h3 id="orge2c6654">Withdraw resumed:</h3>
+<div class="outline-text-3" id="text-orge2c6654">
 <p>
 Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
 you cant withdraw can not put it the account balance into negative value. Here's the test.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #FF4F00;">(</span>deftest account-server-withdraw-negative-test
-  <span style="color: #E14400;">(</span>account:start<span style="color: #E14400;">)</span>
-    <span style="color: #E14400;">(</span><span style="color: #FF5A00;">let*</span> <span style="color: #D04000;">(</span><span style="color: #AA3A00;">(</span>starting-balance <span style="color: #FF4F00;">(</span>account:get-balance<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span>
-          <span style="color: #AA3A00;">(</span>deposit-amount 1.00<span style="color: #AA3A00;">)</span>
-          <span style="color: #AA3A00;">(</span>withdraw-amount 200.00<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-      <span style="color: #D04000;">(</span>account:deposit deposit-amount<span style="color: #D04000;">)</span>
-      <span style="color: #D04000;">(</span>is <span style="color: #AA3A00;">(</span>=:= <span style="color: #FF4F00;">(</span>account:withdraw withdraw-amount<span style="color: #FF4F00;">)</span> 'insufficient-funds<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+<pre class="src src-lisp">(deftest account-server-withdraw-negative-test
+  (account:start)
+    (let* ((starting-balance (account:get-balance))
+          (deposit-amount 1.00)
+          (withdraw-amount 200.00))
+      (account:deposit deposit-amount)
+      (is (=:= (account:withdraw withdraw-amount) 'insufficient-funds))))
 </pre>
 </div>
 
@@ -974,15 +789,15 @@ on if the amount is greater than the balance.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #D05010;">;; </span><span style="color: #D05010;">withdraw</span>
-<span style="color: #FF4F00;">(</span><span style="color: #E14400;">(</span><span style="color: #D04000;">(</span>tuple 'withdraw amount<span style="color: #D04000;">)</span> _caller state<span style="color: #E14400;">)</span>
+<pre class="src src-lisp">;; withdraw
+(((tuple 'withdraw amount) _caller state)
 
- <span style="color: #D05010;">;; </span><span style="color: #D05010;">first step, check that amount is less than the current balance.</span>
- <span style="color: #E14400;">(</span><span style="color: #FF5A00;">if</span> <span style="color: #D04000;">(</span>&gt; amount <span style="color: #AA3A00;">(</span>map-get state 'balance<span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span>
-   <span style="color: #D05010;">;; </span><span style="color: #D05010;">true condition</span>
-   `#<span style="color: #D04000;">(</span>reply ,'insufficient-funds ,state<span style="color: #D04000;">)</span>
-   <span style="color: #D05010;">;; </span><span style="color: #D05010;">false condition</span>
-   `#<span style="color: #D04000;">(</span>reply ,'ok ,<span style="color: #AA3A00;">(</span>map-update state 'balance <span style="color: #FF4F00;">(</span>- <span style="color: #E14400;">(</span>map-get state 'balance<span style="color: #E14400;">)</span> amount<span style="color: #FF4F00;">)</span><span style="color: #AA3A00;">)</span><span style="color: #D04000;">)</span><span style="color: #E14400;">)</span><span style="color: #FF4F00;">)</span>
+ ;; first step, check that amount is less than the current balance.
+ (if (&gt; amount (map-get state 'balance))
+   ;; true condition
+   `#(reply ,'insufficient-funds ,state)
+   ;; false condition
+   `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))))
 </pre>
 </div>
 
@@ -999,13 +814,13 @@ All tests should now pass.
 ------------------------------ Unit Tests ------------------------------
 
 module: pseudobank-tests
-  account_server_starts ............................................. <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_starts_with_zero_balance ........................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_deposit_works ...................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_withdrawal_works ................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_starts_and_stops ................................... <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  account_server_withdraw_negative_test ............................. <span style="color: #FF4F00;">[</span>ok<span style="color: #FF4F00;">]</span>
-  <span style="color: #FF5A00;">time</span>: 25ms
+  account_server_starts ............................................. [ok]
+  account_server_starts_with_zero_balance ........................... [ok]
+  account_server_deposit_works ...................................... [ok]
+  account_server_withdrawal_works ................................... [ok]
+  account_server_starts_and_stops ................................... [ok]
+  account_server_withdraw_negative_test ............................. [ok]
+  time: 25ms
 
 summary:
   Tests: 6  Passed: 6  Skipped: 0  Failed: 0 Erred: 0
@@ -1020,10 +835,9 @@ link right here soon.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org56a3d61" class="outline-2">
-<h2 id="org56a3d61">Resources:</h2>
-<div class="outline-text-2" id="text-org56a3d61">
+<div id="outline-container-org03c4439" class="outline-2">
+<h2 id="org03c4439">Resources:</h2>
+<div class="outline-text-2" id="text-org03c4439">
 <ul class="org-ul">
 <li><a href="https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3</a></li>
 <li><a href="https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf">https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf</a></li>

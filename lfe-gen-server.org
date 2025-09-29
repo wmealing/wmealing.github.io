@@ -5,8 +5,10 @@
 #+OPTIONS: author:nil date:nil
 #+OPTIONS: html-postamble:nil
 
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Lisp Flavored Erlang - A gen server story" />
+
 
 Recently I’ve spent some time learning Lfe Flavored Erlang. So far I'm really enjoying it.  I've done
 quite a bit of erlang in my past and this is how I think i could branch out into something a little more
