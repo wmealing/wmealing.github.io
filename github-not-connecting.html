@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-05 Sun 16:30 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rebar3 / git not connecting to github.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<meta name="description" content="Rebar3 not downloading from github" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+<meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Rebar3 / git not connecting to github.</h1>
+<p>
+When trying to setup a new <a href="https://lfe.io/">Lisp Flavored Erlang</a> project, I was going throught he usual steps of
+adding an erlang dependency to the rebar.config file. This fix isnt specific to LFE it applies to
+generic erlang too.
+</p>
+
+<p>
+Here is the top of the rebar.config file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{erl_opts, [debug_info]}.
+
+{deps, [
+    {lfe, "2.1.1"},
+    {ltest, "0.13.4"},
+    {lhc,  ".*", {git,"https://github.com/lfex/lhc.git", {branch, "master"}}}
+]}.
+
+</pre>
+</div>
+
+<p>
+Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fail
+</p>
+
+<pre class="example" id="org72e1bc4">
+✗ rebar3 get-deps                      
+===&gt; Verifying dependencies...
+===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git",{tag,"0.4.0"}})
+===&gt; Failed to fetch and copy dep: {git,"git://github.com/lfex/ljson.git",
+                                   {tag,"0.4.0"}}
+</pre>
+
+<p>
+Oddly, ssh works
+</p>
+
+<pre class="example" id="org32e5ce4">
+ ✗  ssh -T git@github.com
+Hi wmealing! You\'ve successfully authenticated, but GitHub does not provide shell access.
+#+end_src
+
+When trying to debug the issue, I tried to use git directly to clone the same project.
+
+#+begin_example sh
+✗ git clone git://github.com/lfex/ljson.git
+Cloning into 'ljson'...
+fatal: unable to connect to github.com:
+github.com[0: 20.248.137.48]: errno=Operation timed out
+#+end_src
+
+So, it appears there is some kind of connection problem with git, sometimes I dont want to bother figuring
+out the problem because its usually something I can't fix because of decisions made outside my control.
+
+I have noticed that git repositories that use the https:// protocol worked normally, whereas "git" over
+ssh was a problem.  I can connect to multiple servers online via ssh and https, so I would immediately
+discount the network itself.
+
+A sage friend of mine told me that git had a neat functionality documented in the [[https://git-scm.com/docs/git-config][git-config]]
+man page.  This functionality is the "url.&lt;base&gt;.insteadOf" and is documented as "Any URL that starts with this value will be rewritten to start, instead, with &lt;base&gt;"
+
+To solve our little dilemma, we can issue the following command:
+
+#+BEGIN_EXAMPLE sh
+$ git config --global url."https://".insteadOf git:// 
+</pre>
+
+<p>
+This rewrites the git request to use <a href="https://">https://</a> instead of git:// in all future git requests, so now when
+rebar attempts to fetch dependancies:
+</p>
+
+<pre class="example" id="org10777c3">
+✗ rebar3 get-deps
+===&gt; Fetching rebar3_lfe v0.4.4
+===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git", {branch, "master"}})
+</pre>
+
+<p>
+Rebar mentions the 'old' url, but internally git will pivot to <a href="https://">https://</a>
+</p>
+
+<p>
+The dependencies should be able to be fetched correctly.
+</p>
+
+<p>
+Happy days.
+</p>
+</div>
+</body>
+</html>

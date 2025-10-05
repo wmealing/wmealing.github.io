@@ -1,0 +1,85 @@
+#+TITLE: Rebar3 / git not connecting to github.
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+OPTIONS: ^:nil num:nil toc:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Rebar3 not downloading from github" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
+
+When trying to setup a new [[https://lfe.io/][Lisp Flavored Erlang]] project, I was going throught he usual steps of
+adding an erlang dependency to the rebar.config file. This fix isnt specific to LFE it applies to
+generic erlang too.
+
+Here is the top of the rebar.config file:
+
+#+BEGIN_SRC erlang
+  {erl_opts, [debug_info]}.
+
+  {deps, [
+      {lfe, "2.1.1"},
+      {ltest, "0.13.4"},
+      {lhc,  ".*", {git,"https://github.com/lfex/lhc.git", {branch, "master"}}}
+  ]}.
+
+#+END_SRC
+
+Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fail
+
+#+begin_example sh
+✗ rebar3 get-deps                      
+===> Verifying dependencies...
+===> Fetching ljson (from {git,"git://github.com/lfex/ljson.git",{tag,"0.4.0"}})
+===> Failed to fetch and copy dep: {git,"git://github.com/lfex/ljson.git",
+                                   {tag,"0.4.0"}}
+#+end_example
+
+Oddly, ssh works
+
+#+begin_example sh
+ ✗  ssh -T git@github.com
+Hi wmealing! You\'ve successfully authenticated, but GitHub does not provide shell access.
+#+end_src
+
+When trying to debug the issue, I tried to use git directly to clone the same project.
+
+#+begin_example sh
+✗ git clone git://github.com/lfex/ljson.git
+Cloning into 'ljson'...
+fatal: unable to connect to github.com:
+github.com[0: 20.248.137.48]: errno=Operation timed out
+#+end_src
+
+So, it appears there is some kind of connection problem with git, sometimes I dont want to bother figuring
+out the problem because its usually something I can't fix because of decisions made outside my control.
+
+I have noticed that git repositories that use the https:// protocol worked normally, whereas "git" over
+ssh was a problem.  I can connect to multiple servers online via ssh and https, so I would immediately
+discount the network itself.
+
+A sage friend of mine told me that git had a neat functionality documented in the [[https://git-scm.com/docs/git-config][git-config]]
+man page.  This functionality is the "url.<base>.insteadOf" and is documented as "Any URL that starts with this value will be rewritten to start, instead, with <base>"
+
+To solve our little dilemma, we can issue the following command:
+
+#+BEGIN_EXAMPLE sh
+$ git config --global url."https://".insteadOf git:// 
+#+END_EXAMPLE
+
+This rewrites the git request to use https:// instead of git:// in all future git requests, so now when
+rebar attempts to fetch dependancies:
+
+#+BEGIN_EXAMPLE sh
+✗ rebar3 get-deps
+===> Fetching rebar3_lfe v0.4.4
+===> Fetching ljson (from {git,"git://github.com/lfex/ljson.git", {branch, "master"}})
+#+END_EXAMPLE
+
+Rebar mentions the 'old' url, but internally git will pivot to https://
+
+The dependencies should be able to be fetched correctly.
+
+Happy days.
