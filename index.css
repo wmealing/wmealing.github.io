@@ -113,7 +113,7 @@ hr:after {
 a {
   text-decoration-thickness: var(--border-thickness);
   color: #0066cc;
-  text-decoration: none;
+  text-decoration: underline;
   border-bottom: 1px solid transparent;
   transition: border-bottom-color 0.2s ease;
 }
