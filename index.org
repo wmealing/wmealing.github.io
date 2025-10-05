@@ -5,6 +5,11 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
+* [[https://wmealing.github.io/github-not-connecting.html][Rebar3 / git not connecting to github]]
+
+Rebar3 was failing to fetch dependencies from github when I was setting up a new LFE project. The git:// protocol was timing out, but ssh and https worked fine. Rather than spending hours debugging network issues I can't control, I found a simple fix using git's url rewriting feature. One config command later and rebar3 can fetch dependencies without complaint. I
+have documented a fix in git itself that works around the problme.  This applies to regular Erlang projects too!.
+
 * [[https://wmealing.github.io/eunit-surefire-report.html][Consuming eunit surefire xml reports]]
 
 Eunit spits out test results to the console, but sometimes you want something a bit more presentable. There is a plugin that generates surefire style XML output, and you can use maven's surefire-reports tool to turn that into HTML. I'll show you how to wire up rebar.config and create a basic pom.xml to get this working. If you need better test reports for your Erlang projects, this might help.
