@@ -5,6 +5,10 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
+* [[https://wmealing.github.io/eunit-surefire-report.html][Consuming eunit surefire xml reports]]
+
+Eunit spits out test results to the console, but sometimes you want something a bit more presentable. There is a plugin that generates surefire style XML output, and you can use maven's surefire-reports tool to turn that into HTML. I'll show you how to wire up rebar.config and create a basic pom.xml to get this working. If you need better test reports for your Erlang projects, this might help.
+
 * [[https://wmealing.github.io/erlang-emacs-2025.html][Setting up Emacs and Erlang in 2025.]]
 
 Using Erlang in Emacs, I'll show  you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into

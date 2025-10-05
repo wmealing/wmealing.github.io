@@ -1,0 +1,107 @@
+#+TITLE: Consuming eunit surefire xml reports.
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="rebar3 erlang eunit surefire report" />
+
+* Introduction
+
+Eunit outputs test results on the command line, there is an eunit plugin to
+generate 'surefire' style xml output.  This can be consumed by the 'surefire-reports'
+maven/mvn tool to generate HTML which might be a little bit more consumable for
+some people.
+
+
+* Basic configuration:
+
+Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
+
+#+BEGIN_EXAMPLE
+{erl_opts, [debug_info]}.
+{deps, []}.
+
+%% add this line
+{eunit_opts, [verbose, {report, {eunit_surefire, [{dir, "target/surefire-reports"}]}}]}.
+
+{shell, [
+    %% {config, "config/sys.config"},
+    {apps, [surefire_demo]}
+]}.
+#+END_EXAMPLE
+
+
+When you run eunit tests (In this case, with 'rebar3 eunit' command), it should create the target/surefire-reports
+directory and create XML files, the exact count depending on your project structure and test structures.
+
+At this point you have completed the 'erlang' side of the test tooling. The next step is to configure the 'maven/java'
+tooling.
+
+
+Create a pom.xml file in the projects root directory.
+
+
+#+BEGIN_SRC xml
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId> 1 </groupId>
+	<artifactId>ProjectName</artifactId>
+	<version> 1 </version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<url>https://wmealing.github.io</url>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.1.2</version>
+				<!-- Replace with a suitable version -->
+			</plugin>
+		</plugins>
+	</reporting>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.4</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<linkXRef>false</linkXRef>
+				</configuration>
+			</plugin>
+			<!--
+                            Convert .xml reports into .html report, but without the CSS or images.
+			    equivalent: mvn surefire-report:report-only
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.5.4</version>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>report-only</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+
+#+END_SRC
+
+* Summary:
+
+REPLACE THIS
+
+* Conclusion
+
+Wrap it up here.
+
+* Resources:
+
+

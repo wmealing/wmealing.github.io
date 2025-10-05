@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-05 Sun 16:26 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Consuming eunit surefire xml reports.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<meta name="description" content="rebar3 erlang eunit surefire report" />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Consuming eunit surefire xml reports.</h1>
+<div id="outline-container-orgb38423e" class="outline-2">
+<h2 id="orgb38423e">Introduction</h2>
+<div class="outline-text-2" id="text-orgb38423e">
+<p>
+Eunit outputs test results on the command line, there is an eunit plugin to
+generate 'surefire' style xml output.  This can be consumed by the 'surefire-reports'
+maven/mvn tool to generate HTML which might be a little bit more consumable for
+some people.
+</p>
+</div>
+</div>
+<div id="outline-container-org349fae7" class="outline-2">
+<h2 id="org349fae7">Basic configuration:</h2>
+<div class="outline-text-2" id="text-org349fae7">
+<p>
+Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{erl_opts, [debug_info]}.
+{deps, []}.
+
+%% add this line
+{eunit_opts, [verbose, {report, {eunit_surefire, [{dir, "target/surefire-reports"}]}}]}.
+
+{shell, [
+    %% {config, "config/sys.config"},
+    {apps, [surefire_demo]}
+]}.
+</pre>
+</div>
+
+
+<p>
+When you run eunit tests (In this case, with 'rebar3 eunit' command), it should create the target/surefire-reports
+directory and create XML files, the exact count depending on your project structure and test structures.
+</p>
+
+<p>
+At this point you have completed the 'erlang' side of the test tooling. The next step is to configure the 'maven/java'
+tooling.
+</p>
+
+
+<p>
+Create a pom.xml file in the projects root directory.
+</p>
+
+<p>
+You should modify the ProjectName, url and version to match your tooling:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;project&gt;
+        &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+        &lt;groupId&gt; 1 &lt;/groupId&gt;
+        &lt;artifactId&gt;ProjectName&lt;/artifactId&gt;
+        &lt;version&gt; 1 &lt;/version&gt;
+        &lt;properties&gt;
+                &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;/properties&gt;
+        &lt;url&gt;https://your-projects-url.com&lt;/url&gt;
+        &lt;reporting&gt;
+                &lt;plugins&gt;
+                        &lt;plugin&gt;
+                                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                                &lt;artifactId&gt;maven-project-info-reports-plugin&lt;/artifactId&gt;
+                                &lt;version&gt;3.1.2&lt;/version&gt;
+                                &lt;!-- Replace with a suitable version --&gt;
+                        &lt;/plugin&gt;
+                &lt;/plugins&gt;
+        &lt;/reporting&gt;
+        &lt;build&gt;
+                &lt;plugins&gt;
+                        &lt;plugin&gt;
+                                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                                &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+                                &lt;version&gt;3.5.4&lt;/version&gt;
+                                &lt;configuration&gt;
+                                        &lt;testFailureIgnore&gt;true&lt;/testFailureIgnore&gt;
+                                        &lt;linkXRef&gt;false&lt;/linkXRef&gt;
+                                &lt;/configuration&gt;
+                        &lt;/plugin&gt;
+                        &lt;!--
+                            Convert .xml reports into .html report, but without the CSS or images.
+                            equivalent: mvn surefire-report:report-only
+                        --&gt;
+                        &lt;plugin&gt;
+                                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                                &lt;artifactId&gt;maven-surefire-report-plugin&lt;/artifactId&gt;
+                                &lt;version&gt;3.5.4&lt;/version&gt;
+                                &lt;executions&gt;
+                                        &lt;execution&gt;
+                                                &lt;phase&gt;test&lt;/phase&gt;
+                                                &lt;goals&gt;
+                                                        &lt;goal&gt;report-only&lt;/goal&gt;
+                                                &lt;/goals&gt;
+                                        &lt;/execution&gt;
+                                &lt;/executions&gt;
+                        &lt;/plugin&gt;
+                &lt;/plugins&gt;
+        &lt;/build&gt;
+&lt;/project&gt;
+
+</pre>
+</div>
+
+
+<p>
+A pom.xml file, or Project Object Model XML, is the configuration file for projects built with Apache Maven.  Even
+though we build our project with erlang.
+</p>
+
+<p>
+Install maven on your computer, apparently all java is cross platorm and super easy to install .  If you're on a
+linux, you should use your package manager because it seems to work for me, on other platforms you may want to
+look into what best practices are, I couldnt' tell you.
+</p>
+
+<p>
+From within the directory containing pom.xml you should run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">mvn surefire-report:report-only
+</pre>
+</div>
+
+<p>
+This should generate a more complicated data structure.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">$ surefire_demo tree target 
+target
+├── reports
+│   ├── css
+│   │   ├── apache-maven-fluido-2.0.0-M9.min.css
+│   │   ├── print.css
+│   │   └── site.css
+│   ├── fonts
+│   │   ├── glyphicons-halflings-regular.eot
+│   │   ├── glyphicons-halflings-regular.svg
+│   │   ├── glyphicons-halflings-regular.ttf
+│   │   └── glyphicons-halflings-regular.woff
+│   ├── images
+│   │   ├── accessories-text-editor.png
+│   │   ├── add.gif
+│   │   ├── apache-maven-project-2.png
+│   │   ├── application-certificate.png
+│   │   ├── contact-new.png
+│   │   ├── document-properties.png
+│   │   ├── drive-harddisk.png
+│   │   ├── fix.gif
+│   │   ├── icon_error_sml.gif
+│   │   ├── icon_help_sml.gif
+│   │   ├── icon_info_sml.gif
+│   │   ├── icon_success_sml.gif
+│   │   ├── icon_warning_sml.gif
+│   │   ├── image-x-generic.png
+│   │   ├── internet-web-browser.png
+│   │   ├── logos
+│   │   │   ├── build-by-maven-black.png
+│   │   │   ├── build-by-maven-white.png
+│   │   │   └── maven-feather.png
+│   │   ├── network-server.png
+│   │   ├── package-x-generic.png
+│   │   ├── profiles
+│   │   │   ├── pre-release.png
+│   │   │   ├── retired.png
+│   │   │   └── sandbox.png
+│   │   ├── remove.gif
+│   │   ├── rss.png
+│   │   ├── update.gif
+│   │   └── window-new.png
+│   ├── img
+│   │   ├── glyphicons-halflings-white.png
+│   │   └── glyphicons-halflings.png
+│   ├── js
+│   │   └── apache-maven-fluido-2.0.0-M9.min.js
+│   └── surefire.html
+└── surefire-reports
+    ├── TEST-file_surefire_demo.app.xml
+    └── TEST-some_test.xml
+
+10 directories, 40 files
+</pre>
+</div>
+
+<p>
+The html file to open in the browsers is ./target/reports/index.html .  It requires the data directory structure as
+specified above, but the index.html could be renamed into a 'once off' like index-05-10-2025.html if you needed
+html records,  If historical raw data is required, you could version the XML files.
+</p>
+</div>
+</div>
+<div id="outline-container-org326df7b" class="outline-2">
+<h2 id="org326df7b">Conclusion</h2>
+<div class="outline-text-2" id="text-org326df7b">
+<p>
+The maven surefire reports tool is a simple way to generate html from eunit reports.
+</p>
+</div>
+</div>
+<div id="outline-container-org0f8106f" class="outline-2">
+<h2 id="org0f8106f">Resources:</h2>
+<div class="outline-text-2" id="text-org0f8106f">
+<p>
+<a href="https://www.erlang.org/doc/apps/eunit/chapter.html">https://www.erlang.org/doc/apps/eunit/chapter.html</a>
+</p>
+
+<p>
+<a href="https://maven.apache.org/surefire/maven-surefire-report-plugin/project-info.html">https://maven.apache.org/surefire/maven-surefire-report-plugin/project-info.html</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
