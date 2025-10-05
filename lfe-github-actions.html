@@ -1,61 +1,97 @@
-#+TITLE: Github actions (CI/CD) for LFE.
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+OPTIONS: author:nil date:nil
-#+OPTIONS: html-postamble:nil
-
-#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
-#+SETUPFILE: "./setupfile.org"
-#+HTML_HEAD: <meta name="description" content="Lisp Flavored Erlang  CI/CD." />
-
-* What is CD/CD ?
-
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-05 Sun 17:53 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Github actions (CI/CD) for LFE.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<meta name="description" content="Lisp Flavored Erlang  CI/CD." />
+<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Github actions (CI/CD) for LFE.</h1>
+<div id="outline-container-org836c656" class="outline-2">
+<h2 id="org836c656">What is CD/CD ?</h2>
+<div class="outline-text-2" id="text-org836c656">
+<p>
 If you want to take the headache and room for human error out of delivering software, the current trend is to
 use "Continious Integration" and "Continious Delivery" which is a fancy word for automated testing of Merge requests
 and automated delivery (whatever that means for your project).
+</p>
 
+<p>
 There are many companies in this space, the one that I'm focusing on is githubs CI/CD platform which they have
 branded as 'GitHub Actions'.
+</p>
 
+<p>
 In their words:
+</p>
 
-#+BEGIN_EXAMPLE
+<pre class="example" id="org5399bc6">
 GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that
 allows you to automate your build, test, and deployment pipeline. You can create workflows
 that build and test every pull request to your repository, or deploy merged pull requests
 to production.
-#+END_EXAMPLE
-
-* Why do I need it ?
-
+</pre>
+</div>
+</div>
+<div id="outline-container-org91971d4" class="outline-2">
+<h2 id="org91971d4">Why do I need it ?</h2>
+<div class="outline-text-2" id="text-org91971d4">
+<p>
 Github have a high level overview of their offerings, along with how they expect it to be
-used [[https://resources.github.com/ci-cd/][on their github resources page]]. With minimal effort, you can find many well thought out sites that
+used <a href="https://resources.github.com/ci-cd/">on their github resources page</a>. With minimal effort, you can find many well thought out sites that
 extoll the reasoning and logic of using CI/CD, repeating it here would be pointless.
+</p>
 
+<p>
 I'm going to talk about it specifically in the context of automating
 your LFE testing and container image generation.
+</p>
 
 
+<p>
 Unlike the GitHub docs, I'm not giving you the shiny version, only how I see it.
+</p>
+</div>
+</div>
+<div id="outline-container-org09fc6f3" class="outline-2">
+<h2 id="org09fc6f3">How it works.</h2>
+<div class="outline-text-2" id="text-org09fc6f3">
+<ol class="org-ol">
+<li>An event occurs on your repository (push, pull, mr ).</li>
+<li>GitHub searches the .github/workflows directory in your repository for "yml" workflow files that are present.</li>
+<li><p>
+A workflow run is triggered for any workflows that have on: values that match the triggering event.
+Each workflow run will use the version of the workflow that is present in the associated branch at that time.
+</p>
+
+<p>
+(To put it bluntly, it runs with the version that of the '.github/workflow/*.yaml' at the time).
+</p></li>
+</ol>
 
 
-* How it works.
-
-1. An event occurs on your repository (push, pull, mr ).
-2. GitHub searches the .github/workflows directory in your repository for "yml" workflow files that are present.
-3. A workflow run is triggered for any workflows that have on: values that match the triggering event.
-   Each workflow run will use the version of the workflow that is present in the associated branch at that time.
-
-   (To put it bluntly, it runs with the version that of the '.github/workflow/*.yaml' at the time).
-
-
+<p>
 So, how to get this up and running quickly, create a .github/config/ci-cd.yaml file.
+</p>
 
+<p>
 Here is an example that I used.
+</p>
 
-#+BEGIN_SRC yaml.
-name: ci/cd
+<div class="org-src-container">
+<pre class="src src-yaml.">name: ci/cd
 
 on:
   push:
@@ -82,22 +118,31 @@ jobs:
 
     - name: Run Tests
       run: rebar3 as test lfe ltest
-#+END_SRC
+</pre>
+</div>
 
+<p>
 This spins up a basic ubuntu image, with erlang 26 installed, your specific app may require
 another newer (or older) version of the erlang VM (BEAM) please adjust the above as necessary.
+</p>
 
+<p>
 Rebar is also installed on the image, and when configured to use lfe, will also fetch the libraries
 configured in the rebar.config file during the build process.
+</p>
 
+<p>
 This example compiles and runs the tests. 
+</p>
 
+<p>
 Listed below is the rebar.config that
 worked for me.
+</p>
 
 
-#+BEGIN_SRC erlang
-{erl_opts, [debug_info]}.
+<div class="org-src-container">
+<pre class="src src-erlang">{erl_opts, [debug_info]}.
 
 {deps, [
     {lfe, "2.1.2"}
@@ -149,16 +194,27 @@ worked for me.
         coverage
     ]}
 ]}.
-#+END_SRC
+</pre>
+</div>
 
+<p>
 Now when you do a 'git push' you should see this 'action' being run under the action tab of your project.
+</p>
 
+<p>
 This is a very simple GitHub Action, that will allow you to see the basics of how CI/CD works.  The "Delivery"
 part of this , I will probably expand on in another post.
-
-
-* Resources:
-
-[[https://github.com/wmealing/CI-CD-TEST/tree/main]]
-
-
+</p>
+</div>
+</div>
+<div id="outline-container-org0bbe437" class="outline-2">
+<h2 id="org0bbe437">Resources:</h2>
+<div class="outline-text-2" id="text-org0bbe437">
+<p>
+<a href="https://github.com/wmealing/CI-CD-TEST/tree/main">https://github.com/wmealing/CI-CD-TEST/tree/main</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
