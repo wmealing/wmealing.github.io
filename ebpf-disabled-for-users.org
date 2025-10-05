@@ -1,0 +1,54 @@
+#+TITLE: Why eBPF for users is disabled in some distributions
+#+AUTHOR: Wade mealing
+#+DATE: 2020-09-02 Wed 13:53
+
+#+OPTIONS: ^:nil num:nil toc:nil 
+
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
+
+
+* Table of Contents
+- Why eBPF filter operations are privileged in some distributions?
+- Why is this effectively limited to root (CAP_SYS_ADMIN) only?
+- How can I give a user access to use eBPF?
+- Conclusion
+
+* Why eBPF filter operations are privileged in some distributions?
+
+eBPF is a mechanism in which local users can tell the Linux kernel to attach pseudocode to tracepoints, kprobes, and perf events in the kernel. This pseudocode is later translated into native instructions and executed. Because of this it is heavily used in performance tuning and benchmarking. As this instrumentation can be carried out without recompiling the kernel, eBPF is very attractive for systems where this could be prohibitive either due to cost, downtime, or complexity.
+
+Using eBPF requires calling a syscall, bpf(2). This syscall is used for all eBPF operations like loading programs attaching them to specific events, creating eBPF maps, and access the map contents from tools. At this time, users with CAP_SYS_ADMIN capability in the initial namespace can use the bpf(2) syscall, which is effectively root level privileges.
+
+To function correctly, the attached pseudocode requires access to privileged data from within the kernel. The eBPF developers have created an in-kernel verification system with in-depth checks before execution to ensure that potentially malicious code is not permitted.
+
+It provides such checks as:
+
+- infinite loop prevention,
+- out of range data access,
+- invalid register states,
+- kernel address leakage protection, and
+- limiting internal function calls.
+
+* Why is this effectively limited to root (CAP_SYS_ADMIN) only?
+
+The decision to limit this syscall to a user with CAP_SYS_ADMIN in the initial namespace was intended to reduce the attack surface available to potential intruders.
+
+The more common use case of eBPF is to diagnose performance or system bottlenecks that the system is currently facing. As such it is mainly used in deep system-level debugging and performance tuning scenarios which a non-admin user on a production system is not supposed to do.
+
+Kernel exploits are not a new problem; eBPF creates a new attack vector that contains additional attack vectors that were not previously accessible. By limiting the ability to run eBPF syscall to CAP_SYS_ADMIN (or root) only effectively disallows unprivileged (or regular) users of the system the ability to attack the kernel using this method. This also limits the attack surface of the subsystem. A local user with root access is expected to be able to perform actions that have equivalent or worse impacts.
+
+Since pseudocode translation and verification is a complex process, error handling and preventing malicious behavior is very difficult. New code injected into the kernel at runtime makes a very useful target for attackers. Even with these prevention mechanisms in place there have been a number of flaws that have been found in the eBPF code, especially the verifier itself. Red Hat has limited eBPF access to a privileged operation and by doing so ensures that fewer additional rights are granted if eBPF is successfully attacked.
+
+* How can I give a user access to use eBPF?
+
+One possible workaround is to use setcap(8) to set the CAP_SYS_ADMIN flag on a trusted binary with minimal attack surface that would call the relevant bpf(2) syscall. For more information on the capabilities feature of the kernel check out capabilities(7).
+
+The other alternative is to allow the user to execute the specific binary with the "sudo" command (see sudo(8) and sudoers(8)).
+
+Red Hat Enterprise Linux does not have /proc/sys/kernel/unprivileged_bpf_disabled available to enable access to unprivileged users, and it is disabled by default. So, if you need it, you're out of luck.
+
+* Conclusion
+
+Some Linux distributions, in the future, may ship with the ability to allow users to insert eBPF rules. At this time RHEL and CENTOS has attempted to reduce the risk of eBPF exploitation by limiting access to root and CAP_SYS_ADMIN enabled processes. This trade-off reduces the attack vector on the system at the cost of limiting which users can take advantage of eBPF functionality.
