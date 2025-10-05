@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-05 Sun 17:48 -->
+<!-- 2025-10-05 Sun 17:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rebar3 / git not connecting to github.</title>
@@ -46,8 +46,8 @@ Here is the top of the rebar.config file:
 Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fail
 </p>
 
-<pre class="example" id="orge5bd476">
-✗ rebar3 get-deps                      
+<pre class="example" id="org7de55b9">
+✗ rebar3 get-deps
 ===&gt; Verifying dependencies...
 ===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git",{tag,"0.4.0"}})
 ===&gt; Failed to fetch and copy dep: {git,"git://github.com/lfex/ljson.git",
@@ -96,20 +96,22 @@ man page.  This functionality is the "url.&lt;base&gt;.insteadOf" and is documen
 To solve our little dilemma, we can issue the following command:
 </p>
 
-<pre class="example" id="orgcaab467">
-$ git config --global url."https://".insteadOf git:// 
+<div class="org-src-container">
+<pre class="src src-sh">$ git config --global url."https://".insteadOf git:// 
 </pre>
+</div>
 
 <p>
 This rewrites the git request to use <a href="https://">https://</a> instead of git:// in all future git requests, so now when
 rebar attempts to fetch dependancies:
 </p>
 
-<pre class="example" id="org5ca8a90">
-✗ rebar3 get-deps
+<div class="org-src-container">
+<pre class="src src-sh">✗ rebar3 get-deps
 ===&gt; Fetching rebar3_lfe v0.4.4
 ===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git", {branch, "master"}})
 </pre>
+</div>
 
 <p>
 Rebar mentions the 'old' url, but internally git will pivot to <a href="https://">https://</a>

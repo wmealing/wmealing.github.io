@@ -30,7 +30,7 @@ Here is the top of the rebar.config file:
 Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fail
 
 #+begin_example sh
-✗ rebar3 get-deps                      
+✗ rebar3 get-deps
 ===> Verifying dependencies...
 ===> Fetching ljson (from {git,"git://github.com/lfex/ljson.git",{tag,"0.4.0"}})
 ===> Failed to fetch and copy dep: {git,"git://github.com/lfex/ljson.git",
@@ -65,18 +65,18 @@ man page.  This functionality is the "url.<base>.insteadOf" and is documented as
 
 To solve our little dilemma, we can issue the following command:
 
-#+BEGIN_EXAMPLE sh
+#+BEGIN_SRC sh
 $ git config --global url."https://".insteadOf git:// 
-#+END_EXAMPLE
+#+END_SRC
 
 This rewrites the git request to use https:// instead of git:// in all future git requests, so now when
 rebar attempts to fetch dependancies:
 
-#+BEGIN_EXAMPLE sh
+#+BEGIN_SRC sh
 ✗ rebar3 get-deps
 ===> Fetching rebar3_lfe v0.4.4
 ===> Fetching ljson (from {git,"git://github.com/lfex/ljson.git", {branch, "master"}})
-#+END_EXAMPLE
+#+END_SRC
 
 Rebar mentions the 'old' url, but internally git will pivot to https://
 
