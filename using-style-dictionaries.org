@@ -40,7 +40,7 @@ I'm using the [[https://github.com/RedHat-UX/red-hat-design-tokens][Red Hat Desi
 They seem to call their tooling "design tokens" rather than "style dictionary", maybe these terms can be used interchangably.  If you can
 explain what the complexities here easily, please drop me a line.
 
-** Getting the 'design tokens' / 'style dictionary'.
+* Getting the 'design tokens' / 'style dictionary'.
 
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 
