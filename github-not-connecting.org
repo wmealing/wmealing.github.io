@@ -39,14 +39,14 @@ Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fa
 
 Oddly, ssh works
 
-#+begin_example sh
- ✗  ssh -T git@github.com
+#+BEGIN_SRC sh
+✗  ssh -T git@github.com
 Hi wmealing! You\'ve successfully authenticated, but GitHub does not provide shell access.
-#+end_src
+#+END_SRC
 
 When trying to debug the issue, I tried to use git directly to clone the same project.
 
-#+begin_example sh
+#+BEGIN_SRC sh
 ✗ git clone git://github.com/lfex/ljson.git
 Cloning into 'ljson'...
 fatal: unable to connect to github.com:
