@@ -120,12 +120,13 @@ a {
 
 a:link, a:visited {
   color: var(--text-color);
+  text-decoration: underline;
 }
 
 a:hover {
   border-bottom-color: #0066cc;
+  text-decoration: underline;
 }
-
 
 p {
   margin-bottom: 1.8em;
