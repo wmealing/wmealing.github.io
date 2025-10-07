@@ -3,7 +3,6 @@
 
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 
 * [[https://wmealing.github.io/github-not-connecting.html][Rebar3 / git not connecting to github]] - Oct 2025
 
