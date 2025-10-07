@@ -3,225 +3,24 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-28 Wed 14:25 -->
+<!-- 2025-10-07 Tue 16:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
-<meta name="author" content="Wade Mealing" />
 <meta name="generator" content="Org Mode" />
-<style>
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-</style>
-<link rel="stylesheet" href="tufte.css" type="text/css" />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Wade Mealings documentation" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Signed kernel modules</h1>
-<div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#orgcb0fc20">What is a “signed” kernel module?</a></li>
-<li><a href="#org3f7b9b5">How is it signed ?</a></li>
-<li><a href="#org27c888b">Kernel modules information.</a>
-<ul>
-<li><a href="#orgce4a446">Module location</a></li>
-<li><a href="#org6634bda">Loading kernel modules.</a></li>
-<li><a href="#org7ce11b4">The signature</a></li>
-</ul>
-</li>
-<li><a href="#org29ae707">Source</a></li>
-<li><a href="#org45c0cd7">Additional Resources:</a></li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-orgcb0fc20" class="outline-2">
-<h2 id="orgcb0fc20">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-orgcb0fc20">
+<div id="outline-container-org9879093" class="outline-2">
+<h2 id="org9879093">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-org9879093">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -243,11 +42,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org3f7b9b5" class="outline-2">
-<h2 id="org3f7b9b5">How is it signed ?</h2>
-<div class="outline-text-2" id="text-org3f7b9b5">
+<div id="outline-container-orgbec278f" class="outline-2">
+<h2 id="orgbec278f">How is it signed ?</h2>
+<div class="outline-text-2" id="text-orgbec278f">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -284,7 +81,7 @@ options.
 <div class="org-src-container">
 <pre class="src src-shell">$ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
 | sort| uniq
-<span style="color: #dbdb95; font-weight: bold;">CONFIG_MODULE_SIG_HASH</span>=<span style="color: #e67128;">"sha256"</span>
+<span style="color: #00d3d0;">CONFIG_MODULE_SIG_HASH</span>=<span style="color: #79a8ff;">"sha256"</span>
 </pre>
 </div>
 
@@ -299,18 +96,13 @@ signatures.
 </p>
 </div>
 </div>
-
-
-
-
-
-<div id="outline-container-org27c888b" class="outline-2">
-<h2 id="org27c888b">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-org27c888b">
+<div id="outline-container-orgf105cb5" class="outline-2">
+<h2 id="orgf105cb5">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-orgf105cb5">
 </div>
-<div id="outline-container-orgce4a446" class="outline-3">
-<h3 id="orgce4a446">Module location</h3>
-<div class="outline-text-3" id="text-orgce4a446">
+<div id="outline-container-org8d9e5a8" class="outline-3">
+<h3 id="org8d9e5a8">Module location</h3>
+<div class="outline-text-3" id="text-org8d9e5a8">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -325,11 +117,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org6634bda" class="outline-3">
-<h3 id="org6634bda">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-org6634bda">
+<div id="outline-container-orgff7205d" class="outline-3">
+<h3 id="orgff7205d">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-orgff7205d">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -349,21 +139,20 @@ depmod to locate the relevant module to meet the kernels request.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7ce11b4" class="outline-3">
-<h3 id="org7ce11b4">The signature</h3>
-<div class="outline-text-3" id="text-org7ce11b4">
+<div id="outline-container-org7e63bcb" class="outline-3">
+<h3 id="org7e63bcb">The signature</h3>
+<div class="outline-text-3" id="text-org7e63bcb">
 </div>
-<div id="outline-container-orgfcf511d" class="outline-4">
-<h4 id="orgfcf511d">Signature metadata.</h4>
-<div class="outline-text-4" id="text-orgfcf511d">
+<div id="outline-container-org4a21205" class="outline-4">
+<h4 id="org4a21205">Signature metadata.</h4>
+<div class="outline-text-4" id="text-org4a21205">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #74af68;"># </span><span style="color: #74af68;">modinfo mwifiex.ko.xz</span>
-filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
+<pre class="src src-shell"><span style="color: #989898;"># </span><span style="color: #989898;">modinfo mwifiex.ko.xz
+</span>filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
 license:        GPL v2
 version:        1.0
 description:    Marvell WiFi-Ex Driver version 1.0
@@ -407,7 +196,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="orge4f2247">
+<pre class="example" id="orgfab435d">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -517,10 +306,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org29ae707" class="outline-2">
-<h2 id="org29ae707">Source</h2>
-<div class="outline-text-2" id="text-org29ae707">
+<div id="outline-container-orgfdacab7" class="outline-2">
+<h2 id="orgfdacab7">Source</h2>
+<div class="outline-text-2" id="text-orgfdacab7">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -541,7 +329,7 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="org570ca29">
+<pre class="example" id="orgf9936f7">
 init_module() 
  -&gt; load_module() 
   -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
@@ -557,32 +345,32 @@ seem to match the actual code), this is changed in later versions.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #00ede1; font-weight: bold;">mod_verify_sig</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
+<pre class="src src-C"><span style="color: #feacd0;">mod_verify_sig</span><span style="color: #ffffff;">()</span> <span style="color: #ffffff;">{</span>
 
-        <span style="color: #74af68;">/*</span>
-<span style="color: #74af68;">      * Check signature using built-in trusted keys and, if configured,</span>
-<span style="color: #74af68;">      * secondary trusted keys.</span>
-<span style="color: #74af68;">      */</span>
-     err =  verify_pkcs7_signature<span style="color: #93a8c6;">(</span>mod, modlen, mod + modlen, sig_len,
+        <span style="color: #989898;">/*</span><span style="color: #989898;">
+      * Check signature using built-in trusted keys and, if configured,
+      * secondary trusted keys.
+</span><span style="color: #989898;">      */</span>
+     err =  verify_pkcs7_signature<span style="color: #ff66ff;">(</span>mod, modlen, mod + modlen, sig_len,
                                    VERIFY_USE_SECONDARY_KEYRING,
                                    VERIFYING_MODULE_SIGNATURE,
-                                   <span style="color: #008b8b;">NULL</span>, <span style="color: #008b8b;">NULL</span><span style="color: #93a8c6;">)</span>;
-     <span style="color: #ffad29; font-weight: bold;">if</span> <span style="color: #93a8c6;">(</span>IS_ENABLED<span style="color: #b0b1a3;">(</span>CONFIG_INTEGRITY_PLATFORM_KEYRING<span style="color: #b0b1a3;">)</span> &amp;&amp; err<span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
-             <span style="color: #74af68;">/*</span>
-<span style="color: #74af68;">              * Check signature using platform trusted keys. This does</span>
-<span style="color: #74af68;">              * not consider the built-in keys, so must be done separately</span>
-<span style="color: #74af68;">              * from above, if possible and necessary.</span>
-<span style="color: #74af68;">              */</span>
-             err =  verify_pkcs7_signature<span style="color: #b0b1a3;">(</span>mod, modlen, mod + modlen,
+                                   <span style="color: #00bcff;">NULL</span>, <span style="color: #00bcff;">NULL</span><span style="color: #ff66ff;">)</span>;
+     <span style="color: #b6a0ff;">if</span> <span style="color: #ff66ff;">(</span>IS_ENABLED<span style="color: #00eff0;">(</span>CONFIG_INTEGRITY_PLATFORM_KEYRING<span style="color: #00eff0;">)</span> &amp;&amp; err<span style="color: #ff66ff;">)</span> <span style="color: #ff66ff;">{</span>
+             <span style="color: #989898;">/*</span><span style="color: #989898;">
+              * Check signature using platform trusted keys. This does
+              * not consider the built-in keys, so must be done separately
+              * from above, if possible and necessary.
+</span><span style="color: #989898;">              */</span>
+             err =  verify_pkcs7_signature<span style="color: #00eff0;">(</span>mod, modlen, mod + modlen,
                                            sig_len,
                                            VERIFY_USE_PLATFORM_KEYRING,
                                            VERIFYING_MODULE_SIGNATURE,
-                                           <span style="color: #008b8b;">NULL</span>, <span style="color: #008b8b;">NULL</span><span style="color: #b0b1a3;">)</span>;
-     <span style="color: #93a8c6;">}</span>
-     <span style="color: #ffad29; font-weight: bold;">return</span> err;
+                                           <span style="color: #00bcff;">NULL</span>, <span style="color: #00bcff;">NULL</span><span style="color: #00eff0;">)</span>;
+     <span style="color: #ff66ff;">}</span>
+     <span style="color: #b6a0ff;">return</span> err;
 
 
-<span style="color: #8c8c8c;">}</span>
+<span style="color: #ffffff;">}</span>
 </pre>
 </div>
 
@@ -602,7 +390,7 @@ Listing the primary keys:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #74af68;"># </span><span style="color: #74af68;">keyctl list %:.builtin_trusted_keys </span>
+<pre class="src src-shell"><span style="color: #989898;"># </span><span style="color: #989898;">keyctl list %:.builtin_trusted_keys </span>
 </pre>
 </div>
 
@@ -622,39 +410,39 @@ This is on the decided in module\_sig\_check:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #ffad29; font-weight: bold;">static</span> <span style="color: #34cae2;">int</span> <span style="color: #00ede1; font-weight: bold;">module_sig_check</span><span style="color: #8c8c8c;">(</span><span style="color: #ffad29; font-weight: bold;">struct</span> <span style="color: #34cae2;">load_info</span> *<span style="color: #dbdb95; font-weight: bold;">info</span>, <span style="color: #34cae2;">int</span> <span style="color: #dbdb95; font-weight: bold;">flags</span><span style="color: #8c8c8c;">)</span> <span style="color: #8c8c8c;">{</span>
+<pre class="src src-C"><span style="color: #b6a0ff;">static</span> <span style="color: #6ae4b9;">int</span> <span style="color: #feacd0;">module_sig_check</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">struct</span> <span style="color: #6ae4b9;">load_info</span> *<span style="color: #00d3d0;">info</span>, <span style="color: #6ae4b9;">int</span> <span style="color: #00d3d0;">flags</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{</span>
 
-  err = mod_verify_sig<span style="color: #93a8c6;">(</span>mod, info<span style="color: #93a8c6;">)</span>;
+  err = mod_verify_sig<span style="color: #ff66ff;">(</span>mod, info<span style="color: #ff66ff;">)</span>;
 
-  <span style="color: #ffad29; font-weight: bold;">switch</span><span style="color: #93a8c6;">(</span>err<span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
+  <span style="color: #b6a0ff;">switch</span><span style="color: #ff66ff;">(</span>err<span style="color: #ff66ff;">)</span> <span style="color: #ff66ff;">{</span>
 
-    <span style="color: #ffad29; font-weight: bold;">case</span> 0: <span style="color: #74af68;">/* </span><span style="color: #74af68;">module okay to load</span><span style="color: #74af68;"> */</span>
-       <span style="color: #ffad29; font-weight: bold;">return</span> 0;
+    <span style="color: #b6a0ff;">case</span> 0: <span style="color: #989898;">/* </span><span style="color: #989898;">module okay to load</span><span style="color: #989898;"> */</span>
+       <span style="color: #b6a0ff;">return</span> 0;
 
-    <span style="color: #ffad29; font-weight: bold;">case</span> -ENODATA: <span style="color: #74af68;">/* </span><span style="color: #74af68;">Loading of unsigned module</span><span style="color: #74af68;"> */</span>
-       <span style="color: #ffad29; font-weight: bold;">goto</span> <span style="color: #008b8b;">decide</span>;
+    <span style="color: #b6a0ff;">case</span> -ENODATA: <span style="color: #989898;">/* </span><span style="color: #989898;">Loading of unsigned module</span><span style="color: #989898;"> */</span>
+       <span style="color: #b6a0ff;">goto</span> <span style="color: #00bcff;">decide</span>;
 
-    <span style="color: #ffad29; font-weight: bold;">case</span> -ENOPKG:  <span style="color: #74af68;">/* </span><span style="color: #74af68;">Unknown crypto on module</span><span style="color: #74af68;"> */</span>
-       <span style="color: #ffad29; font-weight: bold;">goto</span> <span style="color: #008b8b;">decide</span>;
+    <span style="color: #b6a0ff;">case</span> -ENOPKG:  <span style="color: #989898;">/* </span><span style="color: #989898;">Unknown crypto on module</span><span style="color: #989898;"> */</span>
+       <span style="color: #b6a0ff;">goto</span> <span style="color: #00bcff;">decide</span>;
 
-    <span style="color: #ffad29; font-weight: bold;">case</span> -ENOKEY:  <span style="color: #74af68;">/* </span><span style="color: #74af68;">unavailable key (not in current chain</span><span style="color: #74af68;"> */</span>
-       <span style="color: #ffad29; font-weight: bold;">goto</span> <span style="color: #008b8b;">decide</span>;
+    <span style="color: #b6a0ff;">case</span> -ENOKEY:  <span style="color: #989898;">/* </span><span style="color: #989898;">unavailable key (not in current chain</span><span style="color: #989898;"> */</span>
+       <span style="color: #b6a0ff;">goto</span> <span style="color: #00bcff;">decide</span>;
 
-    <span style="color: #008b8b;">decide</span>:
-      <span style="color: #ffad29; font-weight: bold;">if</span> <span style="color: #b0b1a3;">(</span>is_module_sig_enforced<span style="color: #97b098;">()</span><span style="color: #b0b1a3;">)</span> <span style="color: #b0b1a3;">{</span>
-                pr_notice<span style="color: #97b098;">(</span><span style="color: #e67128;">"%s: %s is rejected</span><span style="color: #FFFFFF; font-weight: bold;">\</span><span style="color: #FFFFFF; font-weight: bold;">n</span><span style="color: #e67128;">"</span>, info-&gt;name, reason<span style="color: #97b098;">)</span>;
-                <span style="color: #ffad29; font-weight: bold;">return</span> -EKEYREJECTED;
-      <span style="color: #b0b1a3;">}</span>
+    <span style="color: #00bcff;">decide</span>:
+      <span style="color: #b6a0ff;">if</span> <span style="color: #00eff0;">(</span>is_module_sig_enforced<span style="color: #ff6b55;">()</span><span style="color: #00eff0;">)</span> <span style="color: #00eff0;">{</span>
+                pr_notice<span style="color: #ff6b55;">(</span><span style="color: #79a8ff;">"%s: %s is rejected</span><span style="color: #feacd0;">\</span><span style="color: #00c06f;">n</span><span style="color: #79a8ff;">"</span>, info-&gt;name, reason<span style="color: #ff6b55;">)</span>;
+                <span style="color: #b6a0ff;">return</span> -EKEYREJECTED;
+      <span style="color: #00eff0;">}</span>
 
-      <span style="color: #ffad29; font-weight: bold;">return</span> security_locked_down<span style="color: #b0b1a3;">(</span>LOCKDOWN_MODULE_SIGNATURE<span style="color: #b0b1a3;">)</span>;
+      <span style="color: #b6a0ff;">return</span> security_locked_down<span style="color: #00eff0;">(</span>LOCKDOWN_MODULE_SIGNATURE<span style="color: #00eff0;">)</span>;
 
-      <span style="color: #74af68;">/* </span><span style="color: #74af68;">All other errors are fatal, including nomem, unparseable</span><span style="color: #74af68;"> */</span>
+      <span style="color: #989898;">/* </span><span style="color: #989898;">All other errors are fatal, including nomem, unparseable</span><span style="color: #989898;"> */</span>
 
-    <span style="color: #ffad29; font-weight: bold;">default</span>:
-      <span style="color: #ffad29; font-weight: bold;">return</span> err;
+    <span style="color: #b6a0ff;">default</span>:
+      <span style="color: #b6a0ff;">return</span> err;
 
-  <span style="color: #93a8c6;">}</span>
-<span style="color: #8c8c8c;">}</span>  
+  <span style="color: #ff66ff;">}</span>
+<span style="color: #ffffff;">}</span>  
 </pre>
 </div>
 
@@ -700,7 +488,7 @@ Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
 </p>
 
-<pre class="example" id="org1dd6ac0">
+<pre class="example" id="org367ffed">
 
 [ req ]
 default_bits = 4096
@@ -730,7 +518,7 @@ be used to sign the kernel module and also enrolled in the systems "MOK" keychai
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #23d7d7;"># openssl</span> req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
+<pre class="src src-C"><span style="color: #ff7f9f;"># openssl</span> req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
 </pre>
 </div>
 
@@ -740,7 +528,7 @@ private\_key.priv.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #23d7d7;"># mokutil</span> --import public_key.der
+<pre class="src src-C"><span style="color: #ff7f9f;"># mokutil</span> --import public_key.der
 </pre>
 </div>
 
@@ -770,11 +558,11 @@ For example the "Wades own very special kmod v01" singing key:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #74af68;"># </span><span style="color: #74af68;">keyctl list %:.system_keyring</span>
-6 keys<span style="color: #ffad29; font-weight: bold;"> in</span> keyring:
-...asymmetric: Red Hat Enterprise Linux Driver Update Program <span style="color: #8c8c8c;">(</span>key 3<span style="color: #8c8c8c;">)</span>: bf57f3e87...
+<pre class="src src-shell"><span style="color: #989898;"># </span><span style="color: #989898;">keyctl list %:.system_keyring
+</span>6 keys<span style="color: #b6a0ff;"> in</span> keyring:
+...asymmetric: Red Hat Enterprise Linux Driver Update Program <span style="color: #ffffff;">(</span>key 3<span style="color: #ffffff;">)</span>: bf57f3e87...
 
-...asymmetric: Red Hat Secure Boot <span style="color: #8c8c8c;">(</span>CA key 1<span style="color: #8c8c8c;">)</span>: 4016841644ce3a810408050766e8f8a29...
+...asymmetric: Red Hat Secure Boot <span style="color: #ffffff;">(</span>CA key 1<span style="color: #ffffff;">)</span>: 4016841644ce3a810408050766e8f8a29...
 ...asymmetric: Microsoft Corporation UEFI CA 2011: 13adbf4309bd82709c8cd54f316ed...
 ...asymmetric: Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e...
 ...asymmetric: Red Hat Enterprise Linux kernel signing key: 4249689eefc77e95880b...
@@ -792,7 +580,7 @@ tree' built kernel modules.  An example of singing my\_module
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">perl /usr/src/kernels/$<span style="color: #8c8c8c;">(</span><span style="color: #fa8072;">uname -r</span><span style="color: #8c8c8c;">)</span>/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
+<pre class="src src-shell">perl /usr/src/kernels/$<span style="color: #ffffff;">(</span>uname -r<span style="color: #ffffff;">)</span>/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
 </pre>
 </div>
 
@@ -808,10 +596,9 @@ practices for public/private keys.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org45c0cd7" class="outline-2">
-<h2 id="org45c0cd7">Additional Resources:</h2>
-<div class="outline-text-2" id="text-org45c0cd7">
+<div id="outline-container-orga39cc6e" class="outline-2">
+<h2 id="orga39cc6e">Additional Resources:</h2>
+<div class="outline-text-2" id="text-orga39cc6e">
 <p>
 <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Red Hat Guide for secure boot</a>
 </p>
@@ -831,8 +618,7 @@ practices for public/private keys.
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-09-28 Wed 14:25</p>
+<p class="date">Created: 2025-10-07 Tue 16:16</p>
 </div>
 </body>
 </html>

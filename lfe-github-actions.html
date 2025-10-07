@@ -3,25 +3,24 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-05 Sun 17:53 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Github actions (CI/CD) for LFE.</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <meta name="description" content="Lisp Flavored Erlang  CI/CD." />
-<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Github actions (CI/CD) for LFE.</h1>
-<div id="outline-container-org836c656" class="outline-2">
-<h2 id="org836c656">What is CD/CD ?</h2>
-<div class="outline-text-2" id="text-org836c656">
+<div id="outline-container-org1cacbb6" class="outline-2">
+<h2 id="org1cacbb6">What is CD/CD ?</h2>
+<div class="outline-text-2" id="text-org1cacbb6">
 <p>
 If you want to take the headache and room for human error out of delivering software, the current trend is to
 use "Continious Integration" and "Continious Delivery" which is a fancy word for automated testing of Merge requests
@@ -37,7 +36,7 @@ branded as 'GitHub Actions'.
 In their words:
 </p>
 
-<pre class="example" id="org5399bc6">
+<pre class="example" id="orge4efa77">
 GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that
 allows you to automate your build, test, and deployment pipeline. You can create workflows
 that build and test every pull request to your repository, or deploy merged pull requests
@@ -45,9 +44,9 @@ to production.
 </pre>
 </div>
 </div>
-<div id="outline-container-org91971d4" class="outline-2">
-<h2 id="org91971d4">Why do I need it ?</h2>
-<div class="outline-text-2" id="text-org91971d4">
+<div id="outline-container-org7539f2d" class="outline-2">
+<h2 id="org7539f2d">Why do I need it ?</h2>
+<div class="outline-text-2" id="text-org7539f2d">
 <p>
 Github have a high level overview of their offerings, along with how they expect it to be
 used <a href="https://resources.github.com/ci-cd/">on their github resources page</a>. With minimal effort, you can find many well thought out sites that
@@ -65,9 +64,9 @@ Unlike the GitHub docs, I'm not giving you the shiny version, only how I see it.
 </p>
 </div>
 </div>
-<div id="outline-container-org09fc6f3" class="outline-2">
-<h2 id="org09fc6f3">How it works.</h2>
-<div class="outline-text-2" id="text-org09fc6f3">
+<div id="outline-container-org000a195" class="outline-2">
+<h2 id="org000a195">How it works.</h2>
+<div class="outline-text-2" id="text-org000a195">
 <ol class="org-ol">
 <li>An event occurs on your repository (push, pull, mr ).</li>
 <li>GitHub searches the .github/workflows directory in your repository for "yml" workflow files that are present.</li>
@@ -207,9 +206,9 @@ part of this , I will probably expand on in another post.
 </p>
 </div>
 </div>
-<div id="outline-container-org0bbe437" class="outline-2">
-<h2 id="org0bbe437">Resources:</h2>
-<div class="outline-text-2" id="text-org0bbe437">
+<div id="outline-container-orgde63529" class="outline-2">
+<h2 id="orgde63529">Resources:</h2>
+<div class="outline-text-2" id="text-orgde63529">
 <p>
 <a href="https://github.com/wmealing/CI-CD-TEST/tree/main">https://github.com/wmealing/CI-CD-TEST/tree/main</a>
 </p>

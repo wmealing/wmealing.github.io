@@ -3,18 +3,49 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-29 Mon 14:17 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Setting up Emacs for Erlang in 2025</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <meta name="description" content="Emacs and erlang in 2025" />
-<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -24,9 +55,9 @@ Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. So
 2005 (hello, `distel`), while others are new enough that the documentation hasn’t caught up yet (tree-sitter Erlang,
 WhatsApp’s Erlang Language Platform). Here is what i have working.
 </p>
-<div id="outline-container-orgdc1ab4f" class="outline-2">
-<h2 id="orgdc1ab4f">Installing Erlang</h2>
-<div class="outline-text-2" id="text-orgdc1ab4f">
+<div id="outline-container-orgb4c8c98" class="outline-2">
+<h2 id="orgb4c8c98">Installing Erlang</h2>
+<div class="outline-text-2" id="text-orgb4c8c98">
 <p>
 If you install Erlang with Homebrew, beware: you don’t always get the optional extras — like the Emacs Lisp files.
 You need the full OTP installation (with all the developer tooling), you’re better off using <a href="https://github.com/kerl/kerl">https://github.com/kerl/kerl</a>.
@@ -46,9 +77,9 @@ This gets the most recent version of OTP source, it works with most versions of 
 </p>
 </div>
 </div>
-<div id="outline-container-orga30fdce" class="outline-2">
-<h2 id="orga30fdce">Setting up Emacs</h2>
-<div class="outline-text-2" id="text-orga30fdce">
+<div id="outline-container-org48c250d" class="outline-2">
+<h2 id="org48c250d">Setting up Emacs</h2>
+<div class="outline-text-2" id="text-org48c250d">
 <p>
 You need both the classic <code>erlang</code> mode and the newer tree-sitter based <code>erlang-ts</code> mode. Both need to be installed.
 </p>
@@ -61,27 +92,27 @@ M-x package-install RET flycheck-popup-tip RET
 </div>
 </div>
 </div>
-<div id="outline-container-org3e3863c" class="outline-2">
-<h2 id="org3e3863c">Configure <code>erlang-mode</code></h2>
-<div class="outline-text-2" id="text-org3e3863c">
+<div id="outline-container-org888ea39" class="outline-2">
+<h2 id="org888ea39">Configure <code>erlang-mode</code></h2>
+<div class="outline-text-2" id="text-org888ea39">
 <p>
 This is based on the official <a href="https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html">erlang</a> docs, except with slightly more modern syntax.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq erl-root-dir "/path/to/erlang/otp/")
-(add-to-list 'load-path (concat erl-root-dir "lib/tools-&lt;version&gt;/emacs"))
-(add-to-list 'exec-path (concat erl-root-dir "bin"))
-(setq erlang-man-root-dir (concat erl-root-dir "man"))
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> erl-root-dir <span style="font-style: italic;">"/path/to/erlang/otp/"</span>)
+(add-to-list 'load-path (concat erl-root-dir <span style="font-style: italic;">"lib/tools-&lt;version&gt;/emacs"</span>))
+(add-to-list 'exec-path (concat erl-root-dir <span style="font-style: italic;">"bin"</span>))
+(<span style="font-weight: bold;">setq</span> erlang-man-root-dir (concat erl-root-dir <span style="font-style: italic;">"man"</span>))
 
-(require 'erlang-start)
+(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">erlang-start</span>)
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4df9ba9" class="outline-2">
-<h2 id="org4df9ba9">Setup Flycheck</h2>
-<div class="outline-text-2" id="text-org4df9ba9">
+<div id="outline-container-org7f4fe52" class="outline-2">
+<h2 id="org7f4fe52">Setup Flycheck</h2>
+<div class="outline-text-2" id="text-org7f4fe52">
 <p>
 Hook Erlang into <code>flycheck</code>:
 </p>
@@ -89,25 +120,25 @@ Hook Erlang into <code>flycheck</code>:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">
 (flycheck-define-checker erlang
-      "An Erlang syntax checker using the Erlang compiler."
-      :command ("erlc" "-o" temporary-directory "-Wall"
-                "-I" "../include" "-I" "../../include"
-                "-I" "../../../include" source)
-      :error-patterns
-      ((warning line-start (file-name) ":" line ": Warning:" (message) line-end)
-       (error line-start (file-name) ":" line ": " (message) line-end))
-      :modes erlang-mode)
+      <span style="font-style: italic;">"An Erlang syntax checker using the Erlang compiler."</span>
+      <span style="font-weight: bold;">:command</span> (<span style="font-style: italic;">"erlc"</span> <span style="font-style: italic;">"-o"</span> temporary-directory <span style="font-style: italic;">"-Wall"</span>
+                <span style="font-style: italic;">"-I"</span> <span style="font-style: italic;">"../include"</span> <span style="font-style: italic;">"-I"</span> <span style="font-style: italic;">"../../include"</span>
+                <span style="font-style: italic;">"-I"</span> <span style="font-style: italic;">"../../../include"</span> source)
+      <span style="font-weight: bold;">:error-patterns</span>
+      ((warning line-start (file-name) <span style="font-style: italic;">":"</span> line <span style="font-style: italic;">": Warning:"</span> (message) line-end)
+       (<span style="font-weight: bold;">error</span> line-start (file-name) <span style="font-style: italic;">":"</span> line <span style="font-style: italic;">": "</span> (message) line-end))
+      <span style="font-weight: bold;">:modes</span> erlang-mode)
 
   (add-to-list 'flycheck-checkers 'erlang)
 
-  ;; ensure it starts on loading erlang-mode
-  (add-hook 'erlang-mode-hook
-            (lambda ()
+  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">ensure it starts on loading erlang-mode
+</span>  (add-hook 'erlang-mode-hook
+            (<span style="font-weight: bold;">lambda</span> ()
               (flycheck-select-checker 'erlang)
               (flycheck-mode)))
 
-  ;; helper package (I should turn this into maybe)
-  (require 'flycheck-popup-tip)
+  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">helper package (I should turn this into maybe)
+</span>  (<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">flycheck-popup-tip</span>)
   (flycheck-popup-tip-mode)
 
 </pre>
@@ -126,7 +157,7 @@ Evaluate the new flycheck definition above, open an erlang buffer in emacs and r
 Sample output:
 </p>
 
-<pre class="example" id="orgcb3593c">
+<pre class="example" id="orgc58a363">
 Syntax checkers for buffer tui_loop.erl in erlang-mode:
 
 First checker to run:
@@ -150,21 +181,21 @@ enable disabled checkers.
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq erl-nodename-cache
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> erl-nodename-cache
       (make-symbol
-       (concat "emacs-node@"
-               (car (split-string (shell-command-to-string "hostname"))))))
+       (concat <span style="font-style: italic;">"emacs-node@"</span>
+               (car (split-string (shell-command-to-string <span style="font-style: italic;">"hostname"</span>))))))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org6c527f8" class="outline-2">
-<h2 id="org6c527f8">Rebar3 Integration</h2>
-<div class="outline-text-2" id="text-org6c527f8">
+<div id="outline-container-org8bbd694" class="outline-2">
+<h2 id="org8bbd694">Rebar3 Integration</h2>
+<div class="outline-text-2" id="text-org8bbd694">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq inferior-erlang-machine "rebar3")
-(setq inferior-erlang-machine-options '("shell"))
-(setq inferior-erlang-shell-type nil)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> inferior-erlang-machine <span style="font-style: italic;">"rebar3"</span>)
+(<span style="font-weight: bold;">setq</span> inferior-erlang-machine-options '(<span style="font-style: italic;">"shell"</span>))
+(<span style="font-weight: bold;">setq</span> inferior-erlang-shell-type nil)
 </pre>
 </div>
 
@@ -182,18 +213,18 @@ contains a rebar.config file.
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-erlang-set-project-root ()
-  "Set `default-directory` to the parent dir containing `rebar.config` or `rebar.config.script`, if found."
-  (when (derived-mode-p 'erlang-mode)
-    (let* ((start (or (buffer-file-name) default-directory))
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-erlang-set-project-root</span> ()
+  <span style="font-style: italic;">"Set `default-directory` to the parent dir containing `rebar.config` or `rebar.config.script`, if found."</span>
+  (<span style="font-weight: bold;">when</span> (derived-mode-p 'erlang-mode)
+    (<span style="font-weight: bold;">let*</span> ((start (<span style="font-weight: bold;">or</span> (buffer-file-name) default-directory))
            (proj-root
             (locate-dominating-file
              start
-             (lambda (dir)
-               (or (file-exists-p (expand-file-name "rebar.config" dir))
-                   (file-exists-p (expand-file-name "rebar.config.script" dir)))))))
-      (when proj-root
-        (setq-local default-directory proj-root)))))
+             (<span style="font-weight: bold;">lambda</span> (dir)
+               (<span style="font-weight: bold;">or</span> (file-exists-p (expand-file-name <span style="font-style: italic;">"rebar.config"</span> dir))
+                   (file-exists-p (expand-file-name <span style="font-style: italic;">"rebar.config.script"</span> dir)))))))
+      (<span style="font-weight: bold;">when</span> proj-root
+        (<span style="font-weight: bold;">setq-local</span> default-directory proj-root)))))
 
 (add-hook 'erlang-mode-hook #'my-erlang-set-project-root)
 </pre>
@@ -217,9 +248,9 @@ It should be the parent directory which contains a rebar.config file.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb051a9f" class="outline-2">
-<h2 id="orgb051a9f">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
-<div class="outline-text-2" id="text-orgb051a9f">
+<div id="outline-container-orgba19835" class="outline-2">
+<h2 id="orgba19835">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
+<div class="outline-text-2" id="text-orgba19835">
 <p>
 Previously I had been using <a href="https://github.com/erlang-ls/erlang_ls">erlang_ls</a> as a language server.  As of Aug 16, 2025, this project has been archived on github, Thank you
 Roberto Aloi for all the hard work that was part of this great tool.  I haven't been able to get elp working reliably with
@@ -250,8 +281,8 @@ Configure Emacs:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'eglot)
-(add-to-list 'eglot-server-programs '(erlang-mode . ("elp" "server")))
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">eglot</span>)
+(add-to-list 'eglot-server-programs '(erlang-mode . (<span style="font-style: italic;">"elp"</span> <span style="font-style: italic;">"server"</span>)))
 (add-hook 'erlang-mode-hook 'eglot-ensure)
 </pre>
 </div>
@@ -262,9 +293,9 @@ buffer.
 </p>
 </div>
 </div>
-<div id="outline-container-org3149b6d" class="outline-2">
-<h2 id="org3149b6d">Closing</h2>
-<div class="outline-text-2" id="text-org3149b6d">
+<div id="outline-container-org3baeba9" class="outline-2">
+<h2 id="org3baeba9">Closing</h2>
+<div class="outline-text-2" id="text-org3baeba9">
 <p>
 That’s my erlang editing stack in 2025: Erlang mode, Erlang tree-sitter, Flycheck, rebar3 integration, and WhatsApp’s LSP server.
 </p>

@@ -2,9 +2,10 @@
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: date:nil
 #+OPTIONS: toc:2 
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+#+OPTIONS: ^:nil num:nil toc:nil 
 
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 
 * What is a “signed” kernel module?
 

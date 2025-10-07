@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-08 Thu 00:55 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Simple cobol "SCREEN" to display and get keyboard input.</title>
 <meta name="generator" content="Org Mode" />
-<style>
+<style type="text/css">
   #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
@@ -190,7 +190,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
+  .org-svg { }
 </style>
 <link rel="stylesheet" href="tufte.css" type="text/css" />
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
@@ -223,34 +223,34 @@ And the cobol code:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-cobol"><span class="linenr"> 1: </span><span style="color: #b22222;">IDENTI</span>FICATION <span style="color: #a020f0;">DIVISION</span>.
-<span class="linenr"> 2: </span><span style="color: #b22222;">PROGRA</span>M<span style="color: #0000ff;">-ID</span>. SAMPLE.
+<pre class="src src-cobol"><span class="linenr"> 1: </span>IDENTIFICATION DIVISION.
+<span class="linenr"> 2: </span>PROGRAM-ID. SAMPLE.
 <span class="linenr"> 3: </span>
-<span class="linenr"> 4: </span><span style="color: #b22222;">ENVIRO</span>NMENT <span style="color: #a020f0;">DIVISION</span>.
-<span class="linenr"> 5: </span><span style="color: #b22222;">CONFIG</span>U<span style="color: #0000ff;">RATION</span> <span style="color: #a020f0;">SECTION</span>.
-<span class="linenr"> 6: </span><span style="color: #b22222;">SPECIA</span>L<span style="color: #0000ff;">-NAMES</span>.
+<span class="linenr"> 4: </span>ENVIRONMENT DIVISION.
+<span class="linenr"> 5: </span>CONFIGURATION SECTION.
+<span class="linenr"> 6: </span>SPECIAL-NAMES.
 <span class="linenr"> 7: </span>
-<span class="linenr"> 8: </span><span style="color: #b22222;">INPUT-</span>O<span style="color: #0000ff;">UTPUT</span> <span style="color: #a020f0;">SECTION</span>.
-<span class="linenr"> 9: </span><span style="color: #b22222;">FILE-C</span>O<span style="color: #0000ff;">NTROL</span>.
+<span class="linenr"> 8: </span>INPUT-OUTPUT SECTION.
+<span class="linenr"> 9: </span>FILE-CONTROL.
 <span class="linenr">10: </span>
-<span class="linenr">11: </span><span style="color: #b22222;">DATA D</span>I<span style="color: #0000ff;">VISION</span>.
-<span class="linenr">12: </span><span style="color: #b22222;">FILE S</span>E<span style="color: #0000ff;">CTION</span>.
+<span class="linenr">11: </span>DATA DIVISION.
+<span class="linenr">12: </span>FILE SECTION.
 <span class="linenr">13: </span>
-<span class="linenr">14: </span><span style="color: #b22222;">WORKIN</span>G<span style="color: #0000ff;">-STORAGE</span> <span style="color: #a020f0;">SECTION</span>.
-<span class="linenr">15: </span><span style="color: #b22222;">01  RE</span>S<span style="color: #0000ff;">PONSE</span>.
-<span class="linenr">16: </span><span style="color: #b22222;">  05  </span>RESPONSE-IN-WS     <span style="color: #a020f0;">PIC</span> <span style="color: #228b22;">X</span><span style="color: #707183;">(</span><span style="color: #228b22;">2</span><span style="color: #707183;">)</span>.
+<span class="linenr">14: </span>WORKING-STORAGE SECTION.
+<span class="linenr">15: </span>01  RESPONSE.
+<span class="linenr">16: </span>  05  RESPONSE-IN-WS     PIC X(2).
 <span class="linenr">17: </span>
-<span class="linenr">18: </span><span style="color: #b22222;">SCREEN</span> <span style="color: #a020f0;">SECTION</span>.
-<span class="linenr">19: </span><span style="color: #b22222;">01 SIM</span>P<span style="color: #0000ff;">LE-QUESTION-SCREEN</span>.
-<span class="linenr">20: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"SIMPLE QUESTION SCREEN"</span> <span style="color: #a020f0;">BLANK</span> <span style="color: #a020f0;">SCREEN</span>       <span style="color: #a020f0;">LINE</span> 1 <span style="color: #a020f0;">COL</span> 35.
-<span class="linenr">21: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"ANSWER YES OR NO!  Y/N: "</span>                  <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 1.
-<span class="linenr">22: </span><span style="color: #b22222;">   05 </span> RESPONSE-INPUT                                    <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 25
-<span class="linenr">23: </span><span style="color: #b22222;">      </span> <span style="color: #a020f0;">PIC</span> <span style="color: #228b22;">X</span> <span style="color: #a020f0;">TO</span> RESPONSE-IN-WS.
+<span class="linenr">18: </span>SCREEN SECTION.
+<span class="linenr">19: </span>01 SIMPLE-QUESTION-SCREEN.
+<span class="linenr">20: </span>   05  VALUE "SIMPLE QUESTION SCREEN" BLANK SCREEN       LINE 1 COL 35.
+<span class="linenr">21: </span>   05  VALUE "ANSWER YES OR NO!  Y/N: "                  LINE 2 COL 1.
+<span class="linenr">22: </span>   05  RESPONSE-INPUT                                    LINE 2 COL 25
+<span class="linenr">23: </span>       PIC X TO RESPONSE-IN-WS.
 <span class="linenr">24: </span>
-<span class="linenr">25: </span><span style="color: #b22222;">PROCED</span>URE <span style="color: #a020f0;">DIVISION</span>.
-<span class="linenr">26: </span><span style="color: #b22222;">   DIS</span>PLAY SIMPLE-QUESTION-SCREEN.
-<span class="linenr">27: </span><span style="color: #b22222;">   ACC</span>EPT SIMPLE-QUESTION-SCREEN.
-<span class="linenr">28: </span><span style="color: #b22222;">   STO</span>P <span style="color: #a020f0;">RUN</span>.
+<span class="linenr">25: </span>PROCEDURE DIVISION.
+<span class="linenr">26: </span>   DISPLAY SIMPLE-QUESTION-SCREEN.
+<span class="linenr">27: </span>   ACCEPT SIMPLE-QUESTION-SCREEN.
+<span class="linenr">28: </span>   STOP RUN.
 <span class="linenr">29: </span>
 </pre>
 </div>
@@ -260,12 +260,12 @@ Starting at the "meat" of the demonstration, the "SCREEN SECTION".
 </p>
 
 <div class="org-src-container">
-<pre class="src src-cobol"><span class="linenr">18: </span><span style="color: #b22222;">SCREEN</span> <span style="color: #a020f0;">SECTION</span>.
-<span class="linenr">19: </span><span style="color: #b22222;">01 SIM</span>P<span style="color: #0000ff;">LE-QUESTION-SCREEN</span>.
-<span class="linenr">20: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"SIMPLE QUESTION SCREEN"</span> <span style="color: #a020f0;">BLANK</span> <span style="color: #a020f0;">SCREEN</span>       <span style="color: #a020f0;">LINE</span> 1 <span style="color: #a020f0;">COL</span> 35.
-<span class="linenr">21: </span><span style="color: #b22222;">   05 </span> <span style="color: #a020f0;">VALUE</span> <span style="color: #8b2252;">"ANSWER YES OR NO!  Y/N: "</span>                  <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 1.
-<span class="linenr">22: </span><span style="color: #b22222;">   05 </span> RESPONSE-INPUT                                    <span style="color: #a020f0;">LINE</span> 2 <span style="color: #a020f0;">COL</span> 25
-<span class="linenr">23: </span><span style="color: #b22222;">      </span> <span style="color: #a020f0;">PIC</span> <span style="color: #228b22;">X</span> <span style="color: #a020f0;">TO</span> RESPONSE-IN-WS.
+<pre class="src src-cobol"><span class="linenr">18: </span>SCREEN SECTION.
+<span class="linenr">19: </span>01 SIMPLE-QUESTION-SCREEN.
+<span class="linenr">20: </span>   05  VALUE "SIMPLE QUESTION SCREEN" BLANK SCREEN       LINE 1 COL 35.
+<span class="linenr">21: </span>   05  VALUE "ANSWER YES OR NO!  Y/N: "                  LINE 2 COL 1.
+<span class="linenr">22: </span>   05  RESPONSE-INPUT                                    LINE 2 COL 25
+<span class="linenr">23: </span>       PIC X TO RESPONSE-IN-WS.
 </pre>
 </div>
 
@@ -301,16 +301,13 @@ And the final running example:
 </p>
 
 
-<div id="orgd627818" class="figure">
+<div id="org865a459" class="figure">
 <p><img src="https://imgur.com/QceI3Rvl.png" alt="QceI3Rvl.png" />
 </p>
 </div>
-
-
-
-<div id="outline-container-orgd704e32" class="outline-2">
-<h2 id="orgd704e32">Resources:</h2>
-<div class="outline-text-2" id="text-orgd704e32">
+<div id="outline-container-org480c463" class="outline-2">
+<h2 id="org480c463">Resources:</h2>
+<div class="outline-text-2" id="text-org480c463">
 <ul class="org-ul">
 <li><a href="https://gnucobol.sourceforge.io/HTML/gnucobpg.html#SCREEN-SECTION">gnuCOBOL SCREEN section</a></li>
 <li><a href="http://savannah.gnu.org/forum/forum.php?forum_id=9910">Changelog showing 'initial mouse support' in gnuCobol screen io.</a></li>

@@ -3,17 +3,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-07 Sun 21:45 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atomic operations in common lisp</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Using atomic operations in common lisp." />
-<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
@@ -34,14 +34,14 @@ In common lisp, an atom single "thing" that is not a cons, the <a href="http://c
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(atom nil) ;; =&gt; T
-(atom 'some-symbol) ;; =&gt; T
-(atom 3) ;; =&gt; T
-(atom "moo") ;; =&gt; T
-(atom (cons 1 2)) ;; =&gt; NIL
-(atom '(1 . 2)) ;; =&gt; NIL
-(atom '(1 2 3 4)) ;; =&gt; NIL
-(atom (list 1 2 3 4));;  =&gt; NIL
+<pre class="src src-lisp">(atom nil) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; T
+</span>(atom 'some-symbol) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; T
+</span>(atom 3) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; T
+</span>(atom <span style="font-style: italic;">"moo"</span>) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; T
+</span>(atom (cons 1 2)) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; NIL
+</span>(atom '(1 . 2)) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; NIL
+</span>(atom '(1 2 3 4)) <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">=&gt; NIL
+</span>(atom (list 1 2 3 4))<span style="font-weight: bold; font-style: italic;">;;  </span><span style="font-weight: bold; font-style: italic;">=&gt; NIL</span>
 </pre>
 </div>
 
@@ -73,7 +73,7 @@ The atomics:atomic-update function definition is:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defmacro atomic-update (place update-fn) ....
+<pre class="src src-lisp">(<span style="font-weight: bold;">defmacro</span> <span style="font-weight: bold;">atomic-update</span> (place update-fn) ....
 </pre>
 </div>
 
@@ -83,7 +83,7 @@ here:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(sb-xc:defmacro atomic-update (place update-fn &amp;rest arguments &amp;environment env)
+<pre class="src src-lisp">(sb-xc:defmacro atomic-update (place update-fn <span style="font-weight: bold; text-decoration: underline;">&amp;rest</span> arguments <span style="font-weight: bold; text-decoration: underline;">&amp;environment</span> env)
   ....
 </pre>
 </div>
@@ -138,9 +138,9 @@ This documention was confusing for me.  I think what they meant to say is.
 whose CAR is one of the following:
 </pre>
 </div>
-<div id="outline-container-org9ded5c9" class="outline-2">
-<h2 id="org9ded5c9">Non threaded example</h2>
-<div class="outline-text-2" id="text-org9ded5c9">
+<div id="outline-container-org2bafa40" class="outline-2">
+<h2 id="org2bafa40">Non threaded example</h2>
+<div class="outline-text-2" id="text-org2bafa40">
 <p>
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -148,12 +148,12 @@ demonstration that mutates the list in place.
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-(defparameter cas-able-place '(1 2 3 4 ))
+(<span style="font-weight: bold;">defparameter</span> <span style="font-weight: bold; font-style: italic;">cas-able-place</span> '(1 2 3 4 ))
 
-(defun a-pure-function (a)
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">a-pure-function</span> (a)
   (rest a))
 
-(defun process ()
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">process</span> ()
       (atomics:atomic-update cas-able-place 'a-pure-function))
 
 </pre>
@@ -196,9 +196,9 @@ contending it may be run many times.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb77a9bd" class="outline-2">
-<h2 id="orgb77a9bd">Multi-threaded example.</h2>
-<div class="outline-text-2" id="text-orgb77a9bd">
+<div id="outline-container-orge891bc1" class="outline-2">
+<h2 id="orge891bc1">Multi-threaded example.</h2>
+<div class="outline-text-2" id="text-orge891bc1">
 <p>
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
@@ -215,10 +215,10 @@ The <a href="https://alexandria.common-lisp.dev/draft/alexandria.html">Alexandri
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(ql:quickload "atomics")
-(ql:quickload "bordeaux-threads")
-(ql:quickload "alexandria")
-(ql:quickload "arrows")
+<pre class="src src-lisp">(ql:quickload <span style="font-style: italic;">"atomics"</span>)
+(ql:quickload <span style="font-style: italic;">"bordeaux-threads"</span>)
+(ql:quickload <span style="font-style: italic;">"alexandria"</span>)
+(ql:quickload <span style="font-style: italic;">"arrows"</span>)
 </pre>
 </div>
 
@@ -228,7 +228,7 @@ the example below, its just a normal lisp list.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defparameter original-list (alexandria:iota 100 :start 0 :step 1))
+<pre class="src src-lisp">(<span style="font-weight: bold;">defparameter</span> <span style="font-weight: bold; font-style: italic;">original-list</span> (alexandria:iota 100 <span style="font-weight: bold;">:start</span> 0 <span style="font-weight: bold;">:step</span> 1))
 </pre>
 </div>
 <p>
@@ -241,16 +241,16 @@ the example below, its just a normal lisp list.
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-;same function as earlier.
-(defun a-pure-function (a)
-  (format t ".")
+<span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">same function as earlier.
+</span>(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">a-pure-function</span> (a)
+  (format t <span style="font-style: italic;">"."</span>)
   (finish-output)
   (rest a))
 
-(defun demo-race-condition-locks ()
-  (dotimes (n 5)
-  (bt2:make-thread (lambda ()
-                    (dotimes (n 20)
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">demo-race-condition-locks</span> ()
+  (<span style="font-weight: bold;">dotimes</span> (n 5)
+  (bt2:make-thread (<span style="font-weight: bold;">lambda</span> ()
+                    (<span style="font-weight: bold;">dotimes</span> (n 20)
                       (atomics:atomic-update original-list 'a-pure-function)))))
                       )
 </pre>
@@ -276,25 +276,25 @@ just to assist in triggering some kind of problem.
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-(defun a-pure-function (a)
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">a-pure-function</span> (a)
   (rest a))
 
-(defun take-only-50 ()
-  (loop for i from 1 to 5
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">take-only-50</span> ()
+  (<span style="font-weight: bold;">loop</span> for i from 1 to 5
         collect (bt2:make-thread
-                 (lambda ()
-                   (dotimes (n 10)
+                 (<span style="font-weight: bold;">lambda</span> ()
+                   (<span style="font-weight: bold;">dotimes</span> (n 10)
                      (atomics:atomic-update original-list 'a-pure-function))))))
 
-(defun trigger ()
-  (format t "Testing:")
-  (dotimes (n 1000)
-    (progn
-      (defparameter original-list (alexandria:iota 100 :start 0 :step 1))
-      (mapcar (lambda (thread) (bt2:join-thread thread)) (take-only-50)))
-      (if (= 50 (length original-list))
-          (format t "✓")
-          (format t "❌")))))
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">trigger</span> ()
+  (format t <span style="font-style: italic;">"Testing:"</span>)
+  (<span style="font-weight: bold;">dotimes</span> (n 1000)
+    (<span style="font-weight: bold;">progn</span>
+      (<span style="font-weight: bold;">defparameter</span> <span style="font-weight: bold; font-style: italic;">original-list</span> (alexandria:iota 100 <span style="font-weight: bold;">:start</span> 0 <span style="font-weight: bold;">:step</span> 1))
+      (mapcar (<span style="font-weight: bold;">lambda</span> (thread) (bt2:join-thread thread)) (take-only-50)))
+      (<span style="font-weight: bold;">if</span> (= 50 (length original-list))
+          (format t <span style="font-style: italic;">"&#10003;"</span>)
+          (format t <span style="font-style: italic;">"&#10060;"</span>)))))
 </pre>
 </div>
 
@@ -320,8 +320,8 @@ I'll update this post if I find any more information, but I'm pleasently surpris
 </p>
 </div>
 </div>
-<div id="outline-container-org004988c" class="outline-2">
-<h2 id="org004988c">Resources:</h2>
+<div id="outline-container-org764e3e3" class="outline-2">
+<h2 id="org764e3e3">Resources:</h2>
 </div>
 </div>
 </body>

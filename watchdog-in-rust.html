@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-07-11 Mon 12:40 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
 <meta name="author" content="Wade Mealing" />
 <meta name="generator" content="Org Mode" />
-<style>
+<style type="text/css">
   #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
@@ -191,7 +191,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
+  .org-svg { }
 </style>
 <link rel="stylesheet" href="tufte.css" type="text/css" />
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
@@ -203,24 +203,22 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd3e9468">Disabling the watchdog.</a></li>
-<li><a href="#org1392892">The magic close feature.</a></li>
-<li><a href="#orgb70f00f">Additional resources</a></li>
+<li><a href="#org56713da">Disabling the watchdog.</a></li>
+<li><a href="#org3da3231">The magic close feature.</a></li>
+<li><a href="#orgd2e4732">Additional resources</a></li>
 </ul>
 </div>
 </div>
-
-
-<div id="outline-container-orgd3e9468" class="outline-2">
-<h2 id="orgd3e9468">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-orgd3e9468">
+<div id="outline-container-org56713da" class="outline-2">
+<h2 id="org56713da">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-org56713da">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org468b52a">
+<pre class="example" id="orgc4551ff">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -238,7 +236,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="org78095eb">
+<pre class="example" id="orgb1148ef">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -249,15 +247,19 @@ It opens the watchdog device read/write (#define O_RDWR 00000002).
 <p>
 It issues an 'ioctl' with a magic number.
 </p>
-<pre class="code"><code>ioctl(wfd, 0x80045704, &amp;one);
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-nil">ioctl(wfd, 0x80045704, &amp;one);
+</pre>
+</div>
 
 <p>
 Then closes the opened file descriptor.
 </p>
 
-<pre class="code"><code>close(wfd);
-</code></pre>
+<div class="org-src-container">
+<pre class="src src-nil">close(wfd);
+</pre>
+</div>
 
 <p>
 While this does adhere to the spec, its also not the most supported
@@ -265,17 +267,16 @@ method of disabling the watchdog. there is another&#x2026;
 </p>
 </div>
 </div>
-
-<div id="outline-container-org1392892" class="outline-2">
-<h2 id="org1392892">The magic close feature.</h2>
-<div class="outline-text-2" id="text-org1392892">
+<div id="outline-container-org3da3231" class="outline-2">
+<h2 id="org3da3231">The magic close feature.</h2>
+<div class="outline-text-2" id="text-org3da3231">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
 
 
 
-<div class="epigraph"><blockquote>
+<p class="verse">
 Magic Close feature:<br />
 <br />
 If a driver supports "Magic Close", the driver will not disable the<br />
@@ -286,8 +287,7 @@ will assume that the daemon (and userspace in general) died, and will<br />
 stop pinging the watchdog without disabling it first.  This will then<br />
 cause a reboot if the watchdog is not re-opened in sufficient time.<br />
 <br />
-
-</blockquote></div>
+</p>
 
 <p>
 Seems to be more widely supported than the ioctl method. There are
@@ -299,18 +299,18 @@ but instead support the magic close feature.
 Rust doesn't have a close() function, From the  std::fs::File docs:
 </p>
 
-<div class="epigraph"><blockquote>
+<p class="verse">
 Files are automatically closed when they go out of scope. Errors detected on<br />
 closing are ignored by the implementation of Drop. Use the method sync_all if<br />
 these errors must be manually handled.<br />
-
-</blockquote></div>
+</p>
 
 <p>
 This would leave us with a simple function : 
 </p>
 
-<pre class="code"><code>use std::fs;
+<div class="org-src-container">
+<pre class="src src-rust">use std::fs;
 
 fn disable_watchodg() -&gt; std::io::Result&lt;()&gt; {
     fs::write("/dev/watchdog", "V")?
@@ -319,18 +319,17 @@ fn disable_watchodg() -&gt; std::io::Result&lt;()&gt; {
 fn main() {
  disable_watchdog();
 }
-</code></pre>
+</pre>
+</div>
 
 <p>
 Wild right ?
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-orgb70f00f" class="outline-2">
-<h2 id="orgb70f00f">Additional resources</h2>
-<div class="outline-text-2" id="text-orgb70f00f">
+<div id="outline-container-orgd2e4732" class="outline-2">
+<h2 id="orgd2e4732">Additional resources</h2>
+<div class="outline-text-2" id="text-orgd2e4732">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -339,7 +338,8 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2022-07-11 Mon 12:40</p>
+<p class="date">Created: 2025-10-07 Tue 16:12</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

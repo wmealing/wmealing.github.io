@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-21 Sat 02:16 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai Delete yourself</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Wade mealing" />
+<meta name="author" content="Wade Mealing" />
+<meta name="generator" content="Org Mode" />
 <style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -31,8 +31,9 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -40,22 +41,22 @@
   }
   pre.src {
     position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
+    overflow: auto;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
+    top: -8px;
+    right: 12px;
     padding: 3px;
-    border: 1px solid black;
+    color: #555;
+    background-color: #f2f2f299;
   }
-  pre.src:hover:before { display: inline;}
+  pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -190,67 +191,15 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
+  .org-svg { }
 </style>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Ctext%20x='0'%20y='14'%3E🖥️%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
-<style type="text/css">
-html{font-family:sans-serif;line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}h1{font-size:2em;margin:.67em 0}pre{font-family:monospace,monospace;font-size:1em}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}body{color:#000;background-color:#fff}a{color:inherit;background-color:inherit;font:inherit;text-decoration:inherit}a:hover{text-decoration:underline}body{width:95%;margin:2% auto;font-size:14px;line-height:1.4em;font-family:Georgia,serif;color:#333}@media screen and (min-width:600px){body{font-size:18px}}@media screen and (min-width:910px){body{width:900px}}::-moz-selection{background:#d6edff}::selection{background:#d6edff}p{margin:1em auto}.title{margin:.8em auto;color:#000}.title{text-align:center}.status{font-size:90%;margin:2em auto}a{color:#527d9a;text-decoration:none}a:hover{color:#035;border-bottom:1px dotted}h1,h2{color:#a5573e;line-height:1em;font-family:Helvetica,sans-serif}h1,h2{line-height:1.4em}@media screen and (min-width:600px){h1{font-size:2em}h2{font-size:1.5em}h1,h2{line-height:1.4em}}#postamble p{font-size:90%;margin:.2em}p.verse{margin-left:3%}.org-src-container{border:1px solid #ccc;box-shadow:3px 3px 3px #eee;font-family:Lucida Console,monospace;font-size:80%;margin:1em auto;padding:.1em .5em;position:relative}.org-src-container>pre{overflow:auto}.org-src-container>pre:before{display:block;position:absolute;background-color:#b3b3b3;top:0;right:0;padding:0 .5em;border-bottom-left-radius:8px;border:0;color:#fff;font-size:80%}// More languages 0% http://orgmode.org/worg/org-contrib/babel/languages.html .org-src-container>pre.src-abc:before{content:"ABC"}.org-src-container>pre.src-rust:before{content:"Rust"}
-</style>
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Mirai Delete yourself</h1>
-
-<div id="outline-container-orge3978d7" class="outline-2">
-<h2 id="orge3978d7">Why delete the executable ?</h2>
-<div class="outline-text-2" id="text-orge3978d7">
+<div id="outline-container-org14b25dc" class="outline-2">
+<h2 id="org14b25dc">Why delete the executable ?</h2>
+<div class="outline-text-2" id="text-org14b25dc">
 <p>
 The Mirai malware uses a technique to remove itself from disk after
 executing has started.  This adds additional complexity of
@@ -265,10 +214,9 @@ complexity while trying to analyse it in action.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5c56322" class="outline-2">
-<h2 id="org5c56322">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org5c56322">
+<div id="outline-container-orgf912cf9" class="outline-2">
+<h2 id="orgf912cf9">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-orgf912cf9">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -277,7 +225,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example">
+<pre class="example" id="org64e5999">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -287,7 +235,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example">
+<pre class="example" id="org97edf0f">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -297,7 +245,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example">
+<pre class="example" id="org271da13">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -306,15 +254,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-
-<div id="outline-container-org3c148a3" class="outline-2">
-<h2 id="org3c148a3">The sample code.</h2>
-<div class="outline-text-2" id="text-org3c148a3">
+<div id="outline-container-org9cb2fd6" class="outline-2">
+<h2 id="org9cb2fd6">The sample code.</h2>
+<div class="outline-text-2" id="text-org9cb2fd6">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example">
+<pre class="example" id="orgf5b2bfe">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -330,10 +277,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2491cf2" class="outline-2">
-<h2 id="org2491cf2">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org2491cf2">
+<div id="outline-container-org0e95efe" class="outline-2">
+<h2 id="org0e95efe">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org0e95efe">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -355,7 +301,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example">
+<pre class="example" id="org33519eb">
 use std::fs;
 
  fn main() {
@@ -392,11 +338,9 @@ I believe this would be similar to <a href="https://github.com/jxy-s/herpaderpin
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-orgf736983" class="outline-2">
-<h2 id="orgf736983">Resources:</h2>
-<div class="outline-text-2" id="text-orgf736983">
+<div id="outline-container-orgbf35716" class="outline-2">
+<h2 id="orgbf35716">Resources:</h2>
+<div class="outline-text-2" id="text-orgbf35716">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
@@ -404,8 +348,9 @@ I believe this would be similar to <a href="https://github.com/jxy-s/herpaderpin
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Wade mealing</p>
-<p class="date">Created: 2020-11-21 Sat 02:16</p>
+<p class="author">Author: Wade Mealing</p>
+<p class="date">Created: 2025-10-07 Tue 16:12</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

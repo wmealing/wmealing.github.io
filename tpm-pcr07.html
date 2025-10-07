@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-09-28 Wed 14:00 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PCRS on Red Hat Enterprise Linux.</title>
 <meta name="generator" content="Org Mode" />
-<style>
+<style type="text/css">
   #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
@@ -190,7 +190,7 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
+  .org-svg { }
 </style>
 <link rel="stylesheet" href="tufte.css" type="text/css" />
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
@@ -209,10 +209,9 @@ TPM status is communicated with the operating system through “Trusted Platform
 <p>
 Some attacks may modify the boot process to gain additional privileges while the system is running.
 </p>
-
-<div id="outline-container-org53012c3" class="outline-2">
-<h2 id="org53012c3">Option 1 : LUKS decryption on PCRS validation.</h2>
-<div class="outline-text-2" id="text-org53012c3">
+<div id="outline-container-orgbb25760" class="outline-2">
+<h2 id="orgbb25760">Option 1 : LUKS decryption on PCRS validation.</h2>
+<div class="outline-text-2" id="text-orgbb25760">
 <p>
 As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
 </p>
@@ -227,7 +226,7 @@ For example, if /dev/sda3 was required to validate against PCR 7 with the comman
 
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #74af68;"># </span><span style="color: #74af68;">clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'</span>
+<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'</span>
 </pre>
 </div>
 
@@ -236,11 +235,9 @@ The device will fail to decrypt at boot time if the PCR has changed between the 
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-orgda92545" class="outline-2">
-<h2 id="orgda92545">Option 2: Integrity Measurement Architecture (IMA).</h2>
-<div class="outline-text-2" id="text-orgda92545">
+<div id="outline-container-org9890ec0" class="outline-2">
+<h2 id="org9890ec0">Option 2: Integrity Measurement Architecture (IMA).</h2>
+<div class="outline-text-2" id="text-org9890ec0">
 <p>
 The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
 </p>
@@ -272,10 +269,9 @@ There may be a method to fail the boot on this aggregate being different but I d
 </p>
 </div>
 </div>
-
-<div id="outline-container-org497d49a" class="outline-2">
-<h2 id="org497d49a">Additional Information:</h2>
-<div class="outline-text-2" id="text-org497d49a">
+<div id="outline-container-orgacfa1ba" class="outline-2">
+<h2 id="orgacfa1ba">Additional Information:</h2>
+<div class="outline-text-2" id="text-orgacfa1ba">
 <p>
 [Wikipedia on TPM](<a href="https://en.wikipedia.org/wiki/Trusted_Platform_Module">https://en.wikipedia.org/wiki/Trusted_Platform_Module</a>)
 </p>

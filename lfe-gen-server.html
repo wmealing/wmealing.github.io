@@ -3,18 +3,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-29 Mon 14:57 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lfe Flavored Erlang Gen Server</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <meta name="description" content="Lisp Flavored Erlang - A gen server story" />
-<meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
 </head>
 <body>
 <div id="content" class="content">
@@ -34,9 +33,9 @@ from erlang named <a href="https://www.erlang.org/doc/man/gen_server.html">gen_s
 Think of it like a 'program skeleton'.  There are other "x-server" relatives in erlang, but gen_server is the
 mac daddy of them all.
 </p>
-<div id="outline-container-org9723738" class="outline-3">
-<h3 id="org9723738">What is a gen server ?</h3>
-<div class="outline-text-3" id="text-org9723738">
+<div id="outline-container-org544289c" class="outline-3">
+<h3 id="org544289c">What is a gen server ?</h3>
+<div class="outline-text-3" id="text-org544289c">
 <p>
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 </p>
@@ -60,7 +59,7 @@ This assumes you have rebar3 installed and ready to rock.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ rebar3 new lfe-app name="pseudobank"
+<pre class="src src-sh">$ rebar3 new lfe-app <span style="font-weight: bold; font-style: italic;">name</span>=<span style="font-style: italic;">"pseudobank"</span>
 ===&gt; Writing pseudobank/README.md
 ===&gt; Writing pseudobank/LICENSE
 ===&gt; Writing pseudobank/rebar.config
@@ -78,7 +77,7 @@ your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fix
 that you read this, you can find the bugreport <a href="https://github.com/lfe/rebar3_lfe/issues/72">here</a>.
 </p>
 
-<pre class="example" id="org472252f">
+<pre class="example" id="org19e462a">
 {deps, [
     {lfe, "2.0.1"},
     {ltest, "0.13.0"}
@@ -118,13 +117,13 @@ Using your editor create a file <code>pseudobank/tests/pseudobank-tests.lfe</cod
 <pre class="src src-lisp">(defmodule pseudobank-tests
    (behaviour ltest-unit))
 
-(include-lib "ltest/include/ltest-macros.lfe")
+(include-lib <span style="font-style: italic;">"ltest/include/ltest-macros.lfe"</span>)
 
-;;; -----------
-;;; library API
-;;; -----------
-(deftest account-server-starts
-    (let (((tuple 'ok pid) (account:start)))
+<span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">-----------
+</span><span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">library API
+</span><span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">-----------
+</span>(deftest account-server-starts
+    (<span style="font-weight: bold;">let</span> (((tuple 'ok pid) (account:start)))
       (is (is_pid pid))))
 </pre>
 </div>
@@ -153,17 +152,17 @@ From the shell within the 'pseudobank' directory:
 <pre class="src src-sh">$ rebar3 lfe ltest
     ===&gt; Verifying dependencies...
     ===&gt; Compiling pseudobank
-    ================================ ltest =================================
+    ================================ <span style="font-weight: bold; font-style: italic;">ltest</span> =================================
 
     ------------------------------ Unit Tests ------------------------------
 
     module: pseudobank-tests
-      module 'pseudobank-tests' ....................................... [fail]
+      module <span style="font-style: italic;">'pseudobank-tests'</span> ....................................... [fail]
 
           Assertion failure:
           undef
 
-      time: 14ms
+      <span style="font-weight: bold;">time</span>: 14ms
 
     summary:
       Tests: 1  Passed: 0  Skipped: 0  Failed: 1 Erred: 0
@@ -193,16 +192,16 @@ Lets make one in <code>src/account.lfe</code>
                 (behaviour gen_server)
                 (export all))
 
-;;; helper functions
-(defun server-name () (MODULE))
-(defun register-name () `#(local ,(server-name)))
-(defun callback-module () (MODULE))
-(defun initial-state () 0)
-(defun genserver-opts () '())
+<span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">helper functions
+</span>(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">server-name</span> () (MODULE))
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">register-name</span> () `#(local ,(server-name)))
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">callback-module</span> () (MODULE))
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">initial-state</span> () 0)
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">genserver-opts</span> () '())
 
-;;; gen_server implementation
-
-(defun start ()
+<span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">gen_server implementation
+</span>
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">start</span> ()
   (gen_server:start (register-name)
                     (callback-module)
                     (initial-state)
@@ -219,7 +218,7 @@ startup code used for any gen_server.
 Now when you run the test, we can see the test fails.
 </p>
 
-<pre class="example" id="org1426725">
+<pre class="example" id="org76263e1">
 module: pseudobank-tests
   module 'pseudobank-tests' ....................................... [fail]
 
@@ -251,7 +250,7 @@ Lets add the init callback by appending the following to the <code>account.lfe</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun init (initial-state)
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">init</span> (initial-state)
   `#(ok ,initial-state))
 </pre>
 </div>
@@ -269,7 +268,7 @@ If it returns #(error anything), thats a good sign that the initialization proce
 Now when we run the test again:
 </p>
 
-<pre class="example" id="org18394dd">
+<pre class="example" id="org206d3d4">
 module: pseudobank-tests
   module 'pseudobank-tests' ......................................... [ok]
 </pre>
@@ -279,9 +278,9 @@ We can see the test passes.
 </p>
 </div>
 </div>
-<div id="outline-container-org8075c0d" class="outline-3">
-<h3 id="org8075c0d">Getting the balance</h3>
-<div class="outline-text-3" id="text-org8075c0d">
+<div id="outline-container-orge4ff1d2" class="outline-3">
+<h3 id="orge4ff1d2">Getting the balance</h3>
+<div class="outline-text-3" id="text-orge4ff1d2">
 <p>
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 </p>
@@ -321,7 +320,7 @@ goodies, but its something to work from.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun get-balance ()
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">get-balance</span> ()
   0)
 </pre>
 </div>
@@ -337,7 +336,7 @@ Below is the modified init, to use a monetary value for the amount in the accoun
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun init (initial-state)
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">init</span> (initial-state)
   `#(ok ,#M(balance 0.00)))
 </pre>
 </div>
@@ -357,7 +356,7 @@ Lets fix up get-balance as we talked about earlier:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun get-balance ()
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">get-balance</span> ()
   (gen_server:call (server-name) 'get-balance))
 </pre>
 </div>
@@ -379,7 +378,7 @@ We can see the <code>CRASH REPORT</code> in the <code>undefined function account
 when the code is looking for handle_call, which we have not created.
 </p>
 
-<pre class="example" id="orgdde31cb">
+<pre class="example" id="org92c9983">
 =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
 crasher:
   initial call: account:init/1
@@ -418,7 +417,7 @@ Words that start with an underscore, means 'we dont care about it' so in this ca
 Now when we run the tests, we can see what it is returning.
 </p>
 
-<pre class="example" id="orgbdb92cb">
+<pre class="example" id="org0f41ec2">
 account_server_starts_with_zero_balance ......................... [fail]
 
     Assertion failure:
@@ -436,7 +435,7 @@ the current balance (0.00) now.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">handle_call</span>
 ((_message  _caller state)
  `#(reply ,(map-get state 'balance),state)))
 </pre>
@@ -463,9 +462,9 @@ test to deposit money into the account.
 </p>
 </div>
 </div>
-<div id="outline-container-org0b61b49" class="outline-3">
-<h3 id="org0b61b49">Making a deposit.</h3>
-<div class="outline-text-3" id="text-org0b61b49">
+<div id="outline-container-org1e9daf9" class="outline-3">
+<h3 id="org1e9daf9">Making a deposit.</h3>
+<div class="outline-text-3" id="text-org1e9daf9">
 <p>
 Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositing money.
 </p>
@@ -473,7 +472,7 @@ Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositin
 <div class="org-src-container">
 <pre class="src src-lisp">(deftest account-server-deposit-works
   (account:start)
-  (let ((starting-balance (account:get-balance))
+  (<span style="font-weight: bold;">let</span> ((starting-balance (account:get-balance))
         (deposit-amount 1.23))
     (account:deposit deposit-amount)
     (is-equal (+ starting-balance deposit-amount) (account:get-balance))))
@@ -494,7 +493,7 @@ This is the 'helper' function which can be called, which in turn calls gen-serve
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun deposit (amount)
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">deposit</span> (amount)
   (gen_server:call (server-name) ('deposit amount)))
 </pre>
 </div>
@@ -509,7 +508,7 @@ Lets fix up <code>handle_call/3</code> to match this new callback request.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">handle_call</span>
 (('get-balance _caller state)
  `#(reply ,(map-get state 'balance) ,state))
 (((tuple 'deposit amount) _caller state)
@@ -532,7 +531,7 @@ The return value from this match is the same format, we're not going to tell the
 we need to update the state in the most naive method.  Lets check the test run output:
 </p>
 
-<pre class="example" id="org0ac3e57">
+<pre class="example" id="orgda88ff8">
 module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
@@ -550,7 +549,7 @@ Back to the <code>account.lfe</code> file, to fix this oversight:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">handle_call</span>
   (('get-balance _caller state)
    `#(reply ,(map-get state 'balance) ,state))
   (((tuple 'deposit amount) _caller state)
@@ -570,9 +569,9 @@ I'd say we had desposits nailed.
 </p>
 </div>
 </div>
-<div id="outline-container-orga3f2c0c" class="outline-3">
-<h3 id="orga3f2c0c">Making a withdrawal</h3>
-<div class="outline-text-3" id="text-orga3f2c0c">
+<div id="outline-container-org83b8e32" class="outline-3">
+<h3 id="org83b8e32">Making a withdrawal</h3>
+<div class="outline-text-3" id="text-org83b8e32">
 <p>
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -582,7 +581,7 @@ money to go to YOU!)  Lets start by writing a test to ensure we can take money f
 <div class="org-src-container">
 <pre class="src src-lisp">(deftest account-server-withdrawal-works
 (account:start)
-(let ((starting-balance (account:get-balance))
+(<span style="font-weight: bold;">let</span> ((starting-balance (account:get-balance))
       (deposit-amount 10.00)
       (withdraw-amount 1.00))
   (account:deposit deposit-amount)
@@ -602,7 +601,7 @@ Back in <code>account.lfe</code>, we'll make the helper function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun withdraw ( amount )
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">withdraw</span> ( amount )
   (gen_server:call (server-name) (tuple 'withdraw amount)))
 </pre>
 </div>
@@ -612,20 +611,20 @@ The callback doesn't handle the (tuple 'withdraw amount), make it happen.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">handle_call</span>
 
-  ;; get balance functionality
-  (('get-balance _caller state)
+  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">get balance functionality
+</span>  (('get-balance _caller state)
    `#(reply ,(map-get state 'balance) ,state))
 
-  ;; deposit functionality
-  (((tuple 'deposit amount) _caller state)
+  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">deposit functionality
+</span>  (((tuple 'deposit amount) _caller state)
    `#(reply 'ok
             ,(map-update state 'balance
                          (+ (map-get state 'balance) amount))))
 
-  ;; withdraw money functionality.
-  (((tuple 'withdraw amount) _caller state)
+  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">withdraw money functionality.
+</span>  (((tuple 'withdraw amount) _caller state)
    `#(reply 'ok
             ,(map-update state 'balance
                          (- (map-get state 'balance) amount)))))
@@ -648,7 +647,7 @@ And now the test..
   #(assertEqual
            (#(module pseudobank-tests)
             #(line 26)
-            #(expression "(account:get-balance)")
+            #(expression <span style="font-style: italic;">"(account:get-balance)"</span>)
             #(expected 9.0)
             #(value 10.23)))
 </pre>
@@ -661,9 +660,9 @@ we can run after the test finishes to reset the state.
 </p>
 </div>
 </div>
-<div id="outline-container-orga9d7426" class="outline-3">
-<h3 id="orga9d7426">Withraw Interlude: gen_server shutdown.</h3>
-<div class="outline-text-3" id="text-orga9d7426">
+<div id="outline-container-org6a9072f" class="outline-3">
+<h3 id="org6a9072f">Withraw Interlude: gen_server shutdown.</h3>
+<div class="outline-text-3" id="text-org6a9072f">
 <p>
 As the LFE gen-server piggy backs on the <code>erlang</code> implementation of gen_server the
 <a href="https://www.erlang.org/doc/man/gen_server.html">stdlib reference manual</a> includes a method to shut down the server.
@@ -674,7 +673,7 @@ The manual goes into return values for <a href="https://www.erlang.org/doc/man/g
 can be terminated if handle_call returns the right tuple.
 </p>
 
-<pre class="example" id="orgb37fdff">
+<pre class="example" id="org9dbcffc">
 {stop,Reason,NewState}
 </pre>
 
@@ -693,7 +692,7 @@ Here is the helper function, which triggers handle_call with the argument <code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun stop ()
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">stop</span> ()
   (gen_server:call (server-name) 'stop))
 </pre>
 </div>
@@ -714,7 +713,7 @@ And the matching expected terminate function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun terminate ( _reason _newstate )
+<pre class="src src-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">terminate</span> ( _reason _newstate )
     'ok)
 </pre>
 </div>
@@ -730,7 +729,7 @@ Here is our test:
 
 <div class="org-src-container">
 <pre class="src src-lisp">(deftest account-server-starts-and-stops
-  (let ((stop-val (account:stop))
+  (<span style="font-weight: bold;">let</span> ((stop-val (account:stop))
         (start-val-pid (tref (account:start) 2))
         (stop-again-val (account:stop)))
     (is-equal stop-val 'ok)
@@ -759,9 +758,9 @@ withdraw and its rules
 </p>
 </div>
 </div>
-<div id="outline-container-orge2c6654" class="outline-3">
-<h3 id="orge2c6654">Withdraw resumed:</h3>
-<div class="outline-text-3" id="text-orge2c6654">
+<div id="outline-container-org59d0901" class="outline-3">
+<h3 id="org59d0901">Withdraw resumed:</h3>
+<div class="outline-text-3" id="text-org59d0901">
 <p>
 Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
 you cant withdraw can not put it the account balance into negative value. Here's the test.
@@ -770,7 +769,7 @@ you cant withdraw can not put it the account balance into negative value. Here's
 <div class="org-src-container">
 <pre class="src src-lisp">(deftest account-server-withdraw-negative-test
   (account:start)
-    (let* ((starting-balance (account:get-balance))
+    (<span style="font-weight: bold;">let*</span> ((starting-balance (account:get-balance))
           (deposit-amount 1.00)
           (withdraw-amount 200.00))
       (account:deposit deposit-amount)
@@ -789,15 +788,15 @@ on if the amount is greater than the balance.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">;; withdraw
-(((tuple 'withdraw amount) _caller state)
+<pre class="src src-lisp"><span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">withdraw
+</span>(((tuple 'withdraw amount) _caller state)
 
- ;; first step, check that amount is less than the current balance.
- (if (&gt; amount (map-get state 'balance))
-   ;; true condition
-   `#(reply ,'insufficient-funds ,state)
-   ;; false condition
-   `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))))
+ <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">first step, check that amount is less than the current balance.
+</span> (<span style="font-weight: bold;">if</span> (&gt; amount (map-get state 'balance))
+   <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">true condition
+</span>   `#(reply ,'insufficient-funds ,state)
+   <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">false condition
+</span>   `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))))
 </pre>
 </div>
 
@@ -809,7 +808,7 @@ All tests should now pass.
 <pre class="src src-sh">$ rebar3 as test lfe ltest
 ===&gt; Verifying dependencies...
 ===&gt; Compiling pseudobank
-================================ ltest =================================
+================================ <span style="font-weight: bold; font-style: italic;">ltest</span> =================================
 
 ------------------------------ Unit Tests ------------------------------
 
@@ -820,7 +819,7 @@ module: pseudobank-tests
   account_server_withdrawal_works ................................... [ok]
   account_server_starts_and_stops ................................... [ok]
   account_server_withdraw_negative_test ............................. [ok]
-  time: 25ms
+  <span style="font-weight: bold;">time</span>: 25ms
 
 summary:
   Tests: 6  Passed: 6  Skipped: 0  Failed: 0 Erred: 0
@@ -835,9 +834,9 @@ link right here soon.
 </p>
 </div>
 </div>
-<div id="outline-container-org03c4439" class="outline-2">
-<h2 id="org03c4439">Resources:</h2>
-<div class="outline-text-2" id="text-org03c4439">
+<div id="outline-container-orge969feb" class="outline-2">
+<h2 id="orge969feb">Resources:</h2>
+<div class="outline-text-2" id="text-orge969feb">
 <ul class="org-ul">
 <li><a href="https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3</a></li>
 <li><a href="https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf">https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf</a></li>

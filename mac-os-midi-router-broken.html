@@ -3,36 +3,33 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-08 Sun 21:40 -->
+<!-- 2025-10-07 Tue 16:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mac OS X Sonoma midi router is broken.</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<link rel="stylesheet" href="reset.css">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Actual midi routing in osx." />
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self' 'unsafe-inline'; img-src https://*; child-src 'none';" />
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Mac OS X Sonoma midi router is broken.</h1>
-
-<div id="outline-container-org2a2101c" class="outline-2">
-<h2 id="org2a2101c">Summary:</h2>
-<div class="outline-text-2" id="text-org2a2101c">
+<div id="outline-container-org4e65052" class="outline-2">
+<h2 id="org4e65052">Summary:</h2>
+<div class="outline-text-2" id="text-org4e65052">
 <p>
 How to connect a USB midi keyboard (Minilab3) to a synthesizer (KO2) using
 a USB MIDI host.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org6475918" class="outline-2">
-<h2 id="org6475918">Introduction</h2>
-<div class="outline-text-2" id="text-org6475918">
+<div id="outline-container-orgcf3c010" class="outline-2">
+<h2 id="orgcf3c010">Introduction</h2>
+<div class="outline-text-2" id="text-orgcf3c010">
 <p>
 I believed there should be a method of connecting two digital musical instruments
 together via USB.  This shouldn't be too much to ask.  The Musical Instrument
@@ -54,20 +51,18 @@ technology.  A USB Midi standard happened, and that brings you to my recent
 two purchases:
 </p>
 </div>
-
-<div id="outline-container-orgc9b6b87" class="outline-3">
-<h3 id="orgc9b6b87">ARTURIA Minilab 3</h3>
-<div class="outline-text-3" id="text-orgc9b6b87">
+<div id="outline-container-org3976c32" class="outline-3">
+<h3 id="org3976c32">ARTURIA Minilab 3</h3>
+<div class="outline-text-3" id="text-org3976c32">
 <p>
 A compact MIDI controller known for its versatility and tactile feel, offering
 an array of pads, knobs, and keys for expressive performance.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4f087a0" class="outline-3">
-<h3 id="org4f087a0">KO2 Sampler Composer</h3>
-<div class="outline-text-3" id="text-org4f087a0">
+<div id="outline-container-org1796fef" class="outline-3">
+<h3 id="org1796fef">KO2 Sampler Composer</h3>
+<div class="outline-text-3" id="text-org1796fef">
 <p>
 A powerful sampler and composer, capable of transforming MIDI input into
 rich, textured soundscapes and melodies.  Its the new kid on the block.
@@ -114,7 +109,7 @@ Below is an example of the routing that I had expected to work (IT DOES NOT).
 </p>
 
 
-<div id="orgb50ddbd" class="figure">
+<div id="org401fbe0" class="figure">
 <p><img src="./images/apple-midi-studio-routing-broken.png" alt="apple-midi-studio-routing-broken.png" width="800px" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Broken midi studio in osx.</p>
@@ -133,11 +128,9 @@ software companies in the world.  However I assure you that it appears that it d
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-orgf6c4bd3" class="outline-2">
-<h2 id="orgf6c4bd3">What to do ?</h2>
-<div class="outline-text-2" id="text-orgf6c4bd3">
+<div id="outline-container-orgc5ffcbc" class="outline-2">
+<h2 id="orgc5ffcbc">What to do ?</h2>
+<div class="outline-text-2" id="text-orgc5ffcbc">
 <p>
 I was told that there was some software that may help.  It was spoken about in hushed tones.
 The software was named "MIDI PATCHBAY",  Which sounds like exactly what I needed.  I had an
@@ -178,7 +171,7 @@ You can add a route with the button named "Add New Route". Check out this beauti
 </p>
 
 
-<div id="org89c5baf" class="figure">
+<div id="orgff68f5c" class="figure">
 <p><img src="./images/midi-router.png" alt="midi-router.png" width="800px" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Working application to route midi.</p>
@@ -195,21 +188,18 @@ the midi events are sent through to the KO2 and it works.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org66623b8" class="outline-2">
-<h2 id="org66623b8">Conclusion</h2>
-<div class="outline-text-2" id="text-org66623b8">
+<div id="outline-container-orgb821411" class="outline-2">
+<h2 id="orgb821411">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb821411">
 <p>
 Apple OSX midi configuration software is likely broken, I found "Midi router" that seems to route midi
 messages.  It works great.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org37e9dd8" class="outline-2">
-<h2 id="org37e9dd8">Resources:</h2>
-<div class="outline-text-2" id="text-org37e9dd8">
+<div id="outline-container-orgcdd4938" class="outline-2">
+<h2 id="orgcdd4938">Resources:</h2>
+<div class="outline-text-2" id="text-orgcdd4938">
 <p>
 <a href="https://github.com/yaros-eu/midi_router/tree/master">Midi Router</a>
 </p>
