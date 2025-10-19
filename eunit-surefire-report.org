@@ -16,7 +16,7 @@ some people.
 
 Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC erlang
 {erl_opts, [debug_info]}.
 {deps, []}.
 
@@ -27,7 +27,7 @@ Edit rebar.config in your projects rebar.config and add the "eunit_opts" option 
     %% {config, "config/sys.config"},
     {apps, [surefire_demo]}
 ]}.
-#+END_EXAMPLE
+#+END_SRC
 
 
 When you run eunit tests (In this case, with 'rebar3 eunit' command), it should create the target/surefire-reports
@@ -39,6 +39,7 @@ tooling.
 
 Create a pom.xml file in the projects root directory.
 
+You should modify the ProjectName, url and version to match your tooling:
 
 #+BEGIN_SRC xml
 <project>
@@ -49,7 +50,7 @@ Create a pom.xml file in the projects root directory.
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<url>https://wmealing.github.io</url>
+	<url>https://your-projects-url.com</url>
 	<reporting>
 		<plugins>
 			<plugin>
@@ -94,14 +95,90 @@ Create a pom.xml file in the projects root directory.
 
 #+END_SRC
 
-* Summary:
 
-REPLACE THIS
+A pom.xml file, or Project Object Model XML, is the configuration file for projects built with Apache Maven.  Even
+though we build our project with erlang.
+
+Install maven on your computer, apparently all java is cross platorm and super easy to install .  If you're on a
+linux, you should use your package manager because it seems to work for me, on other platforms you may want to
+look into what best practices are, I couldnt' tell you.
+
+From within the directory containing pom.xml you should run:
+
+#+BEGIN_SRC bash
+ mvn surefire-report:report-only
+#+END_SRC
+
+This should generate a more complicated data structure.
+
+#+BEGIN_SRC bash
+$ surefire_demo tree target 
+target
+├── reports
+│   ├── css
+│   │   ├── apache-maven-fluido-2.0.0-M9.min.css
+│   │   ├── print.css
+│   │   └── site.css
+│   ├── fonts
+│   │   ├── glyphicons-halflings-regular.eot
+│   │   ├── glyphicons-halflings-regular.svg
+│   │   ├── glyphicons-halflings-regular.ttf
+│   │   └── glyphicons-halflings-regular.woff
+│   ├── images
+│   │   ├── accessories-text-editor.png
+│   │   ├── add.gif
+│   │   ├── apache-maven-project-2.png
+│   │   ├── application-certificate.png
+│   │   ├── contact-new.png
+│   │   ├── document-properties.png
+│   │   ├── drive-harddisk.png
+│   │   ├── fix.gif
+│   │   ├── icon_error_sml.gif
+│   │   ├── icon_help_sml.gif
+│   │   ├── icon_info_sml.gif
+│   │   ├── icon_success_sml.gif
+│   │   ├── icon_warning_sml.gif
+│   │   ├── image-x-generic.png
+│   │   ├── internet-web-browser.png
+│   │   ├── logos
+│   │   │   ├── build-by-maven-black.png
+│   │   │   ├── build-by-maven-white.png
+│   │   │   └── maven-feather.png
+│   │   ├── network-server.png
+│   │   ├── package-x-generic.png
+│   │   ├── profiles
+│   │   │   ├── pre-release.png
+│   │   │   ├── retired.png
+│   │   │   └── sandbox.png
+│   │   ├── remove.gif
+│   │   ├── rss.png
+│   │   ├── update.gif
+│   │   └── window-new.png
+│   ├── img
+│   │   ├── glyphicons-halflings-white.png
+│   │   └── glyphicons-halflings.png
+│   ├── js
+│   │   └── apache-maven-fluido-2.0.0-M9.min.js
+│   └── surefire.html
+└── surefire-reports
+    ├── TEST-file_surefire_demo.app.xml
+    └── TEST-some_test.xml
+
+10 directories, 40 files
+#+END_SRC
+
+The html file to open in the browsers is ./target/reports/index.html .  It requires the data directory structure as
+specified above, but the index.html could be renamed into a 'once off' like index-05-10-2025.html if you needed
+html records,  If historical raw data is required, you could version the XML files.
 
 * Conclusion
 
-Wrap it up here.
+The maven surefire reports tool is a simple way to generate html from eunit reports.
+
 
 * Resources:
 
+https://www.erlang.org/doc/apps/eunit/chapter.html
+
+https://maven.apache.org/surefire/maven-surefire-report-plugin/project-info.html
 
