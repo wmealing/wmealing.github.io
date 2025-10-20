@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-20 Mon 03:48 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cellium's First Steps: Building a TUI for Erlang 👾</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Introduction to cellium concepts" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Cellium's First Steps: Building a TUI for Erlang 👾</h1>
+<div id="outline-container-org0c2c08d" class="outline-2">
+<h2 id="org0c2c08d">Summary:</h2>
+<div class="outline-text-2" id="text-org0c2c08d">
+<p>
+I started building <a href="https://github.com/wmealing/cellium">Cellium</a>, a TUI (Text-User Interface) library for Erlang, because I got fed up with the complexity of building
+basic user interfaces for my Erlang tooling. It's an itch I needed to scratch.
+</p>
+</div>
+</div>
+<div id="outline-container-org5be16a3" class="outline-2">
+<h2 id="org5be16a3">Introduction</h2>
+<div class="outline-text-2" id="text-org5be16a3">
+<p>
+Look, I'm not entirely sure who I'm writing this for. It feels like throwing a message in a bottle onto the internet,
+Google's certainly not indexing it, so maybe this is a complete waste of time. But here we are.
+</p>
+
+<p>
+Erlang will always be a language close to my heart. Sure, it has its flaws ( the things I'd love to fix&#x2026; ) but most of those
+"fixes" are just things I care about and are not suitable for upstream submission.
+</p>
+
+<p>
+The real driver for Cellium is this: setting up a full web stack—webserver, HTML, CSS, and security—just to give a basic
+interface to a piece of tooling is the absolute definition of <b>too much work for too little gain</b>.
+</p>
+
+<p>
+So, the idea was born: use <a href="https://github.com/termbox/termbox2">termbox2</a> as the foundation for console interaction. I'm okay with digging into C when needed,
+so I wasn't too worried about adding a few features to the existing 'termbox2_nif' Erlang library.
+</p>
+
+<p>
+I quickly whipped up an "event manager," a "render server," and a "state server." I even tweeted about it <a href="https://x.com/WadeMealing/status/1972691136163561786">here</a>, and it
+got the engagement it deserved (zero). But like the stubborn idiot I am, I kept going.
+</p>
+
+<p>
+Then I stumbled upon the <b><b>"TEA" (The Elm Architecture)</b></b> concept, a much cleaner way to structure an application. The
+core idea is centered around three main functions:
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-erlang">init() -&gt;
+    %% Initial setup goes here.
+    Model = ....
+    {ok, Model}.
+
+update(Model, Msg) -&gt;
+    %% This takes the old Model and a Message (user input/event)
+    %% and returns a NewModel.
+    NewModel = ,
+    {ok, NewModel}
+
+render(Model) -&gt;
+    %% This takes the Model and applies it to the 'view' (the TUI layout)
+    {ok, whatever}
+</pre>
+</div>
+
+<p>
+This model was perfect! I could hook my event manager into <code>update</code> (sending events as messages) and adapt my widget code in <code>render</code> to draw
+the layout based on the current <code>Model</code>. I got it working in short order.
+</p>
+
+<p>
+I thought surely, someone had done this, I googled "TEA" for Erlang and found <a href="https://github.com/ndreynolds/ratatouille">Ratatouille</a>. They had almost the exact same naming and plan. Turns out,
+they've been at this for a while and probably have a much more mature understanding of the problem. Both Elixir and Gleam (fantastic
+alternative languages that also run on the Erlang <a href="https://en.wikipedia.org/wiki/BEAM_(Erlang_virtual_machine)">BEAM</a>) have working, mature TEA-based TUI alternatives: <a href="https://github.com/ndreynolds/ratatouille">Ratatouille</a> and <a href="https://github.com/bgwdotdev/shore">Shore</a>.
+</p>
+
+<p>
+They are miles ahead of me. They've got mature implementations, and those languages likely have more users than Erlang anyway. But you know what?
+My special brand of idiocy continues.
+</p>
+
+<p>
+My first smart move was to stop reinventing the wheel and borrow from those who have come before me. I based Cellium's basic structure and README
+example on Ratatouille's approach.  I looked at the examples.
+</p>
+</div>
+<div id="outline-container-org74ec1a8" class="outline-3">
+<h3 id="org74ec1a8">The Cellium Example</h3>
+<div class="outline-text-3" id="text-org74ec1a8">
+<p>
+The resulting basic counter example looks pretty similar to their <a href="https://github.com/ndreynolds/ratatouille/blob/master/examples/counter.exs">Elixir version</a>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">-module(counter).
+
+-behavior(cellium).
+
+-export([init/1, render/1, update/2, start/0]).
+
+init(_Args) -&gt;
+    Model = #{count =&gt; 0},
+    {ok, Model}.
+
+update(#{count := Count} = Model, Msg) -&gt;
+    case Msg of
+        {tb_event, key, _, {keydata, _, $+}} -&gt;
+            #{count =&gt; Count + 1};
+        {tb_event, key, _, {keydata, _, $-}} -&gt;
+            #{count =&gt; Count - 1};
+        {tb_event, key, _ , {keydata, _ , $q}} -&gt;
+            init:stop();
+        _Other -&gt;
+            Model
+    end.
+
+render(#{count := Count}) -&gt;
+    Text = io_lib:format("Counter: ~p (+/-)", [Count]),
+
+    %% Must return a container, not just a single widget.
+    #{
+        type =&gt; container,
+        orientation =&gt; horizontal,
+        children =&gt; [
+            #{
+                type =&gt; widget,
+                widget_type =&gt; text,
+                value =&gt; Text
+            }
+        ]
+    }.
+
+start() -&gt;
+    cellium:start(?MODULE).
+</pre>
+</div>
+
+<p>
+I wrapped a little bit of 'handling' logic in a custom behavior (thanks to <a href="https://medium.com/erlang-battleground/erlang-behaviors-d5bb30d5412b">this document</a>) to present the minimal API surface to the programmer.
+</p>
+
+
+<p>
+And here's what it looks like in action:
+</p>
+
+
+<div id="org33b205b" class="figure">
+<p><img src="./images/counter-demo.png" alt="counter-demo.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3c409f6" class="outline-2">
+<h2 id="org3c409f6">Current Hurdles.</h2>
+<div class="outline-text-2" id="text-org3c409f6">
+<p>
+While the core concept is sound, Erlang throws up a few unique roadblocks compared to Elixir.
+</p>
+
+<p>
+<b><b>Elixir allows Top-Level Code Execution.</b></b>
+</p>
+
+<p>
+In Elixir, they can run a line like <code>Ratatouille.run(Counter)</code> right after defining the module. That's a slick way to launch a demo. Erlang doesn't let you do this. You can play with <code>-on_load</code> attributes, but the programmer still needs to actively trigger the module load, so you're back to square one.
+</p>
+
+<p>
+Maybe I'll need to write a nice application wrapper to manage the startup process gracefully.
+</p>
+
+<p>
+<b><b>The Erlang Shell Problem.</b></b>
+</p>
+
+<p>
+The Ratatouille folks seem to have solved the notorious "Erlang shell problem." This is where the standard Erlang shell corrupts your terminal output and sometimes swallows input. My own workaround was to run Erlang with the <code>-noshell</code> parameter:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">$ erl -noshell -sname node1 -setcookie mysecretcookie .... etc
+</pre>
+</div>
+
+<p>
+This stops the shell from interfering, but it also means you lose your REPL (Read-Eval-Print Loop).
+</p>
+
+<p>
+Fortunately, Erlang is a distributed language at its core, allowing for an easy connection to a remote shell, given some <a href="https://www.erlang.org/doc/apps/erts/erl_cmd.html">command line parameters</a>. As an Emacs user, I came up with this clever little function to maintain a quick "EDIT -&gt; COMPILE -&gt; VIEW" loop:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(defun remote-erlang-shell ()
+  "Starts an inferior Erlang shell with a randomized -sname using a random string."
+  (interactive)
+  (let* (
+           (chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+           (len 5) ; Length of the random part (e.g., 5 characters)
+           (random-part (with-temp-buffer
+                            (dotimes (i len)
+                              (insert (aref chars (random (length chars)))))
+                            (buffer-string)))
+           (random-name (concat "node-" random-part))
+           (command (format "erl -sname %s -setcookie mysecretcookie -remsh node1" random-name)))
+    (inferior-erlang command)))
+</pre>
+</div>
+
+<p>
+When I run <code>M-x remote-erlang-shell</code> in Emacs, it starts a new shell connected to my running TUI node (<code>'node1'</code>). Now, when I edit a file and hit <code>'c-c c-k'</code>, the code compiles directly into the live, running remote server. <b><b>Live code updates are awesome!</b></b>
+</p>
+
+<p>
+Still, The Rat has found a better way, and I need to figure out how.
+</p>
+
+<p>
+[Update: I have just found out that you can't embed a NIF in an <a href="https://www.rebar3.org/docs/commands/#escriptize">Escriptized</a> application, which could be another reason to remove the dependency.]
+</p>
+
+
+<p>
+<b><b>Using termbox2.</b></b>
+</p>
+
+<p>
+The Gleam library, <a href="https://github.com/bgwdotdev/shore">Shore</a>, appears to avoid termbox2. While the Shore code is pretty complex to fully grasp quickly, it seems they might be using
+Erlang's native <a href="https://www.erlang.org/doc/apps/stdlib/io.html#get_chars/2">io:get_chars</a> to handle input without the shell interference. Shore's <a href="https://github.com/bgwdotdev/shore/blob/fe5d62b16b17549f461b3af3d9fd805f3be447af/src/shore/internal.gleam#L742">renderer</a> looks straightforward enough, and if I can get the
+core logic down, adopting their rendering concept will perhaps allow moe to remove termbox2 as a depenency.
+</p>
+</div>
+</div>
+<div id="outline-container-org192653a" class="outline-2">
+<h2 id="org192653a">Where Cellium Differentiates</h2>
+<div class="outline-text-2" id="text-org192653a">
+<p>
+I'm not  copying; there are a few areas where I want Cellium to be different.
+</p>
+</div>
+<div id="outline-container-orgd0a194c" class="outline-4">
+<h4 id="orgd0a194c">"CSS-Like" Theming Engine:</h4>
+<div class="outline-text-4" id="text-orgd0a194c">
+<p>
+I'm working on a theming engine that applies attributes to widgets, similar to how CSS works. The idea is to make
+theme edits live and easy. Of course, CSS attributes should <b>overwrite</b> coded values—that's what the C in CSS stands for (Cascading!), right? 😉
+</p>
+</div>
+</div>
+<div id="outline-container-org693deab" class="outline-4">
+<h4 id="org693deab"><b>Robust Crash Handling:</b></h4>
+<div class="outline-text-4" id="text-org693deab">
+<p>
+I want to be absolutely sure that if an <code>update</code> function fails, the rest of the system keeps running smoothly. This will be a core part of my test suite.
+</p>
+</div>
+</div>
+<div id="outline-container-org91c44ec" class="outline-4">
+<h4 id="org91c44ec"><b>It's Pure Erlang:</b></h4>
+<div class="outline-text-4" id="text-org91c44ec">
+<p>
+The simple fact that I can't find another mature TUI library written purely in Erlang appears to be the motivation enough for me to keep going.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org727cf79" class="outline-2">
+<h2 id="org727cf79">What's Next?</h2>
+<div class="outline-text-2" id="text-org727cf79">
+<p>
+I should look at adopting a better event format. The termbox2_nif  messages aren't the clearest. <a href="https://github.com/ndreynolds/ratatouille/issues/6">The Ratatouille project</a> has a great idea for standardizing TUI events. If I can use a cleaner event format, maybe I can even drop the direct termbox messages and just use their event structure natively.
+</p>
+</div>
+</div>
+<div id="outline-container-org2caccb9" class="outline-2">
+<h2 id="org2caccb9">Conclusion</h2>
+<div class="outline-text-2" id="text-org2caccb9">
+<p>
+I've laid out the current state of Cellium and talked through the key issues—Erlang's quirks and the realization that
+others have done this before. I'll keep plugging away at this, even if I never get a single user and my writings remain
+on github.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd894651" class="outline-2">
+<h2 id="orgd894651">Resources:</h2>
+<div class="outline-text-2" id="text-orgd894651">
+<p>
+<a href="https://github.com/termbox/termbox2">https://github.com/termbox/termbox2</a>
+</p>
+
+<p>
+<a href="https://github.com/bgwdotdev/shore">https://github.com/bgwdotdev/shore</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
