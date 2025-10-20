@@ -4,7 +4,7 @@
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
-* [[./cellium-first.html][Cellium First Post]]
+* [[./cellium-first.html][Cellium First Post]] - Oct 2025.
 
 In an attempt to make my erlang code a little less complex, i've been convinced that I must drop the web and all the
 complexity that entails. I've written a TUI library called [[https://github.com/wmealing/cellium][cellium]] which uses the popular TEA architecture to lull developers
