@@ -2,7 +2,14 @@
 #+OPTIONS: ^:nil num:nil toc:nil 
 
 #+SETUPFILE: "./setupfile.org"
-#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+#+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
+
+* [[./cellium-first.html][Cellium First Post]]
+
+In an attempt to make my erlang code a little less complex, i've been convinced that I must drop the web and all the
+complexity that entails. I've written a TUI library called [[https://github.com/wmealing/cellium][cellium]] which uses the popular TEA architecture to lull developers
+into a sense of familiarity. 
+
 
 * [[https://wmealing.github.io/github-not-connecting.html][Rebar3 / git not connecting to github]] - Oct 2025
 
