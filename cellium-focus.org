@@ -1,0 +1,171 @@
+#+TITLE: Cellium Focus Concepts - Cellium 002
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Introduction to cellium concepts" />
+
+* Summary
+
+I started building [[https://github.com/wmealing/cellium][Cellium]], an Erlang **Text-User Interface (TUI)** library, to simplify creating basic user interfaces for my Erlang tooling. This article details the concept and implementation of **widget focus** within Cellium.
+
+* Core Focus Concept
+
+Widget focus is a standard design pattern in TUI and GUI development. It designates the currently active or target interactive **widget**, which must be distinguishable via a visual indicator.
+
+** Visual Indication Examples:
+
+Different widgets will have different ways of displaying they have 'focus'.
+
+- **Highlighting:** Displaying the element with a distinct color, background, or border.
+- **Obscuring:** Making non-interactive or unfocused items less bright or a duller color.
+- **Cursor:** A blinking cursor within a focused input field.
+- **Inversion:** Inverting the element's colors.
+- **Labeling:** Applying a tag like `[Focused]` or `[Active]` to the widgets header or footer.
+
+** Navigation
+
+Users typically navigate between focusable elements using standard key bindings:
+
+- **Tab Key:** Moves focus *forward* through the sequence.
+- **Shift + Tab:** Moves focus *backward* through the sequence.
+
+A navigation aid is sometimes in the 'footer (or status bar)' of the terminal, but this is not a hard requirement.
+
+* Focus Management Implementation
+
+Cellium provides an **optional, built-in default focus handler** to improve the developer experience (DX).
+
+This default handler can be disabled, allowing you to implement manual focus logic, typically within your application's ~update/2~ function.
+
+To disable the automatic focus handler, set `auto_focus` to `false` when starting the Cellium server:
+
+#+BEGIN_SRC erlang
+start() ->
+    cellium:start(#{module=>?MODULE, auto_focus => false }).
+#+END_SRC
+
+** Registering Focusable Widgets
+
+The **`focus_manager`** gen server tracks the list of focusable widgets, the current focus, and handles focus changes.
+
+You must explicitly register a widget to include it in the focus chain using its unique identifier:
+
+#+BEGIN_SRC erlang
+focus_manager:register_widget(WidgetID).
+#+END_SRC
+
+**Design Rationale:** Requiring explicit registration gives you full control over the focus sequence, which is crucial for complex application flows.
+
+** Navigation Functions
+
+With `auto_focus` enabled, Cellium automatically translates Tab and Shift + Tab key presses into calls to:
+
+#+BEGIN_SRC erlang
+focus_manager:move_focus_forward()
+focus_manager:move_focus_backward()
+#+END_SRC
+
+You can also set focus explicitly:
+
+#+BEGIN_SRC erlang
+ok = focus_manager:set_focused(WidgetID)
+#+END_SRC
+
+* Widget Rendering and Focus State
+
+To render a widget based on its focus state, you can query the ~focus_manager~ within your ~render~ function.
+
+** Retrieving the Focused Widget
+
+Use ~get_focused/0~ to find the identifier of the currently focused widget:
+
+#+BEGIN_SRC erlang
+{ok, NewFocused} = focus_manager:get_focused().
+#+END_SRC
+
+** Checking Focusability
+
+Use ~can_focus/1~ to check if a widget is focusable:
+
+#+BEGIN_SRC erlang
+Focusable = focus_manager:can_focus(WidgetID)
+#+END_SRC
+
+** Setting the focus visual indication
+
+Widgets that have 'focus' should appear different. For example boxes typically changes their
+border style (e.g., from single to double lines).
+
+#+BEGIN_SRC shell
+| Not Focused | Focused    |
+| ┌────────┐  | ╔════════╗ |
+| │        │  | ║        ║ |
+| │        │  | ║        ║ |
+| └────────┘  | ╚════════╝ |
+#+END_SRC
+
+Widgets that have focus focus should have the internal ~has_focus~ attribute set to ~true~,
+
+The helper function, *view:maybe_set_focus(Widget)*, automatically checks the ~focus_manager~  and applies the
+~has_focus~ attribute if the widget is focused.
+
+
+*** Using the Focus Helper
+
+By wrapping the widget in the ~view:maybe_set_focus~ function, it will query the ~focus_manager~ and set the has_focus attribute
+value if the widget has focus.
+
+#+BEGIN_SRC erlang
+render(Model) ->
+    #{type => container,
+      id => main_container,
+      orientation => vertical,
+      children => [
+          view:maybe_set_focus( #{type => widget,
+                                  widget_type => text_input,
+                                  id => first_name } )
+      ]
+    }.
+#+END_SRC
+
+*** Manual Setting of Focus (Direct Attribute Manipulation)
+
+It is still possible to manually set the ~has_focus~ attribute of a widget, which will render the widget
+as if it had focused, however setting this value **does not** inform the ~focus_manager~ that this widget is
+now the active focus.
+
+#+BEGIN_SRC erlang
+render(Model) ->
+    #{type => container,
+      id => main_container,
+      orientation => vertical,
+      children => [
+          #{type => widget,
+            has_focus => true, %% Manual visual attribute set
+            widget_type => text_input,
+            id => first_name }
+      ]
+    }.
+#+END_SRC
+
+Changes to 'what has focus' should be done in the ~update/2~ function with the ~set_focus/1~ function (see above for example).
+
+
+
+* Conclusion
+
+While not every TUI application will need focus management, having it there should save developers from having
+to write their own.  This same ~has_focus~ attribute should be added if you write custom widgets that could accept
+focus.
+
+* Resources:
+
+- **TUI/GUI Design Patterns:**
+
+  Looking for discussions on **"Focus management in TUI/GUI design"** to understand advanced handling of
+  focus within complex container structures or forms.
+
+- **Elixir/Erlang TUI:** See [[https://github.com/ndreynolds/ratatouille][Ratatouille (Elixir)]] for an alternative implementation based on
+  The Elm Architecture (TEA).
+
+- Move the cursor on the interface:
+  https://github.com/ndreynolds/ratatouille/issues/34
