@@ -4,14 +4,13 @@
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
-* [[./cellium-first.html][Cellium 002]]- Oct 2025
+* [[./cellium-focus.html][Cellium 002]]- Oct 2025
 
 I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus.  Ive made
 a rudimentary attempt at adding focus to the 'cellium' behavior, you can read about how to use it to your advantage h
 [[http://wmealing.github.io/cellium-focus.html][here.]]
 
-
-* [[./cellium-first.html][Cellium 001]]- Oct 2025.
+* [[./cellium-first.html][Cellium 001]] - Oct 2025.
 
 In an attempt to make my erlang code a little less complex, i've been convinced that I must drop the web and all the
 complexity that entails. I've written a TUI library called [[https://github.com/wmealing/cellium][cellium]] which uses the popular TEA architecture to lull developers

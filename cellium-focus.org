@@ -149,7 +149,9 @@ render(Model) ->
 
 Changes to 'what has focus' should be done in the ~update/2~ function with the ~set_focus/1~ function (see above for example).
 
+* Demo
 
+[[mp4:./images/focus-demo.mp4]]
 
 * Conclusion
 
