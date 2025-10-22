@@ -34,7 +34,7 @@ A navigation aid is sometimes in the 'footer (or status bar)' of the terminal, b
 
 Cellium provides an **optional, built-in default focus handler** to improve the developer experience (DX).
 
-This default handler can be disabled, allowing you to implement manual focus logic, typically within your application's ~update/2~ function.
+This default handler can be disabled, allowing you to implement manual focus logic, typically within your application's ~update/2~ function (where the application logic processes events such as key presses to change the model).
 
 To disable the automatic focus handler, set `auto_focus` to `false` when starting the Cellium server:
 
@@ -112,7 +112,7 @@ The helper function, *view:maybe_set_focus(Widget)*, automatically checks the ~f
 *** Using the Focus Helper
 
 By wrapping the widget in the ~view:maybe_set_focus~ function, it will query the ~focus_manager~ and set the has_focus attribute
-value if the widget has focus.
+value if the widget has focus.  This function returns a widget map with the focus attribute set appropriately.
 
 #+BEGIN_SRC erlang
 render(Model) ->
