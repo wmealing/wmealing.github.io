@@ -86,6 +86,9 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-family: Helvetica, Arial, sans-serif;
     background-color: #f52922;
+    background: url('./images/tape.png') 0 0; 
+    position:relative;
+    display: inline-block;
     color: #FFFFFF;
     font-size: 4rem;
     line-height: calc(4rem * 1.2);
