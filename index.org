@@ -172,12 +172,12 @@ piqued my interest in learning more about what can be done to prevent a system
 comprimised in such a way from being abused.  I've written about
 [[./tpm-pcr07.html][it here]]
 
-* Toshiba Toughpad FZ-G1-3 [Jul 25 2020]
+* [[./toshibia-toughpad-fz-g1-3.html][Toshiba Toughpad FZ-G1-3 [Jul 25 2020]]]
 
 I have recently purchased one of these machines in an auction, and I am -very-
 impressed with its build quality.   While this one is not its current purchase
 release, I've got a page talking about the customizations and things I have
-learned about it [[./toshiba-toughpad-fz-g1-3][While making it work for me]]
+learned about it [[./toshiba-toughpad-fz-g1-3.html][While making it work for me]]
 
 
 
