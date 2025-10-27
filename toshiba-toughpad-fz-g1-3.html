@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-27 Mon 15:54 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Toshiba Toughpad FZ-G1 mk3</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Toshiba Toughpad FZ-G1 mk3" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Toshiba Toughpad FZ-G1 mk3</h1>
+<p>
+I've got <b>Fedora 32</b> installed on this system. The advice below may work on other distributions. I'd be happy to do more of these if anyone wanted to throw a few Toughpads my way.
+</p>
+<div id="outline-container-org04ca143" class="outline-2">
+<h2 id="org04ca143">Brightness:</h2>
+<div class="outline-text-2" id="text-org04ca143">
+<p>
+The brightness controls in <b>Gnome 3 / Fedora 32</b> do not work out of the box. These instructions have also been tested on <b>Red Hat Enterprise Linux 8</b>.
+</p>
+
+<p>
+You need to create file <code>/usr/share/X11/xorg.conf.d/20-intel.conf</code> and place this in the file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">Section "Device"
+            Identifier  "card0"
+            Driver      "intel"
+            Option      "Backlight"  "intel_backlight"
+            BusID       "PCI:0:2:0"
+EndSection
+</pre>
+</div>
+
+<p>
+This will create an additional backlight directory in <code>/sys/class/backlight</code>. At this point you might find there are two possible backlights, <b>'panasonic'</b> and <b>'intel_backlight'</b>.
+</p>
+
+<p>
+The next step was to <b>blacklist the 'panasonic_laptop' kernel module</b>. This ensured that the Gnome 3 brightness/contrast functionality would find <b>ONLY</b> the <code>intel_backlight</code> backlight controls and work correctly.
+</p>
+
+<p>
+I achieved this by creating a file in <code>/etc/modprobe.d/panasonic-backlist.conf</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">blacklist panasonic_laptop
+</pre>
+</div>
+
+<p>
+If you want these changes to take effect immediately run the command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">rmmod panasonic_laptop
+</pre>
+</div>
+
+<p>
+And restart the X session by logging in and out.
+</p>
+
+<p>
+There should only be a single directory in <code>/sys/class/backlight</code> and the Gnome brightness controls should work correctly.
+</p>
+</div>
+</div>
+<div id="outline-container-org685e924" class="outline-2">
+<h2 id="org685e924">DOCK PINOUT</h2>
+<div class="outline-text-2" id="text-org685e924">
+<p>
+I'm interested in building a dock for this laptop. There are a lot of docks available for it, some as expensive as 1.5k, which are well beyond the acceptable price range that I'm willing to pay for a dock.
+</p>
+
+<p>
+I'm going to do some research on the system's pins, and then find out what I can build that will be a suitable dock.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Unconfirmed Dock Pinout</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">PIN</th>
+<th scope="col" class="org-left">Signal</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">01</td>
+<td class="org-left">Shield</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">02</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">03</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">04</td>
+<td class="org-left">GRND</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">05</td>
+<td class="org-left">16V</td>
+<td class="org-left">Supply (for dock ?)</td>
+</tr>
+
+<tr>
+<td class="org-right">06</td>
+<td class="org-left">16V</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">07</td>
+<td class="org-left">16V</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">08</td>
+<td class="org-left">5V</td>
+<td class="org-left">Supply for usb ?</td>
+</tr>
+
+<tr>
+<td class="org-right">09</td>
+<td class="org-left">5V</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">5V</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">11</td>
+<td class="org-left">GRND</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">12</td>
+<td class="org-left">D-</td>
+<td class="org-left">USB D-</td>
+</tr>
+
+<tr>
+<td class="org-right">13</td>
+<td class="org-left">D+</td>
+<td class="org-left">USB D+</td>
+</tr>
+
+<tr>
+<td class="org-right">14</td>
+<td class="org-left">GRND</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">15</td>
+<td class="org-left">TX+</td>
+<td class="org-left">ETHERNET TX+</td>
+</tr>
+
+<tr>
+<td class="org-right">16</td>
+<td class="org-left">TX-</td>
+<td class="org-left">ETHERNET TX-</td>
+</tr>
+
+<tr>
+<td class="org-right">17</td>
+<td class="org-left">GRND</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">18</td>
+<td class="org-left">RX +</td>
+<td class="org-left">ETHERNET RX+</td>
+</tr>
+
+<tr>
+<td class="org-right">19</td>
+<td class="org-left">RX-</td>
+<td class="org-left">ETHERNET RX-</td>
+</tr>
+
+<tr>
+<td class="org-right">20</td>
+<td class="org-left">GRND</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">21</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">22</td>
+<td class="org-left">SHORT ?</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">23</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">24</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+All of these are unconfirmed, please leave me a note if you can confirm any of these.
+</p>
+
+<p>
+From what I read the <b>MK1 to MK3</b> have the same pinout.
+</p>
+
+<p>
+I have to assume that the system can also be charged through the dock, I just don't know what pins.
+</p>
+</div>
+</div>
+<div id="outline-container-org6f0c151" class="outline-2">
+<h2 id="org6f0c151">Front facing buttons.</h2>
+<div class="outline-text-2" id="text-org6f0c151">
+<p>
+The front facing buttons on the Toughpad mostly worked out of the box. I had done some initial setup (implied).
+</p>
+</div>
+<div id="outline-container-orgc3ec143" class="outline-3">
+<h3 id="orgc3ec143">A1 and A2</h3>
+<div class="outline-text-3" id="text-orgc3ec143">
+<p>
+Currently have only <b>A1 working</b>, <b>A2 is not working</b>. I've started <a href="./toughpad-fz-g1-buttons-acpi.md">chronicaling my investigation</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb1b6f20" class="outline-3">
+<h3 id="orgb1b6f20">Volume up and volume down</h3>
+<div class="outline-text-3" id="text-orgb1b6f20">
+<p>
+Status: <b>working</b>
+</p>
+</div>
+</div>
+<div id="outline-container-org41b3f05" class="outline-3">
+<h3 id="org41b3f05">Windows key</h3>
+<div class="outline-text-3" id="text-org41b3f05">
+<p>
+Status: <b>working</b> (Looks like it's working&#x2026; not sure what it sends)
+</p>
+</div>
+</div>
+<div id="outline-container-org56f005a" class="outline-3">
+<h3 id="org56f005a">Rotate key</h3>
+<div class="outline-text-3" id="text-org56f005a">
+<p>
+Status: <b>working</b> (Screen doesn't rotate, not sure what it sends)
+</p>
+</div>
+</div>
+<div id="outline-container-org081c4c9" class="outline-3">
+<h3 id="org081c4c9">Power button</h3>
+<div class="outline-text-3" id="text-org081c4c9">
+<p>
+Status: <b>working</b> (This can power off system)
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2025-10-27 Mon 15:54</p>
+</div>
+</body>
+</html>
