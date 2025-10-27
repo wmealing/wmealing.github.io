@@ -43,7 +43,6 @@ body {
   background-image: url("./images/paper.png"); /* Replace with the actual path to your image */
   background-repeat: repeat; /* Or no-repeat, repeat-x, repeat-y depending on desired effect */
   background-size: auto; /* Or cover, contain, or specific dimensions */
-  background-color: #f0f0f0; /* Fallback color if image fails to load */
     position: relative;
     background-color: #fffceb;
     width: 100%;
@@ -66,15 +65,15 @@ body {
   }
   body {
       padding: var(--line-height) 1ch;
-      background-color: #eccd93;
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.01);
   }
+
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-bold);
   margin: calc(var(--line-height) * 2) 0 var(--line-height);
-  line-height: var(--line-height);
+  line-height: 1.4;
   font-size: 2em;
   margin-bottom: 1.5em;
   font-weight: 600;
@@ -108,7 +107,6 @@ h3 {
 h4 {
   font-size: 1.2rem;
 }
-
 
 hr {
   position: relative;
