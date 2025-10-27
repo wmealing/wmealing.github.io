@@ -89,7 +89,7 @@ h1 {
     background-color: #f52922;
     color: #FFFFFF;
     font-size: 4rem;
-    line-height: calc(2 * var(--line-height));
+    line-height: calc(4rem * 1.2);
     margin-bottom: calc(var(--line-height) * 2);
     text-transform: uppercase;
     padding: 40px;

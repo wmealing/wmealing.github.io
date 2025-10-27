@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2025-10-27 Mon 16:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Robust Recovery of Erlang Crashes: Handling faillures and Error Reporting</title>
+<title>Robust Recovery of Erlang Crashes: Handling failures and Error Reporting</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -17,10 +17,10 @@
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">Robust Recovery of Erlang Crashes: Handling faillures and Error Reporting</h1>
-<div id="outline-container-org58031b1" class="outline-2">
-<h2 id="org58031b1">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
-<div class="outline-text-2" id="text-org58031b1">
+<h1 class="title">Robust Recovery of Erlang Crashes: Handling failures and Error Reporting</h1>
+<div id="outline-container-org1533d16" class="outline-2">
+<h2 id="org1533d16">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
+<div class="outline-text-2" id="text-org1533d16">
 <p>
 Erlang’s “let it crash” mantra is great. Recently, its been reframed as “let it heal.”, I like adding a third concept: <b>propono postea</b> or
 “resolve it later.”
@@ -35,9 +35,9 @@ We’ll do it with standard erlang, message passing, and a little crash theatre.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd37c1eb" class="outline-2">
-<h2 id="orgd37c1eb">The Pattern</h2>
-<div class="outline-text-2" id="text-orgd37c1eb">
+<div id="outline-container-org6580ac0" class="outline-2">
+<h2 id="org6580ac0">The Pattern</h2>
+<div class="outline-text-2" id="text-org6580ac0">
 <p>
 We have three functions:
 </p>
@@ -49,10 +49,10 @@ We have three functions:
 </ol>
 </div>
 </div>
-<div id="outline-container-orge6ae403" class="outline-2">
-<h2 id="orge6ae403">Process/Information Flow Diagram</h2>
-<div class="outline-text-2" id="text-orge6ae403">
-<pre class="example" id="orgf3383a6">
+<div id="outline-container-org8baedc1" class="outline-2">
+<h2 id="org8baedc1">Process/Information Flow Diagram</h2>
+<div class="outline-text-2" id="text-org8baedc1">
+<pre class="example" id="org07eca2a">
           +-------------+
           | run/0       |
           | (Coordinator|
@@ -90,15 +90,15 @@ We have three functions:
 </pre>
 </div>
 </div>
-<div id="outline-container-org2101b8d" class="outline-2">
-<h2 id="org2101b8d">Worker Decision Logic</h2>
-<div class="outline-text-2" id="text-org2101b8d">
+<div id="outline-container-orgfc01369" class="outline-2">
+<h2 id="orgfc01369">Worker Decision Logic</h2>
+<div class="outline-text-2" id="text-orgfc01369">
 <p>
 The worker itself is a basic random choice to crash, The code manually crashes, but this same behavior occurs when erlang
 normally fails.
 </p>
 
-<pre class="example" id="orgdcb5f6f">
+<pre class="example" id="org2e06b58">
  [worker/2]
     |
     v
@@ -115,9 +115,9 @@ Crash   Send {ok, Num, Sum}
 </pre>
 </div>
 </div>
-<div id="outline-container-org05177f5" class="outline-2">
-<h2 id="org05177f5">How It Works</h2>
-<div class="outline-text-2" id="text-org05177f5">
+<div id="outline-container-org1a23865" class="outline-2">
+<h2 id="org1a23865">How It Works</h2>
+<div class="outline-text-2" id="text-org1a23865">
 <ul class="org-ul">
 <li>Spawn 30 workers, each with a unique ID.</li>
 <li>Use <code>spawn_monitor</code> so the parent gets a `'DOWN'` message when a worker dies.</li>
@@ -150,9 +150,9 @@ I will get around to that sometime.
 </p>
 </div>
 </div>
-<div id="outline-container-org222e7cb" class="outline-2">
-<h2 id="org222e7cb">Example Code</h2>
-<div class="outline-text-2" id="text-org222e7cb">
+<div id="outline-container-org524e191" class="outline-2">
+<h2 id="org524e191">Example Code</h2>
+<div class="outline-text-2" id="text-org524e191">
 <div class="org-src-container">
 <pre class="src src-erlang">-module(batch_jobs).
 -export([run/0, worker/2]).
@@ -209,9 +209,9 @@ worker(Parent, Num) -&gt;
 </div>
 </div>
 </div>
-<div id="outline-container-org61e79a8" class="outline-2">
-<h2 id="org61e79a8">Wrap-Up</h2>
-<div class="outline-text-2" id="text-org61e79a8">
+<div id="outline-container-org56bae54" class="outline-2">
+<h2 id="org56bae54">Wrap-Up</h2>
+<div class="outline-text-2" id="text-org56bae54">
 <p>
 Once you’ve captured the failures, you can retry, log, email, file Jira tickets — whatever fits your pipeline.
 </p>

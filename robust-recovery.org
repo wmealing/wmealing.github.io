@@ -1,5 +1,5 @@
 
-#+TITLE: Robust Recovery of Erlang Crashes: Handling faillures and Error Reporting
+#+TITLE: Robust Recovery of Erlang Crashes: Handling failures and Error Reporting
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+OPTIONS: html-style:nil
 #+SETUPFILE: "./setupfile.org"
