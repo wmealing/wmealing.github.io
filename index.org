@@ -1,6 +1,6 @@
 #+TITLE: For when I'm gone.
-#+OPTIONS: ^:nil num:nil toc:nil 
 
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 

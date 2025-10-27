@@ -40,12 +40,15 @@ html {
 }
 
 body {
+  background-image: url("./images/paper.png"); /* Replace with the actual path to your image */
+  background-repeat: repeat; /* Or no-repeat, repeat-x, repeat-y depending on desired effect */
+  background-size: auto; /* Or cover, contain, or specific dimensions */
+  background-color: #f0f0f0; /* Fallback color if image fails to load */
     position: relative;
-    background-color: #eccd93;
+    background-color: #fffceb;
     width: 100%;
     margin: 0;
     padding: var(--line-height) 2ch;
-    max-width: calc(min(140ch, round(down, 100%, 1ch)));
     line-height: var(--line-height);
     overflow-x: hidden;
     line-height: 1.6;
@@ -76,13 +79,20 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1.5em;
   font-weight: 600;
   letter-spacing: -0.02em;
+  color: #f52922;
 }
 
+
+
 h1 {
-  font-size: 2rem;
-  line-height: calc(2 * var(--line-height));
-  margin-bottom: calc(var(--line-height) * 2);
-  text-transform: uppercase;
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #f52922;
+    color: #FFFFFF;
+    font-size: 4rem;
+    line-height: calc(2 * var(--line-height));
+    margin-bottom: calc(var(--line-height) * 2);
+    text-transform: uppercase;
+    padding: 40px;
 }
 
 h2 {
@@ -508,4 +518,19 @@ a {
  color: #000000;
 }
 
+h1 a, h2 a, h3 a {
+  /* Use a specific red color code, e.g., the bright red from your image */
+  color: #E74C3C; /* Example red, adjust to match your exact color */
+  text-decoration: none; /* Optional: to remove the default underline */
+}
 
+/* Optional: To maintain the red color even on hover/active/visited */
+h1 a:visited, h2 a:visited, h3 a:visited,
+h1 a:hover, h2 a:hover, h3 a:hover,
+h1 a:active, h2 a:active, h3 a:active {
+    color: #E74C3C;
+}
+
+.content {
+  font-size: 1.5rem;
+}

@@ -1,4 +1,4 @@
-#+TITLE: Cellium Focus Concepts - Cellium 002
+#+TITLE: Cellium 002 - focus
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Introduction to cellium concepts" />

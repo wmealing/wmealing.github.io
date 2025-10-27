@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2025-10-27 Mon 15:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Rebar3 / git not connecting to github.</title>
+<title>Rebar3 not connecting to github.</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -17,7 +17,7 @@
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">Rebar3 / git not connecting to github.</h1>
+<h1 class="title">Rebar3 not connecting to github.</h1>
 <p>
 When trying to setup a new <a href="https://lfe.io/">Lisp Flavored Erlang</a> project, I was going throught he usual steps of
 adding an erlang dependency to the rebar.config file. This fix isnt specific to LFE it applies to
@@ -44,7 +44,7 @@ Here is the top of the rebar.config file:
 Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fail
 </p>
 
-<pre class="example" id="orgda67ea1">
+<pre class="example" id="org9a00c64">
 ✗ rebar3 get-deps
 ===&gt; Verifying dependencies...
 ===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git",{tag,"0.4.0"}})
@@ -57,8 +57,8 @@ Oddly, ssh works
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">&#10007;  ssh -T git@github.com
-Hi wmealing! You<span style="font-style: italic;">\'</span>ve successfully authenticated, but GitHub does not provide shell access.
+<pre class="src src-sh">✗  ssh -T git@github.com
+Hi wmealing! You\'ve successfully authenticated, but GitHub does not provide shell access.
 </pre>
 </div>
 
@@ -67,10 +67,10 @@ When trying to debug the issue, I tried to use git directly to clone the same pr
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">&#10007; git clone git://github.com/lfex/ljson.git
-Cloning into <span style="font-style: italic;">'ljson'</span>...
+<pre class="src src-sh">✗ git clone git://github.com/lfex/ljson.git
+Cloning into 'ljson'...
 fatal: unable to connect to github.com:
-github.com[0: 20.248.137.48]: <span style="font-weight: bold; font-style: italic;">errno</span>=Operation timed out
+github.com[0: 20.248.137.48]: errno=Operation timed out
 </pre>
 </div>
 
@@ -95,7 +95,7 @@ To solve our little dilemma, we can issue the following command:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ git config --global url.<span style="font-style: italic;">"https://"</span>.insteadOf git:// 
+<pre class="src src-sh">$ git config --global url."https://".insteadOf git:// 
 </pre>
 </div>
 
@@ -105,9 +105,9 @@ rebar attempts to fetch dependancies:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">&#10007; rebar3 get-deps
+<pre class="src src-sh">✗ rebar3 get-deps
 ===&gt; Fetching rebar3_lfe v0.4.4
-===&gt; Fetching ljson (from {git,<span style="font-style: italic;">"git://github.com/lfex/ljson.git"</span>, {branch, <span style="font-style: italic;">"master"</span>}})
+===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git", {branch, "master"}})
 </pre>
 </div>
 

@@ -1,14 +1,8 @@
-#+TITLE: Rebar3 / git not connecting to github.
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+OPTIONS: author:nil date:nil
-#+OPTIONS: html-postamble:nil
+#+TITLE: Rebar3 not connecting to github.
 
-#+OPTIONS: ^:nil num:nil toc:nil
+#+OPTIONS: ^:nil num:nil toc:nil 
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Rebar3 not downloading from github" />
-
 
 When trying to setup a new [[https://lfe.io/][Lisp Flavored Erlang]] project, I was going throught he usual steps of
 adding an erlang dependency to the rebar.config file. This fix isnt specific to LFE it applies to
