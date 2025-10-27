@@ -1,4 +1,4 @@
-#+TITLE: Simple cobol "SCREEN" to display and get keyboard input.
+#+TITLE: GNUCOBOL "SCREEN" and keyboard input.
 #+OPTIONS: ^:nil num:nil toc:nil
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="basic gnucobol screen and keyboard input" />
