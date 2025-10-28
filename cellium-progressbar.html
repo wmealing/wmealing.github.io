@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-28 Tue 14:18 -->
+<!-- 2025-10-28 Tue 14:21 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 003: progress bar</title>
@@ -86,7 +86,12 @@ At some point, maybe I should allow 'styling' similar to box_styles, but thats f
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">build_bar(Percentage) -&gt; Filled = calculate_filled(Percentage), Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608), EmptyChars = lists:duplicate(Empty, 9617), AllChars = FilledChars ++ EmptyChars, unicode:characters_to_binary(AllChars). 
+<pre class="src src-erlang">build_bar(Percentage) -&gt;
+    Filled = calculate_filled(Percentage),
+    Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608),
+    EmptyChars = lists:duplicate(Empty, 9617),
+    AllChars = FilledChars ++ EmptyChars,
+    unicode:characters_to_binary(AllChars). 
 </pre>
 </div>
 
@@ -95,7 +100,7 @@ The image below shows the bar at 60% completion.
 </p>
 
 
-<div id="orgf8e371c" class="figure">
+<div id="org5bfb33c" class="figure">
 <p><img src="./images/progressbar.png" alt="progressbar.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>A progress bar in a terminal at 60%.</p>

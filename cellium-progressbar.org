@@ -53,7 +53,12 @@ At some point, maybe I should allow 'styling' similar to box_styles, but thats f
 #+END_VERSE
 
 #+BEGIN_SRC erlang
-  build_bar(Percentage) -> Filled = calculate_filled(Percentage), Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608), EmptyChars = lists:duplicate(Empty, 9617), AllChars = FilledChars ++ EmptyChars, unicode:characters_to_binary(AllChars). 
+  build_bar(Percentage) ->
+      Filled = calculate_filled(Percentage),
+      Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608),
+      EmptyChars = lists:duplicate(Empty, 9617),
+      AllChars = FilledChars ++ EmptyChars,
+      unicode:characters_to_binary(AllChars). 
 #+END_SRC
 
 The image below shows the bar at 60% completion.
