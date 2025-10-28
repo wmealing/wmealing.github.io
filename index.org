@@ -4,6 +4,14 @@
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
+* [[./cellium-progressbar.html][Cellium 003]]- Oct 2025
+
+Sometimes a simple text percentage isn't enough, you need bars; you need a visual indicator to show the user that work is
+actually being done. The progress bar provides a clean, terminal-friendly bar that you can update dynamically. We'll dive
+into the Erlang source, look at how the percentage is clamped to a valid range. It's a small piece of code, but a necessary
+addition to the widget toolkit that you can use, TODAY! 
+
+
 * [[./cellium-focus.html][Cellium 002]]- Oct 2025
 
 I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus.  Ive made
