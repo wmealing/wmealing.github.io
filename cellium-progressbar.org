@@ -1,4 +1,4 @@
-#+TITLE: CELLIUM 003: progress_bar 
+#+TITLE: CELLIUM 003: progress bar 
 #+DATE: [2025-10-28 Tue] 
 #+AUTHOR: W. Mealing 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
