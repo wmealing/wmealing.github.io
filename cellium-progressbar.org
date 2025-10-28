@@ -58,7 +58,7 @@ At some point, maybe I should allow 'styling' similar to box_styles, but thats f
       Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608),
       EmptyChars = lists:duplicate(Empty, 9617),
       AllChars = FilledChars ++ EmptyChars,
-      unicode:characters_to_binary(AllChars). 
+      unicode:characters_to_binary(AllChars).
 #+END_SRC
 
 The image below shows the bar at 60% completion.
