@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-28 Tue 14:14 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CELLIUM 003: progress_bar</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Cellium progress bar widget" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CELLIUM 003: progress_bar</h1>
+<p>
+The New Progress Bar Widget
+</p>
+
+<p>
+It's been a while since I've introduced a new widget in <code>cellium</code>, but a progress bar has been on the cards for a while. Sometimes there is a need to show a user that something is happening, and a simple percentage or a spinner doesn't quite cut it.  People love graphs and movement, this is a simple compromise. 
+</p>
+
+<p>
+The new <code>progress_bar</code> widget is pretty straightforward. You give it an ID and a starting percentage, and it gives you back a widget map:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">&gt; progressbar:new(someid, 20)
+</pre>
+</div>
+
+<p>
+The core logic lives in two functions: <code>clamp/1</code> and <code>build_bar/1</code>.
+</p>
+
+<p>
+Keeping it between 0 and 100
+</p>
+
+<p>
+Any percentage passed to the widget is clamped to ensure it stays in the valid range of 0 to 100:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">clamp(V) when V &lt; 0 -&gt; 0; clamp(V) when V &gt; 100 -&gt; 100; clamp(V) -&gt; V. 
+</pre>
+</div>
+
+<p>
+This is used both in <code>new/2</code> and in the update function, <code>set_percentage/2</code>.
+</p>
+
+<p>
+Building the Bar Itself
+</p>
+
+<p>
+The actual bar is constructed by <code>build_bar/1</code>. It needs to figure out how many filled characters and how many empty characters to draw.
+</p>
+
+<p>
+The bar has a fixed width of 20 characters. The helper function <code>calculate_filled/1</code> determines how many of those 20 should be filled based on the percentage:
+</p>
+
+<p>
+This is implemented as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">calculate_filled(Percentage) -&gt; round((Percentage / 100) * 20). 
+</pre>
+</div>
+
+<p>
+With the filled count, we can then generate the bar using Unicode block characters: ■ (full block) and ⊠ (light shade). In the Erlang source, these are the utf8 codepoints 9608 and 9617.
+</p>
+
+<p class="verse">
+At some point, maybe I should allow 'styling' similar to box_styles, but thats for another day.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">build_bar(Percentage) -&gt; Filled = calculate_filled(Percentage), Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608), EmptyChars = lists:duplicate(Empty, 9617), AllChars = FilledChars ++ EmptyChars, unicode:characters_to_binary(AllChars). 
+</pre>
+</div>
+
+<p>
+The image below shows the bar at 60% completion.
+</p>
+
+
+<div id="org269e4da" class="figure">
+<p><img src="./images/progressbar.png" alt="progressbar.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>A progress bar in a terminal at 60%.</p>
+</div>
+
+<p>
+Simple, but effective. This will be handy for showing task progress in the terminal UI. As always, the full <a href="https://github.com/wmealing/cellium/blob/master/apps/cellium/src/progress_bar.erl">source</a> is available for inspection.
+</p>
+</div>
+</body>
+</html>

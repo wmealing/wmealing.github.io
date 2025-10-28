@@ -1,0 +1,68 @@
+#+TITLE: CELLIUM 003: progress_bar 
+#+DATE: [2025-10-28 Tue] 
+#+AUTHOR: W. Mealing 
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Cellium progress bar widget" />
+
+
+
+The New Progress Bar Widget
+
+It's been a while since I've introduced a new widget in =cellium=, but a progress bar has been on the cards for a while. Sometimes there is a need to show a user that something is happening, and a simple percentage or a spinner doesn't quite cut it.  People love graphs and movement, this is a simple compromise. 
+
+The new =progress_bar= widget is pretty straightforward. You give it an ID and a starting percentage, and it gives you back a widget map:
+
+#+BEGIN_SRC erlang
+> progressbar:new(someid, 20)
+#+END_SRC
+
+The core logic lives in two functions: =clamp/1= and =build_bar/1=.
+
+Keeping it between 0 and 100
+
+Any percentage passed to the widget is clamped to ensure it stays in the valid range of 0 to 100:
+
+#+BEGIN_SRC erlang
+clamp(V) when V < 0 -> 0; clamp(V) when V > 100 -> 100; clamp(V) -> V. 
+#+END_SRC
+
+This is used both in =new/2= and in the update function, =set_percentage/2=.
+
+Building the Bar Itself
+
+The actual bar is constructed by =build_bar/1=. It needs to figure out how many filled characters and how many empty characters to draw.
+
+The bar has a fixed width of 20 characters. The helper function =calculate_filled/1= determines how many of those 20 should be filled based on the percentage:
+
+#+BEGIN_EXPORT latex
+$$\text{Filled Chars} = \text{round} \left( \frac{\text{Percentage}}{100} \times 20 \right)$$
+#+END_EXPORT
+
+
+This is implemented as:
+
+#+BEGIN_SRC erlang
+  calculate_filled(Percentage) -> round((Percentage / 100) * 20). 
+#+END_SRC
+
+With the filled count, we can then generate the bar using Unicode block characters: ■ (full block) and ⊠ (light shade). In the Erlang source, these are the utf8 codepoints 9608 and 9617.
+
+#+BEGIN_VERSE
+At some point, maybe I should allow 'styling' similar to box_styles, but thats for another day.
+#+END_VERSE
+
+#+BEGIN_SRC erlang
+  build_bar(Percentage) -> Filled = calculate_filled(Percentage), Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608), EmptyChars = lists:duplicate(Empty, 9617), AllChars = FilledChars ++ EmptyChars, unicode:characters_to_binary(AllChars). 
+#+END_SRC
+
+The image below shows the bar at 60% completion.
+
+#+CAPTION: A progress bar in a terminal at 60%.
+#+ATTR_HTML: :alt progressbar.png
+[[./images/progressbar.png]]
+
+Simple, but effective. This will be handy for showing task progress in the terminal UI. As always, the full [[https://github.com/wmealing/cellium/blob/master/apps/cellium/src/progress_bar.erl][source]] is available for inspection.
+
+
+
