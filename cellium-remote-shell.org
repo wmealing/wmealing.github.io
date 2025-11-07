@@ -1,0 +1,143 @@
+#+TITLE: Using erlangs remote shell during devel.
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Using erlangs repl and remote shell during development" />
+
+* Summary:
+
+Erlang's famed "let it crash" philosophy is only half the story; the other half is the ability to inspect and
+interact with a running system—the heart of its operational elegance. Yet, too many developers continue to
+treat an Erlang node like a traditional compiled binary, cycling between code changes, compilation, and system
+restarts. This cycle is an anti-pattern that sacrifices the very advantage OTP gives us: continuous introspection.
+
+The answer, as is so often the case in high-efficiency development, lies in uniting your powerful text editor with
+the runtime. In this post, we'll ditch the separate terminal window and tedious reload steps, and look at how to
+harness the power of Erlang's remote shell, remsh, directly within Emacs, turning the editor into a dynamic
+window into your live Erlang system.
+
+This kind of workflow is usually very familiar to LISP programmers, so if it feels familiar it could be because
+it is.
+
+* Introduction
+
+You must setup emacs, this replaces the 'erlang-shell' with a remote erlang shell, that connects to the already running node.
+
+* Specifics:
+
+The 'main' erlang shell program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
+it is called a 'remote shell'.  In this case both 'nodes' are on the same machine but there is nothing stopping you from doing this in
+a more distributed environment.
+
+#+BEGIN_SRC make
+<stuff cut here here>
+
+EXTRAS_EBIN = -pa ./_build/default/extras/examples/
+export EXTRAS_EBIN
+
+LIB_EBIN = -pa _build/default/lib/*/ebin
+export LIB_EBIN
+
+node1-noshell:
+        erl -sname node1 -setcookie mysecretcookie -noshell  -noinput \
+        $(LIB_EBIN) $(EXTRAS_EBIN) 
+
+rebar3-shell
+        rebar3 shell --sname node1 --setcookie mysecretcookie
+
+node1-noshell-yourapp:
+        erl -sname node1 -setcookie mysecretcookie -noshell  -noinput \
+        $(LIB_EBIN) $(EXTRAS_EBIN) --eval "yourapp:start()"
+
+#+END_SRC
+
+You'd start the first program with the command:
+
+#+BEGIN_SRC sh
+ $ make node1-shell
+#+END_SRC
+
+or
+
+#+BEGIN_SRC sh
+ $ make rebar-shell
+#+END_SRC
+
+Or if you're feeling lucky you can execute the command by line, the goal is to ensuret hat you have the nodename configured
+to node1.
+
+Modify your emacs, to evaluate this code,
+
+#+BEGIN_SRC lisp
+  (defun remote-erlang-shell ()
+    "Starts an inferior Erlang shell with a randomized -sname using a random string."
+    (interactive)
+    (let* (
+           (chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+           (len 5)      ; Length of the random part (e.g., 5 characters)
+           (random-part (with-temp-buffer
+                          (dotimes (i len)
+                            (insert (aref chars (random (length chars)))))
+                          (buffer-string)))
+           (random-name (concat "node-" random-part))
+           (command (format "erl -sname %s -setcookie mysecretcookie -remsh node1" random-name)))
+      (inferior-erlang command)))
+#+END_SRC
+
+Each node must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
+
+Now when executing  m-x remote-erlang-shell , within emacs it should try to connect to the 'remote node' (in this case whatever node1 is running).
+
+Now when you compile an erlang file, (C-c C-k or erlang-compile) it should compile (and be loadable) in the same
+remote node.
+
+If the code compiles to a location where the BEAM vm will find it, the next time the code runs through a function in the module, the
+vm should pick up and use the new function.
+
+This allows you to do do 'live' repl updates to the running application.
+
+[[mp4:./images/LiveErlang.mp4]]
+
+* Conclusion
+
+This workflow is super convenienct; it fundamentally changes the nature of the interaction
+with the system. By adopting the **remote shell workflow**, you are no longer treating your application as a
+fragile, compiled artifact that must be stopped and restarted after every minor change. Instead, you're embracing
+the true power of Erlang/OTP: **live, continuous development and maintenance.**
+
+This is the very essence of "operational elegance" in Erlang. It doesn't just "let it crash"; it *allows you to fix
+problems in the live system.
+
+The ability to connect, inspect, and update code *in-situ* is a critical advantage for building *highly available, fault-tolerant systems** that truly never have to go down. Stop the cycle of restarts and start
+developing your Erlang application the way it was designed to be run: [[https://jackrusher.com/strange-loop-2022/][*alive*]].
+
+
+* Resources:
+
+
+** [[https://www.erlang.org/doc/system/code_loading.html][Erlang/OTP Documentation (The Core)]]
+
+**Code Loading Mechanism (Hot Code Swapping)**: A  deep-dive explanation of "Code Replacement" and the "Current" and "Old" module versions.
+
+[[https://www.erlang.org/doc/apps/erts/erl_cmd.html][Erlang/OTP Documentation: Compilation and Code Loading]]
+
+**The Erlang Command (`erl`)**: Reference for all the crucial flags used to start a distributed node, including `-sname`, `-setcookie`, and `-remsh`.
+
+** Community Tutorials and Guides
+
+[[https://learnyousomeerlang.com/starting-out][Learn You Some Erlang for Great Good]]
+
+An accessible community resource with excellent, practical sections covering the shell, distribution, and general Erlang philosophy.
+
+[[https://www.erlang.org/doc/apps/stdlib/shell.html][Erlang shell: official docs]]
+
+**The Erlang Shell in Depth**: Detailed reference for the commands available inside the Erlang shell, such as `c(Module)` and job control (`^G`).
+
+** [[https://www.erlang.org/docs/24/man/erlang.el][Emacs/LISP Integration Specifics]]
+
+**Official Erlang Mode for Emacs**: The core documentation for `erlang.el`, which provides the foundation for commands like `erlang-shell` and `erlang-compile`.
+
+[[https://jamesaimonetti.com/posts/2010/01/07/connect-to-remote-erlang-shell-while-inside-emacs/][Blog Post: Connect to remote erlang shell while inside emacs]]
+
+How to connect to a remote shell in emacs (but a little.. different)
+

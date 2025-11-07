@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-11-08 Sat 01:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Using erlangs remote shell during devel.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Using erlangs repl and remote shell during development" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Using erlangs remote shell during devel.</h1>
+<div id="outline-container-org0c9df2a" class="outline-2">
+<h2 id="org0c9df2a">Summary:</h2>
+<div class="outline-text-2" id="text-org0c9df2a">
+<p>
+Erlang's famed "let it crash" philosophy is only half the story; the other half is the ability to inspect and
+interact with a running system—the heart of its operational elegance. Yet, too many developers continue to
+treat an Erlang node like a traditional compiled binary, cycling between code changes, compilation, and system
+restarts. This cycle is an anti-pattern that sacrifices the very advantage OTP gives us: continuous introspection.
+</p>
+
+<p>
+The answer, as is so often the case in high-efficiency development, lies in uniting your powerful text editor with
+the runtime. In this post, we'll ditch the separate terminal window and tedious reload steps, and look at how to
+harness the power of Erlang's remote shell, remsh, directly within Emacs, turning the editor into a dynamic
+window into your live Erlang system.
+</p>
+
+<p>
+This kind of workflow is usually very familiar to LISP programmers, so if it feels familiar it could be because
+it is.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf93013d" class="outline-2">
+<h2 id="orgf93013d">Introduction</h2>
+<div class="outline-text-2" id="text-orgf93013d">
+<p>
+You must setup emacs, this replaces the 'erlang-shell' with a remote erlang shell, that connects to the already running node.
+</p>
+</div>
+</div>
+<div id="outline-container-org6814464" class="outline-2">
+<h2 id="org6814464">Specifics:</h2>
+<div class="outline-text-2" id="text-org6814464">
+<p>
+The 'main' erlang shell program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
+it is called a 'remote shell'.  In this case both 'nodes' are on the same machine but there is nothing stopping you from doing this in
+a more distributed environment.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-make">&lt;stuff cut here here&gt;
+
+EXTRAS_EBIN = -pa ./_build/default/extras/examples/
+export EXTRAS_EBIN
+
+LIB_EBIN = -pa _build/default/lib/*/ebin
+export LIB_EBIN
+
+node1-noshell:
+        erl -sname node1 -setcookie mysecretcookie -noshell  -noinput \
+        $(LIB_EBIN) $(EXTRAS_EBIN) 
+
+rebar3-shell
+        rebar3 shell --sname node1 --setcookie mysecretcookie
+
+node1-noshell-yourapp:
+        erl -sname node1 -setcookie mysecretcookie -noshell  -noinput \
+        $(LIB_EBIN) $(EXTRAS_EBIN) --eval "yourapp:start()"
+
+</pre>
+</div>
+
+<p>
+You'd start the first program with the command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ make node1-shell
+</pre>
+</div>
+
+<p>
+or
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ make rebar-shell
+</pre>
+</div>
+
+<p>
+Or if you're feeling lucky you can execute the command by line, the goal is to ensuret hat you have the nodename configured
+to node1.
+</p>
+
+<p>
+Modify your emacs, to evaluate this code,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(defun remote-erlang-shell ()
+  "Starts an inferior Erlang shell with a randomized -sname using a random string."
+  (interactive)
+  (let* (
+         (chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+         (len 5)      ; Length of the random part (e.g., 5 characters)
+         (random-part (with-temp-buffer
+                        (dotimes (i len)
+                          (insert (aref chars (random (length chars)))))
+                        (buffer-string)))
+         (random-name (concat "node-" random-part))
+         (command (format "erl -sname %s -setcookie mysecretcookie -remsh node1" random-name)))
+    (inferior-erlang command)))
+</pre>
+</div>
+
+<p>
+Each node must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
+</p>
+
+<p>
+Now when executing  m-x remote-erlang-shell , within emacs it should try to connect to the 'remote node' (in this case whatever node1 is running).
+</p>
+
+<p>
+Now when you compile an erlang file, (C-c C-k or erlang-compile) it should compile (and be loadable) in the same
+remote node.
+</p>
+
+<p>
+If the code compiles to a location where the BEAM vm will find it, the next time the code runs through a function in the module, the
+vm should pick up and use the new function.
+</p>
+
+<p>
+This allows you to do do 'live' repl updates to the running application.
+</p>
+
+<p>
+<video  controls="controls"><source src="././images/LiveErlang.mp4" type="video/mp4"></video>
+</p>
+</div>
+</div>
+<div id="outline-container-orgb0b949b" class="outline-2">
+<h2 id="orgb0b949b">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb0b949b">
+<p>
+This workflow is super convenienct; it fundamentally changes the nature of the interaction
+with the system. By adopting the <b><b>remote shell workflow</b></b>, you are no longer treating your application as a
+fragile, compiled artifact that must be stopped and restarted after every minor change. Instead, you're embracing
+the true power of Erlang/OTP: <b><b>live, continuous development and maintenance.</b></b>
+</p>
+
+<p>
+This is the very essence of "operational elegance" in Erlang. It doesn't just "let it crash"; it *allows you to fix
+problems in the live system.
+</p>
+
+<p>
+The ability to connect, inspect, and update code <b>in-situ</b> is a critical advantage for building <b>highly available, fault-tolerant systems*</b> that truly never have to go down. Stop the cycle of restarts and start
+developing your Erlang application the way it was designed to be run: <a href="https://jackrusher.com/strange-loop-2022/"><b>alive</b></a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org0d95e7a" class="outline-2">
+<h2 id="org0d95e7a">Resources:</h2>
+<div class="outline-text-2" id="text-org0d95e7a">
+</div>
+<div id="outline-container-orged075bc" class="outline-3">
+<h3 id="orged075bc"><a href="https://www.erlang.org/doc/system/code_loading.html">Erlang/OTP Documentation (The Core)</a></h3>
+<div class="outline-text-3" id="text-orged075bc">
+<p>
+<b><b>Code Loading Mechanism (Hot Code Swapping)</b></b>: A  deep-dive explanation of "Code Replacement" and the "Current" and "Old" module versions.
+</p>
+
+<p>
+<a href="https://www.erlang.org/doc/apps/erts/erl_cmd.html">Erlang/OTP Documentation: Compilation and Code Loading</a>
+</p>
+
+<p>
+<b><b>The Erlang Command (`erl`)</b></b>: Reference for all the crucial flags used to start a distributed node, including `-sname`, `-setcookie`, and `-remsh`.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf20cf8d" class="outline-3">
+<h3 id="orgf20cf8d">Community Tutorials and Guides</h3>
+<div class="outline-text-3" id="text-orgf20cf8d">
+<p>
+<a href="https://learnyousomeerlang.com/starting-out">Learn You Some Erlang for Great Good</a>
+</p>
+
+<p>
+An accessible community resource with excellent, practical sections covering the shell, distribution, and general Erlang philosophy.
+</p>
+
+<p>
+<a href="https://www.erlang.org/doc/apps/stdlib/shell.html">Erlang shell: official docs</a>
+</p>
+
+<p>
+<b><b>The Erlang Shell in Depth</b></b>: Detailed reference for the commands available inside the Erlang shell, such as `c(Module)` and job control (`^G`).
+</p>
+</div>
+</div>
+<div id="outline-container-org656cf67" class="outline-3">
+<h3 id="org656cf67"><a href="https://www.erlang.org/docs/24/man/erlang.el">Emacs/LISP Integration Specifics</a></h3>
+<div class="outline-text-3" id="text-org656cf67">
+<p>
+<b><b>Official Erlang Mode for Emacs</b></b>: The core documentation for `erlang.el`, which provides the foundation for commands like `erlang-shell` and `erlang-compile`.
+</p>
+
+<p>
+<a href="https://jamesaimonetti.com/posts/2010/01/07/connect-to-remote-erlang-shell-while-inside-emacs/">Blog Post: Connect to remote erlang shell while inside emacs</a>
+</p>
+
+<p>
+How to connect to a remote shell in emacs (but a little.. different)
+</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
