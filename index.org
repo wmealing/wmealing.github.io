@@ -16,7 +16,6 @@ essence of Erlang's "operational elegance"—it's not just "let it crash," it's 
 Embrace this workflow for true live, continuous development and maintenance, allowing you to build the
 highly available, fault-tolerant systems Erlang was designed for, without ever needing to stop.
 
-
 * [[./cellium-progressbar.html][Cellium 003]] - Oct 2025
 
 Sometimes a simple text percentage isn't enough, you need bars; you need a visual indicator to show the user that work is

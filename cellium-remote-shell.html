@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-11-08 Sat 01:06 -->
+<!-- 2025-11-08 Sat 02:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using erlangs remote shell during devel.</title>
@@ -18,42 +18,75 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Using erlangs remote shell during devel.</h1>
-<div id="outline-container-org0c9df2a" class="outline-2">
-<h2 id="org0c9df2a">Summary:</h2>
-<div class="outline-text-2" id="text-org0c9df2a">
+<div id="outline-container-org986916a" class="outline-2">
+<h2 id="org986916a">Summary:</h2>
+<div class="outline-text-2" id="text-org986916a">
 <p>
-Erlang's famed "let it crash" philosophy is only half the story; the other half is the ability to inspect and
-interact with a running system—the heart of its operational elegance. Yet, too many developers continue to
-treat an Erlang node like a traditional compiled binary, cycling between code changes, compilation, and system
-restarts. This cycle is an anti-pattern that sacrifices the very advantage OTP gives us: continuous introspection.
+Have you ever worked on a project, you write enough code that you're looking at ways to reduce the time it takes
+to turn your idea into working, tested code.  The ideas are many, but it feels like your wasted minutes add up so
+very quickly into an hour and the solutions start to boil in the back of your mind.
 </p>
 
 <p>
-The answer, as is so often the case in high-efficiency development, lies in uniting your powerful text editor with
-the runtime. In this post, we'll ditch the separate terminal window and tedious reload steps, and look at how to
-harness the power of Erlang's remote shell, remsh, directly within Emacs, turning the editor into a dynamic
-window into your live Erlang system.
+Ok, so you're writing tests and the tests prove the code is correct and work, so you find a quick
+way to run the 'eunit' tests in erlang itself, from a single chord.
 </p>
 
 <p>
-This kind of workflow is usually very familiar to LISP programmers, so if it feels familiar it could be because
-it is.
+Cool you think to yourself, thats quicker, but you remember the times you wrote lisp, and how quick the repl was,
+that you could make changes to the live project and see its behavior change in real time.
+</p>
+
+<p>
+A spark burns in the back of your mind, you remember how rapidly you could develop on the common-lisp repl..
+erlang has a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">repl</a>, so why not see what we can do.
+</p>
+
+<p>
+I wont be the first to talk about this, but I haven't seen anyone demonstrate a tight feedback loop from the editor
+into the erlang repl.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf93013d" class="outline-2">
-<h2 id="orgf93013d">Introduction</h2>
-<div class="outline-text-2" id="text-orgf93013d">
+<div id="outline-container-org102bd77" class="outline-2">
+<h2 id="org102bd77">Introduction</h2>
+<div class="outline-text-2" id="text-org102bd77">
+<p>
+Erlang is a distributed system out of the box and the <a href="https://www.erlang.org/doc/apps/stdlib/shell.html">erlang shell</a> itself allows for a system to connect to any of
+the nodes in the <a href="https://www.erlang.org/doc/system/distributed.html">distributed erlang system</a>.  The distribution itself demonstrated here is the non encrypted nono tls/ssl
+so probably not the best idea to do outside of development.
+</p>
+
+<p>
+The <a href="https://www.erlang.org/doc/apps/ssl/ssl_distribution">ERTS documentation</a> even suggests:
+</p>
+
+<blockquote>
+<p>
+⚠ Warning:
+</p>
+
+<p>
+Starting a distributed node without also specifying -proto_dist inet_tls will expose the node to
+attacks that may give the attacker complete access to the node and in extension the cluster.
+</p>
+</blockquote>
+
+
+<p>
+Firing up the emacs repl requires you to install erlang-mode and starting the erlang-shell with a few parameters.
+</p>
+
 <p>
 You must setup emacs, this replaces the 'erlang-shell' with a remote erlang shell, that connects to the already running node.
 </p>
 </div>
 </div>
-<div id="outline-container-org6814464" class="outline-2">
-<h2 id="org6814464">Specifics:</h2>
-<div class="outline-text-2" id="text-org6814464">
+<div id="outline-container-org794fff7" class="outline-2">
+<h2 id="org794fff7">Specifics:</h2>
+<div class="outline-text-2" id="text-org794fff7">
 <p>
-The 'main' erlang shell program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
+The 'main' erlang program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
 it is called a 'remote shell'.  In this case both 'nodes' are on the same machine but there is nothing stopping you from doing this in
 a more distributed environment.
 </p>
@@ -82,7 +115,7 @@ node1-noshell-yourapp:
 </div>
 
 <p>
-You'd start the first program with the command:
+You'd start the 'main' program with the command:
 </p>
 
 <div class="org-src-container">
@@ -126,7 +159,7 @@ Modify your emacs, to evaluate this code,
 </div>
 
 <p>
-Each node must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
+Each node in the 'cluster' must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
 </p>
 
 <p>
@@ -144,17 +177,21 @@ vm should pick up and use the new function.
 </p>
 
 <p>
-This allows you to do do 'live' repl updates to the running application.
+This allows you to do do 'live' repl updates to the running application, see the demo here when i'm working on an early version of cellium.
 </p>
 
 <p>
 <video  controls="controls"><source src="././images/LiveErlang.mp4" type="video/mp4"></video>
 </p>
+
+<p>
+It is not strictly limited to 'compiling' code, you can also write erlang functions that you would run at the repl, and I've always wanted to say this, I leave it as an exercise to the reader.
+</p>
 </div>
 </div>
-<div id="outline-container-orgb0b949b" class="outline-2">
-<h2 id="orgb0b949b">Conclusion</h2>
-<div class="outline-text-2" id="text-orgb0b949b">
+<div id="outline-container-org9075b28" class="outline-2">
+<h2 id="org9075b28">Conclusion</h2>
+<div class="outline-text-2" id="text-org9075b28">
 <p>
 This workflow is super convenienct; it fundamentally changes the nature of the interaction
 with the system. By adopting the <b><b>remote shell workflow</b></b>, you are no longer treating your application as a
@@ -173,13 +210,13 @@ developing your Erlang application the way it was designed to be run: <a href="h
 </p>
 </div>
 </div>
-<div id="outline-container-org0d95e7a" class="outline-2">
-<h2 id="org0d95e7a">Resources:</h2>
-<div class="outline-text-2" id="text-org0d95e7a">
+<div id="outline-container-orgbdebf13" class="outline-2">
+<h2 id="orgbdebf13">Resources:</h2>
+<div class="outline-text-2" id="text-orgbdebf13">
 </div>
-<div id="outline-container-orged075bc" class="outline-3">
-<h3 id="orged075bc"><a href="https://www.erlang.org/doc/system/code_loading.html">Erlang/OTP Documentation (The Core)</a></h3>
-<div class="outline-text-3" id="text-orged075bc">
+<div id="outline-container-org3f8f93b" class="outline-3">
+<h3 id="org3f8f93b"><a href="https://www.erlang.org/doc/system/code_loading.html">Erlang/OTP Documentation (The Core)</a></h3>
+<div class="outline-text-3" id="text-org3f8f93b">
 <p>
 <b><b>Code Loading Mechanism (Hot Code Swapping)</b></b>: A  deep-dive explanation of "Code Replacement" and the "Current" and "Old" module versions.
 </p>
@@ -193,9 +230,9 @@ developing your Erlang application the way it was designed to be run: <a href="h
 </p>
 </div>
 </div>
-<div id="outline-container-orgf20cf8d" class="outline-3">
-<h3 id="orgf20cf8d">Community Tutorials and Guides</h3>
-<div class="outline-text-3" id="text-orgf20cf8d">
+<div id="outline-container-org5d08d0c" class="outline-3">
+<h3 id="org5d08d0c">Community Tutorials and Guides</h3>
+<div class="outline-text-3" id="text-org5d08d0c">
 <p>
 <a href="https://learnyousomeerlang.com/starting-out">Learn You Some Erlang for Great Good</a>
 </p>
@@ -213,9 +250,9 @@ An accessible community resource with excellent, practical sections covering the
 </p>
 </div>
 </div>
-<div id="outline-container-org656cf67" class="outline-3">
-<h3 id="org656cf67"><a href="https://www.erlang.org/docs/24/man/erlang.el">Emacs/LISP Integration Specifics</a></h3>
-<div class="outline-text-3" id="text-org656cf67">
+<div id="outline-container-org81f38bc" class="outline-3">
+<h3 id="org81f38bc"><a href="https://www.erlang.org/docs/24/man/erlang.el">Emacs/LISP Integration Specifics</a></h3>
+<div class="outline-text-3" id="text-org81f38bc">
 <p>
 <b><b>Official Erlang Mode for Emacs</b></b>: The core documentation for `erlang.el`, which provides the foundation for commands like `erlang-shell` and `erlang-compile`.
 </p>

@@ -6,26 +6,45 @@
 
 * Summary:
 
-Erlang's famed "let it crash" philosophy is only half the story; the other half is the ability to inspect and
-interact with a running system—the heart of its operational elegance. Yet, too many developers continue to
-treat an Erlang node like a traditional compiled binary, cycling between code changes, compilation, and system
-restarts. This cycle is an anti-pattern that sacrifices the very advantage OTP gives us: continuous introspection.
+Have you ever worked on a project, you write enough code that you're looking at ways to reduce the time it takes
+to turn your idea into working, tested code.  The ideas are many, but it feels like your wasted minutes add up so
+very quickly into an hour and the solutions start to boil in the back of your mind.
 
-The answer, as is so often the case in high-efficiency development, lies in uniting your powerful text editor with
-the runtime. In this post, we'll ditch the separate terminal window and tedious reload steps, and look at how to
-harness the power of Erlang's remote shell, remsh, directly within Emacs, turning the editor into a dynamic
-window into your live Erlang system.
+Ok, so you're writing tests and the tests prove the code is correct and work, so you find a quick
+way to run the 'eunit' tests in erlang itself, from a single chord.
 
-This kind of workflow is usually very familiar to LISP programmers, so if it feels familiar it could be because
-it is.
+Cool you think to yourself, thats quicker, but you remember the times you wrote lisp, and how quick the repl was,
+that you could make changes to the live project and see its behavior change in real time.
+
+A spark burns in the back of your mind, you remember how rapidly you could develop on the common-lisp repl..
+erlang has a [[https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop][repl]], so why not see what we can do.
+
+I wont be the first to talk about this, but I haven't seen anyone demonstrate a tight feedback loop from the editor
+into the erlang repl.
 
 * Introduction
+
+Erlang is a distributed system out of the box and the [[https://www.erlang.org/doc/apps/stdlib/shell.html][erlang shell]] itself allows for a system to connect to any of
+the nodes in the [[https://www.erlang.org/doc/system/distributed.html][distributed erlang system]].  The distribution itself demonstrated here is the non encrypted nono tls/ssl
+so probably not the best idea to do outside of development.
+
+The [[https://www.erlang.org/doc/apps/ssl/ssl_distribution][ERTS documentation]] even suggests:
+
+#+BEGIN_QUOTE
+⚠ Warning:
+
+Starting a distributed node without also specifying -proto_dist inet_tls will expose the node to
+attacks that may give the attacker complete access to the node and in extension the cluster.
+#+END_QUOTE
+
+
+Firing up the emacs repl requires you to install erlang-mode and starting the erlang-shell with a few parameters.
 
 You must setup emacs, this replaces the 'erlang-shell' with a remote erlang shell, that connects to the already running node.
 
 * Specifics:
 
-The 'main' erlang shell program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
+The 'main' erlang program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
 it is called a 'remote shell'.  In this case both 'nodes' are on the same machine but there is nothing stopping you from doing this in
 a more distributed environment.
 
@@ -51,7 +70,7 @@ node1-noshell-yourapp:
 
 #+END_SRC
 
-You'd start the first program with the command:
+You'd start the 'main' program with the command:
 
 #+BEGIN_SRC sh
  $ make node1-shell
@@ -84,7 +103,7 @@ Modify your emacs, to evaluate this code,
       (inferior-erlang command)))
 #+END_SRC
 
-Each node must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
+Each node in the 'cluster' must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
 
 Now when executing  m-x remote-erlang-shell , within emacs it should try to connect to the 'remote node' (in this case whatever node1 is running).
 
@@ -94,9 +113,11 @@ remote node.
 If the code compiles to a location where the BEAM vm will find it, the next time the code runs through a function in the module, the
 vm should pick up and use the new function.
 
-This allows you to do do 'live' repl updates to the running application.
+This allows you to do do 'live' repl updates to the running application, see the demo here when i'm working on an early version of cellium.
 
 [[mp4:./images/LiveErlang.mp4]]
+
+It is not strictly limited to 'compiling' code, you can also write erlang functions that you would run at the repl, and I've always wanted to say this, I leave it as an exercise to the reader.
 
 * Conclusion
 
@@ -111,9 +132,7 @@ problems in the live system.
 The ability to connect, inspect, and update code *in-situ* is a critical advantage for building *highly available, fault-tolerant systems** that truly never have to go down. Stop the cycle of restarts and start
 developing your Erlang application the way it was designed to be run: [[https://jackrusher.com/strange-loop-2022/][*alive*]].
 
-
 * Resources:
-
 
 ** [[https://www.erlang.org/doc/system/code_loading.html][Erlang/OTP Documentation (The Core)]]
 
