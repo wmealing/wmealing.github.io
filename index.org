@@ -4,7 +4,20 @@
 #+SETUPFILE: "./setupfile.org"
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
-* [[./cellium-progressbar.html][Cellium 003]]- Oct 2025
+* [[https://wmealing.github.io/cellium-remote-shell.html][Erlang Remote Shell for Rapid Development]] - Nov 2025
+
+Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the core advantage of OTP:
+continuous introspection. Using the remote shell workflow is the answer, transforming your text editor, specifically
+Emacs, into a dynamic window directly into your running Erlang system.
+
+Stop treating your Erlang application like a fragile, traditional compiled binary. By leveraging the oldschool power of remsh
+(remote shell), you gain the ability to inspect, interact with, and even update code in-situ. This is the
+essence of Erlang's "operational elegance"—it's not just "let it crash," it's "fix it in a live system."
+Embrace this workflow for true live, continuous development and maintenance, allowing you to build the
+highly available, fault-tolerant systems Erlang was designed for, without ever needing to stop.
+
+
+* [[./cellium-progressbar.html][Cellium 003]] - Oct 2025
 
 Sometimes a simple text percentage isn't enough, you need bars; you need a visual indicator to show the user that work is
 actually being done. The progress bar provides a clean, terminal-friendly bar that you can update dynamically. We'll dive
@@ -12,7 +25,7 @@ into the Erlang source, look at how the percentage is clamped to a valid range. 
 addition to the widget toolkit that you can use, TODAY! 
 
 
-* [[./cellium-focus.html][Cellium 002]]- Oct 2025
+* [[./cellium-focus.html][Cellium 002]] - Oct 2025
 
 I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus.  Ive made
 a rudimentary attempt at adding focus to the 'cellium' behavior, you can read about how to use it to your advantage h
