@@ -37,6 +37,8 @@ Starting a distributed node without also specifying -proto_dist inet_tls will ex
 attacks that may give the attacker complete access to the node and in extension the cluster.
 #+END_QUOTE
 
+If you dont secure this and do something better in production,  something like my [[https://github.com/wmealing/Elixir-virus][virus]] could end up using your code
+to laterally across different systems.  
 
 Firing up the emacs repl requires you to install erlang-mode and starting the erlang-shell with a few parameters.
 
@@ -105,7 +107,9 @@ Modify your emacs, to evaluate this code,
 
 Each node in the 'cluster' must have a unique name, this lisp code creates a random name for the local connection and connects to the remote node.
 
-Now when executing  m-x remote-erlang-shell , within emacs it should try to connect to the 'remote node' (in this case whatever node1 is running).
+Now when executing *m-x remote-erlang-shell* , within emacs it should try to connect to the 'remote node' (in this case whatever node1 is running).
+
+If the runtime tells you it can't find node1, check to [[https://www.erlang.org/faq/problems][Section 9.8 - Why won't my distributed Erlang nodes communicate?]].
 
 Now when you compile an erlang file, (C-c C-k or erlang-compile) it should compile (and be loadable) in the same
 remote node.
@@ -160,3 +164,4 @@ An accessible community resource with excellent, practical sections covering the
 
 How to connect to a remote shell in emacs (but a little.. different)
 
+[[https://www.erlang.org/faq/problems][Section 9.8 - Why won't my distributed Erlang nodes communicate?]]
