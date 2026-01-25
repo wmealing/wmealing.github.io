@@ -130,7 +130,7 @@ with the system. By adopting the **remote shell workflow**, you are no longer tr
 fragile, compiled artifact that must be stopped and restarted after every minor change. Instead, you're embracing
 the true power of Erlang/OTP: **live, continuous development and maintenance.**
 
-This is the very essence of "operational elegance" in Erlang. It doesn't just "let it crash"; it *allows you to fix
+This is the very essence of "operational elegance" in Erlang. Not only can you 'let it crash', but you can debug
 problems in the live system.
 
 The ability to connect, inspect, and update code *in-situ* is a critical advantage for building *highly available, fault-tolerant systems** that truly never have to go down. Stop the cycle of restarts and start
@@ -139,6 +139,7 @@ developing your Erlang application the way it was designed to be run: [[https://
 * Resources:
 
 ** [[https://www.erlang.org/doc/system/code_loading.html][Erlang/OTP Documentation (The Core)]]
+
 
 **Code Loading Mechanism (Hot Code Swapping)**: A  deep-dive explanation of "Code Replacement" and the "Current" and "Old" module versions.
 
