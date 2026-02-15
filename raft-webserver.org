@@ -1,0 +1,208 @@
+#+TITLE: More than just restarting: Building a Consistent 3-Node Cluster with Erlang and 'ra'
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Using RA for clustering" />
+
+* Summary:
+
+I've used the 'ra' library before, but never really talked about it, there are a few places that have written about it, but i wanted a solid example.
+
+
+** Introduction
+
+If you’ve spent any time in the Erlang ecosystem, you’ve heard the mantra:
+"Let it crash." Erlang supervisors are world-class at restarting processes
+and returning a system to a clean state. But there is a ceiling to what
+a supervisor can do. A supervisor can restart a process, but it can't
+magically recover a mailbox that was purged during a crash. It can't
+synchronize state across a physical network partition.
+
+When you need data to survive not just a process crash, but a hard
+hardware failure or a kill -9 on a production node, you need more than a
+supervisor. You need consensus.
+
+In this post, we’re going to build a small, highly available Key-Value
+store using ra (an implementation of the Raft consensus protocol) and the
+wade (no relation, I did' write this!) web server.
+
+
+** The Architecture: The "State Machine" Pattern
+
+In a typical web app, your database is a separate entity. In a Raft-based
+system, your application is the state machine.
+
+Think of the Web Server as just a window into the Raft log. Here’s how the
+pieces fit together:
+
+ra_machine: This is the engine. It handles the KV storage and ensures every
+node in the cluster agrees on the order of operations.
+
+wade: This handles our HTTP GET/POST requests, simple webserver.
+
+The Flow: When a user sends a POST to Wade, we don't just write to a local
+variable. We call ra:process_command/2. That command is replicated across
+the cluster. Only once a majority of nodes (quorum) have acknowledged it
+does the state actually update.
+
+I'll be demonsrating this later in the article.
+
+
+The Blueprint: Building the Application
+
+To get this running, we’ll use rebar3. Our goal is to have the ra library
+and our wade endpoints initialized as part of the application startup.
+
+*** 1. The Dependency Tree
+
+First, ensure your rebar.config includes the required libraries, we need ra
+for consensus and wade for the HTTP layer.
+
+#+BEGIN_SRC sh
+  $ rebar3 new ha-app
+#+END_SRC
+
+
+#+BEGIN_SRC erlang
+  {deps, [
+      {ra, "2.0.0"},
+      {wade, "0.1.0"}
+  ]}.
+#+END_SRC
+
+We don't manually call ra:start_cluster in the shell. Instead, we want our application supervisor to ensure the Raft machine is alive. We'll
+define a ra_machine—thelogic that actually stores our data—and register it.
+
+In src/my_raft_app_sup.erl
+
+#+BEGIN_SRC erlang
+init([]) ->
+    %% Define the Raft machine configuration
+    Machine = {module, my_kv_machine, #{}},
+
+    %% In a real 3-node setup, these would be your actual node names
+    Nodes = [node1@host, node2@host, node3@host],
+
+    %% Define the RA server child spec
+    %% We start the cluster definition here so it persists on boot
+    RaSpec = #{
+        id => ra_cluster_init,
+        start => {ra, start_cluster, [default, kv_store, Machine, Nodes]},
+        restart => transient
+    },
+
+    {ok, {#{strategy => one_for_all, intensity => 5, period => 10}, [RaSpec]}}.
+#+END_SRC
+
+
+Gemini said
+You're absolutely right. In Erlang, code doesn't just "run" in a vacuum; it lives within the Supervision tree of an Application. To make this a real-world guide, we need a proper rebar3 structure so the ra server starts automatically when the node boots.
+
+Here is the revised Setup section, framed as a structural guide for the blog.
+
+The Blueprint: Building the Application
+To get this running, we’ll use rebar3. Our goal is to have the ra library and our wade endpoints initialized as part of the application startup.
+
+1. The Dependency Tree
+First, ensure your rebar.config includes the heavy hitters. We need ra for consensus and wade for the HTTP layer.
+
+Erlang
+{deps, [
+    {ra, "2.0.0"},
+    {wade, "0.1.0"}
+]}.
+2. The Application Supervisor
+We don't manually call ra:start_cluster in the shell. Instead, we want our application supervisor to ensure the Raft machine is alive. We'll define a ra_machine—the logic that actually stores our data—and register it.
+
+In your src/my_raft_app_sup.erl:
+
+#+BEGIN_SRC erlang
+init([]) ->
+    %% Define the Raft machine configuration
+    Machine = {module, my_kv_machine, #{}},
+
+    %% In a real 3-node setup, these would be your actual node names
+    Nodes = [node1@host, node2@host, node3@host],
+
+    %% Define the RA server child spec
+    %% We start the cluster definition here so it persists on boot
+    RaSpec = #{
+        id => ra_cluster_init,
+        start => {ra, start_cluster, [default, kv_store, Machine, Nodes]},
+        restart => transient
+    },
+
+    {ok, {#{strategy => one_for_all, intensity => 5, period => 10}, [RaSpec]}}.
+#+END_SRC
+
+*** 3. The State Machine (my_kv_machine.erl)
+
+#+BEGIN_SRC erlang
+
+-module(my_kv_machine).
+-behaviour(ra_machine).
+-export([init/1, apply/3]).
+
+init(_Config) -> #{}. %% Start with an empty map
+
+%% This is where the 'consensus' becomes 'state'
+apply(_Meta, {put, Key, Val}, State) ->
+    NewState = maps:put(Key, Val, State),
+    {NewState, ok, []};
+apply(_Meta, get_all, State) ->
+    {State, State, []}.
+
+#+END_SRC
+
+The "Chaos" Demonstration (The Viral Moment)
+This is where we prove the system works. Since we are using rebar3, we can boot three separate nodes using profiles or simply by running three shells with different names.
+
+Step 1: The "Happy Path"
+Boot your nodes and check the dashboard.
+
+#+BEGIN_SRC sh
+# In three different terminals
+rebar3 shell --name node1@127.0.0.1
+rebar3 shell --name node2@127.0.0.1
+rebar3 shell --name node3@127.0.0.1
+#+END_SRC
+
+Post some data to the leader:
+
+#+BEGIN_SRC sh
+curl -X POST -d '{"key": "user_1", "val": "online"}' http://localhost:8080/data
+#+END_SRC
+
+
+*** Step 2: The Kill
+
+Now, find the OS process for Node 1 (the Leader) and kill -9 it.
+
+The Observation: The cluster pauses for a split second, heartbeats fail,
+and Nodes 2 and 3 hold an election. One is promoted. Your HTTP requests
+to the remaining nodes still work. The "Quorum" (2 out of 3) is maintained.
+
+*** Step 3: The Resurrection
+
+Bring Node 1 back online: rebar3 shell --name node1@127.0.0.1.
+
+The "Niiice" Moment: Watch the logs. Node 1 will realize it's behind.
+It will receive a snapshot or a log update from the new Leader and jump
+from Index 1 to Index 100 instantly. This is the power of ra: the developer
+doesn't have to write the recovery logic. The protocol handles the
+"catching up" automatically.
+
+** Final Closing Thought
+
+"In Erlang, we say 'Let it crash.' With ra, we add:
+'...and don't worry about the state, the cluster has your back.'"
+
+
+
+* Conclusion
+
+Wrap it up here.
+
+* Resources:
+
+
