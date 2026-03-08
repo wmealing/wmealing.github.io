@@ -1,8 +1,10 @@
 
+#+FILETAGS: :systems:
 #+TITLE: Robust Recovery of Erlang Crashes: Handling failures and Error Reporting
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+OPTIONS: html-style:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+AUTHOR: Wade Mealing
 #+DATE: 2025-08-15

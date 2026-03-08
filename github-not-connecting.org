@@ -1,7 +1,9 @@
 #+TITLE: Rebar3 not connecting to github.
+#+FILETAGS: :tooling:
 
 #+OPTIONS: ^:nil num:nil toc:nil 
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Rebar3 not downloading from github" />
 
 When trying to setup a new [[https://lfe.io/][Lisp Flavored Erlang]] project, I was going throught he usual steps of

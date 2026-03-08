@@ -1,7 +1,9 @@
 #+TITLE: Decoding the KO2 Sysex messages.
+#+FILETAGS: :systems:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Decoding the KO2 EP-133 SYSEX messages from USB MIDI" />
 
 * Summary:

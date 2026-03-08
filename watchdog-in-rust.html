@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2026-03-09 Mon 03:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -203,22 +203,56 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org56713da">Disabling the watchdog.</a></li>
-<li><a href="#org3da3231">The magic close feature.</a></li>
-<li><a href="#orgd2e4732">Additional resources</a></li>
+<li><a href="#orgff0e6f7">Disabling the watchdog.</a></li>
+<li><a href="#org64348d6">The magic close feature.</a></li>
+<li><a href="#org5b0b38e">Additional resources</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org56713da" class="outline-2">
-<h2 id="org56713da">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-org56713da">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orgff0e6f7" class="outline-2">
+<h2 id="orgff0e6f7">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-orgff0e6f7">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="orgc4551ff">
+<pre class="example" id="org86dfd97">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -236,7 +270,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="orgb1148ef">
+<pre class="example" id="org03ffa17">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -267,9 +301,9 @@ method of disabling the watchdog. there is another&#x2026;
 </p>
 </div>
 </div>
-<div id="outline-container-org3da3231" class="outline-2">
-<h2 id="org3da3231">The magic close feature.</h2>
-<div class="outline-text-2" id="text-org3da3231">
+<div id="outline-container-org64348d6" class="outline-2">
+<h2 id="org64348d6">The magic close feature.</h2>
+<div class="outline-text-2" id="text-org64348d6">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
@@ -327,9 +361,9 @@ Wild right ?
 </p>
 </div>
 </div>
-<div id="outline-container-orgd2e4732" class="outline-2">
-<h2 id="orgd2e4732">Additional resources</h2>
-<div class="outline-text-2" id="text-orgd2e4732">
+<div id="outline-container-org5b0b38e" class="outline-2">
+<h2 id="org5b0b38e">Additional resources</h2>
+<div class="outline-text-2" id="text-org5b0b38e">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -338,7 +372,7 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2025-10-07 Tue 16:12</p>
+<p class="date">Created: 2026-03-09 Mon 03:14</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

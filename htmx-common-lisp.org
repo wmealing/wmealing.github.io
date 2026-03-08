@@ -1,7 +1,9 @@
 #+TITLE: HTMX in common lisp.
+#+FILETAGS: :systems:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="HTMX in common lisp" />
 
 Out of respect, I cut this to its bone, exposing only what you may find useful.

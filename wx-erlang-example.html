@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2026-03-09 Mon 03:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WXerlang simple example</title>
@@ -199,6 +199,40 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">WXerlang simple example</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
 <p>
 wxWidgets is a graphical toolkit that ships with most erlang installs. It is  object  oriented, not functional and in wxErlang a module represents a class
 and the object created by this class has an own type, wxCLASS().
@@ -213,19 +247,19 @@ The app we’ll build looks like this:
 </p>
 
 
-<div id="orgf199f86" class="figure">
+<div id="orgbacc9d1" class="figure">
 <p><img src="./images/screenshot-simple-application-1.png" alt="simple-gui-app image" title="Action!" align="centre" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Screenshot from application.</p>
 </div>
-<div id="outline-container-orgc82ed74" class="outline-2">
-<h2 id="orgc82ed74">Creating a new applications.</h2>
-<div class="outline-text-2" id="text-orgc82ed74">
+<div id="outline-container-org751ada0" class="outline-2">
+<h2 id="org751ada0">Creating a new applications.</h2>
+<div class="outline-text-2" id="text-org751ada0">
 <p>
 Let’s create a new application using rebar3, I like rebar and it seems to do things that I expect.  Issue the command:
 </p>
 
-<pre class="example" id="org36ddbec">
+<pre class="example" id="org11ca557">
 $ rebar3 new app name="wx_simple"
 ===&gt; Writing wx_simple/src/wx_simple_app.erl
 ===&gt; Writing wx_simple/src/wx_simple_sup.erl
@@ -241,9 +275,9 @@ This creates the 'app' file and the a basic supervisor, there is nothing wx spec
 is to draw a window. Now that the  "App" is created along with a simple supervisor, lets make the GUI.
 </p>
 </div>
-<div id="outline-container-org4e207d8" class="outline-3">
-<h3 id="org4e207d8">Basics: Drawing a window.</h3>
-<div class="outline-text-3" id="text-org4e207d8">
+<div id="outline-container-org0a6bccc" class="outline-3">
+<h3 id="org0a6bccc">Basics: Drawing a window.</h3>
+<div class="outline-text-3" id="text-org0a6bccc">
 <p>
 I like my apps to fit "nicely" into the OTP style behavior, so lets make a new
 file called wx_server.erl in wx_simple/src directory.
@@ -356,9 +390,9 @@ the close button (exactly how depends on which operating system you are running)
 </p>
 </div>
 </div>
-<div id="outline-container-org423dfd0" class="outline-3">
-<h3 id="org423dfd0">Adding a button (wxButton)</h3>
-<div class="outline-text-3" id="text-org423dfd0">
+<div id="outline-container-org57e257d" class="outline-3">
+<h3 id="org57e257d">Adding a button (wxButton)</h3>
+<div class="outline-text-3" id="text-org57e257d">
 <p>
 Our next step is to add a button, because everyone loves buttons.
 </p>
@@ -400,9 +434,9 @@ This button has a label and size tuples in the Options list.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdc673ae" class="outline-3">
-<h3 id="orgdc673ae">Adding editable text label ( wxTextCtrl )</h3>
-<div class="outline-text-3" id="text-orgdc673ae">
+<div id="outline-container-org2e5ae90" class="outline-3">
+<h3 id="org2e5ae90">Adding editable text label ( wxTextCtrl )</h3>
+<div class="outline-text-3" id="text-org2e5ae90">
 <p>
 We’ll add text to our frame using a wxTextCtrl. As per <a href="https://www.erlang.org/doc/man/wxtextctrl">the docs:</a>
 </p>
@@ -445,9 +479,9 @@ effectively disable its use.
 </p>
 </div>
 </div>
-<div id="outline-container-org6cfeb58" class="outline-3">
-<h3 id="org6cfeb58">Improvement.</h3>
-<div class="outline-text-3" id="text-org6cfeb58">
+<div id="outline-container-org242baad" class="outline-3">
+<h3 id="org242baad">Improvement.</h3>
+<div class="outline-text-3" id="text-org242baad">
 <p>
 Not being happy with just laying out buttons, lets take it up a notch.  We're going to
 use a "sizer", specifically the wxBoxSizer, which is a container ainer that organizes child widgets into a single row
@@ -542,9 +576,9 @@ I don't always "whoop", but when I do, there it is.
 </div>
 </div>
 </div>
-<div id="outline-container-orge70b7b5" class="outline-2">
-<h2 id="orge70b7b5">Resources:</h2>
-<div class="outline-text-2" id="text-orge70b7b5">
+<div id="outline-container-orge567a37" class="outline-2">
+<h2 id="orge567a37">Resources:</h2>
+<div class="outline-text-2" id="text-orge567a37">
 <ul class="org-ul">
 <li>Idea blatently taken from <a href="https://hidnasio.github.io//elixir/wxerlang/2022/06/29/advance-wx-erlang-hello-world.html">Hello world in elixir.</a></li>
 <li><a href="https://www.erlang.org/doc/man/wx.html">wx erlang man/docs</a></li>
@@ -555,7 +589,7 @@ I don't always "whoop", but when I do, there it is.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2025-10-07 Tue 16:12</p>
+<p class="date">Created: 2026-03-09 Mon 03:14</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

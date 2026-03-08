@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2026-03-09 Mon 03:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sending email in common-lisp</title>
@@ -18,26 +18,60 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Sending email in common-lisp</h1>
-<div id="outline-container-org5f143d7" class="outline-2">
-<h2 id="org5f143d7">Summary:</h2>
-<div class="outline-text-2" id="text-org5f143d7">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orge39ebbf" class="outline-2">
+<h2 id="orge39ebbf">Summary:</h2>
+<div class="outline-text-2" id="text-orge39ebbf">
 <p>
 This page covers how to send an email from your common-lisp coding using the cl-smtp library using googles gmail servers.
 </p>
 </div>
 </div>
-<div id="outline-container-org27ab8c6" class="outline-2">
-<h2 id="org27ab8c6">Introduction</h2>
-<div class="outline-text-2" id="text-org27ab8c6">
+<div id="outline-container-orgaeb1a6d" class="outline-2">
+<h2 id="orgaeb1a6d">Introduction</h2>
+<div class="outline-text-2" id="text-orgaeb1a6d">
 <p>
 This post covers a working example on how to send email from the common-lisp (cl) language using googles servers.  The provided
 example has been tested as an individual, and regularly used from the 'google workspace' account.
 </p>
 </div>
 </div>
-<div id="outline-container-orgddbbbf9" class="outline-2">
-<h2 id="orgddbbbf9">Requirements:</h2>
-<div class="outline-text-2" id="text-orgddbbbf9">
+<div id="outline-container-org55ba86b" class="outline-2">
+<h2 id="org55ba86b">Requirements:</h2>
+<div class="outline-text-2" id="text-org55ba86b">
 <p>
 An Application password.
 </p>
@@ -48,9 +82,9 @@ configured for the account or you can not make app passwords.
 </p>
 </div>
 </div>
-<div id="outline-container-orge0f1701" class="outline-2">
-<h2 id="orge0f1701">The code:</h2>
-<div class="outline-text-2" id="text-orge0f1701">
+<div id="outline-container-org63c5ec4" class="outline-2">
+<h2 id="org63c5ec4">The code:</h2>
+<div class="outline-text-2" id="text-org63c5ec4">
 <p>
 Listed below is the common-lisp code that is required to send email.   The "password" is stored
 in the environment variable GMAIL_KEY, as a single string.  Google often displays on the 'app password'
@@ -59,43 +93,43 @@ page as 4 sets of 4 characters, aka xxxx xxxx xxxx xxxx , however experience sho
 
 <div class="org-src-container">
 <pre class="src src-lisp">
-(ql:quickload <span style="font-style: italic;">"cl-smtp"</span>)
-(ql:quickload <span style="font-style: italic;">"cl-mime"</span>)
+(ql:quickload "cl-smtp")
+(ql:quickload "cl-mime")
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">email-report</span> (<span style="font-weight: bold; text-decoration: underline;">&amp;key</span> to cc subject html)
-       <span style="font-style: italic;">"Generic send SMTP mail with some TEXT to RECIEPIENTS"</span>
-       (<span style="font-weight: bold;">let</span> ((login <span style="font-style: italic;">"youraccount@gmail.com"</span>)
-             (passwd (uiop:getenv <span style="font-style: italic;">"GMAIL_KEY"</span>)))
+(defun email-report (&amp;key to cc subject html)
+       "Generic send SMTP mail with some TEXT to RECIEPIENTS"
+       (let ((login "youraccount@gmail.com")
+             (passwd (uiop:getenv "GMAIL_KEY")))
 
-         (cl-smtp:with-smtp-mail (out <span style="font-style: italic;">"smtp.gmail.com"</span> to cc
-                                      <span style="font-weight: bold;">:ssl</span> <span style="font-weight: bold;">:tls</span>
-                                      <span style="font-weight: bold;">:authentication</span> `(,login ,passwd))
+         (cl-smtp:with-smtp-mail (out "smtp.gmail.com" to cc
+                                      :ssl :tls
+                                      :authentication `(,login ,passwd))
 
-           (format out <span style="font-style: italic;">"To: ~A~%"</span> to )
-           (format out <span style="font-style: italic;">"Subject: ~A~%"</span> subject)
+           (format out "To: ~A~%" to )
+           (format out "Subject: ~A~%" subject)
 
            (cl-mime:print-mime out (make-instance 'cl-mime:mime
-                                                  <span style="font-weight: bold;">:type</span> <span style="font-style: italic;">"text"</span> <span style="font-weight: bold;">:subtype</span> <span style="font-style: italic;">"html"</span>
-                                                  <span style="font-weight: bold;">:encoding</span> <span style="font-weight: bold;">:base64</span>
-                                                  <span style="font-weight: bold;">:content</span> html) <span style="font-weight: bold;">t t))))</span>
+                                                  :type "text" :subtype "html"
+                                                  :encoding :base64
+                                                  :content html) t t))))
 
-(devar html-mail-content <span style="font-style: italic;">"&lt;html&gt;&lt;h1&gt; THis is html, but not really. &lt;/h1&gt;&lt;/html&gt;"</span>)
+(devar html-mail-content "&lt;html&gt;&lt;h1&gt; THis is html, but not really. &lt;/h1&gt;&lt;/html&gt;")
 
-(email-report <span style="font-weight: bold;">:to</span> <span style="font-style: italic;">"someone@example.com"</span>
-              <span style="font-weight: bold;">:cc</span> *cc-list*
-              <span style="font-weight: bold;">:subject</span> email-subject
-              <span style="font-weight: bold;">:html</span> html-content)
+(email-report :to "someone@example.com"
+              :cc *cc-list*
+              :subject email-subject
+              :html html-content)
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1aaa434" class="outline-2">
-<h2 id="org1aaa434">Ideas for improvement.</h2>
-<div class="outline-text-2" id="text-org1aaa434">
+<div id="outline-container-org5f9bb42" class="outline-2">
+<h2 id="org5f9bb42">Ideas for improvement.</h2>
+<div class="outline-text-2" id="text-org5f9bb42">
 </div>
-<div id="outline-container-org11daab7" class="outline-3">
-<h3 id="org11daab7">1. Secret Storage mechanism.</h3>
-<div class="outline-text-3" id="text-org11daab7">
+<div id="outline-container-orgfc3715f" class="outline-3">
+<h3 id="orgfc3715f">1. Secret Storage mechanism.</h3>
+<div class="outline-text-3" id="text-orgfc3715f">
 <p>
 The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
 </p>
@@ -106,16 +140,16 @@ some of them have secrets file.
 </p>
 </div>
 </div>
-<div id="outline-container-org2e31bec" class="outline-3">
-<h3 id="org2e31bec">2. Preventing secret leaks.</h3>
-<div class="outline-text-3" id="text-org2e31bec">
+<div id="outline-container-org5b7f398" class="outline-3">
+<h3 id="org5b7f398">2. Preventing secret leaks.</h3>
+<div class="outline-text-3" id="text-org5b7f398">
 <p>
 After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
 to abuse the information.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(setf (uiop:getenv <span style="font-style: italic;">"SOME_ENVIRONMENT_VARIABLE"</span>) <span style="font-style: italic;">"PASSWORD-REMOVED-FOR-SECURITY-REASONS"</span>)
+<pre class="src src-lisp">(setf (uiop:getenv "SOME_ENVIRONMENT_VARIABLE") "PASSWORD-REMOVED-FOR-SECURITY-REASONS")
 </pre>
 </div>
 
@@ -124,9 +158,9 @@ When it is loaded, use  <a href="https://github.com/rotatef/secret-values">Secre
 </p>
 </div>
 </div>
-<div id="outline-container-org1d5460b" class="outline-3">
-<h3 id="org1d5460b">3. Preventing accidental/intention spamming.</h3>
-<div class="outline-text-3" id="text-org1d5460b">
+<div id="outline-container-org24c6ee2" class="outline-3">
+<h3 id="org24c6ee2">3. Preventing accidental/intention spamming.</h3>
+<div class="outline-text-3" id="text-org24c6ee2">
 <p>
 Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
 It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
@@ -134,15 +168,15 @@ It is important that the program keep an accurate, reliable mechanism to know wh
 </div>
 </div>
 </div>
-<div id="outline-container-orgb7d2e6d" class="outline-2">
-<h2 id="orgb7d2e6d">Conclusion</h2>
+<div id="outline-container-orgc5861c4" class="outline-2">
+<h2 id="orgc5861c4">Conclusion</h2>
 </div>
 
 
 
-<div id="outline-container-orgdc7638a" class="outline-2">
-<h2 id="orgdc7638a">Resources:</h2>
-<div class="outline-text-2" id="text-orgdc7638a">
+<div id="outline-container-orga99e38d" class="outline-2">
+<h2 id="orga99e38d">Resources:</h2>
+<div class="outline-text-2" id="text-orga99e38d">
 <p>
 <a href="https://gitlab.common-lisp.net/cl-smtp/cl-smtp">https://gitlab.common-lisp.net/cl-smtp/cl-smtp</a>
 </p>

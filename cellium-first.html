@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-27 Mon 15:40 -->
+<!-- 2026-03-09 Mon 03:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM BASIC THEORY</title>
@@ -18,18 +18,52 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">CELLIUM BASIC THEORY</h1>
-<div id="outline-container-org040e653" class="outline-2">
-<h2 id="org040e653">Summary:</h2>
-<div class="outline-text-2" id="text-org040e653">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org2b5085e" class="outline-2">
+<h2 id="org2b5085e">Summary:</h2>
+<div class="outline-text-2" id="text-org2b5085e">
 <p>
 I started building <a href="https://github.com/wmealing/cellium">Cellium</a>, a TUI (Text-User Interface) library for Erlang, because I got fed up with the complexity of building
 basic user interfaces for my Erlang tooling. It's an itch I needed to scratch.
 </p>
 </div>
 </div>
-<div id="outline-container-org208cb33" class="outline-2">
-<h2 id="org208cb33">Introduction</h2>
-<div class="outline-text-2" id="text-org208cb33">
+<div id="outline-container-orga001570" class="outline-2">
+<h2 id="orga001570">Introduction</h2>
+<div class="outline-text-2" id="text-orga001570">
 <p>
 Look, I'm not entirely sure who I'm writing this for. It feels like throwing a message in a bottle onto the internet,
 Google's certainly not indexing it, so maybe this is a complete waste of time. But here we are.
@@ -100,9 +134,9 @@ My first smart move was to stop reinventing the wheel and borrow from those who 
 example on Ratatouille's approach.  I looked at the examples.
 </p>
 </div>
-<div id="outline-container-orgaa9be83" class="outline-3">
-<h3 id="orgaa9be83">The Cellium Example</h3>
-<div class="outline-text-3" id="text-orgaa9be83">
+<div id="outline-container-orgc341ef0" class="outline-3">
+<h3 id="orgc341ef0">The Cellium Example</h3>
+<div class="outline-text-3" id="text-orgc341ef0">
 <p>
 The resulting basic counter example looks pretty similar to their <a href="https://github.com/ndreynolds/ratatouille/blob/master/examples/counter.exs">Elixir version</a>:
 </p>
@@ -161,16 +195,16 @@ And here's what it looks like in action:
 </p>
 
 
-<div id="org7030200" class="figure">
+<div id="org686ac8c" class="figure">
 <p><img src="./images/counter-demo.png" alt="counter-demo.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org43933ad" class="outline-2">
-<h2 id="org43933ad">Current Hurdles.</h2>
-<div class="outline-text-2" id="text-org43933ad">
+<div id="outline-container-org9b87bf8" class="outline-2">
+<h2 id="org9b87bf8">Current Hurdles.</h2>
+<div class="outline-text-2" id="text-org9b87bf8">
 <p>
 While the core concept is sound, Erlang throws up a few unique roadblocks compared to Elixir.
 </p>
@@ -249,50 +283,50 @@ core logic down, adopting their rendering concept will perhaps allow moe to remo
 </p>
 </div>
 </div>
-<div id="outline-container-org25e90be" class="outline-2">
-<h2 id="org25e90be">Where Cellium Differentiates</h2>
-<div class="outline-text-2" id="text-org25e90be">
+<div id="outline-container-org45b3929" class="outline-2">
+<h2 id="org45b3929">Where Cellium Differentiates</h2>
+<div class="outline-text-2" id="text-org45b3929">
 <p>
 I'm not  copying; there are a few areas where I want Cellium to be different.
 </p>
 </div>
-<div id="outline-container-org2f24900" class="outline-4">
-<h4 id="org2f24900">"CSS-Like" Theming Engine:</h4>
-<div class="outline-text-4" id="text-org2f24900">
+<div id="outline-container-org553fc93" class="outline-4">
+<h4 id="org553fc93">"CSS-Like" Theming Engine:</h4>
+<div class="outline-text-4" id="text-org553fc93">
 <p>
 I'm working on a theming engine that applies attributes to widgets, similar to how CSS works. The idea is to make
 theme edits live and easy. Of course, CSS attributes should <b>overwrite</b> coded values—that's what the C in CSS stands for (Cascading!), right? 😉
 </p>
 </div>
 </div>
-<div id="outline-container-orgb40fe1a" class="outline-4">
-<h4 id="orgb40fe1a"><b>Robust Crash Handling:</b></h4>
-<div class="outline-text-4" id="text-orgb40fe1a">
+<div id="outline-container-orgd5440f0" class="outline-4">
+<h4 id="orgd5440f0"><b>Robust Crash Handling:</b></h4>
+<div class="outline-text-4" id="text-orgd5440f0">
 <p>
 I want to be absolutely sure that if an <code>update</code> function fails, the rest of the system keeps running smoothly. This will be a core part of my test suite.
 </p>
 </div>
 </div>
-<div id="outline-container-orge112edb" class="outline-4">
-<h4 id="orge112edb"><b>It's Pure Erlang:</b></h4>
-<div class="outline-text-4" id="text-orge112edb">
+<div id="outline-container-org862de92" class="outline-4">
+<h4 id="org862de92"><b>It's Pure Erlang:</b></h4>
+<div class="outline-text-4" id="text-org862de92">
 <p>
 The simple fact that I can't find another mature TUI library written purely in Erlang appears to be the motivation enough for me to keep going.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org8774cee" class="outline-2">
-<h2 id="org8774cee">What's Next?</h2>
-<div class="outline-text-2" id="text-org8774cee">
+<div id="outline-container-org2630c87" class="outline-2">
+<h2 id="org2630c87">What's Next?</h2>
+<div class="outline-text-2" id="text-org2630c87">
 <p>
 I should look at adopting a better event format. The termbox2_nif  messages aren't the clearest. <a href="https://github.com/ndreynolds/ratatouille/issues/6">The Ratatouille project</a> has a great idea for standardizing TUI events. If I can use a cleaner event format, maybe I can even drop the direct termbox messages and just use their event structure natively.
 </p>
 </div>
 </div>
-<div id="outline-container-org82aaf01" class="outline-2">
-<h2 id="org82aaf01">Conclusion</h2>
-<div class="outline-text-2" id="text-org82aaf01">
+<div id="outline-container-org95cf2bf" class="outline-2">
+<h2 id="org95cf2bf">Conclusion</h2>
+<div class="outline-text-2" id="text-org95cf2bf">
 <p>
 I've laid out the current state of Cellium and talked through the key issues—Erlang's quirks and the realization that
 others have done this before. I'll keep plugging away at this, even if I never get a single user and my writings remain
@@ -300,9 +334,9 @@ on github.
 </p>
 </div>
 </div>
-<div id="outline-container-org86483a1" class="outline-2">
-<h2 id="org86483a1">Resources:</h2>
-<div class="outline-text-2" id="text-org86483a1">
+<div id="outline-container-orgaf554bc" class="outline-2">
+<h2 id="orgaf554bc">Resources:</h2>
+<div class="outline-text-2" id="text-orgaf554bc">
 <p>
 <a href="https://github.com/termbox/termbox2">https://github.com/termbox/termbox2</a>
 </p>

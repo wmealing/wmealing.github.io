@@ -1,7 +1,9 @@
 #+TITLE: Sending email in common-lisp
+#+FILETAGS: :systems:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Sending email from common lisp, (CL)" />
 
 * Summary:

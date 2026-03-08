@@ -1,12 +1,9 @@
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+OPTIONS: author:nil date:nil
-#+OPTIONS: html-style:nil
-#+OPTIONS: LaTeX:nil
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-style:nil LaTeX:nil html-preamble:t html-postamble:nil
 
 #+HTML_HEAD: <meta charset="utf-8">
 #+HTML_HEAD:  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 #+HTML_HEAD: <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 #+HTML_HEAD:  <link rel="stylesheet" href="index.css">
 #+HTML_HEAD: <meta name="author" content="Wade Mealing" />
+
+#+INCLUDE: "navbar.html" export html

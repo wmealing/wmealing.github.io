@@ -1,10 +1,12 @@
 #+TITLE: Why eBPF for users is disabled in some distributions
+#+FILETAGS: :security:
 #+AUTHOR: Wade mealing
 #+DATE: 2020-09-02 Wed 13:53
 
 #+OPTIONS: ^:nil num:nil toc:nil 
 
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:16 -->
+<!-- 2026-03-09 Mon 03:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
@@ -18,9 +18,43 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Signed kernel modules</h1>
-<div id="outline-container-org9879093" class="outline-2">
-<h2 id="org9879093">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-org9879093">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orgb6956b1" class="outline-2">
+<h2 id="orgb6956b1">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-orgb6956b1">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -42,9 +76,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbec278f" class="outline-2">
-<h2 id="orgbec278f">How is it signed ?</h2>
-<div class="outline-text-2" id="text-orgbec278f">
+<div id="outline-container-orgf43cf4b" class="outline-2">
+<h2 id="orgf43cf4b">How is it signed ?</h2>
+<div class="outline-text-2" id="text-orgf43cf4b">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -81,7 +115,7 @@ options.
 <div class="org-src-container">
 <pre class="src src-shell">$ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
 | sort| uniq
-<span style="color: #00d3d0;">CONFIG_MODULE_SIG_HASH</span>=<span style="color: #79a8ff;">"sha256"</span>
+CONFIG_MODULE_SIG_HASH="sha256"
 </pre>
 </div>
 
@@ -96,13 +130,13 @@ signatures.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf105cb5" class="outline-2">
-<h2 id="orgf105cb5">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-orgf105cb5">
+<div id="outline-container-org0d151ab" class="outline-2">
+<h2 id="org0d151ab">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org0d151ab">
 </div>
-<div id="outline-container-org8d9e5a8" class="outline-3">
-<h3 id="org8d9e5a8">Module location</h3>
-<div class="outline-text-3" id="text-org8d9e5a8">
+<div id="outline-container-orgc5e3153" class="outline-3">
+<h3 id="orgc5e3153">Module location</h3>
+<div class="outline-text-3" id="text-orgc5e3153">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -117,9 +151,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </p>
 </div>
 </div>
-<div id="outline-container-orgff7205d" class="outline-3">
-<h3 id="orgff7205d">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-orgff7205d">
+<div id="outline-container-orgec1af00" class="outline-3">
+<h3 id="orgec1af00">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-orgec1af00">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -139,20 +173,20 @@ depmod to locate the relevant module to meet the kernels request.
 </p>
 </div>
 </div>
-<div id="outline-container-org7e63bcb" class="outline-3">
-<h3 id="org7e63bcb">The signature</h3>
-<div class="outline-text-3" id="text-org7e63bcb">
+<div id="outline-container-org13aa110" class="outline-3">
+<h3 id="org13aa110">The signature</h3>
+<div class="outline-text-3" id="text-org13aa110">
 </div>
-<div id="outline-container-org4a21205" class="outline-4">
-<h4 id="org4a21205">Signature metadata.</h4>
-<div class="outline-text-4" id="text-org4a21205">
+<div id="outline-container-org972964d" class="outline-4">
+<h4 id="org972964d">Signature metadata.</h4>
+<div class="outline-text-4" id="text-org972964d">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #989898;"># </span><span style="color: #989898;">modinfo mwifiex.ko.xz
-</span>filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
+<pre class="src src-shell"># modinfo mwifiex.ko.xz
+filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
 license:        GPL v2
 version:        1.0
 description:    Marvell WiFi-Ex Driver version 1.0
@@ -196,7 +230,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="orgfab435d">
+<pre class="example" id="org9d39df9">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -306,9 +340,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 </div>
-<div id="outline-container-orgfdacab7" class="outline-2">
-<h2 id="orgfdacab7">Source</h2>
-<div class="outline-text-2" id="text-orgfdacab7">
+<div id="outline-container-org3bbe204" class="outline-2">
+<h2 id="org3bbe204">Source</h2>
+<div class="outline-text-2" id="text-org3bbe204">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -329,7 +363,7 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="orgf9936f7">
+<pre class="example" id="org627d244">
 init_module() 
  -&gt; load_module() 
   -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
@@ -345,32 +379,32 @@ seem to match the actual code), this is changed in later versions.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #feacd0;">mod_verify_sig</span><span style="color: #ffffff;">()</span> <span style="color: #ffffff;">{</span>
+<pre class="src src-C">mod_verify_sig() {
 
-        <span style="color: #989898;">/*</span><span style="color: #989898;">
+        /*
       * Check signature using built-in trusted keys and, if configured,
       * secondary trusted keys.
-</span><span style="color: #989898;">      */</span>
-     err =  verify_pkcs7_signature<span style="color: #ff66ff;">(</span>mod, modlen, mod + modlen, sig_len,
+      */
+     err =  verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
                                    VERIFY_USE_SECONDARY_KEYRING,
                                    VERIFYING_MODULE_SIGNATURE,
-                                   <span style="color: #00bcff;">NULL</span>, <span style="color: #00bcff;">NULL</span><span style="color: #ff66ff;">)</span>;
-     <span style="color: #b6a0ff;">if</span> <span style="color: #ff66ff;">(</span>IS_ENABLED<span style="color: #00eff0;">(</span>CONFIG_INTEGRITY_PLATFORM_KEYRING<span style="color: #00eff0;">)</span> &amp;&amp; err<span style="color: #ff66ff;">)</span> <span style="color: #ff66ff;">{</span>
-             <span style="color: #989898;">/*</span><span style="color: #989898;">
+                                   NULL, NULL);
+     if (IS_ENABLED(CONFIG_INTEGRITY_PLATFORM_KEYRING) &amp;&amp; err) {
+             /*
               * Check signature using platform trusted keys. This does
               * not consider the built-in keys, so must be done separately
               * from above, if possible and necessary.
-</span><span style="color: #989898;">              */</span>
-             err =  verify_pkcs7_signature<span style="color: #00eff0;">(</span>mod, modlen, mod + modlen,
+              */
+             err =  verify_pkcs7_signature(mod, modlen, mod + modlen,
                                            sig_len,
                                            VERIFY_USE_PLATFORM_KEYRING,
                                            VERIFYING_MODULE_SIGNATURE,
-                                           <span style="color: #00bcff;">NULL</span>, <span style="color: #00bcff;">NULL</span><span style="color: #00eff0;">)</span>;
-     <span style="color: #ff66ff;">}</span>
-     <span style="color: #b6a0ff;">return</span> err;
+                                           NULL, NULL);
+     }
+     return err;
 
 
-<span style="color: #ffffff;">}</span>
+}
 </pre>
 </div>
 
@@ -390,7 +424,7 @@ Listing the primary keys:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #989898;"># </span><span style="color: #989898;">keyctl list %:.builtin_trusted_keys </span>
+<pre class="src src-shell"># keyctl list %:.builtin_trusted_keys 
 </pre>
 </div>
 
@@ -410,39 +444,39 @@ This is on the decided in module\_sig\_check:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #b6a0ff;">static</span> <span style="color: #6ae4b9;">int</span> <span style="color: #feacd0;">module_sig_check</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">struct</span> <span style="color: #6ae4b9;">load_info</span> *<span style="color: #00d3d0;">info</span>, <span style="color: #6ae4b9;">int</span> <span style="color: #00d3d0;">flags</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{</span>
+<pre class="src src-C">static int module_sig_check(struct load_info *info, int flags) {
 
-  err = mod_verify_sig<span style="color: #ff66ff;">(</span>mod, info<span style="color: #ff66ff;">)</span>;
+  err = mod_verify_sig(mod, info);
 
-  <span style="color: #b6a0ff;">switch</span><span style="color: #ff66ff;">(</span>err<span style="color: #ff66ff;">)</span> <span style="color: #ff66ff;">{</span>
+  switch(err) {
 
-    <span style="color: #b6a0ff;">case</span> 0: <span style="color: #989898;">/* </span><span style="color: #989898;">module okay to load</span><span style="color: #989898;"> */</span>
-       <span style="color: #b6a0ff;">return</span> 0;
+    case 0: /* module okay to load */
+       return 0;
 
-    <span style="color: #b6a0ff;">case</span> -ENODATA: <span style="color: #989898;">/* </span><span style="color: #989898;">Loading of unsigned module</span><span style="color: #989898;"> */</span>
-       <span style="color: #b6a0ff;">goto</span> <span style="color: #00bcff;">decide</span>;
+    case -ENODATA: /* Loading of unsigned module */
+       goto decide;
 
-    <span style="color: #b6a0ff;">case</span> -ENOPKG:  <span style="color: #989898;">/* </span><span style="color: #989898;">Unknown crypto on module</span><span style="color: #989898;"> */</span>
-       <span style="color: #b6a0ff;">goto</span> <span style="color: #00bcff;">decide</span>;
+    case -ENOPKG:  /* Unknown crypto on module */
+       goto decide;
 
-    <span style="color: #b6a0ff;">case</span> -ENOKEY:  <span style="color: #989898;">/* </span><span style="color: #989898;">unavailable key (not in current chain</span><span style="color: #989898;"> */</span>
-       <span style="color: #b6a0ff;">goto</span> <span style="color: #00bcff;">decide</span>;
+    case -ENOKEY:  /* unavailable key (not in current chain */
+       goto decide;
 
-    <span style="color: #00bcff;">decide</span>:
-      <span style="color: #b6a0ff;">if</span> <span style="color: #00eff0;">(</span>is_module_sig_enforced<span style="color: #ff6b55;">()</span><span style="color: #00eff0;">)</span> <span style="color: #00eff0;">{</span>
-                pr_notice<span style="color: #ff6b55;">(</span><span style="color: #79a8ff;">"%s: %s is rejected</span><span style="color: #feacd0;">\</span><span style="color: #00c06f;">n</span><span style="color: #79a8ff;">"</span>, info-&gt;name, reason<span style="color: #ff6b55;">)</span>;
-                <span style="color: #b6a0ff;">return</span> -EKEYREJECTED;
-      <span style="color: #00eff0;">}</span>
+    decide:
+      if (is_module_sig_enforced()) {
+                pr_notice("%s: %s is rejected\n", info-&gt;name, reason);
+                return -EKEYREJECTED;
+      }
 
-      <span style="color: #b6a0ff;">return</span> security_locked_down<span style="color: #00eff0;">(</span>LOCKDOWN_MODULE_SIGNATURE<span style="color: #00eff0;">)</span>;
+      return security_locked_down(LOCKDOWN_MODULE_SIGNATURE);
 
-      <span style="color: #989898;">/* </span><span style="color: #989898;">All other errors are fatal, including nomem, unparseable</span><span style="color: #989898;"> */</span>
+      /* All other errors are fatal, including nomem, unparseable */
 
-    <span style="color: #b6a0ff;">default</span>:
-      <span style="color: #b6a0ff;">return</span> err;
+    default:
+      return err;
 
-  <span style="color: #ff66ff;">}</span>
-<span style="color: #ffffff;">}</span>  
+  }
+}  
 </pre>
 </div>
 
@@ -488,7 +522,7 @@ Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
 </p>
 
-<pre class="example" id="org367ffed">
+<pre class="example" id="org5d50482">
 
 [ req ]
 default_bits = 4096
@@ -518,7 +552,7 @@ be used to sign the kernel module and also enrolled in the systems "MOK" keychai
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #ff7f9f;"># openssl</span> req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
+<pre class="src src-C"># openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
 </pre>
 </div>
 
@@ -528,7 +562,7 @@ private\_key.priv.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #ff7f9f;"># mokutil</span> --import public_key.der
+<pre class="src src-C"># mokutil --import public_key.der
 </pre>
 </div>
 
@@ -558,11 +592,11 @@ For example the "Wades own very special kmod v01" singing key:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #989898;"># </span><span style="color: #989898;">keyctl list %:.system_keyring
-</span>6 keys<span style="color: #b6a0ff;"> in</span> keyring:
-...asymmetric: Red Hat Enterprise Linux Driver Update Program <span style="color: #ffffff;">(</span>key 3<span style="color: #ffffff;">)</span>: bf57f3e87...
+<pre class="src src-shell"># keyctl list %:.system_keyring
+6 keys in keyring:
+...asymmetric: Red Hat Enterprise Linux Driver Update Program (key 3): bf57f3e87...
 
-...asymmetric: Red Hat Secure Boot <span style="color: #ffffff;">(</span>CA key 1<span style="color: #ffffff;">)</span>: 4016841644ce3a810408050766e8f8a29...
+...asymmetric: Red Hat Secure Boot (CA key 1): 4016841644ce3a810408050766e8f8a29...
 ...asymmetric: Microsoft Corporation UEFI CA 2011: 13adbf4309bd82709c8cd54f316ed...
 ...asymmetric: Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e...
 ...asymmetric: Red Hat Enterprise Linux kernel signing key: 4249689eefc77e95880b...
@@ -580,7 +614,7 @@ tree' built kernel modules.  An example of singing my\_module
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">perl /usr/src/kernels/$<span style="color: #ffffff;">(</span>uname -r<span style="color: #ffffff;">)</span>/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
+<pre class="src src-shell">perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
 </pre>
 </div>
 
@@ -596,9 +630,9 @@ practices for public/private keys.
 </p>
 </div>
 </div>
-<div id="outline-container-orga39cc6e" class="outline-2">
-<h2 id="orga39cc6e">Additional Resources:</h2>
-<div class="outline-text-2" id="text-orga39cc6e">
+<div id="outline-container-org547a7e2" class="outline-2">
+<h2 id="org547a7e2">Additional Resources:</h2>
+<div class="outline-text-2" id="text-org547a7e2">
 <p>
 <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Red Hat Guide for secure boot</a>
 </p>
@@ -616,9 +650,6 @@ practices for public/private keys.
 </p>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="date">Created: 2025-10-07 Tue 16:16</p>
 </div>
 </body>
 </html>

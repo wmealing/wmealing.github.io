@@ -1,46 +1,57 @@
 #+TITLE: Building a 3-Node Cluster with Erlang and 'ra'
+#+FILETAGS: :systems:
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Using RA for clustering with native OTP 27+ JSON" />
 
 * Summary
-I've used the 'ra' library before, but never really talked about it. There are a
-few places that have written about it, but I wanted to provide a solid,
-end-to-end example of a consistent web cluster.
+
+In this post, we’re going to build a small, highly available
+Key-Value store using ra (an implementation of the Raft consensus prot
+ocol) and the wade web server.
 
 * Introduction
+
 If you’ve spent any time in the Erlang ecosystem, you’ve heard the mantra: "Let
 it crash". Erlang supervisors are world-class at restarting processes and
 returning a system to a clean state.  +1
 
 But there is a ceiling to what a supervisor can do. A supervisor can restart a
 process, but it can't magically recover a mailbox that was purged during a
-crash. It can't synchronize state across a physical network partition.  +2
+crash. It can't synchronize state across a physical network partition.
 
 When you need data to survive not just a process crash, but a hard hardware
 failure or a =kill -9= on a production node, you need more than a supervisor.  You
-need consensus. In this post, we’re going to build a small, highly available
-Key-Value store using ra (an implementation of the Raft consensus protocol) and
-the wade web server.
+need consensus.
 
-The Architecture: The "State Machine" Pattern In a typical web app, your
-database is a separate entity. In a Raft-based system, your application is the
-state machine. Think of the Web Server as just a window into the Raft log.  +2
+* The Architecture:
 
-ra_machine: This is the engine. It handles the KV storage and ensures every node
+The "State Machine" pattern In a typical web app, your database is a separate
+entity. In a Raft-based system, your application is thestate machine. Think of
+the Web Server as just a window into the Raft log.
+
+- ra_machine: This is the engine. It handles the KV storage and ensures every node
 in the cluster agrees on the order of operations.
 
+- wade: This handles our HTTP GET/POST requests.
 
-wade: This handles our HTTP GET/POST requests.
+* The "Consensus" :
 
-The Flow: When a user sends a POST to Wade, we don't just write to a local
-variable. We call =ra:process_command/2=. That command is replicated across the
-cluster. Only once a majority of nodes (quorum) have acknowledged it does the
-state actually update.  
+When a user sends a POST to Wade, we don't just write to a local variable. We
+call =ra:process_command/2=. That command is replicated across each node in the
+cluster. Only once a majority of nodes have acknowledged it  (aka quorum) does the
+state actually update across the nodes.
 
-The Blueprint: Building the Application To get this running, we’ll use
-=rebar3=. Our goal is to have the =ra= library and our =wade= endpoints initialized as
-part of the application startup. 
+* The details:
+
+The goal here is to give actual commands you can run at the terminal, rather
+than a high level overview.  I know this polllutes the concepts a bit, but
+I think that this area is lacking.
+
+
+To get this running, we’ll us =rebar3=. Our goal is to have the =ra= library and our
+=wade= endpoints initialized as part of the application startup, lets do that.
 
 ** 1. Dependencies and Profiles
 
@@ -50,32 +61,46 @@ Create a new app:
 $ rebar3 new app ha_app
 #+END_SRC
 
-In =rebar.config=, we define our dependencies and setup profiles so we can run
-three nodes on one machine with different ports:
+In =ha-ap/rebar.config=, we define our dependencies and setup profiles so we can run
+three nodes, each with their own relevant configuration file.
 
 #+BEGIN_SRC erlang
-      {deps, [ {ra, "2.0.0"}, {wade, "0.1.0"} ]}.
+  {deps, [ {ra, "2.0.0"}, {wade, "0.1.0"} ]}.
 
-      {profiles, [
-                  {node1, [{shell,  [{config, "config/node1.config"}]}]},
-                  {node2, [{shell,  [{config, "config/node2.config"}]}]},
-                  {node3, [{shell,  [{config, "config/node3.config"}]}]}]}.
+  {profiles, [
+              {node1, [{shell,  [{config, "config/node1.config"}]}]},
+              {node2, [{shell,  [{config, "config/node2.config"}]}]},
+              {node3, [{shell,  [{config, "config/node3.config"}]}]}]}.
 #+END_SRC
+
+In our example, we'll have this running on a single machine, with each 'node' on
+a different TCP port, because its easier.
 
 ** 2. The Supervisor and Cluster Init
 
-We don't manually call =ra:start_cluster= in the shell. Instead, we want our
-application supervisor to ensure the Raft machine is alive.
+The first step would be to create module that implements the 'ra_machine'
+behavior.  This is not a gen_server, this defines the 'Machine Module' and then
+pass it to the cluster initialization (in ra:start_cluster/4).
 
 #+BEGIN_SRC erlang
   init([]) ->
-      Machine = {module, my_kv_machine, #{}}, %% Define your node list
-      Nodes = [node1@127.0.0.1, node2@127.0.0.1, node3@127.0.0.1],
+      %% Each node needs its own identity in the RA cluster
+      Id = {kv_store, node()},
+
+      %% The Machine logic
+      Machine = {module, my_kv_machine, #{}},
+
+      %% Define the cluster members
+      Nodes = [
+               {kv_store, 'node1@127.0.0.1'},
+               {kv_store, 'node2@127.0.0.1'},
+               {kv_store, 'node3@127.0.0.1'} ],
 
       RaSpec = #{ id => ra_cluster_init,
                   start => {ra, start_cluster, [default, kv_store, Machine, Nodes]},
                   restart => transient },
-    {ok, {#{strategy => one_for_all, intensity => 5, period => 10}, [RaSpec]}}.
+
+  {ok, {#{strategy => one_for_all, intensity => 5, period => 10}, [RaSpec]}}.
 
 #+END_SRC
 
@@ -85,14 +110,15 @@ This is where the 'consensus' becomes 'state'. We use native maps to store our
 data.
 
 #+BEGIN_SRC erlang
-    -module(my_kv_machine).
-    -behaviour(ra_machine).
-    -export([init/1, apply/3]).
 
-    init(_Config) -> #{}.
-    apply(_Meta, {put, Key, Val}, State) -> NewState = maps:put(Key, Val, State),
-                                            {NewState, ok, []};
-    apply(_Meta, get_all, State) -> {State, State, []}.
+-module(my_kv_machine).
+-behaviour(ra_machine).
+-export([init/1, apply/3]).
+
+init(_Config) -> #{}.
+  apply(_Meta, {put, Key, Val}, State) -> NewState = maps:put(Key, Val, State),
+                                          {NewState, ok, []};
+  apply(_Meta, get_all, State) -> {State, State, []}.
 #+END_SRC
 
 ** 4. The Web Handler (src/wade_raft_handler.erl)
@@ -100,20 +126,20 @@ data.
 Using OTP 27's native =json= module to handle requests.
 
 #+BEGIN_SRC erlang
-  -module(wade_raft_handler).
-  -export([handle/2]).
+-module(wade_raft_handler).
+-export([handle/2]).
 
-  handle(['GET', <<"/state">>], _Req) ->
+handle(['GET', <<"/state">>], _Req) ->
       {ok, State, _Leader} = ra:local_query(kv_store, get_all),
       {200, [{"Content-Type", "application/json"}], json:encode(State)};
 
-  handle(['POST', <<"/data">>], Req) ->
+handle(['POST', <<"/data">>], Req) ->
       Body = wade_req:body(Req),
       #{<<"key">> := K, <<"val">> := V} = json:decode(Body),
       ra:process_command(kv_store, {put, K, V}),
       {201, [], <<"Accepted">>};
 
-  handle(['GET', <<"/">>], _Req) ->
+handle(['GET', <<"/">>], _Req) ->
       PrivDir = code:priv_dir(ha_app),
       {ok, Html} = file:read_file(filename:join([PrivDir, "index.html"])),
       {200, [{"Content-Type", "text/html"}], Html}.

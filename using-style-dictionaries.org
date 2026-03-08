@@ -1,7 +1,9 @@
 #+TITLE: Using "style-dictionary" from Clojure.
+#+FILETAGS: :tooling:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="using design tokens from Clojure" />
 
 * Summary:

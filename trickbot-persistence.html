@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2026-03-09 Mon 03:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trickbot persistence.</title>
@@ -197,9 +197,43 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Trickbot persistence.</h1>
-<div id="outline-container-org079c8e8" class="outline-2">
-<h2 id="org079c8e8">What is persistence ?</h2>
-<div class="outline-text-2" id="text-org079c8e8">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org399082a" class="outline-2">
+<h2 id="org399082a">What is persistence ?</h2>
+<div class="outline-text-2" id="text-org399082a">
 <p>
 A system may be rebooted during regular intervals as part of its
 lifecycle when a new kernel is updated or if it enters an unknown
@@ -212,9 +246,9 @@ task scheduling service to ensure it will continue to execute
 </p>
 </div>
 </div>
-<div id="outline-container-org3d97cae" class="outline-2">
-<h2 id="org3d97cae">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org3d97cae">
+<div id="outline-container-org5be8561" class="outline-2">
+<h2 id="org5be8561">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-org5be8561">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -223,7 +257,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="orgc4fe4f5">
+<pre class="example" id="orga65b8c8">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -233,7 +267,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="org3359b3d">
+<pre class="example" id="org0f17e48">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -243,7 +277,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="orgf919089">
+<pre class="example" id="org7f244e8">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -252,14 +286,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-orgbfa8e03" class="outline-2">
-<h2 id="orgbfa8e03">The sample code.</h2>
-<div class="outline-text-2" id="text-orgbfa8e03">
+<div id="outline-container-orgdc0add1" class="outline-2">
+<h2 id="orgdc0add1">The sample code.</h2>
+<div class="outline-text-2" id="text-orgdc0add1">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="orgb4d7b42">
+<pre class="example" id="org3876944">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -275,9 +309,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbc3ff69" class="outline-2">
-<h2 id="orgbc3ff69">Porting to rust.</h2>
-<div class="outline-text-2" id="text-orgbc3ff69">
+<div id="outline-container-org417a350" class="outline-2">
+<h2 id="org417a350">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org417a350">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -299,7 +333,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="org21b635c">
+<pre class="example" id="org9336125">
 use std::fs;
 
  fn main() {
@@ -332,9 +366,9 @@ using the same ports and had the same process name.
 </p>
 </div>
 </div>
-<div id="outline-container-orge5eba37" class="outline-2">
-<h2 id="orge5eba37">Resources:</h2>
-<div class="outline-text-2" id="text-orge5eba37">
+<div id="outline-container-orgb6b8884" class="outline-2">
+<h2 id="orgb6b8884">Resources:</h2>
+<div class="outline-text-2" id="text-orgb6b8884">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
@@ -343,7 +377,7 @@ using the same ports and had the same process name.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2025-10-07 Tue 16:12</p>
+<p class="date">Created: 2026-03-09 Mon 03:14</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

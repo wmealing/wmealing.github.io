@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-20 Mon 02:08 -->
+<!-- 2026-03-09 Mon 03:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Consuming eunit surefire xml reports.</title>
@@ -18,9 +18,43 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Consuming eunit surefire xml reports.</h1>
-<div id="outline-container-org1970986" class="outline-2">
-<h2 id="org1970986">Introduction</h2>
-<div class="outline-text-2" id="text-org1970986">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org1ff9f59" class="outline-2">
+<h2 id="org1ff9f59">Introduction</h2>
+<div class="outline-text-2" id="text-org1ff9f59">
 <p>
 Eunit outputs test results on the command line, there is an eunit plugin to
 generate 'surefire' style xml output.  This can be consumed by the 'surefire-reports'
@@ -29,9 +63,9 @@ some people.
 </p>
 </div>
 </div>
-<div id="outline-container-org6074a8e" class="outline-2">
-<h2 id="org6074a8e">Basic configuration:</h2>
-<div class="outline-text-2" id="text-org6074a8e">
+<div id="outline-container-orgf4fac87" class="outline-2">
+<h2 id="orgf4fac87">Basic configuration:</h2>
+<div class="outline-text-2" id="text-orgf4fac87">
 <p>
 Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
 </p>
@@ -214,17 +248,17 @@ html records,  If historical raw data is required, you could version the XML fil
 </p>
 </div>
 </div>
-<div id="outline-container-orgcd8a54e" class="outline-2">
-<h2 id="orgcd8a54e">Conclusion</h2>
-<div class="outline-text-2" id="text-orgcd8a54e">
+<div id="outline-container-org5b0b85e" class="outline-2">
+<h2 id="org5b0b85e">Conclusion</h2>
+<div class="outline-text-2" id="text-org5b0b85e">
 <p>
 The maven surefire reports tool is a simple way to generate html from eunit reports.
 </p>
 </div>
 </div>
-<div id="outline-container-org60f78aa" class="outline-2">
-<h2 id="org60f78aa">Resources:</h2>
-<div class="outline-text-2" id="text-org60f78aa">
+<div id="outline-container-orgb98794a" class="outline-2">
+<h2 id="orgb98794a">Resources:</h2>
+<div class="outline-text-2" id="text-orgb98794a">
 <p>
 <a href="https://www.erlang.org/doc/apps/eunit/chapter.html">https://www.erlang.org/doc/apps/eunit/chapter.html</a>
 </p>

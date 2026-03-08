@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-07 Tue 16:12 -->
+<!-- 2026-03-09 Mon 03:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -18,9 +18,43 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Using "style-dictionary" from Clojure.</h1>
-<div id="outline-container-orgf9e28bd" class="outline-2">
-<h2 id="orgf9e28bd">Summary:</h2>
-<div class="outline-text-2" id="text-orgf9e28bd">
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orgb359b98" class="outline-2">
+<h2 id="orgb359b98">Summary:</h2>
+<div class="outline-text-2" id="text-orgb359b98">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -28,9 +62,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdc1efcb" class="outline-2">
-<h2 id="orgdc1efcb">Introduction</h2>
-<div class="outline-text-2" id="text-orgdc1efcb">
+<div id="outline-container-orgf2d9888" class="outline-2">
+<h2 id="orgf2d9888">Introduction</h2>
+<div class="outline-text-2" id="text-orgf2d9888">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -45,7 +79,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="org7b193b3">
+<pre class="example" id="org0b1ba34">
 
 A style dictionary consists of:
 
@@ -74,9 +108,9 @@ explain what the complexities here easily, please drop me a line.
 </p>
 </div>
 </div>
-<div id="outline-container-org010d823" class="outline-2">
-<h2 id="org010d823">Getting the 'design tokens' / 'style dictionary'.</h2>
-<div class="outline-text-2" id="text-org010d823">
+<div id="outline-container-org017f1c8" class="outline-2">
+<h2 id="org017f1c8">Getting the 'design tokens' / 'style dictionary'.</h2>
+<div class="outline-text-2" id="text-org017f1c8">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
@@ -115,16 +149,16 @@ The files it generated were created in the ./json
 <div class="org-src-container">
 <pre class="src src-shell">$ tree
 .
-&#9500;&#9472;&#9472; rhds.tokens.flat.json
-&#9492;&#9472;&#9472; rhds.tokens.json
+├── rhds.tokens.flat.json
+└── rhds.tokens.json
 
 1 directory, 2 files
 </pre>
 </div>
 </div>
-<div id="outline-container-org43deddc" class="outline-3">
-<h3 id="org43deddc">Using the token json files.</h3>
-<div class="outline-text-3" id="text-org43deddc">
+<div id="outline-container-org05d3e72" class="outline-3">
+<h3 id="org05d3e72">Using the token json files.</h3>
+<div class="outline-text-3" id="text-org05d3e72">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
@@ -280,17 +314,17 @@ Along with its 'dark sibling'
 </div>
 </div>
 </div>
-<div id="outline-container-org8140f92" class="outline-2">
-<h2 id="org8140f92">Conclusion</h2>
-<div class="outline-text-2" id="text-org8140f92">
+<div id="outline-container-orgc71d5b6" class="outline-2">
+<h2 id="orgc71d5b6">Conclusion</h2>
+<div class="outline-text-2" id="text-orgc71d5b6">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb3b9d4e" class="outline-2">
-<h2 id="orgb3b9d4e">Resources:</h2>
-<div class="outline-text-2" id="text-orgb3b9d4e">
+<div id="outline-container-orgb6fbedd" class="outline-2">
+<h2 id="orgb6fbedd">Resources:</h2>
+<div class="outline-text-2" id="text-orgb6fbedd">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>

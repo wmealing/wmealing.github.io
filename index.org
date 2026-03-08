@@ -1,12 +1,13 @@
-#+TITLE: For when I'm gone.
+#+TITLE: Wade Mealing | Software Engineer & Research
 
-#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
 * [[https://wmealing.github.io/cellium-remote-shell.html][Erlang Remote Shell for Rapid Development]] - Nov 2025
 
-Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the core advantage of OTP:
+Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the corye advantage of OTP:
 continuous introspection. Using the remote shell workflow is the answer, transforming your text editor, specifically
 Emacs, into a dynamic window directly into your running Erlang system.
 

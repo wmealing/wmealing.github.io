@@ -1,4 +1,6 @@
 #+TITLE: WXerlang simple example
+#+FILETAGS: :systems:
+#+INCLUDE: "navbar.html" export html
 #+ROAM_TAGS: erlang wxwidget wx 
 #+CREATED: 
 #+OPTIONS: ^:nil num:nil
