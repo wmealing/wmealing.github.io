@@ -1,0 +1,16 @@
+#+TITLE: Category: Tooling
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts in Tooling
+
+- [[file:custom-software-errors.html][Higher quality errors for custom software.]]
+- [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.
+Evaluation of flaw: **CVE-YYYY-NNNNN**]]
+- [[file:erlang-emacs-2025.html][Setting up Emacs for Erlang in 2025]]
+- [[file:eunit-parallel.html][REPLACE]]
+- [[file:eunit-surefire-report.html][Consuming eunit surefire xml reports.]]
+- [[file:feed-llm-janet.html][Feed and caring of your LLM for janet lang.]]
+- [[file:github-not-connecting.html][Rebar3 not connecting to github.]]
+- [[file:lfe-github-actions.html][Github actions (CI/CD) for LFE.]]
+- [[file:using-style-dictionaries.html][Using "style-dictionary" from Clojure.]]

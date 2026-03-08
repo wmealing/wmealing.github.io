@@ -1,0 +1,26 @@
+#+TITLE: Category: Systems
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts in Systems
+
+- [[file:abstraction-vs-transformation.html][Abstraction vs Transformation]]
+- [[file:atomic-operations-in-common-lisp.html][Atomic operations in common lisp]]
+- [[file:barista-lfe.html][Writing a webserver with LFE Barista.]]
+- [[file:caveman2-with-ai.html][CAVEMAN 2 - peer programming with claude.ai in common lisp.]]
+- [[file:cellium-first.html][CELLIUM BASIC THEORY]]
+- [[file:cellium-focus.html][Cellium 002 - focus]]
+- [[file:cellium-progressbar.html][CELLIUM 003: progress bar ]]
+- [[file:cellium-remote-shell.html][Using erlangs remote shell during devel.]]
+- [[file:gemini-erlmcp-guide.html][Configuring gemini for erlang-mcp.]]
+- [[file:grokking-simplicty.html][Grokking simplicty notes]]
+- [[file:htmx-common-lisp.html][HTMX in common lisp.]]
+- [[file:KO2-EP-133-midi-sysex-messages.html][Decoding the KO2 Sysex messages.]]
+- [[file:lfe-gen-server.html][Lfe Flavored Erlang Gen Server]]
+- [[file:lisp-range.html][Python range operator in lisp.]]
+- [[file:raft-webserver.html][Building a 3-Node Cluster with Erlang and 'ra']]
+- [[file:robust-recovery.html][Robust Recovery of Erlang Crashes: Handling failures and Error Reporting]]
+- [[file:sending-email-in-common-lisp.html][Sending email in common-lisp]]
+- [[file:shipping-costs.html][Shipping costs challenge.]]
+- [[file:simple-cobol-query.html][GNUCOBOL "SCREEN" and keyboard input.]]
+- [[file:wx-erlang-example.html][WXerlang simple example]]

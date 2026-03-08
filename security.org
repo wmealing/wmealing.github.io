@@ -1,0 +1,15 @@
+#+TITLE: Category: Security
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts in Security
+
+- [[file:developing-7902.html][REPLACE]]
+- [[file:ebpf-disabled-for-users.html][Why eBPF for users is disabled in some distributions]]
+- [[file:mirai-delete-yourself.html][Mirai Delete yourself]]
+- [[file:reverse-engineering-teenage-engineering.html][Getting firmware from teenage engineering.]]
+- [[file:signed-kernel-modules.html][Signed kernel modules]]
+- [[file:toshiba-toughpad-fz-g1-3.html][Toshiba Toughpad FZ-G1 mk3]]
+- [[file:tpm-pcr07.html][PCRS on Red Hat Enterprise Linux.]]
+- [[file:trickbot-persistence.html][Trickbot persistence.]]
+- [[file:watchdog-in-rust.html][Mirai's Watchdog in rust.]]
