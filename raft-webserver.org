@@ -437,3 +437,4 @@ Finally, we are exploring ways to move beyond the constraints of static configur
 
 [[https://www.erlang.org/doc/apps/stdlib/json.html][OTP json module documentation]]
 
+[[https://github.com/rabbitmq/khepri][khepri project]]
