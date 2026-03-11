@@ -5,6 +5,16 @@
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
+* [[./raft-webserver.html][Highly Durable execution in erlang - Mar 2026]]
+
+Have you ever wonder what happens after an Erlang supervisor tries to "let it crash" but realizes it can't magically
+restore the data lost in the process? This post investigates the practice  of building a 3-node cluster using
+the [[https://github.com/rabbitmq/ra][ra library]]  to handle the heavy lifting of the Raft consensus protocol.  We’ll walk through setting up a distributed
+Key-Value store, implementing a clever "bootstrap loop" to keep your nodes from hanging during startup, and even
+purposefully killing the leader node to watch the cluster elect a new head and sync back up without breaking a sweat.
+
+If you're looking for a straight-to-the-code guide on distributed state and high availability.  This is it.
+
 * [[https://wmealing.github.io/cellium-remote-shell.html][Erlang Remote Shell for Rapid Development]] - Nov 2025
 
 Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the corye advantage of OTP:

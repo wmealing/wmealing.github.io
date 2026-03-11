@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-09 Mon 03:12 -->
+<!-- 2026-03-12 Thu 03:53 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Wade Mealing | Software Engineer &amp; Research</title>
@@ -52,9 +52,25 @@
 
     </div>
 </nav>
-<div id="outline-container-org3c91352" class="outline-2">
-<h2 id="org3c91352"><a href="https://wmealing.github.io/cellium-remote-shell.html">Erlang Remote Shell for Rapid Development</a> - Nov 2025</h2>
-<div class="outline-text-2" id="text-org3c91352">
+<div id="outline-container-org720aebf" class="outline-2">
+<h2 id="org720aebf"><a href="./raft-webserver.html">Highly Durable execution in erlang - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-org720aebf">
+<p>
+Have you ever wonder what happens after an Erlang supervisor tries to "let it crash" but realizes it can't magically
+restore the data lost in the process? This post investigates the practice  of building a 3-node cluster using
+the <a href="https://github.com/rabbitmq/ra">ra library</a>  to handle the heavy lifting of the Raft consensus protocol.  We’ll walk through setting up a distributed
+Key-Value store, implementing a clever "bootstrap loop" to keep your nodes from hanging during startup, and even
+purposefully killing the leader node to watch the cluster elect a new head and sync back up without breaking a sweat.
+</p>
+
+<p>
+If you're looking for a straight-to-the-code guide on distributed state and high availability.  This is it.
+</p>
+</div>
+</div>
+<div id="outline-container-org86776af" class="outline-2">
+<h2 id="org86776af"><a href="https://wmealing.github.io/cellium-remote-shell.html">Erlang Remote Shell for Rapid Development</a> - Nov 2025</h2>
+<div class="outline-text-2" id="text-org86776af">
 <p>
 Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the corye advantage of OTP:
 continuous introspection. Using the remote shell workflow is the answer, transforming your text editor, specifically
@@ -70,9 +86,9 @@ highly available, fault-tolerant systems Erlang was designed for, without ever n
 </p>
 </div>
 </div>
-<div id="outline-container-orgb4a3fc0" class="outline-2">
-<h2 id="orgb4a3fc0"><a href="./cellium-progressbar.html">Cellium 003</a> - Oct 2025</h2>
-<div class="outline-text-2" id="text-orgb4a3fc0">
+<div id="outline-container-orge1c0998" class="outline-2">
+<h2 id="orge1c0998"><a href="./cellium-progressbar.html">Cellium 003</a> - Oct 2025</h2>
+<div class="outline-text-2" id="text-orge1c0998">
 <p>
 Sometimes a simple text percentage isn't enough, you need bars; you need a visual indicator to show the user that work is
 actually being done. The progress bar provides a clean, terminal-friendly bar that you can update dynamically. We'll dive
@@ -81,9 +97,9 @@ addition to the widget toolkit that you can use, TODAY!
 </p>
 </div>
 </div>
-<div id="outline-container-org5446a18" class="outline-2">
-<h2 id="org5446a18"><a href="./cellium-focus.html">Cellium 002</a> - Oct 2025</h2>
-<div class="outline-text-2" id="text-org5446a18">
+<div id="outline-container-orgf42d83e" class="outline-2">
+<h2 id="orgf42d83e"><a href="./cellium-focus.html">Cellium 002</a> - Oct 2025</h2>
+<div class="outline-text-2" id="text-orgf42d83e">
 <p>
 I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus.  Ive made
 a rudimentary attempt at adding focus to the 'cellium' behavior, you can read about how to use it to your advantage h
@@ -91,9 +107,9 @@ a rudimentary attempt at adding focus to the 'cellium' behavior, you can read ab
 </p>
 </div>
 </div>
-<div id="outline-container-orgfcf7425" class="outline-2">
-<h2 id="orgfcf7425"><a href="./cellium-first.html">Cellium 001</a> - Oct 2025.</h2>
-<div class="outline-text-2" id="text-orgfcf7425">
+<div id="outline-container-org99bd962" class="outline-2">
+<h2 id="org99bd962"><a href="./cellium-first.html">Cellium 001</a> - Oct 2025.</h2>
+<div class="outline-text-2" id="text-org99bd962">
 <p>
 In an attempt to make my erlang code a little less complex, i've been convinced that I must drop the web and all the
 complexity that entails. I've written a TUI library called <a href="https://github.com/wmealing/cellium">cellium</a> which uses the popular TEA architecture to lull developers
@@ -101,35 +117,35 @@ into a sense of familiarity.
 </p>
 </div>
 </div>
-<div id="outline-container-org53bf44e" class="outline-2">
-<h2 id="org53bf44e"><a href="https://wmealing.github.io/github-not-connecting.html">Rebar3 / git not connecting to github</a> - Oct 2025</h2>
-<div class="outline-text-2" id="text-org53bf44e">
+<div id="outline-container-org381153d" class="outline-2">
+<h2 id="org381153d"><a href="https://wmealing.github.io/github-not-connecting.html">Rebar3 / git not connecting to github</a> - Oct 2025</h2>
+<div class="outline-text-2" id="text-org381153d">
 <p>
 Rebar3 was failing to fetch dependencies from github when I was setting up a new LFE project. The git:// protocol was timing out, but ssh and https worked fine. Rather than spending hours debugging network issues I can't control, I found a simple fix using git's url rewriting feature. One config command later and rebar3 can fetch dependencies without complaint. I
 have documented a fix in git itself that works around the problme.  This applies to regular Erlang projects too!.
 </p>
 </div>
 </div>
-<div id="outline-container-org9ea427f" class="outline-2">
-<h2 id="org9ea427f"><a href="https://wmealing.github.io/eunit-surefire-report.html">Consuming eunit surefire xml reports</a> - Oct 2025</h2>
-<div class="outline-text-2" id="text-org9ea427f">
+<div id="outline-container-org65bc29f" class="outline-2">
+<h2 id="org65bc29f"><a href="https://wmealing.github.io/eunit-surefire-report.html">Consuming eunit surefire xml reports</a> - Oct 2025</h2>
+<div class="outline-text-2" id="text-org65bc29f">
 <p>
 Eunit spits out test results to the console, but sometimes you want something a bit more presentable. There is a plugin that generates surefire style XML output, and you can use maven's surefire-reports tool to turn that into HTML. I'll show you how to wire up rebar.config and create a basic pom.xml to get this working. If you need better test reports for your Erlang projects, this might help.
 </p>
 </div>
 </div>
-<div id="outline-container-org7d49b57" class="outline-2">
-<h2 id="org7d49b57"><a href="https://wmealing.github.io/erlang-emacs-2025.html">Setting up Emacs and Erlang in 2025.</a> - Sep 2025</h2>
-<div class="outline-text-2" id="text-org7d49b57">
+<div id="outline-container-orgb10aef6" class="outline-2">
+<h2 id="orgb10aef6"><a href="https://wmealing.github.io/erlang-emacs-2025.html">Setting up Emacs and Erlang in 2025.</a> - Sep 2025</h2>
+<div class="outline-text-2" id="text-orgb10aef6">
 <p>
 Using Erlang in Emacs, I'll show  you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into
 a usable setup in 2025.   Its simpler than you think.  If you can think of any improvements please let me know.
 </p>
 </div>
 </div>
-<div id="outline-container-org7e992c7" class="outline-2">
-<h2 id="org7e992c7"><a href="./robust-recovery.html">Robust Recovery in Erlang</a>  - Aug 2025</h2>
-<div class="outline-text-2" id="text-org7e992c7">
+<div id="outline-container-orga7f2a2c" class="outline-2">
+<h2 id="orga7f2a2c"><a href="./robust-recovery.html">Robust Recovery in Erlang</a>  - Aug 2025</h2>
+<div class="outline-text-2" id="text-orga7f2a2c">
 <p>
 Managing failureis a common challenge, especially when some of those tasks are prone to failure.
 </p>
@@ -145,9 +161,9 @@ fault tolerance allows a central process to supervise many workers, and handling
 </p>
 </div>
 </div>
-<div id="outline-container-orgf1ceeee" class="outline-2">
-<h2 id="orgf1ceeee"><a href="https://wmealing.github.io/using-style-dictionaries.html">Using Style Dictionaries from clojure</a></h2>
-<div class="outline-text-2" id="text-orgf1ceeee">
+<div id="outline-container-org72f529a" class="outline-2">
+<h2 id="org72f529a"><a href="https://wmealing.github.io/using-style-dictionaries.html">Using Style Dictionaries from clojure</a></h2>
+<div class="outline-text-2" id="text-org72f529a">
 <p>
 Unify your design system and codebase the functional way. In this post, I’ll show you how to harness the power of Style Dictionary
 from Clojure—turning token files for use in your clojure code with minimal fuss. Learn how to bring structured, scalable theming into
@@ -155,9 +171,9 @@ your Clojure workflow.
 </p>
 </div>
 </div>
-<div id="outline-container-org89a6616" class="outline-2">
-<h2 id="org89a6616"><a href="http://wmealing.github.io/sending-email-in-common-lisp.html">Sending email in common-lisp (Sep 2024)</a></h2>
-<div class="outline-text-2" id="text-org89a6616">
+<div id="outline-container-org165aa58" class="outline-2">
+<h2 id="org165aa58"><a href="http://wmealing.github.io/sending-email-in-common-lisp.html">Sending email in common-lisp (Sep 2024)</a></h2>
+<div class="outline-text-2" id="text-org165aa58">
 <p>
 Want to integrate email functionality into your common-lisp applications, the cl-smtp library can help. In this blog entry, we’ll walk you through the process of using cl-smtp
 to send emails via Google’s mail servers. Whether you're setting up notifications, alerts, or just automating your email processes, this guide will help you configure cl-smtp to
@@ -165,9 +181,9 @@ work seamlessly with Gmail’s SMTP server.
 </p>
 </div>
 </div>
-<div id="outline-container-orgef773d4" class="outline-2">
-<h2 id="orgef773d4"><a href="https://wmealing.github.io/custom-software-errors.html">The best error messages ive ever seen</a></h2>
-<div class="outline-text-2" id="text-orgef773d4">
+<div id="outline-container-org6333892" class="outline-2">
+<h2 id="org6333892"><a href="https://wmealing.github.io/custom-software-errors.html">The best error messages ive ever seen</a></h2>
+<div class="outline-text-2" id="text-org6333892">
 <p>
 Writing clear and effective error messages is a crucial skill for any programmer, no matter what the language.  Well-crafted error messages will
 improve the usability of software by guiding users to understand and resolve issues quickly. A good error message not only informs the user about
@@ -177,9 +193,9 @@ assistance and resources that you may have at your disposal.  I expanded on this
 </p>
 </div>
 </div>
-<div id="outline-container-orgdae40b5" class="outline-2">
-<h2 id="orgdae40b5"><a href="http://wmealing.github.io/mac-os-midi-router-broken.html">Apple Mac OS Midi routing is broken.</a></h2>
-<div class="outline-text-2" id="text-orgdae40b5">
+<div id="outline-container-orgece4b5a" class="outline-2">
+<h2 id="orgece4b5a"><a href="http://wmealing.github.io/mac-os-midi-router-broken.html">Apple Mac OS Midi routing is broken.</a></h2>
+<div class="outline-text-2" id="text-orgece4b5a">
 <p>
 I have some new music making hardware, and wanted to try to get them to talk together.  Use a Mac they
 say 'everything just works',   No clearly it doesnt.  I did however find a work around.  If anyone
@@ -187,9 +203,9 @@ is trying to use a USB host to route a midi controller (USB organ) to a synth (U
 </p>
 </div>
 </div>
-<div id="outline-container-orgc3088d8" class="outline-2">
-<h2 id="orgc3088d8"><a href="http://wmealing.github.io/minimise.html">Minimise</a></h2>
-<div class="outline-text-2" id="text-orgc3088d8">
+<div id="outline-container-orgc332186" class="outline-2">
+<h2 id="orgc332186"><a href="http://wmealing.github.io/minimise.html">Minimise</a></h2>
+<div class="outline-text-2" id="text-orgc332186">
 <p>
 In the interest of not polluting the internet with my ill-informed opinion and staying
 away from the madness that is modern culture, I've deleted a bunch of social media and
@@ -197,9 +213,9 @@ messenger accounts.  Less of me on the internet can only be a net win for societ
 </p>
 </div>
 </div>
-<div id="outline-container-org3dd3156" class="outline-2">
-<h2 id="org3dd3156"><a href="./reverse-engineering-teenage-engineering.html">Downloading the EP133 firmware from Teenage Engineering</a></h2>
-<div class="outline-text-2" id="text-org3dd3156">
+<div id="outline-container-org1cfa6a9" class="outline-2">
+<h2 id="org1cfa6a9"><a href="./reverse-engineering-teenage-engineering.html">Downloading the EP133 firmware from Teenage Engineering</a></h2>
+<div class="outline-text-2" id="text-org1cfa6a9">
 <p>
 Teenage Engineering released the EP-133, a mid range sampler/synth, I looked into the updater
 to find out as much as I can before I buy one.  The firmware provided from teenage engineering
@@ -207,9 +223,9 @@ is encrypted, but i've <a href="./reverse-engineering-teenage-engineering.html">
 </p>
 </div>
 </div>
-<div id="outline-container-orgcb2d676" class="outline-2">
-<h2 id="orgcb2d676"><a href="https://wmealing.github.io/atomic-operations-in-common-lisp.html">Atom(ic) Operations in Common Lisp</a> [2023]</h2>
-<div class="outline-text-2" id="text-orgcb2d676">
+<div id="outline-container-orgd6293c5" class="outline-2">
+<h2 id="orgd6293c5"><a href="https://wmealing.github.io/atomic-operations-in-common-lisp.html">Atom(ic) Operations in Common Lisp</a> [2023]</h2>
+<div class="outline-text-2" id="text-orgd6293c5">
 <p>
 So, the headline is a bit of a lie.  This entry talks about using clojure like "atoms" to simplify
 management of shared, synchronous, independent state.  Common lisp being the all-singing all-dancing
@@ -218,9 +234,9 @@ than I thought. <a href="https://wmealing.github.io/atomic-operations-in-common-
 </p>
 </div>
 </div>
-<div id="outline-container-orgaa65b8a" class="outline-2">
-<h2 id="orgaa65b8a"><a href="https://wmealing.github.io/lfe-github-actions.html">Setting up GitHub Actions for LFE CI/CD</a> [2023]</h2>
-<div class="outline-text-2" id="text-orgaa65b8a">
+<div id="outline-container-org50d2993" class="outline-2">
+<h2 id="org50d2993"><a href="https://wmealing.github.io/lfe-github-actions.html">Setting up GitHub Actions for LFE CI/CD</a> [2023]</h2>
+<div class="outline-text-2" id="text-org50d2993">
 <p>
 I'm involved in 'competing' with <a href="https://spawnfest.org/">spawnfest</a> this weekend, I figured its time to setup <a href="lfe-github-actions.html">LFE for CI/CD with GitHub Actions</a>.
 Its a pretty simple setup that runs the test, i'll expand on this in the future to include creating containers and
@@ -228,27 +244,27 @@ pushing to production.
 </p>
 </div>
 </div>
-<div id="outline-container-org89d6668" class="outline-2">
-<h2 id="org89d6668"><a href="https://wmealing.github.io/htmx-common-lisp.html">Common Lisp and HTMX</a> [2023]</h2>
-<div class="outline-text-2" id="text-org89d6668">
+<div id="outline-container-orga3df685" class="outline-2">
+<h2 id="orga3df685"><a href="https://wmealing.github.io/htmx-common-lisp.html">Common Lisp and HTMX</a> [2023]</h2>
+<div class="outline-text-2" id="text-orga3df685">
 <p>
 Common lisp and HTMX provide a sane platform to develop basic applications.  I <a href="https://wmealing.github.io/htmx-common-lisp.html">outline the reasons</a> that I have chosen them.
 This post also marks the new voice I plan to use while blogging. I no longer care to engage in debate with people without being paid.
 </p>
 </div>
 </div>
-<div id="outline-container-org167e21f" class="outline-2">
-<h2 id="org167e21f"><a href="./emacs-org-babel-analysis.html ">Supercharge your workflow with emacs and org-babel</a>.</h2>
-<div class="outline-text-2" id="text-org167e21f">
+<div id="outline-container-org435fc58" class="outline-2">
+<h2 id="org435fc58"><a href="./emacs-org-babel-analysis.html ">Supercharge your workflow with emacs and org-babel</a>.</h2>
+<div class="outline-text-2" id="text-org435fc58">
 <p>
 I do kernel flaw analysis for a living, someone asked me to do a short write up on how I use org-babel to
 do my work. I've documented it <a href="./emacs-org-babel-analysis.html">in this rant</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org2b880c9" class="outline-2">
-<h2 id="org2b880c9"><a href="./lfe-gen-server.html">Lisp Flavored Erlang Gen Server - 2024.</a></h2>
-<div class="outline-text-2" id="text-org2b880c9">
+<div id="outline-container-orgf748377" class="outline-2">
+<h2 id="orgf748377"><a href="./lfe-gen-server.html">Lisp Flavored Erlang Gen Server - 2024.</a></h2>
+<div class="outline-text-2" id="text-orgf748377">
 <p>
 I decided to collapse two of my interests, lisp and erlang.  Lisp flavored erlang isnt going to win
 any popularity contests, but it is something that I dont entirely hate  working on.  Ive written
@@ -256,9 +272,9 @@ a quick tutorial describing one of the <a href="https://wmealing.github.io/lfe-g
 </p>
 </div>
 </div>
-<div id="outline-container-org95b010e" class="outline-2">
-<h2 id="org95b010e"><a href="./less-than-optimistic.html">Choosing the wrong roads.</a></h2>
-<div class="outline-text-2" id="text-org95b010e">
+<div id="outline-container-org29ed2fc" class="outline-2">
+<h2 id="org29ed2fc"><a href="./less-than-optimistic.html">Choosing the wrong roads.</a></h2>
+<div class="outline-text-2" id="text-org29ed2fc">
 <p>
 I've spent the last week reflecting on some poor programming life choices that I've made.
 disagree with the majority, perhaps you are wrong.  I'm not stupid enough to think that i'm smarter
@@ -267,9 +283,9 @@ this.  If I <a href="https://wmealing.github.io/less-than-optimistic.html">write
 </p>
 </div>
 </div>
-<div id="outline-container-org40aa2cb" class="outline-2">
-<h2 id="org40aa2cb">COBOL - Simple "Curses" like screen to get keyboard input.</h2>
-<div class="outline-text-2" id="text-org40aa2cb">
+<div id="outline-container-org2fa26cf" class="outline-2">
+<h2 id="org2fa26cf">COBOL - Simple "Curses" like screen to get keyboard input.</h2>
+<div class="outline-text-2" id="text-org2fa26cf">
 <p>
 On of the simple but effectively powerful things that gnuCOBOL can do is a TUI.  Its not
 fancy (when it implements UTF8 correctly, it will be fancy-af) but it gets the job
@@ -281,18 +297,18 @@ Check out my <a href="./simple-cobol-query.html">Simple example</a> which I've g
 </p>
 </div>
 </div>
-<div id="outline-container-org0569092" class="outline-2">
-<h2 id="org0569092">Python Range function in lisp [Aug 2022]</h2>
-<div class="outline-text-2" id="text-org0569092">
+<div id="outline-container-org523dba2" class="outline-2">
+<h2 id="org523dba2">Python Range function in lisp [Aug 2022]</h2>
+<div class="outline-text-2" id="text-org523dba2">
 <p>
 I have wanted a quick way to something similar to the python range function (range n y) in common lisp.
 Sometimes I just want to have some kind of immediate list creation.  <a href="http://wmealing.github.io/lisp-range">See my drivel on this topic.</a>
 </p>
 </div>
 </div>
-<div id="outline-container-orga5ae2cf" class="outline-2">
-<h2 id="orga5ae2cf">Simple WX example in erlang [July 2022]</h2>
-<div class="outline-text-2" id="text-orga5ae2cf">
+<div id="outline-container-orge2b64c6" class="outline-2">
+<h2 id="orge2b64c6">Simple WX example in erlang [July 2022]</h2>
+<div class="outline-text-2" id="text-orge2b64c6">
 <p>
 I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry.
 </p>
@@ -302,9 +318,9 @@ The one that works for me at the moment is <a href="http://wmealing.github.io/wx
 </p>
 </div>
 </div>
-<div id="outline-container-org3491f9d" class="outline-2">
-<h2 id="org3491f9d">MIRAI analysis - evasion - deleting the executing code [Nov 2020]</h2>
-<div class="outline-text-2" id="text-org3491f9d">
+<div id="outline-container-org15d01da" class="outline-2">
+<h2 id="org15d01da">MIRAI analysis - evasion - deleting the executing code [Nov 2020]</h2>
+<div class="outline-text-2" id="text-org15d01da">
 <p>
 The MIRAI malware deletes itself from disk in an attempt to make it
 harder to analyse. <a href="https://wmealing.github.io/mirai-delete-yourself">This post</a> goes into detail on how it works, a rust
@@ -312,18 +328,18 @@ implementation and a few improvements that could have been done.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfff472d" class="outline-2">
-<h2 id="orgfff472d">MIRAI analysis - watchdog access in rust [Nov 2020]</h2>
-<div class="outline-text-2" id="text-orgfff472d">
+<div id="outline-container-orgbc83383" class="outline-2">
+<h2 id="orgbc83383">MIRAI analysis - watchdog access in rust [Nov 2020]</h2>
+<div class="outline-text-2" id="text-orgbc83383">
 <p>
 The MIRAI malware uses an technique intended to prevent the systems
 watchdog from rebooting the machine when its too busy.  <a href="https://wmealing.github.io/watchdog-in-rust">I share what I learned about this and ported it to rust.</a>
 </p>
 </div>
 </div>
-<div id="outline-container-orga934b7d" class="outline-2">
-<h2 id="orga934b7d">Userspace eBPF [Sep 2 2020]</h2>
-<div class="outline-text-2" id="text-orga934b7d">
+<div id="outline-container-org10a31a4" class="outline-2">
+<h2 id="org10a31a4">Userspace eBPF [Sep 2 2020]</h2>
+<div class="outline-text-2" id="text-org10a31a4">
 <p>
 A few distros have users allowed to insert eBPF programs.  This is disabled in
 some distributions.  <a href="./ebpf-disabled-for-users.html">I've documented my findings</a> after talking to different
@@ -331,9 +347,9 @@ decision holders who made some of these choices.
 </p>
 </div>
 </div>
-<div id="outline-container-org4615b6f" class="outline-2">
-<h2 id="org4615b6f">Anatomy of kernel module signing  [Aug 20 2020]</h2>
-<div class="outline-text-2" id="text-org4615b6f">
+<div id="outline-container-orge79f952" class="outline-2">
+<h2 id="orge79f952">Anatomy of kernel module signing  [Aug 20 2020]</h2>
+<div class="outline-text-2" id="text-orge79f952">
 <p>
 I decided to take a look at the Linux kernel modules signing process.  It seems
 that the recent drovorub malware has some interesting misinformation regarding 
@@ -341,9 +357,9 @@ module signing, so I had decided to take a look at the <a href="./signed-kernel-
 </p>
 </div>
 </div>
-<div id="outline-container-orge87f6f3" class="outline-2">
-<h2 id="orge87f6f3">Encrypting a disk to only boot in a specific system. [Aug 9 2020]</h2>
-<div class="outline-text-2" id="text-orge87f6f3">
+<div id="outline-container-orgad3b3e6" class="outline-2">
+<h2 id="orgad3b3e6">Encrypting a disk to only boot in a specific system. [Aug 9 2020]</h2>
+<div class="outline-text-2" id="text-orgad3b3e6">
 <p>
 Recent research papers related to flaws in thunderbolt and secureboot have
 piqued my interest in learning more about what can be done to prevent a system
@@ -352,9 +368,9 @@ comprimised in such a way from being abused.  I've written about
 </p>
 </div>
 </div>
-<div id="outline-container-orgda00933" class="outline-2">
-<h2 id="orgda00933"><a href="./toshibia-toughpad-fz-g1-3.html">Toshiba Toughpad FZ-G1-3 [Jul 25 2020</a>]</h2>
-<div class="outline-text-2" id="text-orgda00933">
+<div id="outline-container-orgbdc5a8f" class="outline-2">
+<h2 id="orgbdc5a8f"><a href="./toshibia-toughpad-fz-g1-3.html">Toshiba Toughpad FZ-G1-3 [Jul 25 2020</a>]</h2>
+<div class="outline-text-2" id="text-orgbdc5a8f">
 <p>
 I have recently purchased one of these machines in an auction, and I am -very-
 impressed with its build quality.   While this one is not its current purchase
@@ -363,9 +379,9 @@ learned about it <a href="./toshiba-toughpad-fz-g1-3.html">While making it work 
 </p>
 </div>
 </div>
-<div id="outline-container-orgfef28e3" class="outline-2">
-<h2 id="orgfef28e3">Kernel SecuriTea</h2>
-<div class="outline-text-2" id="text-orgfef28e3">
+<div id="outline-container-org71669f9" class="outline-2">
+<h2 id="org71669f9">Kernel SecuriTea</h2>
+<div class="outline-text-2" id="text-org71669f9">
 <p>
 I work on a small youtube channel where I talk about kernel security issues
 that interest me.  I work on quite a lot of these in my work so i'm limited to

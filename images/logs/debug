@@ -1,0 +1,3 @@
+2025-10-20T03:03:41.849903+10:00 info: logging started.
+2025-10-20T03:03:41.887002+10:00 debug: Supervisor: {local,kernel_safe_sup}. Started: id=disk_log_sup,pid=<0.88.0>.
+2025-10-20T03:03:41.888864+10:00 debug: Supervisor: {local,kernel_safe_sup}. Started: id=disk_log_server,pid=<0.89.0>.
