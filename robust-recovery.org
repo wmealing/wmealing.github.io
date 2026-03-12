@@ -10,6 +10,10 @@
 #+DATE: 2025-08-15
 
 * Let It Crash? Sure. But Also: Resolve the Failure.
+:PROPERTIES:
+:ID:       B75BBEEA-8AF4-4BF4-B5BB-3F18A7AA9362
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Erlang’s “let it crash” mantra is great. Recently, its been reframed as “let it heal.”, I like adding a third concept: *propono postea* or
 “resolve it later.”
@@ -19,6 +23,10 @@ This is about running a batch of jobs, tracking the failures, and being able to 
 We’ll do it with standard erlang, message passing, and a little crash theatre.
 
 * The Pattern
+:PROPERTIES:
+:ID:       3520A63E-29FA-44E0-AF28-BDE90A38DD6D
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 We have three functions:
 
@@ -27,6 +35,10 @@ We have three functions:
 3. ~collect_results/3~ – grabs every result, good or bad.
 
 * Process/Information Flow Diagram
+:PROPERTIES:
+:ID:       89F79ACE-DAF1-4911-866F-3CAD722C853F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 #+begin_example
           +-------------+
@@ -66,6 +78,10 @@ We have three functions:
 #+end_example
 
 * Worker Decision Logic
+:PROPERTIES:
+:ID:       66518732-E2B8-407F-8344-37AC858C83A0
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 The worker itself is a basic random choice to crash, The code manually crashes, but this same behavior occurs when erlang
 normally fails.
@@ -87,6 +103,10 @@ Crash   Send {ok, Num, Sum}
 #+end_example
 
 * How It Works
+:PROPERTIES:
+:ID:       38174AF1-FEC7-44F1-9F1F-3B80245B5147
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - Spawn 30 workers, each with a unique ID.
 - Use ~spawn_monitor~ so the parent gets a `'DOWN'` message when a worker dies.
@@ -110,6 +130,10 @@ There is another way to do this using erlangs built in 'supervisor' which includ
 I will get around to that sometime.
 
 * Example Code
+:PROPERTIES:
+:ID:       EF5506E3-7049-4442-AE0C-C640FD17D665
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 #+begin_src erlang
 -module(batch_jobs).
 -export([run/0, worker/2]).
@@ -165,6 +189,10 @@ worker(Parent, Num) ->
 #+end_src
 
 * Wrap-Up
+:PROPERTIES:
+:ID:       1EEF0D17-0F50-4A0A-8553-B0FA8E4D221F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 Once you’ve captured the failures, you can retry, log, email, file Jira tickets — whatever fits your pipeline.
 
 

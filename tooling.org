@@ -3,6 +3,10 @@
 #+INCLUDE: "navbar.html" export html
 
 * Posts in Tooling
+:PROPERTIES:
+:ID:       8F2AA2D4-5FC0-4E05-9C46-2CE8D41AA315
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 - [[file:custom-software-errors.html][Higher quality errors for custom software.]]
 - [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.

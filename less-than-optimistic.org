@@ -29,6 +29,10 @@ however, I think that I've been made a choice in the wrong direction.
 You'll find that there is a recurring theme in my mistakes, which I plan to somehow fix going forward.
 
 * C.
+:PROPERTIES:
+:ID:       D53436AB-2011-4AF6-A0B9-AD0EA710E5D6
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 If you've had the pleasure of working in C, you'll know that its a treadmill.  It gets you hooked quickly
 but the corner cases, undefined behavior and security bugs are just take up too much time in the short
@@ -36,6 +40,10 @@ lifespan we have.  If there is one thing you take from this blog entry, its plea
 in C if you can help it.  Think of the children.
 
 * Erlang.
+:PROPERTIES:
+:ID:       D6AEB9E4-A93E-4D07-A83A-DA9BF3F794BE
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 I had been working with Erlang, which I had quite enjoyed however I failed to learn my lesson.  There were almost
 no erlang jobs going that I could find in Australia.  There was no other erlang programmers that I could find nearby
@@ -48,6 +56,10 @@ Still, the Erlang syntax is 'cranky'.  There has been recent improvements on the
 (such as Lisp Flavored Erlang, but we'll get there later in this article).
 
 * Lisp.
+:PROPERTIES:
+:ID:       40478199-FD65-42CB-8982-D02FFB2398D4
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 After trying to improve erlang-mode in emacs, I decided to give the "real thing" a go.  I downloaded
 SBCL and had a ball.  I enjoyed learning macros, writing telegram bots, writing a small text adventure,
@@ -57,6 +69,10 @@ While working LISP has been very productive, and working for me its been very di
 of adoption in my work.  I haven't come across another Lisp programmer (In an engineering group of about 2000)
 
 * GNUCobol
+:PROPERTIES:
+:ID:       90C8FF29-2F7D-4C07-9AFA-EBB941C40CC7
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 I spent most of my after hours in the last 3 months trying to learn cobol.  I can do quite a number of
 basic tasks, input screens, validation, math, currency and handling.
@@ -73,6 +89,10 @@ I've written an emacs [[https://github.com/wmealing/gnucobol-mode][gnucobol-mode
 useful, however working in cobol is slow and tiresome and there is little that I can do with it.
 
 * LFE (Lisp Flavored Erlang)
+:PROPERTIES:
+:ID:       360B39E5-68BA-4812-8528-1078C4B02A74
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 For a moment, for a brief glimpse I saw everything that I really wanted in a programming language.  The
 great flexibility of lisp and the power of erlangs distribution.
@@ -86,22 +106,35 @@ lack of "front end" means I can't distribute it to end users without doing more 
 "livebook" from elixir, it would be great if it worked for lfe.
 
 * Honourable Distractions.
+:PROPERTIES:
+:ID:       713443A1-547D-49FF-8AB7-038B321957A7
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 There were however some interesting tools that may mitigate some of my irks. 
 
 ** Xterm.js
+:PROPERTIES:
+:ID:       02877045-57C9-490C-A3FA-406C2BF9A072
+:END:
 
 Writing my applications with a TUI and exporting it through the web, almost gets me there but then
 again i realise that the vast majority of people are now programmed not to understand anything but
 gumby web interfaces, so thats what I think that I need to deal with going forward.  Sad reality.
 
 ** Terminal Graphics
+:PROPERTIES:
+:ID:       E1D5F9DE-AE29-4CE8-A2D6-4BE0C9C0A9D1
+:END:
 
 I had figured that perhaps I could use new features of [[https://sw.kovidgoyal.net/kitty/graphics-protocol/][Kitty graphics terminal]] to promote some
 modern usability into the terminal that may be familiar to users, however getting this into the
 browser via xterm.js isnt a thing so I'm back to where I started.
 
 ** "Node and JS is good enough"
+:PROPERTIES:
+:ID:       717DAEF2-B69E-4567-92AD-5F988546729B
+:END:
 
 One of the issues that I've always had with some langauges are when they are "good enough". I do understand
 that there are business decisions often dictate choices such as language, toolkit and design, however
@@ -109,6 +142,9 @@ when "below average" becomes "good enough" across the general developer communit
 question if I'm the unreasonable one.
 
 ** I'd only choose something that my team already knows
+:PROPERTIES:
+:ID:       B42DCC60-0AC9-45EC-B7FA-E15DC4D1F58B
+:END:
 
 This is a prevailing attitude in many engineering teams.  The fear of putting an 'unknown' language
 or tooling into production, There are many places that new tools can be written and fit into existing
@@ -116,6 +152,10 @@ structures with minimal risk.  I'm also adult enough to know that when i'm swimm
 and everyone else is against me, that i'm likely in the wrong.
 
 * Going forward ?
+:PROPERTIES:
+:ID:       8B721B0A-EA28-41D8-B02D-729995B62431
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - I need to let go of the past and my choices.
 - I can't plan to work with anyone else, as the number of people that use my tooling is non existant.

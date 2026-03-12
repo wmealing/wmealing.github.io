@@ -6,11 +6,19 @@
 #+HTML_HEAD: <meta name="description" content="Actual midi routing in osx." />
 
 * Summary:
+:PROPERTIES:
+:ID:       14241851-EE88-4C2D-B310-379309E2CCAF
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 How to connect a USB midi keyboard (Minilab3) to a synthesizer (KO2) using
 a USB MIDI host.
 
 * Introduction
+:PROPERTIES:
+:ID:       37935D01-DF04-4BCD-A890-709AC4E66E77
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 I believed there should be a method of connecting two digital musical instruments
 together via USB.  This shouldn't be too much to ask.  The Musical Instrument
@@ -28,11 +36,17 @@ technology.  A USB Midi standard happened, and that brings you to my recent
 two purchases:
 
 ** ARTURIA Minilab 3
+:PROPERTIES:
+:ID:       6D146A2B-7805-48B0-9D18-061AD3EA1155
+:END:
 
 A compact MIDI controller known for its versatility and tactile feel, offering
 an array of pads, knobs, and keys for expressive performance.
 
 ** KO2 Sampler Composer
+:PROPERTIES:
+:ID:       FD3C8F0D-37F0-4586-B237-69AE33C46DBD
+:END:
 
 A powerful sampler and composer, capable of transforming MIDI input into
 rich, textured soundscapes and melodies.  Its the new kid on the block.
@@ -78,6 +92,10 @@ software companies in the world.  However I assure you that it appears that it d
 
 
 * What to do ?
+:PROPERTIES:
+:ID:       B7701E22-AD18-4EB2-9F42-21433C3E4AB4
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 I was told that there was some software that may help.  It was spoken about in hushed tones.
 The software was named "MIDI PATCHBAY",  Which sounds like exactly what I needed.  I had an
@@ -116,11 +134,19 @@ the midi events are sent through to the KO2 and it works.
 
 
 * Conclusion
+:PROPERTIES:
+:ID:       9C45D55A-7ADB-460B-995B-2B841F379265
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 Apple OSX midi configuration software is likely broken, I found "Midi router" that seems to route midi
 messages.  It works great.
 
 * Resources:
+:PROPERTIES:
+:ID:       169D157B-242B-4948-85DC-1D4E8719D2F3
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 [[https://github.com/yaros-eu/midi_router/tree/master][Midi Router]]
 

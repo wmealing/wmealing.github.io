@@ -7,12 +7,18 @@
 #+HTML_HEAD: <meta name="description" content="EP-133 teenage engineering firmware " />
 
 * Summary:
+:PROPERTIES:
+:ID:       5B95BA4C-81B9-447D-8BD3-08A4AF7EAE20
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 A nobody like me, getting firmware from teenage engineerings website.
 
 * Introduction
 :PROPERTIES:
 :ORDERED:  t
+:ID:       973E92AD-34AB-4E63-AF83-6D97C48CDFB8
+:PUBDATE:  2026-03-12 Thu 04:15
 :END:
 
 Teenage engineering direct people to their website updater https://teenage.engineering/apps/update
@@ -52,6 +58,9 @@ Unfortunately, its a mess of react and minification has stripped useful names fr
 and variables, so I'm going to have to take another direction. Great.
 
 ** The midi diversion.
+:PROPERTIES:
+:ID:       8A5E2750-256B-4517-A524-AD3ECE588EC1
+:END:
 
 So, I noticed that when I visit the page, a prompt appears in chrome asking for permission
 to access a midi device.  So I assume that this means the browser needed to support
@@ -63,6 +72,9 @@ I can trust MDN right ? So in https://developer.mozilla.org/en-US/docs/Web/API/W
 I see 97 mentions of "MIDI" in the javascript, so i'll try another idea.
 
 ** Tracking the download.
+:PROPERTIES:
+:ID:       3BC13F96-B4FF-4D49-9738-E61CBABE6EED
+:END:
 
 I found there were, many, many uses of the word, "url" so checking that was going to be painful.
 
@@ -196,6 +208,10 @@ real hardware, however I dont have a lot of experience in this, I would
 need to buy hardware to to do it.
 
 * Conclusion
+:PROPERTIES:
+:ID:       435BFD8B-B914-4792-93AB-EEB702B1D09F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Sadly, Teenage Engineering ships encrypted firmware, which I have shown that you
 can get a copy of.  None of the verisons have unencrypted data, so the key to
@@ -207,6 +223,10 @@ If you are from teenage engineering and willing to share their build environment
 and code, that'd be nice, please contact me.  
 
 * Resources:
+:PROPERTIES:
+:ID:       6F1F5655-A2C9-4798-9C8A-85C37D22D3F1
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - Teenage engineering update utility  - [[https://teenage.engineering/apps/update][https://teenage.engineering/apps/update]]
 - Binwalk (firwmare analysis tool) - [[https://github.com/ReFirmLabs/binwalk][https://github.com/ReFirmLabs/binwalk]]

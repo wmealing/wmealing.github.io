@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-09 Mon 03:13 -->
+<!-- 2026-03-12 Thu 04:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Robust Recovery of Erlang Crashes: Handling failures and Error Reporting</title>
@@ -52,9 +52,9 @@
 
     </div>
 </nav>
-<div id="outline-container-org386ee43" class="outline-2">
-<h2 id="org386ee43">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
-<div class="outline-text-2" id="text-org386ee43">
+<div id="outline-container-org4dbef88" class="outline-2">
+<h2 id="org4dbef88">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
+<div class="outline-text-2" id="text-org4dbef88">
 <p>
 Erlang’s “let it crash” mantra is great. Recently, its been reframed as “let it heal.”, I like adding a third concept: <b>propono postea</b> or
 “resolve it later.”
@@ -69,9 +69,9 @@ We’ll do it with standard erlang, message passing, and a little crash theatre.
 </p>
 </div>
 </div>
-<div id="outline-container-org51e307b" class="outline-2">
-<h2 id="org51e307b">The Pattern</h2>
-<div class="outline-text-2" id="text-org51e307b">
+<div id="outline-container-orge4f9cb0" class="outline-2">
+<h2 id="orge4f9cb0">The Pattern</h2>
+<div class="outline-text-2" id="text-orge4f9cb0">
 <p>
 We have three functions:
 </p>
@@ -83,10 +83,10 @@ We have three functions:
 </ol>
 </div>
 </div>
-<div id="outline-container-org9d1bd69" class="outline-2">
-<h2 id="org9d1bd69">Process/Information Flow Diagram</h2>
-<div class="outline-text-2" id="text-org9d1bd69">
-<pre class="example" id="org6727a2e">
+<div id="outline-container-orge586d8a" class="outline-2">
+<h2 id="orge586d8a">Process/Information Flow Diagram</h2>
+<div class="outline-text-2" id="text-orge586d8a">
+<pre class="example" id="org9c6df5e">
           +-------------+
           | run/0       |
           | (Coordinator|
@@ -124,15 +124,15 @@ We have three functions:
 </pre>
 </div>
 </div>
-<div id="outline-container-org53fc578" class="outline-2">
-<h2 id="org53fc578">Worker Decision Logic</h2>
-<div class="outline-text-2" id="text-org53fc578">
+<div id="outline-container-orgbe9f30b" class="outline-2">
+<h2 id="orgbe9f30b">Worker Decision Logic</h2>
+<div class="outline-text-2" id="text-orgbe9f30b">
 <p>
 The worker itself is a basic random choice to crash, The code manually crashes, but this same behavior occurs when erlang
 normally fails.
 </p>
 
-<pre class="example" id="org702ffdb">
+<pre class="example" id="org89011be">
  [worker/2]
     |
     v
@@ -149,9 +149,9 @@ Crash   Send {ok, Num, Sum}
 </pre>
 </div>
 </div>
-<div id="outline-container-org2125b37" class="outline-2">
-<h2 id="org2125b37">How It Works</h2>
-<div class="outline-text-2" id="text-org2125b37">
+<div id="outline-container-org793d5fc" class="outline-2">
+<h2 id="org793d5fc">How It Works</h2>
+<div class="outline-text-2" id="text-org793d5fc">
 <ul class="org-ul">
 <li>Spawn 30 workers, each with a unique ID.</li>
 <li>Use <code>spawn_monitor</code> so the parent gets a `'DOWN'` message when a worker dies.</li>
@@ -184,9 +184,9 @@ I will get around to that sometime.
 </p>
 </div>
 </div>
-<div id="outline-container-orge22b9e2" class="outline-2">
-<h2 id="orge22b9e2">Example Code</h2>
-<div class="outline-text-2" id="text-orge22b9e2">
+<div id="outline-container-orga762c37" class="outline-2">
+<h2 id="orga762c37">Example Code</h2>
+<div class="outline-text-2" id="text-orga762c37">
 <div class="org-src-container">
 <pre class="src src-erlang">-module(batch_jobs).
 -export([run/0, worker/2]).
@@ -243,9 +243,9 @@ worker(Parent, Num) -&gt;
 </div>
 </div>
 </div>
-<div id="outline-container-orgf9d5c8e" class="outline-2">
-<h2 id="orgf9d5c8e">Wrap-Up</h2>
-<div class="outline-text-2" id="text-orgf9d5c8e">
+<div id="outline-container-org33311f5" class="outline-2">
+<h2 id="org33311f5">Wrap-Up</h2>
+<div class="outline-text-2" id="text-org33311f5">
 <p>
 Once you’ve captured the failures, you can retry, log, email, file Jira tickets — whatever fits your pipeline.
 </p>

@@ -8,6 +8,10 @@
 
 
 * Introduction
+:PROPERTIES:
+:ID:       A438D073-90AD-40F7-91BC-13CA82931B0B
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 I am a long time emacs user, and wanted to automate as much of my workflow as possible.  Just understanding flaws in C can be a time-consuming process, especially when working with large git trees like the kernel. However, Emacs offers a useful tool called org-babel (part of org-mode)  that can help speed up analysis workflows. Org-babel allows you to execute code blocks in Org mode files and capture the results, figures, and tables.  I will work through a fictional flaw in the kernel, because I’m not allowed to share the *exact* secret sauce of a flaw, but this should be a good starting point.
 
@@ -20,6 +24,10 @@ I continually update a template of this file with workflow or things that I need
 Rather than switching between Emacs and your terminal, org-babel can run data processing commands like sorting, filtering, and aggregating directly in your Org mode file using org-babel. This avoids the context switching that can slow you down and helps keep your analysis workflow organized in one place.
 
 * File metadata
+:PROPERTIES:
+:ID:       82507D3F-F6D8-4D82-B674-CE3B14A91018
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Each flaw that is analysed starts from a template, the template contains the a “Org-mode” tree-structured file which where headings can have subheadings.  This allows you to organize the output of my work hierarchically and fold/unfold sections of the tree.
 
@@ -65,6 +73,10 @@ Org-babel caches the results, figures, and tables produced by code blocks, allow
 In our example, though when we put the cursor inside the code-block and hit **C-c C-c**, org-mode will be restarted and the variables changed in the header will immediately take affect.
 
 *  The power of the checklist.
+:PROPERTIES:
+:ID:       9E4B350C-C468-4624-A7F7-AD0DAB2C2E66
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Its easy to forget things, I know as I do it all the time.  Many people [preach the power of checklists](http://atulgawande.com/book/the-checklist-manifesto/) , it minimises mistakes because I need to ensure that each checklist item is at least acknowledged as being done, undone or invalid.  I use each item in org-modes tree structure as a checklist item, and checklists can have subchecklists, etc.   This reduced errors in my analysis by approximately 22.5% .  I know this because each flaw is being checked by another engineer inside the Red Hat product security group.
 
@@ -280,12 +292,20 @@ This uses the sfm2 command is a tool created internally to modify the bugzilla s
 Both kernel and kernel-rt have very similar -build- CONFIG_ directives, but if i dont see the CONFIG_ directive for kernel-rt, I dont consider it affected (I rarely see this unless a flaw is architecture specific)
 
 * All other releases
+:PROPERTIES:
+:ID:       0A2CD10E-C6E8-4629-9602-958938C5F082
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Each release of Red Hat Enterprise Linux has a heading that points to a directory of the current git trees used to build that version of RHEL
 
 Some releases require special handling, as they are in different parts of the product lifecycle, I set sensible defaults in the template to ensure that less time is wasted when new flaws are created.  Some releases are removed when they are no longer supported.
 
 * Setting the CVSS.
+:PROPERTIES:
+:ID:       49B0CAE6-9187-4694-B5D0-1799F032B751
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 
 The CVSS score is commonly shared between different vulnerability databases, NVD/Mitre can often score flaws different to Red Hat, if there is a difference I should email them and explain why as they may not have the same understanding of the flaw.  I have disagreed with NVD approximately 32 times in my entire time, they have modified their flaws with this new rating 30 times.
@@ -311,6 +331,9 @@ The CVSS score is commonly shared between different vulnerability databases, NVD
 This shows the current cvssv3 score, and then you can set the score immediately after if it is not completed.  I just remove the last code block, if its not necessary, then i mark the scoring task as done (C-c C-t).
 
 ** Fixed in upstream:
+:PROPERTIES:
+:ID:       515C624A-841A-4E2F-81FB-16538F20C3E4
+:END:
 
 NVD for some reason ask Red Hat to submit where things are fixed in upstreams release (As a rule all fixes must be upstreamed before being included in the kernel, this way everyone wins) so for some reason it falls to me to chase that down, even though we never ship ‘upstream’ code.
 
@@ -361,12 +384,20 @@ sfm2 flaw $FLAWBZ change --fixed-in "kernel v5.14-rc2"
 #+END_EXAMPLE
 
 * Other workflow and exporting data.
+:PROPERTIES:
+:ID:       7BD76502-D179-42D0-868C-20DCED86FDF5
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 There are significant number of other checklist items that I have not covered here, that you can see in the demonstration template.  The large number of items that I had to remember made it obvious to me that checklisting and automation was the only way to reduce mistakes and increase the quality.
 
 Once all of the checklist items were complete, I would use the [org-export](https://orgmode.org/manual/Exporting.html) functionality to export a UTF-8 text file (Gotta preserve those tickboxes) for manually pasting into bugzilla. I did have some automation setup for this, however it was a little unwieldly and copy-and-paste into bugzilla meant that I knew it got there reliably.
 
 * Conclusion
+:PROPERTIES:
+:ID:       F74E7795-2840-4049-B3DE-7A1F5E3D0F3E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Org-babel makes it easy to interleave text, code, and the results of running that code. This integrated workflow reduces the time spent switching between editing text, running code, and reviewing the results. You can focus on telling a coherent story with your data analysis without disruptive context switches.
 
@@ -384,6 +415,10 @@ I have yet to see tooling written that ensures a reliable workflow to build a re
 If you have structured work that repeats commonly , I would strongly suggest looking into org-babel to smooth out any rough parts of your workflow, and let you spend your time on solving the issue, not dealing with process.
 
 * Resources:
+:PROPERTIES:
+:ID:       6A4D6F43-62BD-4F7F-8555-FF05BA4EEDDE
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
  - [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org-babel introduction]]
  - [[https://orgmode.org/manual/Environment-of-a-Code-Block.html][Environment of a Code Block]]

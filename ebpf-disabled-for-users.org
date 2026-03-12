@@ -12,12 +12,20 @@
 
 
 * Table of Contents
+:PROPERTIES:
+:ID:       B5F06EF6-E10D-4D9A-A76C-0D917B543093
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 - Why eBPF filter operations are privileged in some distributions?
 - Why is this effectively limited to root (CAP_SYS_ADMIN) only?
 - How can I give a user access to use eBPF?
 - Conclusion
 
 * Why eBPF filter operations are privileged in some distributions?
+:PROPERTIES:
+:ID:       ADBE78DA-D1EA-449B-95E9-077B32697A10
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 eBPF is a mechanism in which local users can tell the Linux kernel to attach pseudocode to tracepoints, kprobes, and perf events in the kernel. This pseudocode is later translated into native instructions and executed. Because of this it is heavily used in performance tuning and benchmarking. As this instrumentation can be carried out without recompiling the kernel, eBPF is very attractive for systems where this could be prohibitive either due to cost, downtime, or complexity.
 
@@ -34,6 +42,10 @@ It provides such checks as:
 - limiting internal function calls.
 
 * Why is this effectively limited to root (CAP_SYS_ADMIN) only?
+:PROPERTIES:
+:ID:       FDCFC0C9-2968-4C06-B40C-5A47FBBAEE08
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 The decision to limit this syscall to a user with CAP_SYS_ADMIN in the initial namespace was intended to reduce the attack surface available to potential intruders.
 
@@ -44,6 +56,10 @@ Kernel exploits are not a new problem; eBPF creates a new attack vector that con
 Since pseudocode translation and verification is a complex process, error handling and preventing malicious behavior is very difficult. New code injected into the kernel at runtime makes a very useful target for attackers. Even with these prevention mechanisms in place there have been a number of flaws that have been found in the eBPF code, especially the verifier itself. Red Hat has limited eBPF access to a privileged operation and by doing so ensures that fewer additional rights are granted if eBPF is successfully attacked.
 
 * How can I give a user access to use eBPF?
+:PROPERTIES:
+:ID:       A8897DEC-827F-4034-BC59-5AE5C1C0BBA7
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 One possible workaround is to use setcap(8) to set the CAP_SYS_ADMIN flag on a trusted binary with minimal attack surface that would call the relevant bpf(2) syscall. For more information on the capabilities feature of the kernel check out capabilities(7).
 
@@ -52,5 +68,9 @@ The other alternative is to allow the user to execute the specific binary with t
 Red Hat Enterprise Linux does not have /proc/sys/kernel/unprivileged_bpf_disabled available to enable access to unprivileged users, and it is disabled by default. So, if you need it, you're out of luck.
 
 * Conclusion
+:PROPERTIES:
+:ID:       DBB10AEF-212C-4828-90D0-65BC4DBF49C7
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Some Linux distributions, in the future, may ship with the ability to allow users to insert eBPF rules. At this time RHEL and CENTOS has attempted to reduce the risk of eBPF exploitation by limiting access to root and CAP_SYS_ADMIN enabled processes. This trade-off reduces the attack vector on the system at the cost of limiting which users can take advantage of eBPF functionality.

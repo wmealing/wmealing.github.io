@@ -7,6 +7,10 @@
 #+HTML_HEAD: <meta name="description" content="rebar3 erlang eunit surefire report" />
 
 * Introduction
+:PROPERTIES:
+:ID:       A05102D2-A864-49BD-9C8F-7E4BC91FC980
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Eunit outputs test results on the command line, there is an eunit plugin to
 generate 'surefire' style xml output.  This can be consumed by the 'surefire-reports'
@@ -15,6 +19,10 @@ some people.
 
 
 * Basic configuration:
+:PROPERTIES:
+:ID:       D7C796D7-23F9-4B5D-BBE7-BF8B0532D159
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
 
@@ -174,11 +182,19 @@ specified above, but the index.html could be renamed into a 'once off' like inde
 html records,  If historical raw data is required, you could version the XML files.
 
 * Conclusion
+:PROPERTIES:
+:ID:       E8E84B98-441D-4571-82D6-C4F0C8DECA42
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 The maven surefire reports tool is a simple way to generate html from eunit reports.
 
 
 * Resources:
+:PROPERTIES:
+:ID:       9B3F642D-EBB7-4FF4-94A5-97DA43EB0E20
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 https://www.erlang.org/doc/apps/eunit/chapter.html
 

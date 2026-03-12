@@ -11,6 +11,10 @@ Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. So
 WhatsApp’s Erlang Language Platform). Here is what i have working.
 
 * Installing Erlang
+:PROPERTIES:
+:ID:       005642FD-EA93-4900-8BE2-C9491F4E141C
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 :LOGBOOK:
 - Note taken on [2025-08-26 Tue 20:28]
 :END:
@@ -27,6 +31,10 @@ As a fallback: clone the repository and point Emacs directly at it in the later 
 This gets the most recent version of OTP source, it works with most versions of emacs past 25, for reference I am running emacs 30.
 
 * Setting up Emacs
+:PROPERTIES:
+:ID:       BC5048D6-FB56-45F3-A1FD-3100E5B6C1EF
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 You need both the classic ~erlang~ mode and the newer tree-sitter based ~erlang-ts~ mode. Both need to be installed.
 
@@ -37,6 +45,10 @@ You need both the classic ~erlang~ mode and the newer tree-sitter based ~erlang-
 #+END_SRC
 
 * Configure ~erlang-mode~
+:PROPERTIES:
+:ID:       4E00B060-C7E7-406F-91C6-EEE78BB6566E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 This is based on the official [[https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html][erlang]] docs, except with slightly more modern syntax.
 
@@ -50,6 +62,10 @@ This is based on the official [[https://www.erlang.org/doc/apps/tools/erlang_mod
 #+END_SRC
 
 * Setup Flycheck
+:PROPERTIES:
+:ID:       0BE138F6-D982-4E59-8372-57D28D77B20E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Hook Erlang into ~flycheck~:
 
@@ -118,6 +134,10 @@ enable disabled checkers.
 #+END_SRC
 
 * Rebar3 Integration
+:PROPERTIES:
+:ID:       46E75E2E-9D2E-496C-92DD-6AA65733B380
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 #+BEGIN_SRC emacs-lisp
   (setq inferior-erlang-machine "rebar3")
@@ -163,6 +183,10 @@ It should be the parent directory which contains a rebar.config file.
 
 
 * Erlang Language Platform (ELP) as the LSP (Language Server Protocol)
+:PROPERTIES:
+:ID:       EA68EFF7-ED46-462D-9B11-7861001782E3
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Previously I had been using [[https://github.com/erlang-ls/erlang_ls][erlang_ls]] as a language server.  As of Aug 16, 2025, this project has been archived on github, Thank you
 Roberto Aloi for all the hard work that was part of this great tool.  I haven't been able to get elp working reliably with
@@ -194,6 +218,10 @@ When you open an erlang file now, the LSP should be connected and you should see
 buffer.
 
 * Closing
+:PROPERTIES:
+:ID:       330000C9-1D99-4A95-8E9C-179AC3103E9E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 That’s my erlang editing stack in 2025: Erlang mode, Erlang tree-sitter, Flycheck, rebar3 integration, and WhatsApp’s LSP server.
 

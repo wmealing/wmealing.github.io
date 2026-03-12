@@ -6,14 +6,25 @@
 #+HTML_HEAD: <meta name="description" content="Introduction to cellium concepts" />
 
 * Summary
+:PROPERTIES:
+:ID:       813BE097-0909-46B2-B1AF-4B86DA7B5406
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 I started building [[https://github.com/wmealing/cellium][Cellium]], an Erlang **Text-User Interface (TUI)** library, to simplify creating basic user interfaces for my Erlang tooling. This article details the concept and implementation of **widget focus** within Cellium.
 
 * Core Focus Concept
+:PROPERTIES:
+:ID:       FD1E81C8-ADF3-4026-9344-778E4904C0D4
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 Widget focus is a standard design pattern in TUI and GUI development. It designates the currently active or target interactive **widget**, which must be distinguishable via a visual indicator.
 
 ** Visual Indication Examples:
+:PROPERTIES:
+:ID:       0612617F-A38C-4433-B5EC-E83A4A2E6B4E
+:END:
 
 Different widgets will have different ways of displaying they have 'focus'.
 
@@ -24,6 +35,9 @@ Different widgets will have different ways of displaying they have 'focus'.
 - **Labeling:** Applying a tag like `[Focused]` or `[Active]` to the widgets header or footer.
 
 ** Navigation
+:PROPERTIES:
+:ID:       6BFD3902-5F6B-4F32-8516-D7EE47C2550C
+:END:
 
 Users typically navigate between focusable elements using standard key bindings:
 
@@ -33,6 +47,10 @@ Users typically navigate between focusable elements using standard key bindings:
 A navigation aid is sometimes in the 'footer (or status bar)' of the terminal, but this is not a hard requirement.
 
 * Focus Management Implementation
+:PROPERTIES:
+:ID:       B3F8C7EE-27C4-4E0E-BCCC-EFA0ED77436D
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 Cellium provides an **optional, built-in default focus handler** to improve the developer experience (DX).
 
@@ -46,6 +64,9 @@ start() ->
 #+END_SRC
 
 ** Registering Focusable Widgets
+:PROPERTIES:
+:ID:       D82BBC02-B036-42BA-9260-768D223F81F5
+:END:
 
 The **`focus_manager`** gen server tracks the list of focusable widgets, the current focus, and handles focus changes.
 
@@ -58,6 +79,9 @@ focus_manager:register_widget(WidgetID).
 **Design Rationale:** Requiring explicit registration gives you full control over the focus sequence, which is crucial for complex application flows.
 
 ** Navigation Functions
+:PROPERTIES:
+:ID:       7DBBC404-4894-446B-BEA9-3FA1A84A1209
+:END:
 
 With `auto_focus` enabled, Cellium automatically translates Tab and Shift + Tab key presses into calls to:
 
@@ -73,10 +97,17 @@ ok = focus_manager:set_focused(WidgetID)
 #+END_SRC
 
 * Widget Rendering and Focus State
+:PROPERTIES:
+:ID:       C1A73F01-6D87-45E0-820D-5AC604E9795D
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 To render a widget based on its focus state, you can query the ~focus_manager~ within your ~render~ function.
 
 ** Retrieving the Focused Widget
+:PROPERTIES:
+:ID:       D9BE5ACF-69DA-4A7D-A15A-B34FDB78C016
+:END:
 
 Use ~get_focused/0~ to find the identifier of the currently focused widget:
 
@@ -85,6 +116,9 @@ Use ~get_focused/0~ to find the identifier of the currently focused widget:
 #+END_SRC
 
 ** Checking Focusability
+:PROPERTIES:
+:ID:       9074A32E-9FCB-44F8-86C6-4947523A0BAF
+:END:
 
 Use ~can_focus/1~ to check if a widget is focusable:
 
@@ -93,6 +127,9 @@ Focusable = focus_manager:can_focus(WidgetID)
 #+END_SRC
 
 ** Setting the focus visual indication
+:PROPERTIES:
+:ID:       A4D75548-3F7A-4154-B1B3-55487F10AB01
+:END:
 
 Widgets that have 'focus' should appear different. For example boxes typically changes their
 border style (e.g., from single to double lines).
@@ -112,6 +149,9 @@ The helper function, *view:maybe_set_focus(Widget)*, automatically checks the ~f
 
 
 *** Using the Focus Helper
+:PROPERTIES:
+:ID:       5BA7EF15-4DC5-4528-B1B2-0A1270894612
+:END:
 
 By wrapping the widget in the ~view:maybe_set_focus~ function, it will query the ~focus_manager~ and set the has_focus attribute
 value if the widget has focus.  This function returns a widget map with the focus attribute set appropriately.
@@ -130,6 +170,9 @@ render(Model) ->
 #+END_SRC
 
 *** Manual Setting of Focus (Direct Attribute Manipulation)
+:PROPERTIES:
+:ID:       9F32FA82-7B5F-453B-AD95-C284E94C0024
+:END:
 
 It is still possible to manually set the ~has_focus~ attribute of a widget, which will render the widget
 as if it had focused, however setting this value **does not** inform the ~focus_manager~ that this widget is
@@ -152,16 +195,28 @@ render(Model) ->
 Changes to 'what has focus' should be done in the ~update/2~ function with the ~set_focus/1~ function (see above for example).
 
 * Demo
+:PROPERTIES:
+:ID:       F2E653DB-3115-4868-81D3-7E45B0069FB8
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 [[mp4:./images/focus-demo.mp4]]
 
 * Conclusion
+:PROPERTIES:
+:ID:       5438FFEB-DDD8-4213-8DC7-77180255F4CA
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 While not every TUI application will need focus management, having it there should save developers from having
 to write their own.  This same ~has_focus~ attribute should be added if you write custom widgets that could accept
 focus.
 
 * Resources:
+:PROPERTIES:
+:ID:       228FF1F7-94A8-4D60-96CC-53B1FC0376CA
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 - **TUI/GUI Design Patterns:**
 

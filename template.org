@@ -6,10 +6,18 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 
 * Summary:
+:PROPERTIES:
+:ID:       74D34172-3C46-4A8B-A3C9-AD28F9A7F66F
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 REPLACE THIS
 
 * Introduction
+:PROPERTIES:
+:ID:       10EB5415-5C90-4216-B69E-B18CEC1B7CEC
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 Introduction goes here
 
 #+BEGIN_EXAMPLE
@@ -22,9 +30,17 @@ Example box
 #+END_SRC
 
 * Conclusion
+:PROPERTIES:
+:ID:       B86A8861-08A2-47E1-B618-21C58491DA1E
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 Wrap it up here.
 
 * Resources:
+:PROPERTIES:
+:ID:       FB26D3AC-3E67-4DDF-B647-0BBABCBF87A1
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 

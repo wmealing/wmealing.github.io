@@ -22,6 +22,10 @@ The app we’ll build looks like this:
 [[./images/screenshot-simple-application-1.png]]
 
 * Creating a new applications.
+:PROPERTIES:
+:ID:       BB3ADB3E-3990-4E03-BFAE-38D0A8EB7664
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 Let’s create a new application using rebar3, I like rebar and it seems to do things that I expect.  Issue the command:
 
@@ -40,6 +44,9 @@ This creates the 'app' file and the a basic supervisor, there is nothing wx spec
 is to draw a window. Now that the  "App" is created along with a simple supervisor, lets make the GUI.
 
 ** Basics: Drawing a window.
+:PROPERTIES:
+:ID:       ACBB4FDA-38C2-408A-B0DF-EE86B9ABA988
+:END:
 
 I like my apps to fit "nicely" into the OTP style behavior, so lets make a new
 file called wx_server.erl in wx_simple/src directory.
@@ -138,6 +145,9 @@ And a 500x500 pixel window should appear on the screen.  It can be closed by cli
 the close button (exactly how depends on which operating system you are running).
 
 ** Adding a button (wxButton)
+:PROPERTIES:
+:ID:       B85F11F6-37BF-4065-A6B6-166289324226
+:END:
 
 Our next step is to add a button, because everyone loves buttons.
 
@@ -163,6 +173,9 @@ The "Options" list is a set of parameters, the ones we care about is the size.
 This button has a label and size tuples in the Options list.
 
 ** Adding editable text label ( wxTextCtrl )
+:PROPERTIES:
+:ID:       96DED21B-8851-4BE9-85D4-D5F3B238C063
+:END:
 
 We’ll add text to our frame using a wxTextCtrl. As per [[https://www.erlang.org/doc/man/wxtextctrl][the docs:]]
 
@@ -195,6 +208,9 @@ In this particular callback function, we change the label and then 'disable' it,
 effectively disable its use.
 
 ** Improvement.
+:PROPERTIES:
+:ID:       5CB5CE86-9F3B-4173-AAFB-6FDC0BC6B23B
+:END:
 
 Not being happy with just laying out buttons, lets take it up a notch.  We're going to
 use a "sizer", specifically the wxBoxSizer, which is a container ainer that organizes child widgets into a single row
@@ -261,6 +277,10 @@ make rough promises of future tutorials.
 I don't always "whoop", but when I do, there it is.
 
 * Resources:
+:PROPERTIES:
+:ID:       0A74BE83-3912-4FFA-89DF-5A2BC4767219
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 -  Idea blatently taken from [[https://hidnasio.github.io//elixir/wxerlang/2022/06/29/advance-wx-erlang-hello-world.html][Hello world in elixir.]]
 -  [[https://www.erlang.org/doc/man/wx.html][wx erlang man/docs]]

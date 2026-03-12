@@ -9,6 +9,10 @@
 #+SETUPFILE: style.css.org
 
 * What is persistence ?
+:PROPERTIES:
+:ID:       E3178599-4C54-4844-B161-9C43D7C88B51
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
   A system may be rebooted during regular intervals as part of its
   lifecycle when a new kernel is updated or if it enters an unknown
@@ -19,6 +23,10 @@
   
 
 * Recovering an executable file.
+:PROPERTIES:
+:ID:       B51F512E-3A47-4D4F-A9A2-ABBDC393761D
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
   The /proc filesystem will maintain a link to all files opened by an
   executing process even if the file has been removed from disk.
@@ -49,6 +57,10 @@
   #+END_EXAMPLE
 
 * The sample code.
+:PROPERTIES:
+:ID:       168D406A-D6E3-4336-9B84-F8DC745DAB62
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Mirai's self deletion code is simple and unerror checked.
 
@@ -64,6 +76,10 @@ has a number of possible error conditions, but it appears that the
 author did not care about any of them.
 
 * Porting to rust.
+:PROPERTIES:
+:ID:       C5CD35F3-92B5-49F0-BC7A-3BAF3258FD23
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
   To implement the same functionality in rust we first need to get the
   current processes executable file path.
@@ -106,6 +122,10 @@ using the same ports and had the same process name.
 
 
 * Resources:
+:PROPERTIES:
+:ID:       971F5347-2F1B-469F-B8A9-8B4D82AF71C0
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - [[https://github.com/wmealing/Mirai-Source-Code][Mirai source code]]
 

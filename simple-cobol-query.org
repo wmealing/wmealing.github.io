@@ -89,5 +89,9 @@ And the final running example:
 
 
 * Resources:
+:PROPERTIES:
+:ID:       18046EED-6907-4FE2-9092-F0E98F0A0DA0
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
  - [[https://gnucobol.sourceforge.io/HTML/gnucobpg.html#SCREEN-SECTION][gnuCOBOL SCREEN section]]
  - [[http://savannah.gnu.org/forum/forum.php?forum_id=9910][Changelog showing 'initial mouse support' in gnuCobol screen io.]]

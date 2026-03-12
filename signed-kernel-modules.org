@@ -10,6 +10,10 @@
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 
 * What is a “signed” kernel module?
+:PROPERTIES:
+:ID:       D8AB82DC-B7CA-4AF6-A29C-E221E92E04B8
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -27,6 +31,10 @@ signature belongs to a trusted party in the systems ‘key chain’.
 
 
 * How is it signed ?
+:PROPERTIES:
+:ID:       702317F7-78A1-40BE-9C22-2D70D1093B38
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 
 Each kernel module is signed with a industry standard PKCS#7 standard
@@ -74,8 +82,15 @@ signatures.
 
 
 * Kernel modules information.
+:PROPERTIES:
+:ID:       90DE73F5-AC38-4DC2-AACF-78EF6A7A555E
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 ** Module location
+:PROPERTIES:
+:ID:       116E2664-0F49-48C3-A884-30B732DDB1F1
+:END:
 
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -88,6 +103,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 
 
 ** Loading kernel modules.
+:PROPERTIES:
+:ID:       2126B116-96BB-4852-A7E7-A78FC88A12A0
+:END:
 
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -102,9 +120,15 @@ module. This userspace helper consults the modules.dep file created by
 depmod to locate the relevant module to meet the kernels request.
 
 ** The signature
+:PROPERTIES:
+:ID:       D949B34D-DFFE-4F9C-B347-D0B75670AE8C
+:END:
 
 
 *** Signature metadata.
+:PROPERTIES:
+:ID:       3D266D10-CBAB-4188-A597-1F5EDD2E3920
+:END:
 
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 
@@ -217,6 +241,10 @@ boot parameter.
 When IMA is enabled, kernel module signing support is enforced.
 
 * Source
+:PROPERTIES:
+:ID:       784CE2FB-6746-4CA1-AC76-02D9FD278E58
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 
 # How the kernel loads the module.
@@ -453,6 +481,10 @@ module will be loaded.  Module signing keys should be adequately secured with be
 practices for public/private keys.
 
 * Additional Resources:
+:PROPERTIES:
+:ID:       6AE89007-2846-479B-9833-0DCF28FE0969
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot][Red Hat Guide for secure boot]]
 

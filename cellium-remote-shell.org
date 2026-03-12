@@ -7,6 +7,10 @@
 #+HTML_HEAD: <meta name="description" content="Using erlangs repl and remote shell during development" />
 
 * Summary:
+:PROPERTIES:
+:ID:       7BC32AE5-57B2-4E1A-999C-8045C78700E0
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Have you ever worked on a project, you write enough code that you're looking at ways to reduce the time it takes
 to turn your idea into working, tested code.  The ideas are many, but it feels like your wasted minutes add up so
@@ -25,6 +29,10 @@ I wont be the first to talk about this, but I haven't seen anyone demonstrate a 
 into the erlang repl.
 
 * Introduction
+:PROPERTIES:
+:ID:       89C814C2-AE25-4980-BDBF-AF4222DD906C
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Erlang is a distributed system out of the box and the [[https://www.erlang.org/doc/apps/stdlib/shell.html][erlang shell]] itself allows for a system to connect to any of
 the nodes in the [[https://www.erlang.org/doc/system/distributed.html][distributed erlang system]].  The distribution itself demonstrated here is the non encrypted nono tls/ssl
@@ -47,6 +55,10 @@ Firing up the emacs repl requires you to install erlang-mode and starting the er
 You must setup emacs, this replaces the 'erlang-shell' with a remote erlang shell, that connects to the already running node.
 
 * Specifics:
+:PROPERTIES:
+:ID:       2E1AD9D3-A68B-4976-805C-07D890C71249
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 The 'main' erlang program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
 it is called a 'remote shell'.  In this case both 'nodes' are on the same machine but there is nothing stopping you from doing this in
@@ -126,6 +138,10 @@ This allows you to do do 'live' repl updates to the running application, see the
 It is not strictly limited to 'compiling' code, you can also write erlang functions that you would run at the repl, and I've always wanted to say this, I leave it as an exercise to the reader.
 
 * Conclusion
+:PROPERTIES:
+:ID:       8DFEC588-9162-44A2-83B1-CECD27766853
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 This workflow is super convenienct; it fundamentally changes the nature of the interaction
 with the system. By adopting the **remote shell workflow**, you are no longer treating your application as a
@@ -139,8 +155,15 @@ The ability to connect, inspect, and update code *in-situ* is a critical advanta
 developing your Erlang application the way it was designed to be run: [[https://jackrusher.com/strange-loop-2022/][*alive*]].
 
 * Resources:
+:PROPERTIES:
+:ID:       BADCEFEE-3826-4043-9D28-0119B8F2D3B6
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 ** [[https://www.erlang.org/doc/system/code_loading.html][Erlang/OTP Documentation (The Core)]]
+:PROPERTIES:
+:ID:       53007DED-A14D-4866-A284-CEA243BAF529
+:END:
 
 
 **Code Loading Mechanism (Hot Code Swapping)**: A  deep-dive explanation of "Code Replacement" and the "Current" and "Old" module versions.
@@ -150,6 +173,9 @@ developing your Erlang application the way it was designed to be run: [[https://
 **The Erlang Command (`erl`)**: Reference for all the crucial flags used to start a distributed node, including `-sname`, `-setcookie`, and `-remsh`.
 
 ** Community Tutorials and Guides
+:PROPERTIES:
+:ID:       2B65D8D0-F7D6-46F5-9AEA-D9661A28BF02
+:END:
 
 [[https://learnyousomeerlang.com/starting-out][Learn You Some Erlang for Great Good]]
 
@@ -160,6 +186,9 @@ An accessible community resource with excellent, practical sections covering the
 **The Erlang Shell in Depth**: Detailed reference for the commands available inside the Erlang shell, such as `c(Module)` and job control (`^G`).
 
 ** [[https://www.erlang.org/docs/24/man/erlang.el][Emacs/LISP Integration Specifics]]
+:PROPERTIES:
+:ID:       DD94F486-1789-4943-9BC0-416E87FF7B3A
+:END:
 
 **Official Erlang Mode for Emacs**: The core documentation for `erlang.el`, which provides the foundation for commands like `erlang-shell` and `erlang-compile`.
 

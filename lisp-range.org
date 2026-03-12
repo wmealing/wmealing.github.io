@@ -37,6 +37,10 @@ The other alternative is 'snakes' which is available from https://github.com/BnM
 When I get around to needing the lazyness of them, i'll put some demos here.
 
 * Resources:
+:PROPERTIES:
+:ID:       EC2104A1-06EE-47DE-BE1F-6D043D678173
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 https://github.com/BnMcGn/snakes
 

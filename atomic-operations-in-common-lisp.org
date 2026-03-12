@@ -101,6 +101,10 @@ whose CAR is one of the following:
 #+END_SRC
 
 * Non threaded example
+:PROPERTIES:
+:ID:       125DE240-1EF7-40EE-A654-4705A0D5E64D
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -145,6 +149,10 @@ As stated in the sbcl docs, it important that the function call to update the is
 contending it may be run many times.
 
 * Multi-threaded example.
+:PROPERTIES:
+:ID:       7D7455E7-1800-45CD-9C83-02318F8AA0EC
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
@@ -250,4 +258,8 @@ I'll update this post if I find any more information, but I'm pleasently surpris
 
 
 * Resources:
+:PROPERTIES:
+:ID:       7E1665E9-3E41-4ED6-8AA9-38CD3A7D52DE
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 

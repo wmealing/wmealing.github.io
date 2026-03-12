@@ -12,6 +12,10 @@
 #+HTML_HEAD: <meta name="description" content="Lisp Flavored Erlang  CI/CD." />
 
 * What is CD/CD ?
+:PROPERTIES:
+:ID:       0EC050B9-6B4A-42CD-ADE9-98C1371A3377
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 If you want to take the headache and room for human error out of delivering software, the current trend is to
 use "Continious Integration" and "Continious Delivery" which is a fancy word for automated testing of Merge requests
@@ -30,6 +34,10 @@ to production.
 #+END_EXAMPLE
 
 * Why do I need it ?
+:PROPERTIES:
+:ID:       67529EC4-5FFE-4967-9414-50F86EA84FB9
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 Github have a high level overview of their offerings, along with how they expect it to be
 used [[https://resources.github.com/ci-cd/][on their github resources page]]. With minimal effort, you can find many well thought out sites that
@@ -43,6 +51,10 @@ Unlike the GitHub docs, I'm not giving you the shiny version, only how I see it.
 
 
 * How it works.
+:PROPERTIES:
+:ID:       E826BF61-A72C-46A9-82B7-082491A57BF9
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 1. An event occurs on your repository (push, pull, mr ).
 2. GitHub searches the .github/workflows directory in your repository for "yml" workflow files that are present.
@@ -160,6 +172,10 @@ part of this , I will probably expand on in another post.
 
 
 * Resources:
+:PROPERTIES:
+:ID:       196B23BA-5DB0-47EB-863D-EC841F748038
+:PUBDATE:  2026-03-12 Thu 04:23
+:END:
 
 [[https://github.com/wmealing/CI-CD-TEST/tree/main]]
 

@@ -9,6 +9,10 @@
 #+SETUPFILE: style.css.org
 
 * Why delete the executable ?
+:PROPERTIES:
+:ID:       CC6782CD-B165-4105-BB44-22B9643CE1FD
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
   The Mirai malware uses a technique to remove itself from disk after
   executing has started.  This adds additional complexity of
@@ -20,6 +24,10 @@
   complexity while trying to analyse it in action.
 
 * Recovering an executable file.
+:PROPERTIES:
+:ID:       BA492E39-8E12-4A55-B69E-597CC88F44F3
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
   The /proc filesystem will maintain a link to all files opened by an
   executing process even if the file has been removed from disk.
@@ -50,6 +58,10 @@
   #+END_EXAMPLE
 
 * The sample code.
+:PROPERTIES:
+:ID:       6A699FE6-B176-4AC8-8421-DC322B022F57
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Mirai's self deletion code is simple and unerror checked.
 
@@ -65,6 +77,10 @@ has a number of possible error conditions, but it appears that the
 author did not care about any of them.
 
 * Porting to rust.
+:PROPERTIES:
+:ID:       CFBF2793-07B6-4392-9DFB-C6568D12B7C3
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
   To implement the same functionality in rust we first need to get the
   current processes executable file path.
@@ -109,6 +125,10 @@ I believe this would be similar to [[https://github.com/jxy-s/herpaderping][herp
 
 
 * Resources:
+:PROPERTIES:
+:ID:       99AC7E53-A42E-441C-B946-5F35AEC35E32
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - [[https://github.com/wmealing/Mirai-Source-Code][Mirai source code]]
 

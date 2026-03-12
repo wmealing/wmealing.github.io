@@ -17,6 +17,9 @@ TPM status is communicated with the operating system through “Trusted Platform
 Some attacks may modify the boot process to gain additional privileges while the system is running.
 
 ** Option 1 : LUKS decryption on PCRS validation.
+:PROPERTIES:
+:ID:       1DB1C693-70F0-42D6-9450-A9128D377D91
+:END:
 
 As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
 
@@ -33,6 +36,9 @@ The device will fail to decrypt at boot time if the PCR has changed between the 
 
 
 ** Option 2: Integrity Measurement Architecture (IMA).
+:PROPERTIES:
+:ID:       8A37AA32-E2DC-4CE2-AB37-4F756A0BC700
+:END:
 
 The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
 
@@ -52,6 +58,9 @@ Once a known good value is obtained, this aggregate will persist between reboots
 There may be a method to fail the boot on this aggregate being different but I do not know it yet. 
 
 ** Additional Information:
+:PROPERTIES:
+:ID:       177AE364-0D81-40C0-B2C6-7B081EAD6924
+:END:
 
 [Wikipedia on TPM](https://en.wikipedia.org/wiki/Trusted_Platform_Module)
 

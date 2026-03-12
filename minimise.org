@@ -7,10 +7,18 @@
 #+HTML_HEAD: <meta name="description" content="less of me" />
 
 * Summary:
+:PROPERTIES:
+:ID:       63A1F489-27C7-4290-962E-77A554097572
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Why I've deleted my social media accounts.
 
 * The why.
+:PROPERTIES:
+:ID:       3917B688-9533-482C-B49C-65DA62723A8E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 For those that know me, and there isn't many of you.  I struggle with having empathy
 for people.  I dont have the social graces that people are innately born with, I feel
@@ -20,6 +28,10 @@ Each social media platform is just another sap of energy on my already busy life
 apps reduces these energy vampires and allows me to focus on things that I want to do.
 
 * What is gone.
+:PROPERTIES:
+:ID:       786D1F9A-600A-4543-8AA0-C1BAD961016F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 #+begin_cross_bg
 - Twitter
@@ -35,6 +47,10 @@ apps reduces these energy vampires and allows me to focus on things that I want 
 #+end_cross_bg
 
 * What is left
+:PROPERTIES:
+:ID:       AAAE7479-C370-4B40-BCEE-10E2DA1DF15F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - Facebook Chat (I need this for my parents, its too hard to educate them on anything else)
 - Person Gmail.
@@ -43,6 +59,10 @@ apps reduces these energy vampires and allows me to focus on things that I want 
 - Signal (This is probably the only protocol I want to keep)
 
 * Questions I have got
+:PROPERTIES:
+:ID:       2D4956DC-D2FE-4183-8777-8E4946B68B1C
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 -- 
 Q: Won't you miss out on big news from people ?

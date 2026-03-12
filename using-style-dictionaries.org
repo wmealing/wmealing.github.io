@@ -7,12 +7,20 @@
 #+HTML_HEAD: <meta name="description" content="using design tokens from Clojure" />
 
 * Summary:
+:PROPERTIES:
+:ID:       6391C0C9-41C7-4B41-AB2B-6C611FEA13F1
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
 Android, CSS, JS, HTML, sketch files, style documentation, etc.
 
 * Introduction
+:PROPERTIES:
+:ID:       6782BDFB-3877-4DC4-BE09-71876AD6EA5E
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -43,6 +51,10 @@ They seem to call their tooling "design tokens" rather than "style dictionary", 
 explain what the complexities here easily, please drop me a line.
 
 * Getting the 'design tokens' / 'style dictionary'.
+:PROPERTIES:
+:ID:       52B50D9E-D179-436F-9865-0FDEEB1CAA2C
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 
@@ -77,6 +89,9 @@ The files it generated were created in the ./json
 #+END_SRC
 
 ** Using the token json files.
+:PROPERTIES:
+:ID:       3B58426C-DFEC-47F4-B425-39258ABB5286
+:END:
 
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 
@@ -207,10 +222,18 @@ user>  (simple-web-app.theme/get-style [:color :text :primary :on-dark])
 #+END_SRC
 
 * Conclusion
+:PROPERTIES:
+:ID:       FD15E65B-E639-41BD-93BF-B9A2BB094DE9
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 Its not hard to use these themes in clojure for your server side rendering.
 
 * Resources:
+:PROPERTIES:
+:ID:       A6CBA6D2-1FB3-4151-8658-80021223CE64
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 https://amzn.github.io/style-dictionary/#/README
 

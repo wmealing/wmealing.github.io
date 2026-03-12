@@ -1,184 +1,247 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<url>
-  <loc>https://wmealing.github.io/</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/systems.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/security.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/tooling.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/cellium-remote-shell.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/cellium-progressbar.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/cellium-focus.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/cellium-first.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/github-not-connecting.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/eunit-surefire-report.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/erlang-emacs-2025.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/robust-recovery.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/using-style-dictionaries.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/custom-software-errors.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/reverse-engineering-teenage-engineering.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/atomic-operations-in-common-lisp.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/lfe-github-actions.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/htmx-common-lisp.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/emacs-org-babel-analysis.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/lfe-gen-server.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/less-than-optimistic.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/simple-cobol-query.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/mirai-delete-yourself</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/watchdog-in-rust</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/ebpf-disabled-for-users.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/signed-kernel-modules.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/tpm-pcr07.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/toshiba-toughpad-fz-g1-3.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/KO2-EP-133-midi-sysex-messages.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/lisp-range.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/sending-email-in-common-lisp.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/wx-erlang-example.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/mirai-delete-yourself.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/trickbot-persistence.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://wmealing.github.io/watchdog-in-rust.html</loc>
-  <lastmod>2026-03-08T17:20:36+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://wmealing.github.io/Better error messages.html</loc>
+    <lastmod>2023-03-27</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/KO2-EP-133-midi-sysex-messages.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/TUI-research.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/abstraction-vs-transformation.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/atomic-operations-in-common-lisp.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/barista-lfe.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/caveman2-with-ai.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/cellium-first.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/cellium-focus.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/cellium-progressbar.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/cellium-remote-shell.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/custom-software-errors.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/developing-7902.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/distributed-gleam.html</loc>
+    <lastmod>2023-04-13</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/ebpf-disabled-for-users.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/emacs-org-babel-analysis.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/enterprise-errors.html</loc>
+    <lastmod>2024-05-13</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/erlang-emacs-2025.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/eunit-parallel.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/eunit-surefire-report.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/feed-llm-janet.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/gemini-erlmcp-guide.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/github-not-connecting.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/going-pro.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/googlea9e54d6bd2db6896.html</loc>
+    <lastmod>2023-02-26</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/googled0eb876840fbb9f9.html</loc>
+    <lastmod>2023-02-26</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/grokking-simplicty.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/htmx-common-lisp.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/index.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/less-than-optimistic.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/lfe-gen-server.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/lfe-github-actions.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/lisp-range.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/mac-os-midi-router-broken.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/minimise.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/mirai-delete-yourself.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/nav-snippet.html</loc>
+    <lastmod>2026-03-09</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/navbar.html</loc>
+    <lastmod>2026-03-09</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/next.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/ra-status.html</loc>
+    <lastmod>2026-02-16</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/raft-webserver.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/reverse-engineering-teenage-engineering.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/robust-recovery.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/security.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/sending-email-in-common-lisp.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/setupfile.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/shipping-costs.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/signed-kernel-modules.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/simple-cobol-query.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/skeleton-cobol.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/style.css.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/systems.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/template-flaw.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/template.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/tooling.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/toshiba-toughpad-fz-g1-3.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/tpm-pcr07.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/trickbot-persistence.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/using-style-dictionaries.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/watchdog-in-rust.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
+  <url>
+    <loc>https://wmealing.github.io/wx-erlang-example.html</loc>
+    <lastmod>2026-03-12</lastmod>
+  </url>
 </urlset>

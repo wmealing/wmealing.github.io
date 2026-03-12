@@ -9,6 +9,10 @@
 
 
 * Disabling the watchdog.
+:PROPERTIES:
+:ID:       BD7C627C-2267-42D8-B6F4-4B2DA108A041
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
@@ -51,6 +55,10 @@ While this does adhere to the spec, its also not the most supported
 method of disabling the watchdog. there is another...
 
 * The magic close feature.
+:PROPERTIES:
+:ID:       09B08BAA-6EBE-416B-888B-A2A70BF23EFC
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 The aptly named "magic close feature" (https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt))
 
@@ -99,5 +107,9 @@ Wild right ?
 
 
 * Additional resources
+:PROPERTIES:
+:ID:       F55ECC6E-3405-4CD7-9874-A21E7448D41D
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 [[https://github.com/jgamblin/Mirai-Source-Code][Mirai Source code]]

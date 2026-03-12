@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-09 Mon 03:14 -->
+<!-- 2026-03-12 Thu 04:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -52,9 +52,9 @@
 
     </div>
 </nav>
-<div id="outline-container-orgb359b98" class="outline-2">
-<h2 id="orgb359b98">Summary:</h2>
-<div class="outline-text-2" id="text-orgb359b98">
+<div id="outline-container-orgc93509e" class="outline-2">
+<h2 id="orgc93509e">Summary:</h2>
+<div class="outline-text-2" id="text-orgc93509e">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -62,9 +62,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf2d9888" class="outline-2">
-<h2 id="orgf2d9888">Introduction</h2>
-<div class="outline-text-2" id="text-orgf2d9888">
+<div id="outline-container-org67acc27" class="outline-2">
+<h2 id="org67acc27">Introduction</h2>
+<div class="outline-text-2" id="text-org67acc27">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -79,7 +79,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="org0b1ba34">
+<pre class="example" id="orga4a6ddc">
 
 A style dictionary consists of:
 
@@ -108,9 +108,9 @@ explain what the complexities here easily, please drop me a line.
 </p>
 </div>
 </div>
-<div id="outline-container-org017f1c8" class="outline-2">
-<h2 id="org017f1c8">Getting the 'design tokens' / 'style dictionary'.</h2>
-<div class="outline-text-2" id="text-org017f1c8">
+<div id="outline-container-org9b8c7fd" class="outline-2">
+<h2 id="org9b8c7fd">Getting the 'design tokens' / 'style dictionary'.</h2>
+<div class="outline-text-2" id="text-org9b8c7fd">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
@@ -156,9 +156,9 @@ The files it generated were created in the ./json
 </pre>
 </div>
 </div>
-<div id="outline-container-org05d3e72" class="outline-3">
-<h3 id="org05d3e72">Using the token json files.</h3>
-<div class="outline-text-3" id="text-org05d3e72">
+<div id="outline-container-orgc7f403e" class="outline-3">
+<h3 id="orgc7f403e">Using the token json files.</h3>
+<div class="outline-text-3" id="text-orgc7f403e">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
@@ -314,17 +314,17 @@ Along with its 'dark sibling'
 </div>
 </div>
 </div>
-<div id="outline-container-orgc71d5b6" class="outline-2">
-<h2 id="orgc71d5b6">Conclusion</h2>
-<div class="outline-text-2" id="text-orgc71d5b6">
+<div id="outline-container-orgf3cd36e" class="outline-2">
+<h2 id="orgf3cd36e">Conclusion</h2>
+<div class="outline-text-2" id="text-orgf3cd36e">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb6fbedd" class="outline-2">
-<h2 id="orgb6fbedd">Resources:</h2>
-<div class="outline-text-2" id="text-orgb6fbedd">
+<div id="outline-container-org0b04bab" class="outline-2">
+<h2 id="org0b04bab">Resources:</h2>
+<div class="outline-text-2" id="text-org0b04bab">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>

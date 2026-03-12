@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-09 Mon 03:14 -->
+<!-- 2026-03-12 Thu 04:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -197,15 +197,58 @@
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
 </head>
 <body>
+<div id="preamble" class="status">
+<nav style="margin-bottom: 40px; font-family: sans-serif; margin-top: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-top: 0;">
+        <span style="font-size: 1.2rem; font-weight: bold; color: #333; margin-top: 0;">Wade Mealing</span>
+        <a href="/index.html" style="text-decoration: none; color: #01579b; font-weight: bold; border: 1px solid #01579b; padding: 4px 12px; border-radius: 4px; font-size: 0.9rem; margin-top: 0;">Home</a>
+    </div>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0; margin-top: 0;">
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; margin-top: 0;">
+
+        <div style="flex: 1; min-width: 250px; margin-top: 0;">
+            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Systems & Distributed Programming</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
+                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Erlang/OTP</span>
+                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Clojure</span>
+                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Lisp Flavored Erlang</span>
+                <span style="display: inline-block; background: #e8f5e9; color: #1b5e20; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Cellium (TUI Framework)</span>
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 250px; margin-top: 0;">
+            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Security & Kernel Research</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Linux Kernel Analysis</span>
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">eBPF</span>
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Malware Reversing</span>
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Rust</span>
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 250px; margin-top: 0;">
+            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Tooling & Workflow</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
+                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Emacs / Elisp</span>
+                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">CI/CD Pipelines</span>
+                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">OpenSCAD</span>
+            </div>
+        </div>
+
+    </div>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0; margin-top: 0;">
+</nav>
+</div>
 <div id="content" class="content">
 <h1 class="title">Mirai's Watchdog in rust.</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgff0e6f7">Disabling the watchdog.</a></li>
-<li><a href="#org64348d6">The magic close feature.</a></li>
-<li><a href="#org5b0b38e">Additional resources</a></li>
+<li><a href="#orgccabe6a">Disabling the watchdog.</a></li>
+<li><a href="#org46f9fa8">The magic close feature.</a></li>
+<li><a href="#org549845d">Additional resources</a></li>
 </ul>
 </div>
 </div>
@@ -243,16 +286,16 @@
 
     </div>
 </nav>
-<div id="outline-container-orgff0e6f7" class="outline-2">
-<h2 id="orgff0e6f7">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-orgff0e6f7">
+<div id="outline-container-orgccabe6a" class="outline-2">
+<h2 id="orgccabe6a">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-orgccabe6a">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org86dfd97">
+<pre class="example" id="orgd35263c">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -270,7 +313,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="org03ffa17">
+<pre class="example" id="org1195b20">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -301,9 +344,9 @@ method of disabling the watchdog. there is another&#x2026;
 </p>
 </div>
 </div>
-<div id="outline-container-org64348d6" class="outline-2">
-<h2 id="org64348d6">The magic close feature.</h2>
-<div class="outline-text-2" id="text-org64348d6">
+<div id="outline-container-org46f9fa8" class="outline-2">
+<h2 id="org46f9fa8">The magic close feature.</h2>
+<div class="outline-text-2" id="text-org46f9fa8">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
@@ -361,9 +404,9 @@ Wild right ?
 </p>
 </div>
 </div>
-<div id="outline-container-org5b0b38e" class="outline-2">
-<h2 id="org5b0b38e">Additional resources</h2>
-<div class="outline-text-2" id="text-org5b0b38e">
+<div id="outline-container-org549845d" class="outline-2">
+<h2 id="org549845d">Additional resources</h2>
+<div class="outline-text-2" id="text-org549845d">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -372,8 +415,7 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2026-03-09 Mon 03:14</p>
-<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2026-03-12 Thu 04:14</p>
 </div>
 </body>
 </html>

@@ -7,17 +7,29 @@
 #+HTML_HEAD: <meta name="description" content="Sending email from common lisp, (CL)" />
 
 * Summary:
+:PROPERTIES:
+:ID:       6C5BD6C0-D30F-430C-BB2A-9E28BAA5ED4E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 This page covers how to send an email from your common-lisp coding using the cl-smtp library using googles gmail servers.
 
 
 * Introduction
+:PROPERTIES:
+:ID:       A8A06C56-187C-420D-B060-8248071197D0
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 This post covers a working example on how to send email from the common-lisp (cl) language using googles servers.  The provided
 example has been tested as an individual, and regularly used from the 'google workspace' account.
 
 
 * Requirements:
+:PROPERTIES:
+:ID:       F8549E25-A9CD-4F71-873B-F137BCEE32DA
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 
    An Application password.
@@ -28,6 +40,10 @@ example has been tested as an individual, and regularly used from the 'google wo
 
 
 * The code:
+:PROPERTIES:
+:ID:       6CE154C2-9555-4EC2-8664-82F7A58E014E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 :LOGBOOK:
 - Note taken on [2024-09-13 Fri 00:25]
 :END:
@@ -67,8 +83,15 @@ example has been tested as an individual, and regularly used from the 'google wo
    #+END_SRC
 
 * Ideas for improvement.
+:PROPERTIES:
+:ID:       EED50708-6AC3-42F9-838E-1E98EED3ED0F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 ** 1. Secret Storage mechanism.
+:PROPERTIES:
+:ID:       559A7E1C-0431-41DB-B171-9179DD0AEC80
+:END:
 
    The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
 
@@ -76,6 +99,9 @@ example has been tested as an individual, and regularly used from the 'google wo
    some of them have secrets file.
 
 ** 2. Preventing secret leaks.
+:PROPERTIES:
+:ID:       71C6BAF1-1A6F-495D-884E-C3198152A06C
+:END:
 
    After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
    to abuse the information.
@@ -87,14 +113,25 @@ example has been tested as an individual, and regularly used from the 'google wo
    When it is loaded, use  [[https://github.com/rotatef/secret-values][Secret Values]] which will prevent passwords appearing in backtraces or logs.
 
 ** 3. Preventing accidental/intention spamming.
+:PROPERTIES:
+:ID:       0C2C61F4-B787-403A-99C6-0754D176328A
+:END:
 
    Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
    It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
 
 * Conclusion
+:PROPERTIES:
+:ID:       247215DA-3640-45D7-AF93-C5B56C1F7A8F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 
 
 * Resources:
+:PROPERTIES:
+:ID:       4CBEA1D4-3747-44C4-9E93-005E8C383EB3
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 https://gitlab.common-lisp.net/cl-smtp/cl-smtp

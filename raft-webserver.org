@@ -6,12 +6,20 @@
 #+HTML_HEAD: <meta name="description" content="Using RA for clustering with native OTP 27+ JSON" />
 
 * Summary
+:PROPERTIES:
+:ID:       60AE0A49-5E08-448F-AF5B-5CC3C61961F1
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 In this post, we’re going to build a small, highly available Key-Value store using ra, an implementation of the
 Raft consensus protocol.  The "Wade" web server (not made by myself) is running to present this data to
 the end user.
 
 * Introduction
+:PROPERTIES:
+:ID:       73F6284C-CC88-43AC-9643-C19D3007F480
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 If you’ve spent any time in the Erlang ecosystem, you’ve heard the mantra: "Let it crash". Erlang supervisors are
 world-class at restarting processes and returning a system to a clean state.
@@ -29,6 +37,10 @@ There was a [[https://www.reddit.com/r/elixir/comments/1rlrss4/i_built_raft_cons
 instead of that i plan to talk about the practical side while using 'ra' in  erlang.
 
 * The Architecture:
+:PROPERTIES:
+:ID:       6408FA58-6D4A-43E7-917D-FC9921C29F89
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 In this specific implementation, I've chosen some useful erlang libraries:
 
@@ -41,6 +53,10 @@ In our example, there will be three nodes on the same IP, each 'node' will have 
 running on their own ip, each 'nodes' special config is in the ./config directory.
 
 * Getting "Consensus" and dealing with failures:
+:PROPERTIES:
+:ID:       50AE52CB-36EC-4A2A-8E4C-4E327EBD1E90
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 The [[https://raft.github.io/][Raft Consensus algorithm]] is a distributed consensus algorithm between different 'nodes'.
 When the cluster starts, it DOES require all the nodes to connect and join the cluster.  Only
@@ -55,11 +71,18 @@ across each node in the cluster. Only once a majority of nodes have acknowledged
 (aka quorum) does the state actually update across the nodes.
 
 * The implementation:
+:PROPERTIES:
+:ID:       AEB40720-920B-4C9A-B834-0455FC21F310
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 To get this running, we’ll us =rebar3=. Our goal is to have the =ra= library and our
 =wade= endpoints initialized as part of the application startup, lets do that.
 
 ** 1. Dependencies and Profiles
+:PROPERTIES:
+:ID:       AED30F3C-0293-4723-AFD2-FC9C06234B11
+:END:
 
 Create a new app:
 
@@ -83,6 +106,9 @@ In this example, we'll have this running on a single machine, with each 'node' o
 a different TCP port, because its easier.
 
 ** 2. The Supervisor and Cluster Init
+:PROPERTIES:
+:ID:       056F5ED5-EF7E-4CD0-B28E-B092280EEF5C
+:END:
 
 The first step would be to create module that implements the 'ra_machine'
 behavior.  This is not a gen_server, this defines the 'Machine Module' and then
@@ -111,11 +137,17 @@ pass it to the cluster initialization (in ra:start_cluster/4).
 #+END_SRC
 
 ** 3. The cluster bootstrapper.
+:PROPERTIES:
+:ID:       69E30B17-F78A-4854-9C51-312B479F804B
+:END:
 
 The ha_app_bootstrapper.erl module is a gen_server responsible for ensuring the Raft cluster is initialized
 and that the local node correctly joins or restarts its participation in that cluster.
 
 *** How it "Calls Itself" (The Bootstrap Loop)
+:PROPERTIES:
+:ID:       AAB194E6-C03D-4679-A646-D7941AC52026
+:END:
 
 The module uses Erlang's message-passing system to create a non-blocking retry loop.
 This prevents the node from hanging if peers are not yet online.  This is the method
@@ -131,10 +163,16 @@ In our ha_boot ( ha_app_bootstrapper.erl ), in it:
      state in the background.
 
 *** How it Starts or Joins the Cluster
+:PROPERTIES:
+:ID:       23B62ABC-20DB-4180-8FC1-119E072CBFFE
+:END:
 
   The logic follows a specific hierarchy of checks to determine the node's role:
 
 ****  Step A: Network Connectivity
+:PROPERTIES:
+:ID:       F7E4FCBF-E7C4-4DEF-9E7C-473DA60DFB93
+:END:
 
 #+BEGIN_SRC erlang
   handle_info(bootstrap, State = #{nodes := Nodes}) ->
@@ -149,6 +187,9 @@ In our ha_boot ( ha_app_bootstrapper.erl ), in it:
   allowing the [[https://github.com/rabbitmq/ra][ra library]] to communicate with peers.
 
 ****  Step B: Starting the Raft System
+:PROPERTIES:
+:ID:       C2A1DB9C-967A-4DF6-9994-FE840F9A41D9
+:END:
 
   Raft is a consensus algorithm designed for managing a replicated log across a cluster of nodes, ensuring all nodes agree
   on the same data and state, even during failures.  Raft clusters usually need an odd number of nodes, (most commonly 3 or 5),
@@ -172,6 +213,9 @@ In our ha_boot ( ha_app_bootstrapper.erl ), in it:
 #+END_SRC
 
 ****  Step C: Restarting or Joining (Existing State)
+:PROPERTIES:
+:ID:       E5916985-1386-410C-8B2E-1CD399627B9B
+:END:
 
   If the Raft system is running, it checks if this node already knows about the kv_store cluster:
   
@@ -195,6 +239,9 @@ In our ha_boot ( ha_app_bootstrapper.erl ), in it:
 #+END_SRC
 
 ****  Step D: Bootstrapping a Fresh Cluster
+:PROPERTIES:
+:ID:       DC38FF05-3465-410C-920D-698395AFB8AE
+:END:
 
 #+BEGIN_SRC erlang
 case node() == hd(Nodes) of
@@ -253,6 +300,9 @@ end
 #+END_SRC
 
 ** 3. The State Machine (src/my_kv_machine.erl)
+:PROPERTIES:
+:ID:       E6EF6F57-463A-45D0-A520-B9CBFC7A6F2F
+:END:
 
 This is where the 'consensus' becomes 'state'. RA internally replays
 commands to recreate the map.  This is a very simplified machine and
@@ -282,6 +332,9 @@ My example has removed all the type spec attribute because it ended up
 making the information overload too high.
 
 ** 4. The Web Handler (src/wade_raft_handler.erl)
+:PROPERTIES:
+:ID:       7572DE76-020E-4605-8AB8-42CFFBF54C38
+:END:
 
 The web site  we have created is a simple method to show the operational status of
 each of the cluster nodes.  Each of the nodes serves up the same data, querying
@@ -312,11 +365,18 @@ and requests =/state to each fo the nodes in the server.  This is hardcoded to
 only three nodes, with specific names, which was done to simplify the demonstration.
 
 * Demonstration.
+:PROPERTIES:
+:ID:       B4799A48-35FD-4D0C-8056-2A47ADA434A0
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 Robert Virdings has a famous quote [[https://erlangforums.com/t/roberts-comment-and-now-for-the-tricky-bit-anyone-know-where-it-was-made/5154/3][and now for the tricky bit]].  You may hav enoticed
 that this is at the start of the demonstration section, that is intentional.
 
 ** Step 1: The "Happy Path"
+:PROPERTIES:
+:ID:       A624DE15-32AE-4C26-85A1-E3F3CBA12DB6
+:END:
 
 Erlang has its own [[https://www.erlang.org/doc/apps/erts/erl_dist_protocol.html][distribution protocol]], which allows connected erlang nodes to be
 able to communicate with other nodes using the built-in library using existing erlang
@@ -350,6 +410,9 @@ This should appear in the display box above the form:
 [[./images/kv-state.png]]
 
 ** Step 2: Terminating the node
+:PROPERTIES:
+:ID:       9BF215A5-B7F2-4203-B831-8B3B19F22621
+:END:
 
 Find the OS process for Node 1 (the Leader) and =kill -9= it. The cluster pauses
 for a split second, heartbeats fail, and Nodes 2 and 3 hold an election. One is
@@ -361,6 +424,9 @@ functional.
 [[./images/node1-down.png]]
 
 ** Step 3: The Resurrection
+:PROPERTIES:
+:ID:       63605B72-840B-41B8-A49A-B57B4D9836D2
+:END:
 
 Bring Node 1 back online. It will realize it is behind. It will receive a log
 update from the new Leader and jump forward in history instantly. The protocol
@@ -378,6 +444,9 @@ HA is quite decent.
 
 
 ** Trade offs
+:PROPERTIES:
+:ID:       96C4A8C6-B2EB-4272-9C82-9EAEA9098E86
+:END:
 
 Using the ra library for consensus in Erlang/OTP applications offers a robust, Raft-based alternative to erlangs built in 'mnesia'.
 
@@ -399,6 +468,9 @@ The other unsaid trade off, is that this requires additional development work if
 each cluster must be re-created at each of of the code upgrade points.
 
 ** Future.
+:PROPERTIES:
+:ID:       3E8C559F-A399-4181-8A6D-7B5F33DCA19C
+:END:
 
 It may be worth investigating, several operational and architectural challenges emerge
 that warrant deeper investigation. Distributed systems built on Raft consensus, such as those utilizing
@@ -406,6 +478,9 @@ the ra library, offer robust consistency, but their real-world performance is he
 handle network volatility and data density.
 
 *** Operational Resilience and Partition Logic
+:PROPERTIES:
+:ID:       01CD2D13-3386-44FF-B47F-7AA716709E65
+:END:
 
 A primary focus of our upcoming research will be the nuance of failure detection. There is a significant
 operational difference between a terminated node and a simple network partition. We aim to rigorously test
@@ -414,6 +489,9 @@ these edge cases is vital for preventing unnecessary leader elections and ensuri
 during transient network instability.
 
 *** Benchmarking State and Recovery
+:PROPERTIES:
+:ID:       9FF68A28-970D-4A43-963A-F87CEDDF0D02
+:END:
 
 Efficiency is another major frontier. We plan to quantify the "storage tax" of the State Machine—measuring
 the disk footprint utilized by ra for its write-ahead logs and snapshots compared to the actual application
@@ -422,6 +500,9 @@ latency scales as data volume grows. By modeling these correlations, we can bett
 for a new or rebooting node as it catches up with the rest of the cluster.
 
 *** Dynamic Scaling and Advanced Storage
+:PROPERTIES:
+:ID:       4F69AAEC-7650-41B7-8D0D-1CA0D7994ED8
+:END:
 
 Finally, we are exploring ways to move beyond the constraints of static configuration. Our goals include:
 
@@ -432,9 +513,15 @@ Finally, we are exploring ways to move beyond the constraints of static configur
 =Khepri Integration=: Researching the use of Khepri—RabbitMQ’s tree-like storage structure—as a high-level backend to manage state more efficiently than standard key-value approaches.
 
 ** Resources
+:PROPERTIES:
+:ID:       68D2D349-F5C2-4E10-BA26-988F35E23348
+:END:
+
+[[https://github.com/wmealing/ha_app][The 'ha_app" demonstration app referenced in this blog.]]
 
 [[https://github.com/rabbitmq/ra][Ra GitHub Repository]]
 
 [[https://www.erlang.org/doc/apps/stdlib/json.html][OTP json module documentation]]
 
 [[https://github.com/rabbitmq/khepri][khepri project]]
+

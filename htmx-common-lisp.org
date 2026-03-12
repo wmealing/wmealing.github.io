@@ -51,6 +51,10 @@ I still have many questions on how to ensure that web apps I write work predicta
 
 
 * Resources:
+:PROPERTIES:
+:ID:       3E8DD5FF-8907-4595-8FD9-24B44A1D257F
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
 
 https://htmx.org/
 https://github.com/wmealing/learn-htmx

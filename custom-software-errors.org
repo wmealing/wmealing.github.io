@@ -7,6 +7,10 @@
 #+HTML_HEAD: <meta name="description" content="Seriously useful error messages" />
 
 * Summary:
+:PROPERTIES:
+:ID:       CE6AB686-599E-4D1A-9864-230114BF64CA
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 In-house business software is a very different beast; it is usually target-built to solve
 a very specific problem.  Company bean counters encourage buying off-the-shelf software when it is
@@ -21,6 +25,10 @@ In the company I work at, these improved error helpers  are called "Wilbert-Hofm
 It would be great to see these error types in wider use.
 
 * Introduction
+:PROPERTIES:
+:ID:       876EDD19-D06E-4D2C-B47C-6B061B1FE593
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 Effective resolution of errors plays a pivotal role in shaping the user experience within
 software applications. The content of the messages, along with information, should not only
@@ -33,6 +41,9 @@ messages and their corresponding well-known user-interaction patterns show how d
 handling is.
 
 ** The basics.
+:PROPERTIES:
+:ID:       247C5642-6292-4AEC-9DB5-AFED6D5FB863
+:END:
 
 Rather than re-iterate what has already been said, Google has a very good course, in the [[https://developers.google.com/tech-writing/error-messages/error-handling][technical writing]]
 category, which focuses on writing better error messages. It also contains excellent advice for programmers
@@ -54,6 +65,10 @@ I would like to believe that a certain subset of users are capable of solving ma
 run into, and are also able to help others who can run into the same problem.
 
 * Improved example.
+:PROPERTIES:
+:ID:       C6EFA908-E694-49AC-8284-8A544C28A27A
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 So, let's provide a before and after.  This particular example was chosen as a bland and boring
 example so we wouldn't focus on the error itself.
@@ -61,6 +76,9 @@ example so we wouldn't focus on the error itself.
 Kept in ascii art to remove distractions and debate on how poor my CSS theming skills are.
 
 ** Before:
+:PROPERTIES:
+:ID:       9B43570B-71D9-4164-BCAE-6F94EB4CC5DD
+:END:
 
 #+BEGIN_EXAMPLE
 |--------------------------------------------------------------|
@@ -78,6 +96,9 @@ Kept in ascii art to remove distractions and debate on how poor my CSS theming s
 #+END_EXAMPLE
 
 ** After:
+:PROPERTIES:
+:ID:       6CDCDDE3-36E8-4E2D-B7E4-D065E85879B3
+:END:
 
 #+BEGIN_EXAMPLE
 +------------------------------------------------------------------------+
@@ -180,6 +201,10 @@ tooling used in business; you should adjust accordingly.
    support this functionality.
 
 * Introducing change
+:PROPERTIES:
+:ID:       DBBC7D8E-E8D0-42E9-929C-28B6745869F9
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 Rolling changes like this into an existing code base will likely be complicated; one possible
 solution is incremental improvements.
@@ -189,6 +214,9 @@ users view error messages) or by talking to support staff and dealing with the  
 offenders.
 
 ** Incremental Improvements
+:PROPERTIES:
+:ID:       404046A0-55C3-4D5F-BD6F-9BBD46A13FD3
+:END:
 
 Incremental improvement of error messages involves advancing beyond basic error handling.  Not
 all error conditions will benefit from the additional information. However, if there is an "error
@@ -196,6 +224,9 @@ display widget" used consistently in software, extending this widget to show thi
 data would be a great place to start.
 
 ** Error Categories.
+:PROPERTIES:
+:ID:       E9099253-E33C-494F-9335-A127C7194A68
+:END:
 
 Introducing a common "error category" simplifies the initial rollout of the new error fields. By
 grouping related issues, error categories provide a simplified reference point, facilitating
@@ -206,6 +237,9 @@ addressing complex or unique issues. Complex errors should be supplemented with 
 and proactive problem-solving approaches addressing the specific issue.
 
 ** Unique Error Identifier
+:PROPERTIES:
+:ID:       42BA6AAF-8DA0-46A2-8380-2EB3EEFB462C
+:END:
 
 By assigning distinct identifiers to each error condition, developers establish
 a standardized method for identifying, tracking, and managing errors throughout the
@@ -223,12 +257,18 @@ allow for unique identifiers to be duplicated across products unless they both
 use the same source code with no variance.
 
 ** Online References (hyperlinks)
+:PROPERTIES:
+:ID:       E5196A77-46D1-4EE0-9650-5BD063860BC4
+:END:
 
 This is more than just linking to a wiki page; error pages could link to specific URI's of company
 resources such as Slack, shared drives, or source repositories.  If your userbase is sufficiently
 technical it can also be a link to the source code for more capable users to self-diagnose the root cause.
 
 ** Extending this idea.
+:PROPERTIES:
+:ID:       2707CCA0-F4CB-43D3-BBCB-38588D498DF1
+:END:
 
 I consider these 4 basics to be the first generation of improvements. You will find new
 and useful improvements; do not be afraid to use them.
@@ -236,6 +276,9 @@ and useful improvements; do not be afraid to use them.
 These  "Wilbert-Hofmann" error messages are used heavily in the group of the company where I [[https://gitlab.com/cki-project/kernel-workflow/][work]].
 
 ** Generating documentation from error conditions for support staff.
+:PROPERTIES:
+:ID:       628F0945-8366-4BC8-BA8D-E0DEB468FA8C
+:END:
 
 Software should generate a list of error codes and their reasons for any of the support
 staff who may be dealing with the area of code.
@@ -245,6 +288,9 @@ They could also use this to point to the area of code for additional inspection.
 Should be notified of new error codes and if existing codes are removed or deprecated.
 
 ** Error analysis.
+:PROPERTIES:
+:ID:       1C911BE6-D6E5-4DBB-A24A-2C84BB5B7A7F
+:END:
 
 Analysis of the error messages
 
@@ -254,6 +300,10 @@ Analysis of the error messages
 - Determine areas where the user interface could be improved.
 
 * Conclusion
+:PROPERTIES:
+:ID:       B6C197EF-F5C4-41C3-93F9-5BFAA77637B3
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 The suggestions presented in this document serve as fundamental examples of extending common error
 conditions to enhance the user experience and streamline error management. However, it's essential for
@@ -265,6 +315,10 @@ their error-handling capabilities, developers can ensure robust and effective er
 their software systems.
 
 * Resources:
+:PROPERTIES:
+:ID:       7368EB11-5EB6-4A76-A968-49B13483B3D9
+:PUBDATE:  2026-03-12 Thu 04:16
+:END:
 
 https://www.smashingmagazine.com/2022/08/error-messages-ux-design/
 https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas

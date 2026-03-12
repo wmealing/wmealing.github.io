@@ -23,6 +23,9 @@ Think of it like a 'program skeleton'.  There are other "x-server" relatives in 
 mac daddy of them all.
 
 **  What is a gen server ?
+:PROPERTIES:
+:ID:       72181B2D-C3D3-4BDD-8B92-B30A335FA6D4
+:END:
 
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 
@@ -208,6 +211,9 @@ module: pseudobank-tests
 We can see the test passes.
 
 ** Getting the balance
+:PROPERTIES:
+:ID:       FAA16C58-52A6-452B-8B52-733002F8473D
+:END:
 
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 
@@ -338,6 +344,9 @@ Cool, so now we have a basic "get the current balance" =gen_server= working, let
 test to deposit money into the account.
 
 ** Making a deposit.
+:PROPERTIES:
+:ID:       BA9183A3-C571-4983-AED6-CF6FC68F701F
+:END:
 
 Back in =pseudobank-test.lfe= to add a new failing test for depositing money.
 
@@ -413,6 +422,9 @@ and updates the process state by returning all this in the third element of the 
 I'd say we had desposits nailed.
 
 ** Making a withdrawal
+:PROPERTIES:
+:ID:       8971B295-F6F9-4B2B-BCD8-ED6E331EDE31
+:END:
 
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -484,6 +496,9 @@ from the last test.  We're going to have to implement some kind of shutdown mech
 we can run after the test finishes to reset the state.
 
 ** Withraw Interlude: gen_server shutdown.
+:PROPERTIES:
+:ID:       5092B8C3-6721-48BE-B087-79C887199C81
+:END:
 
 As the LFE gen-server piggy backs on the =erlang= implementation of gen_server the
 [[https://www.erlang.org/doc/man/gen_server.html][stdlib reference manual]] includes a method to shut down the server.
@@ -553,6 +568,9 @@ Giddy up, now we have the server restarting, but back to the topic at hand getti
 withdraw and its rules
 
 ** Withdraw resumed:
+:PROPERTIES:
+:ID:       9DB520DD-3351-4AB4-9439-AC333815F8C8
+:END:
 
 Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
 you cant withdraw can not put it the account balance into negative value. Here's the test.
@@ -614,6 +632,10 @@ test driven development for lfe.  I'll upload the project to github and put a
 link right here soon.
 
 * Resources:
+:PROPERTIES:
+:ID:       9EA39C61-FB11-40A8-8FBE-7CCE4D0C1E4F
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
 
 - https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3
 - https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf

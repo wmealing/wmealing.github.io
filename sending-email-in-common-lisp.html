@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-09 Mon 03:13 -->
+<!-- 2026-03-12 Thu 04:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sending email in common-lisp</title>
@@ -52,26 +52,26 @@
 
     </div>
 </nav>
-<div id="outline-container-orge39ebbf" class="outline-2">
-<h2 id="orge39ebbf">Summary:</h2>
-<div class="outline-text-2" id="text-orge39ebbf">
+<div id="outline-container-org71ea965" class="outline-2">
+<h2 id="org71ea965">Summary:</h2>
+<div class="outline-text-2" id="text-org71ea965">
 <p>
 This page covers how to send an email from your common-lisp coding using the cl-smtp library using googles gmail servers.
 </p>
 </div>
 </div>
-<div id="outline-container-orgaeb1a6d" class="outline-2">
-<h2 id="orgaeb1a6d">Introduction</h2>
-<div class="outline-text-2" id="text-orgaeb1a6d">
+<div id="outline-container-orgad2d307" class="outline-2">
+<h2 id="orgad2d307">Introduction</h2>
+<div class="outline-text-2" id="text-orgad2d307">
 <p>
 This post covers a working example on how to send email from the common-lisp (cl) language using googles servers.  The provided
 example has been tested as an individual, and regularly used from the 'google workspace' account.
 </p>
 </div>
 </div>
-<div id="outline-container-org55ba86b" class="outline-2">
-<h2 id="org55ba86b">Requirements:</h2>
-<div class="outline-text-2" id="text-org55ba86b">
+<div id="outline-container-orge32ed6f" class="outline-2">
+<h2 id="orge32ed6f">Requirements:</h2>
+<div class="outline-text-2" id="text-orge32ed6f">
 <p>
 An Application password.
 </p>
@@ -82,9 +82,9 @@ configured for the account or you can not make app passwords.
 </p>
 </div>
 </div>
-<div id="outline-container-org63c5ec4" class="outline-2">
-<h2 id="org63c5ec4">The code:</h2>
-<div class="outline-text-2" id="text-org63c5ec4">
+<div id="outline-container-org15940f0" class="outline-2">
+<h2 id="org15940f0">The code:</h2>
+<div class="outline-text-2" id="text-org15940f0">
 <p>
 Listed below is the common-lisp code that is required to send email.   The "password" is stored
 in the environment variable GMAIL_KEY, as a single string.  Google often displays on the 'app password'
@@ -123,13 +123,13 @@ page as 4 sets of 4 characters, aka xxxx xxxx xxxx xxxx , however experience sho
 </div>
 </div>
 </div>
-<div id="outline-container-org5f9bb42" class="outline-2">
-<h2 id="org5f9bb42">Ideas for improvement.</h2>
-<div class="outline-text-2" id="text-org5f9bb42">
+<div id="outline-container-org9c6c0e3" class="outline-2">
+<h2 id="org9c6c0e3">Ideas for improvement.</h2>
+<div class="outline-text-2" id="text-org9c6c0e3">
 </div>
-<div id="outline-container-orgfc3715f" class="outline-3">
-<h3 id="orgfc3715f">1. Secret Storage mechanism.</h3>
-<div class="outline-text-3" id="text-orgfc3715f">
+<div id="outline-container-orgacefe22" class="outline-3">
+<h3 id="orgacefe22">1. Secret Storage mechanism.</h3>
+<div class="outline-text-3" id="text-orgacefe22">
 <p>
 The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
 </p>
@@ -140,9 +140,9 @@ some of them have secrets file.
 </p>
 </div>
 </div>
-<div id="outline-container-org5b7f398" class="outline-3">
-<h3 id="org5b7f398">2. Preventing secret leaks.</h3>
-<div class="outline-text-3" id="text-org5b7f398">
+<div id="outline-container-org0287990" class="outline-3">
+<h3 id="org0287990">2. Preventing secret leaks.</h3>
+<div class="outline-text-3" id="text-org0287990">
 <p>
 After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
 to abuse the information.
@@ -158,9 +158,9 @@ When it is loaded, use  <a href="https://github.com/rotatef/secret-values">Secre
 </p>
 </div>
 </div>
-<div id="outline-container-org24c6ee2" class="outline-3">
-<h3 id="org24c6ee2">3. Preventing accidental/intention spamming.</h3>
-<div class="outline-text-3" id="text-org24c6ee2">
+<div id="outline-container-orgdd62f81" class="outline-3">
+<h3 id="orgdd62f81">3. Preventing accidental/intention spamming.</h3>
+<div class="outline-text-3" id="text-orgdd62f81">
 <p>
 Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
 It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
@@ -168,15 +168,15 @@ It is important that the program keep an accurate, reliable mechanism to know wh
 </div>
 </div>
 </div>
-<div id="outline-container-orgc5861c4" class="outline-2">
-<h2 id="orgc5861c4">Conclusion</h2>
+<div id="outline-container-org9f5a33b" class="outline-2">
+<h2 id="org9f5a33b">Conclusion</h2>
 </div>
 
 
 
-<div id="outline-container-orga99e38d" class="outline-2">
-<h2 id="orga99e38d">Resources:</h2>
-<div class="outline-text-2" id="text-orga99e38d">
+<div id="outline-container-org69c309a" class="outline-2">
+<h2 id="org69c309a">Resources:</h2>
+<div class="outline-text-2" id="text-org69c309a">
 <p>
 <a href="https://gitlab.common-lisp.net/cl-smtp/cl-smtp">https://gitlab.common-lisp.net/cl-smtp/cl-smtp</a>
 </p>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-09 Mon 03:14 -->
+<!-- 2026-03-12 Thu 04:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WXerlang simple example</title>
@@ -197,6 +197,49 @@
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 </head>
 <body>
+<div id="preamble" class="status">
+<nav style="margin-bottom: 40px; font-family: sans-serif; margin-top: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-top: 0;">
+        <span style="font-size: 1.2rem; font-weight: bold; color: #333; margin-top: 0;">Wade Mealing</span>
+        <a href="/index.html" style="text-decoration: none; color: #01579b; font-weight: bold; border: 1px solid #01579b; padding: 4px 12px; border-radius: 4px; font-size: 0.9rem; margin-top: 0;">Home</a>
+    </div>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0; margin-top: 0;">
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; margin-top: 0;">
+
+        <div style="flex: 1; min-width: 250px; margin-top: 0;">
+            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Systems & Distributed Programming</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
+                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Erlang/OTP</span>
+                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Clojure</span>
+                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Lisp Flavored Erlang</span>
+                <span style="display: inline-block; background: #e8f5e9; color: #1b5e20; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Cellium (TUI Framework)</span>
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 250px; margin-top: 0;">
+            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Security & Kernel Research</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Linux Kernel Analysis</span>
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">eBPF</span>
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Malware Reversing</span>
+                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Rust</span>
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 250px; margin-top: 0;">
+            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Tooling & Workflow</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
+                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Emacs / Elisp</span>
+                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">CI/CD Pipelines</span>
+                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">OpenSCAD</span>
+            </div>
+        </div>
+
+    </div>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0; margin-top: 0;">
+</nav>
+</div>
 <div id="content" class="content">
 <h1 class="title">WXerlang simple example</h1>
 <nav class="navbar-custom">
@@ -247,19 +290,19 @@ The app we’ll build looks like this:
 </p>
 
 
-<div id="orgbacc9d1" class="figure">
+<div id="org119ff36" class="figure">
 <p><img src="./images/screenshot-simple-application-1.png" alt="simple-gui-app image" title="Action!" align="centre" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Screenshot from application.</p>
 </div>
-<div id="outline-container-org751ada0" class="outline-2">
-<h2 id="org751ada0">Creating a new applications.</h2>
-<div class="outline-text-2" id="text-org751ada0">
+<div id="outline-container-orgc9b9ada" class="outline-2">
+<h2 id="orgc9b9ada">Creating a new applications.</h2>
+<div class="outline-text-2" id="text-orgc9b9ada">
 <p>
 Let’s create a new application using rebar3, I like rebar and it seems to do things that I expect.  Issue the command:
 </p>
 
-<pre class="example" id="org11ca557">
+<pre class="example" id="org66bcb23">
 $ rebar3 new app name="wx_simple"
 ===&gt; Writing wx_simple/src/wx_simple_app.erl
 ===&gt; Writing wx_simple/src/wx_simple_sup.erl
@@ -275,9 +318,9 @@ This creates the 'app' file and the a basic supervisor, there is nothing wx spec
 is to draw a window. Now that the  "App" is created along with a simple supervisor, lets make the GUI.
 </p>
 </div>
-<div id="outline-container-org0a6bccc" class="outline-3">
-<h3 id="org0a6bccc">Basics: Drawing a window.</h3>
-<div class="outline-text-3" id="text-org0a6bccc">
+<div id="outline-container-org14368f3" class="outline-3">
+<h3 id="org14368f3">Basics: Drawing a window.</h3>
+<div class="outline-text-3" id="text-org14368f3">
 <p>
 I like my apps to fit "nicely" into the OTP style behavior, so lets make a new
 file called wx_server.erl in wx_simple/src directory.
@@ -390,9 +433,9 @@ the close button (exactly how depends on which operating system you are running)
 </p>
 </div>
 </div>
-<div id="outline-container-org57e257d" class="outline-3">
-<h3 id="org57e257d">Adding a button (wxButton)</h3>
-<div class="outline-text-3" id="text-org57e257d">
+<div id="outline-container-org0dbec3a" class="outline-3">
+<h3 id="org0dbec3a">Adding a button (wxButton)</h3>
+<div class="outline-text-3" id="text-org0dbec3a">
 <p>
 Our next step is to add a button, because everyone loves buttons.
 </p>
@@ -434,9 +477,9 @@ This button has a label and size tuples in the Options list.
 </p>
 </div>
 </div>
-<div id="outline-container-org2e5ae90" class="outline-3">
-<h3 id="org2e5ae90">Adding editable text label ( wxTextCtrl )</h3>
-<div class="outline-text-3" id="text-org2e5ae90">
+<div id="outline-container-org09f5e29" class="outline-3">
+<h3 id="org09f5e29">Adding editable text label ( wxTextCtrl )</h3>
+<div class="outline-text-3" id="text-org09f5e29">
 <p>
 We’ll add text to our frame using a wxTextCtrl. As per <a href="https://www.erlang.org/doc/man/wxtextctrl">the docs:</a>
 </p>
@@ -479,9 +522,9 @@ effectively disable its use.
 </p>
 </div>
 </div>
-<div id="outline-container-org242baad" class="outline-3">
-<h3 id="org242baad">Improvement.</h3>
-<div class="outline-text-3" id="text-org242baad">
+<div id="outline-container-org5182ed8" class="outline-3">
+<h3 id="org5182ed8">Improvement.</h3>
+<div class="outline-text-3" id="text-org5182ed8">
 <p>
 Not being happy with just laying out buttons, lets take it up a notch.  We're going to
 use a "sizer", specifically the wxBoxSizer, which is a container ainer that organizes child widgets into a single row
@@ -576,9 +619,9 @@ I don't always "whoop", but when I do, there it is.
 </div>
 </div>
 </div>
-<div id="outline-container-orge567a37" class="outline-2">
-<h2 id="orge567a37">Resources:</h2>
-<div class="outline-text-2" id="text-orge567a37">
+<div id="outline-container-orgb7b2bff" class="outline-2">
+<h2 id="orgb7b2bff">Resources:</h2>
+<div class="outline-text-2" id="text-orgb7b2bff">
 <ul class="org-ul">
 <li>Idea blatently taken from <a href="https://hidnasio.github.io//elixir/wxerlang/2022/06/29/advance-wx-erlang-hello-world.html">Hello world in elixir.</a></li>
 <li><a href="https://www.erlang.org/doc/man/wx.html">wx erlang man/docs</a></li>
@@ -589,8 +632,7 @@ I don't always "whoop", but when I do, there it is.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2026-03-09 Mon 03:14</p>
-<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2026-03-12 Thu 04:14</p>
 </div>
 </body>
 </html>
