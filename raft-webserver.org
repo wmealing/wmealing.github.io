@@ -496,8 +496,8 @@ during transient network instability.
 Efficiency is another major frontier. We plan to quantify the "storage tax" of the State Machine—measuring
 the disk footprint utilized by ra for its write-ahead logs and snapshots compared to the actual application
 data. This data will serve as the foundation for benchmarking recovery times; specifically, how synchronization
-latency scales as data volume grows. By modeling these correlations, we can better predict the "Time to Live"
-for a new or rebooting node as it catches up with the rest of the cluster.
+latency scales as data volume grows.  If we figure out what size ends up being a bottleneck we can make
+more educated decisions on what size data is right for an application.
 
 *** Dynamic Scaling and Advanced Storage
 :PROPERTIES:
