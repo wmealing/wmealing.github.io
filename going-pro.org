@@ -1,4 +1,4 @@
-#+TITLE: Template Goes here
+#+TITLE: Going pro - ethics
 #+INCLUDE: "navbar.html" export html
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
@@ -14,53 +14,50 @@
 #+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
 
 
+Programmers like every profession should have a work ethic, even in these trying times
+of drip-fed dopamine hits from vibe coding, an ethic should still exist.
+
+I've considered ethics and noted down what I think are the core pillars of programmers ethics:
+
+** Minimise harm.
+
+   "Move fast and break things" is a shitty mindset, I do understand what [[https://www.youtube.com/shorts/G2J10urUDw8][Zuckerberg]] was implying,
+   however many of us work on systems and tools which can't afford to have the same mindset.  Which
+   is why i think 'Minimise Harm' is the better mindset.
+
+   This ethos has faces it presents, as the software fails, as users use the software and its
+   environmental impact on the world.
+
+** Maintain it like your replacement is an axe wielding maniac.
+
+   Code is read far more often than it is written. Leaving behind a "clever" but unreadable mess is a disservice
+   to the person who has to fix it at 2:30 AM five years from now.   I find it helpful to consider that this person
+   may be very angry, and that you should write code that is both clear to understand and corner cases documented
+   with the "why" answered.
+
+** User privacy.
+
+   This can often be overlooked because of how focused engineers are on the 'pure mechanical side' of software creation.
+   User information is SO frequently abused that europe implemented  [[https://gdpr.eu/what-is-gdpr/][GDPR]] privacy and security laws because companies have
+   no morals when it comes to abusing users privacy.
+
+   As a software developer, privacy abusing user-centric data can appear in many places accidentally, often due to feature
+   creep or accidental mishandling.  Being aware of the GDPR and your local governance can make discussions with stakeholders
+   much simpler and prevent these issues before they start.
+
+** Social Responsibility/Accessability
+
+   This is a =much= harder problem.  [[https://www.accessibility.org.au/policy/australian-policy/][Australia]] has some pretty specific requirements for government websites providing
+   services to the public, however this isn't applied across the board.  If your project doesn't allow for specifically
+   catering for disabilities, at least do what you can to ensure that its not created to completely abuse disabled end-users.
 
 
-Coach Handy about bryant:
- 
-#+BEGIN_EXAMPLE
-He said ‘I see dudes walk into practice 10 minutes before practice and they
-leave right after, why the f*** am I gonna pass them the basketball? I don’t
-respect their work ethic, I’m in here busting my ass every day trying to
-perfect my craft and these dudes don’t want to work on their game, I don’t
-trust them. 
-#+END_EXAMPLE
+* Conclusion
 
+While the landscape of professional ethics is as broad and complex as the systems we build, these pillars represent what
+I see as  the fundamental baseline for responsible software development. There are more nuanced layers to explore,
+from the environmental footprint of heavy computational tasks to the unique responsibilities found in security research
+and open-source maintenance.
 
-Ideas:
-
-Drills:
-
-- Loopsxnber
-- Conditonals
-  vic
-
-
-Functions and macros: in-depth understanding, best practices, and examples.
-
-Advanced data structures: arrays, lists, hash tables, etc.
-
-Error handling and debugging techniques specific to Common Lisp.
-
-Unique Skills:
-
-Pattern Matching
-
-
-Design Patterns:
-
-
-Reading:
-
-
-
-#+BEGIN_SRC lisp
-#+END_SRC
-
-
-* Resources:
-:PROPERTIES:
-:ID:       C37C1AEF-FADE-452B-B44B-6E798E037B8C
-:PUBDATE:  2026-03-12 Thu 04:15
-:END:
-
+Ultimately, technical proficiency is only part of the battle; the rest is ensuring that the code serves as a trustworthy
+foundation for everyone who relies on it, and those who maintain it after you are done.
