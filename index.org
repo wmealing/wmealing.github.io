@@ -1,4 +1,5 @@
-#+TITLE: Wade Mealing | Software Engineer & Research
+#+TITLE: Wade Mealing 
+#+SUBTITLE: Scrum Master, Software Engineer, Human.
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
