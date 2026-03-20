@@ -3,246 +3,19 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 02:59 -->
+<!-- 2026-03-21 Sat 03:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Going pro - ethics</title>
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
-<style> * { font-family: 'B612', sans-serif; } </style>
-<meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Erlang, TUI, Oldschool code" />
 </head>
 <body>
-<div id="preamble" class="status">
-<nav style="margin-bottom: 40px; font-family: sans-serif; margin-top: 0;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-top: 0;">
-        <span style="font-size: 1.2rem; font-weight: bold; color: #333; margin-top: 0;">Wade Mealing</span>
-        <a href="/index.html" style="text-decoration: none; color: #01579b; font-weight: bold; border: 1px solid #01579b; padding: 4px 12px; border-radius: 4px; font-size: 0.9rem; margin-top: 0;">Home</a>
-    </div>
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0; margin-top: 0;">
-
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; margin-top: 0;">
-
-        <div style="flex: 1; min-width: 250px; margin-top: 0;">
-            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Systems & Distributed Programming</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
-                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Erlang/OTP</span>
-                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Clojure</span>
-                <span style="display: inline-block; background: #e1f5fe; color: #01579b; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Lisp Flavored Erlang</span>
-                <span style="display: inline-block; background: #e8f5e9; color: #1b5e20; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Cellium (TUI Framework)</span>
-            </div>
-        </div>
-
-        <div style="flex: 1; min-width: 250px; margin-top: 0;">
-            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Security & Kernel Research</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
-                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Linux Kernel Analysis</span>
-                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">eBPF</span>
-                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Malware Reversing</span>
-                <span style="display: inline-block; background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Rust</span>
-            </div>
-        </div>
-
-        <div style="flex: 1; min-width: 250px; margin-top: 0;">
-            <h3 style="margin-bottom: 10px; margin-top: 0; font-size: 1.1rem; color: #333; text-transform: uppercase;">Tooling & Workflow</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0;">
-                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">Emacs / Elisp</span>
-                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">CI/CD Pipelines</span>
-                <span style="display: inline-block; background: #f3e5f5; color: #4a148c; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-top: 0;">OpenSCAD</span>
-            </div>
-        </div>
-
-    </div>
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0; margin-top: 0;">
-</nav>
-</div>
 <div id="content" class="content">
 <h1 class="title">Going pro - ethics</h1>
 <nav class="navbar-custom">
@@ -287,9 +60,9 @@ of drip-fed dopamine hits from vibe coding, an ethic should still exist.
 <p>
 I've considered ethics and noted down what I think are the core pillars of programmers ethics:
 </p>
-<div id="outline-container-orgbdef667" class="outline-3">
-<h3 id="orgbdef667">Minimise harm.</h3>
-<div class="outline-text-3" id="text-orgbdef667">
+<div id="outline-container-org6c219b5" class="outline-2">
+<h2 id="org6c219b5">Minimise harm.</h2>
+<div class="outline-text-2" id="text-org6c219b5">
 <p>
 "Move fast and break things" is a shitty mindset, I do understand what <a href="https://www.youtube.com/shorts/G2J10urUDw8">Zuckerberg</a> was implying,
 however many of us work on systems and tools which can't afford to have the same mindset.  Which
@@ -302,9 +75,9 @@ environmental impact on the world.
 </p>
 </div>
 </div>
-<div id="outline-container-org3354a82" class="outline-3">
-<h3 id="org3354a82">Maintain it like your replacement is an axe wielding maniac.</h3>
-<div class="outline-text-3" id="text-org3354a82">
+<div id="outline-container-org9ac69a5" class="outline-2">
+<h2 id="org9ac69a5">Maintain it like your replacement is an axe wielding maniac.</h2>
+<div class="outline-text-2" id="text-org9ac69a5">
 <p>
 Code is read far more often than it is written. Leaving behind a "clever" but unreadable mess is a disservice
 to the person who has to fix it at 2:30 AM five years from now.   I find it helpful to consider that this person
@@ -313,9 +86,9 @@ with the "why" answered.
 </p>
 </div>
 </div>
-<div id="outline-container-org1b5b687" class="outline-3">
-<h3 id="org1b5b687">User privacy.</h3>
-<div class="outline-text-3" id="text-org1b5b687">
+<div id="outline-container-orgcc30133" class="outline-2">
+<h2 id="orgcc30133">User privacy.</h2>
+<div class="outline-text-2" id="text-orgcc30133">
 <p>
 This can often be overlooked because of how focused engineers are on the 'pure mechanical side' of software creation.
 User information is SO frequently abused that europe implemented  <a href="https://gdpr.eu/what-is-gdpr/">GDPR</a> privacy and security laws because companies have
@@ -329,9 +102,9 @@ much simpler and prevent these issues before they start.
 </p>
 </div>
 </div>
-<div id="outline-container-org04af2b1" class="outline-3">
-<h3 id="org04af2b1">Social Responsibility/Accessability</h3>
-<div class="outline-text-3" id="text-org04af2b1">
+<div id="outline-container-orgc58b49c" class="outline-2">
+<h2 id="orgc58b49c">Social Responsibility/Accessability</h2>
+<div class="outline-text-2" id="text-orgc58b49c">
 <p>
 This is a <code>much</code> harder problem.  <a href="https://www.accessibility.org.au/policy/australian-policy/">Australia</a> has some pretty specific requirements for government websites providing
 services to the public, however this isn't applied across the board.  If your project doesn't allow for specifically
@@ -339,9 +112,9 @@ catering for disabilities, at least do what you can to ensure that its not creat
 </p>
 </div>
 </div>
-<div id="outline-container-org55c77ef" class="outline-2">
-<h2 id="org55c77ef">Conclusion</h2>
-<div class="outline-text-2" id="text-org55c77ef">
+<div id="outline-container-org65b24b8" class="outline-2">
+<h2 id="org65b24b8">Conclusion</h2>
+<div class="outline-text-2" id="text-org65b24b8">
 <p>
 While the landscape of professional ethics is as broad and complex as the systems we build, these pillars represent what
 I see as  the fundamental baseline for responsible software development. There are more nuanced layers to explore,

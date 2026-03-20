@@ -1,17 +1,9 @@
 #+TITLE: Going pro - ethics
-#+INCLUDE: "navbar.html" export html
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+OPTIONS: author:nil date:nil
-#+OPTIONS: html-postamble:nil
 
-#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
-#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
-#+HTML_HEAD: <link rel="stylesheet" href="index.css">
-#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
 
 Programmers like every profession should have a work ethic, even in these trying times
@@ -52,7 +44,7 @@ I've considered ethics and noted down what I think are the core pillars of progr
    catering for disabilities, at least do what you can to ensure that its not created to completely abuse disabled end-users.
 
 
-* Conclusion
+** Conclusion
 
 While the landscape of professional ethics is as broad and complex as the systems we build, these pillars represent what
 I see as  the fundamental baseline for responsible software development. There are more nuanced layers to explore,
