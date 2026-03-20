@@ -1,13 +1,11 @@
 #+TITLE: WXerlang simple example
 #+FILETAGS: :systems:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
-#+ROAM_TAGS: erlang wxwidget wx 
-#+CREATED: 
-#+OPTIONS: ^:nil num:nil
-#+OPTIONS: toc:nil
-#+OPTIONS: date:nil
-#+HTML_HEAD: <link rel="stylesheet" href="tufte.css" type="text/css" />
-#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+#+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
+
 
 
 wxWidgets is a graphical toolkit that ships with most erlang installs. It is  object  oriented, not functional and in wxErlang a module represents a class
