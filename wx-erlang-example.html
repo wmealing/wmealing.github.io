@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-20 Fri 23:57 -->
+<!-- 2026-03-21 Sat 00:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WXerlang simple example</title>
@@ -66,19 +66,19 @@ The app we’ll build looks like this:
 </p>
 
 
-<div id="orgf7f152e" class="figure">
+<div id="org90dd4ac" class="figure">
 <p><img src="./images/screenshot-simple-application-1.png" alt="simple-gui-app image" title="Action!" align="centre" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Screenshot from application.</p>
 </div>
-<div id="outline-container-org1890071" class="outline-2">
-<h2 id="org1890071">Creating a new applications.</h2>
-<div class="outline-text-2" id="text-org1890071">
+<div id="outline-container-orgae71c83" class="outline-2">
+<h2 id="orgae71c83">Creating a new applications.</h2>
+<div class="outline-text-2" id="text-orgae71c83">
 <p>
 Let’s create a new application using rebar3, I like rebar and it seems to do things that I expect.  Issue the command:
 </p>
 
-<pre class="example" id="org48d668c">
+<pre class="example" id="org6eb895a">
 $ rebar3 new app name="wx_simple"
 ===&gt; Writing wx_simple/src/wx_simple_app.erl
 ===&gt; Writing wx_simple/src/wx_simple_sup.erl
@@ -94,9 +94,9 @@ This creates the 'app' file and the a basic supervisor, there is nothing wx spec
 is to draw a window. Now that the  "App" is created along with a simple supervisor, lets make the GUI.
 </p>
 </div>
-<div id="outline-container-org5bf6252" class="outline-3">
-<h3 id="org5bf6252">Basics: Drawing a window.</h3>
-<div class="outline-text-3" id="text-org5bf6252">
+<div id="outline-container-org0c27c83" class="outline-3">
+<h3 id="org0c27c83">Basics: Drawing a window.</h3>
+<div class="outline-text-3" id="text-org0c27c83">
 <p>
 I like my apps to fit "nicely" into the OTP style behavior, so lets make a new
 file called wx_server.erl in wx_simple/src directory.
@@ -209,9 +209,9 @@ the close button (exactly how depends on which operating system you are running)
 </p>
 </div>
 </div>
-<div id="outline-container-org22ab2f5" class="outline-3">
-<h3 id="org22ab2f5">Adding a button (wxButton)</h3>
-<div class="outline-text-3" id="text-org22ab2f5">
+<div id="outline-container-orga48d2c3" class="outline-3">
+<h3 id="orga48d2c3">Adding a button (wxButton)</h3>
+<div class="outline-text-3" id="text-orga48d2c3">
 <p>
 Our next step is to add a button, because everyone loves buttons.
 </p>
@@ -253,9 +253,9 @@ This button has a label and size tuples in the Options list.
 </p>
 </div>
 </div>
-<div id="outline-container-org1ee9aab" class="outline-3">
-<h3 id="org1ee9aab">Adding editable text label ( wxTextCtrl )</h3>
-<div class="outline-text-3" id="text-org1ee9aab">
+<div id="outline-container-orgefb6fd7" class="outline-3">
+<h3 id="orgefb6fd7">Adding editable text label ( wxTextCtrl )</h3>
+<div class="outline-text-3" id="text-orgefb6fd7">
 <p>
 We’ll add text to our frame using a wxTextCtrl. As per <a href="https://www.erlang.org/doc/man/wxtextctrl">the docs:</a>
 </p>
@@ -298,9 +298,9 @@ effectively disable its use.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf7420aa" class="outline-3">
-<h3 id="orgf7420aa">Improvement.</h3>
-<div class="outline-text-3" id="text-orgf7420aa">
+<div id="outline-container-orgfc8b9f8" class="outline-3">
+<h3 id="orgfc8b9f8">Improvement.</h3>
+<div class="outline-text-3" id="text-orgfc8b9f8">
 <p>
 Not being happy with just laying out buttons, lets take it up a notch.  We're going to
 use a "sizer", specifically the wxBoxSizer, which is a container ainer that organizes child widgets into a single row
@@ -395,9 +395,9 @@ I don't always "whoop", but when I do, there it is.
 </div>
 </div>
 </div>
-<div id="outline-container-org0dae0e1" class="outline-2">
-<h2 id="org0dae0e1">Resources:</h2>
-<div class="outline-text-2" id="text-org0dae0e1">
+<div id="outline-container-org4f6014b" class="outline-2">
+<h2 id="org4f6014b">Resources:</h2>
+<div class="outline-text-2" id="text-org4f6014b">
 <ul class="org-ul">
 <li>Idea blatently taken from <a href="https://hidnasio.github.io//elixir/wxerlang/2022/06/29/advance-wx-erlang-hello-world.html">Hello world in elixir.</a></li>
 <li><a href="https://www.erlang.org/doc/man/wx.html">wx erlang man/docs</a></li>

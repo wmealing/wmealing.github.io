@@ -3,10 +3,6 @@
 #+INCLUDE: "navbar.html" export html
 
 * Posts in Systems
-:PROPERTIES:
-:ID:       089810B6-6954-4613-B77C-3A060E182369
-:PUBDATE:  2026-03-12 Thu 04:15
-:END:
 
 - [[file:abstraction-vs-transformation.html][Abstraction vs Transformation]]
 - [[file:atomic-operations-in-common-lisp.html][Atomic operations in common lisp]]

@@ -6,7 +6,7 @@
 #+CREATED: 
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
-#+SETUPFILE: style.css.org
+#+SETUPFILE: setupfile.org
 
 * What is persistence ?
 :PROPERTIES:

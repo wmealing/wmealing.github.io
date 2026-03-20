@@ -3,10 +3,6 @@
 #+INCLUDE: "navbar.html" export html
 
 * Posts in Security
-:PROPERTIES:
-:ID:       C2F3A910-4A7D-40F0-8569-72C483E5BC96
-:PUBDATE:  2026-03-12 Thu 04:15
-:END:
 
 - [[file:developing-7902.html][REPLACE]]
 - [[file:ebpf-disabled-for-users.html][Why eBPF for users is disabled in some distributions]]
