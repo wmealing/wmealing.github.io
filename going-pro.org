@@ -1,0 +1,66 @@
+#+TITLE: Template Goes here
+#+INCLUDE: "navbar.html" export html
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+#+HTML_HEAD: <link rel="stylesheet" href="index.css">
+#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+
+
+
+Coach Handy about bryant:
+ 
+#+BEGIN_EXAMPLE
+He said ‘I see dudes walk into practice 10 minutes before practice and they
+leave right after, why the f*** am I gonna pass them the basketball? I don’t
+respect their work ethic, I’m in here busting my ass every day trying to
+perfect my craft and these dudes don’t want to work on their game, I don’t
+trust them. 
+#+END_EXAMPLE
+
+
+Ideas:
+
+Drills:
+
+- Loopsxnber
+- Conditonals
+  vic
+
+
+Functions and macros: in-depth understanding, best practices, and examples.
+
+Advanced data structures: arrays, lists, hash tables, etc.
+
+Error handling and debugging techniques specific to Common Lisp.
+
+Unique Skills:
+
+Pattern Matching
+
+
+Design Patterns:
+
+
+Reading:
+
+
+
+#+BEGIN_SRC lisp
+#+END_SRC
+
+
+* Resources:
+:PROPERTIES:
+:ID:       C37C1AEF-FADE-452B-B44B-6E798E037B8C
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+

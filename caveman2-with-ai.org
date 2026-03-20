@@ -1,0 +1,266 @@
+#+TITLE: CAVEMAN 2 - peer programming with claude.ai in common lisp.
+#+FILETAGS: :systems:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Caveman2 claud.ai peer programming" />
+
+* Summary:
+:PROPERTIES:
+:ID:       C7E09A4D-B367-4280-8324-D81F661BB18E
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+Everyone says AI is going to take programmers jobs, I'm going to take claudes job and find all the
+mistakes that the "revolutionary" software is supposed to do, that'll show em!
+
+
+* Introduction
+:PROPERTIES:
+:ID:       A653995D-CE27-49A2-9073-D9B477183DF5
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+I keep hearing that there are people who haven't written software since 2020, and that all the work that
+code they have written is written by AI.  Usually whenever I ask any of the AI questions the lack of quality
+of the code is laughable and doesn't understand a lot of the human context that is involved in understanding
+what is required.
+
+My quotes to claud are in the prompt box, its responses are marked as response, I will be confirming that this
+idea works by walking through the answer to ensure its sanity.  My omments inline with a ">".
+
+
+The prompt:
+
+#+BEGIN_EXAMPLE
+You are a common lisp expert, who will be helping me with a
+front end and back end of the site.  We will be pair programming together.
+I will provide prompts for you and you can assist me by providing code.  I want to start with how to make a
+project with the caveman2 library.   The project is to write a common lisp server with a htmx running on the
+client.    The website is called Unicorn , which allows me to ask the user for a color and return matches in
+the database of 'images that match a specific color' that have have a similar color.  This website will assume
+that the database exists and has each row has a column with the most frequently color used in the image.   I want
+minimal javascript in the application ideally using HTMX.  I wish to use the templating system built into caveman2
+and any other templating language.  Please create the server in caveman2 (the common lisp framework) that can deal
+with functionality,  Additional features will be requested at a later date.  Thank you.
+#+END_EXAMPLE
+
+The response:
+
+
+I understand you want to create a Common Lisp server using Caveman2 framework, with HTMX on the client side.
+
+The project, named Unicorn, will allow users to input a color and return matching images from a database.
+
+Let's start by setting up the project structure and implementing the basic functionality.
+
+First, let's create a new Caveman2 project:
+
+
+#+BEGIN_SRC lisp
+  (ql:quickload :caveman2)
+  (caveman2:make-project #P"~/quicklisp/local-projects/unicorn/")
+#+END_SRC
+
+
+| Ok, this is kinda ok, my quicklisp loadable projects live in ~/quicklisp/local-projects/ , which is where unicorn should
+| be created, but lets issue that and try.
+
+#+BEGIN_SRC lisp
+CL-USER>   (ql:quickload :caveman2)
+To load "caveman2":
+  Load 1 ASDF system:
+    caveman2
+; Loading "caveman2"
+
+(:CAVEMAN2)
+CL-USER> (caveman2:make-project #P"~/quicklisp/local-projects/unicorn/")
+writing ~/quicklisp/local-projects/unicorn/unicorn.asd
+writing ~/quicklisp/local-projects/unicorn/unicorn-test.asd
+writing ~/quicklisp/local-projects/unicorn/app.lisp
+writing ~/quicklisp/local-projects/unicorn/README.markdown
+writing ~/quicklisp/local-projects/unicorn/.gitignore
+writing ~/quicklisp/local-projects/unicorn/db/schema.sql
+writing ~/quicklisp/local-projects/unicorn/src/config.lisp
+writing ~/quicklisp/local-projects/unicorn/src/db.lisp
+writing ~/quicklisp/local-projects/unicorn/src/main.lisp
+writing ~/quicklisp/local-projects/unicorn/src/view.lisp
+writing ~/quicklisp/local-projects/unicorn/src/web.lisp
+writing ~/quicklisp/local-projects/unicorn/static/css/main.css
+writing ~/quicklisp/local-projects/unicorn/templates/index.html
+writing ~/quicklisp/local-projects/unicorn/templates/_errors/404.html
+writing ~/quicklisp/local-projects/unicorn/templates/layouts/default.html
+writing ~/quicklisp/local-projects/unicorn/tests/unicorn.lispn> 
+#+END_SRC
+
+| Ok, thats a start.
+
+
+
+
+#+BEGIN_SRC lisp
+(defsystem "unicorn"
+  :version "0.1.0"
+  :author "Your Name"
+  :license "LLGPL"
+  :depends-on ("clack"
+               "lack"
+               "caveman2"
+               "envy"
+               "cl-ppcre"
+               "uiop"
+               "mito"
+               "cl-markup"
+               "cl-htmx")
+  :components ((:module "src"
+                :components
+                ((:file "main" :depends-on ("config" "view" "db"))
+                 (:file "web" :depends-on ("view"))
+                 (:file "view" :depends-on ("config"))
+                 (:file "db" :depends-on ("config"))
+                 (:file "config"))))
+  :description "Unicorn - Color-based Image Search"
+  :in-order-to ((test-op (test-op "unicorn-test"))))
+#+END_SRC
+
+Create a new file src/db.lisp:
+
+#+BEGIN_SRC lisp
+(in-package :cl-user)
+(defpackage unicorn.db
+  (:use :cl)
+  (:import-from :unicorn.config
+                :config)
+  (:export :connect-db
+           :disconnect-db
+           :with-connection
+           :query-images-by-color))
+(in-package :unicorn.db)
+
+(defun connect-db ()
+  (cl-sqlite:connect (config :database-path)))
+
+(defun disconnect-db (db)
+  (cl-sqlite:disconnect db))
+
+(defmacro with-connection (&body body)
+  `(let ((db (connect-db)))
+     (unwind-protect
+          (progn ,@body)
+       (disconnect-db db))))
+
+(defun query-images-by-color (color)
+  (with-connection
+    (cl-sqlite:execute-to-list
+     db
+     "SELECT * FROM images WHERE main_color LIKE ?"
+     (list (format nil "%~A%" color)))))
+#+END_SRC
+
+
+Now, let's modify the main application file. Open ~/projects/unicorn/src/web.lisp and update it with the following content:
+
+
+#+BEGIN_SRC lisp
+  (in-package :cl-user)
+(defpackage unicorn.web
+  (:use :cl
+        :caveman2
+        :unicorn.config
+        :unicorn.view
+        :unicorn.db)
+  (:export :*web*))
+(in-package :unicorn.web)
+
+(defclass <web> (<app>) ())
+(defvar *web* (make-instance '<web>))
+(clear-routing-rules *web*)
+
+(defroute "/" ()
+  (render #P"index.html"))
+
+(defroute "/search" (&key _method (|color| ""))
+  (if (string= _method "post")
+      (render-json (query-images-by-color |color|))
+      (render #P"search.html")))
+#+END_SRC
+
+4. Create the template files
+
+   - templates/layouts/default.html:
+
+#+BEGIN_SRC html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Unicorn - Color-based Image Search</title>
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
+</head>
+  <body>
+    <h1>Unicorn</h1>
+    {% block content %}{% endblock %}
+  </body>
+</html>
+#+END_SRC
+
+| This misses our custom style sheet, which was the line:
+| <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
+
+
+And the template templates/index.html:
+
+#+BEGIN_SRC HTML
+{% extends "layouts/default.html" %}
+{% block content %}
+<h2>Welcome to Unicorn</h2>
+<p>Search for images by color:</p>
+<form hx-post="/search" hx-target="#results">
+  <input type="text" name="color" placeholder="Enter a color">
+  <button type="submit">Search</button>
+</form>
+<div id="results"></div>
+{% endblock %}
+
+#+END_SRC
+
+
+#+BEGIN_SRC html
+{% extends "layouts/default.html" %}
+{% block content %}
+<h2>Search Results</h2>
+{% if results %}
+  <ul>
+    {% for image in results %}
+    <li>
+      <img src="{{ image.url }}" alt="{{ image.description }}">
+      <p>Main color: {{ image.main_color }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No results found.</p>
+{% endif %}
+{% endblock %}
+
+#+END_SRC
+
+
+
+
+* Conclusion
+:PROPERTIES:
+:ID:       942DC6E9-ECB7-46E1-A86F-55EE8757A7AD
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+Wrap it up here.
+
+* Resources:
+:PROPERTIES:
+:ID:       F57339F2-26C8-4D8F-9A0E-7021B436C1CD
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+

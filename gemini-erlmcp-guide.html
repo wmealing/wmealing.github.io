@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-21 Sat 00:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Configuring gemini for erlang-mcp.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Configuring gemini for erlang-mcp" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Configuring gemini for erlang-mcp.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org5281e99" class="outline-2">
+<h2 id="org5281e99">Summary:</h2>
+<div class="outline-text-2" id="text-org5281e99">
+<p>
+Gemini CLI supports project-specific Model Context Protocol (MCP) server protocol,
+I've recently setup erlang-mcp.  This document explains how to use erlmcp to aid in the
+development of your erlang code, not as an mcp tool for other mean.
+</p>
+</div>
+</div>
+<div id="outline-container-org0943211" class="outline-2">
+<h2 id="org0943211">Introduction</h2>
+<div class="outline-text-2" id="text-org0943211">
+<p>
+MCP's are the new hot thing for AI to interoperate with tooling running on either local or remote systems.
+</p>
+
+<p>
+Most MCP's are things like reading files , writing files, executing programs, but you can use language-specific
+MCP's which allow the AI to verify its beliefs, executing with a real system immediately revealing syntax
+and hallucionations earlier in the progress, saving time and money.
+</p>
+</div>
+<div id="outline-container-org54de728" class="outline-3">
+<h3 id="org54de728">Projects and System wide.</h3>
+<div class="outline-text-3" id="text-org54de728">
+<p>
+Gemini allows for MCP's to exist ia a 'per project' or 'system wide', This entry focuses on the 'per project'
+option,
+</p>
+</div>
+<div id="outline-container-org2f732e5" class="outline-4">
+<h4 id="org2f732e5">Project setup:</h4>
+<div class="outline-text-4" id="text-org2f732e5">
+<p>
+As you would want to use MCP to write your erlang.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">{deps, [
+    {erlmcp, {git, "https://github.com/erlsci/erlmcp.git", {branch, "main"}}}
+]}.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8972c46" class="outline-4">
+<h4 id="org8972c46">Per Project</h4>
+<div class="outline-text-4" id="text-org8972c46">
+<p>
+Create the .gemini directory: In the root directory of your project.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mkdir -p .gemini
+</pre>
+</div>
+
+<p>
+Create a settings.json file, it may or may not already exist already:
+</p>
+
+<p>
+This configuration 'stdin/stdout' as the communication mechanism between the gemini-cli and
+the erlang mcp.  Gemini and the MCP standard allow for networked MCP servers however
+at this point its going to be local.
+</p>
+
+<p>
+The "mcpServers" key for this json is a top level element in settings.json
+</p>
+
+<div class="org-src-container">
+<pre class="src src-json">{
+    "mcpServers": {
+        "erlang-mcp": {
+            "cwd": "/home/wmealing/Projects/erlmcp"
+            "env": {
+                "EMCP_DIR": "/home/wmealing/Prejects/erlmcp"
+            },
+            "command": "erl",
+            "args": [
+                "/home/wmealing/Projects/erlmcp/_build/simple/lib/erlmcp/ebin",
+                "/home/wmealing/Projects/erlmcp/_build/simple/lib/jesse/ebin",
+                "/home/wmealing/Projects/erlmcp/_build/simple/lib/jsx/ebin",
+                "-noshell",
+                "-eval",
+                "code:load_file(simple_server_stdio), simple_server_stdio:start()"]
+        }
+    }
+  }
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Note that this JSON commands are not executed in shell, things like wildcard matching or $VARiables
+in 'args' or 'command' do NOT work.</li>
+
+<li>Note if you have anything in the ~/.erlang file which creates output to stdout, you may need to work around this,
+you can do so by setting the "HOME" environment in the above example to a directory not containing the .erlang file.</li>
+</ul>
+
+<p>
+If you need to use wildcard matching, you should make a shell script and wrap your MCP in this, or set
+up your requirements within the erlang code itself.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc931d0b" class="outline-3">
+<h3 id="orgc931d0b">Wrapping MCP in shell script.</h3>
+<div class="outline-text-3" id="text-orgc931d0b">
+<p>
+If you have a lot of setup to do around your project, it might be worthwhile wrapping your MCP in a shell script.
+</p>
+
+<p>
+It is important that the shell script not output anything to stdout in the script.  I'll show a demo if you
+want to use rebar as your erlang environment configuration.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">#!env bash
+export ERL_FLAGS="-sname mynode -setcookie mycookie -noshell"
+rebar3 as simple shell --eval 'code:load_file(simple_server_stdio), simple_server_stdio:start()'
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2160d5d" class="outline-2">
+<h2 id="org2160d5d">Conclusion</h2>
+<div class="outline-text-2" id="text-org2160d5d">
+<p>
+You likely already have  of it or you wouldn't have come to this blog, I've given up trying to figure
+out why google wont index this, maybe it'll do it after I've already passed away.  At the time of writing
+I can't find anything I've written on google.
+</p>
+</div>
+</div>
+<div id="outline-container-org6c66f8b" class="outline-2">
+<h2 id="org6c66f8b">Resources:</h2>
+<div class="outline-text-2" id="text-org6c66f8b">
+</div>
+</div>
+</div>
+</body>
+</html>

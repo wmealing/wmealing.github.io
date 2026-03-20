@@ -1,0 +1,116 @@
+
+#+TITLE: Parallel EUnit Testing
+#+FILETAGS: :tooling:erlang:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+
+* Summary:
+:PROPERTIES:
+:ID:       75DDFAB7-EC52-4996-8FBF-F4F146C8472B
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+By default, EUnit runs tests sequentially. Large test suites benefit from parallel execution. You can enable this in the test code itself or globally via build tool configuration. 
+
+* Introduction
+:PROPERTIES:
+:ID:       5F1C912C-FF81-49C6-A225-F6C763503FB8
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+Running tests in parallel reduces total execution time. EUnit provides a wrapper to dispatch tests to worker processes.
+
+To run a group of tests in parallel within the source code, wrap the test representation in a tuple starting with the inparallel atom. 
+
+#+BEGIN_SRC erlang
+  my_parallel_test_() ->
+      {inparallel,
+       [test_one(),
+        test_two(),
+        test_three()]}.
+#+END_SRC
+
+Each test in the list runs in its own process. This is for independent unit tests that do not share state.
+
+* Rebar3 Configuration
+:PROPERTIES:
+:ID:       A3B4512C-CC01-61D8-D437-H8E96523E021
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+You can enable parallel execution globally in your rebar.config file. This allows you to keep your test files
+clean of EUnit-specific parallel wrappers.
+
+Add the parallel option to eunit_opts in rebar.config:
+
+#+BEGIN_SRC erlang
+{eunit_opts, [verbose, inparallel]}.
+#+END_SRC
+
+You can provide a boolean to use a default worker count or an integer to specify a limit
+
+#+BEGIN_SRC erlang
+  {eunit_opts, [verbose, {parallel, 8}]}.
+#+END_SRC
+
+Alternatively, you can trigger parallel execution from the command line without modifying any files with the command:
+
+#+BEGIN_SRC shell
+$ rebar3 eunit --parallel=8
+#+END_SRC
+
+This approach is often better for CI environments where you want to maximize resource usage without hardcoding
+those limits into the repository.
+
+* Parallel Fixtures
+:PROPERTIES:
+:ID:       B1A3212C-BB91-50D7-C336-G7D85412D910
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+Using setup or foreach with inparallel requires attention to process ownership. The setup and cleanup functions run in
+the main EUnit process, while the tests run in worker processes.
+
+If your setup creates a process that links to the caller, that process may die when the setup function finishes rather
+fthan staying alive for the parallel test workers.
+
+#+BEGIN_SRC erlang
+  parallel_fixture_test_() ->
+      {foreach,
+       fun setup/0,
+       fun cleanup/1,
+       [{inparallel, [fun test_a/1, fun test_b/1]}]}.
+#+END_SRC
+
+Specifying which tests can be run in parallel allows eunit itself to run tests without having to fire up rebar.
+
+
+#+BEGIN_SRC erlang
+  eunit:test([my_module1, my_module2]).
+#+END_SRC
+
+This may be necessary in environments which deployments may not have rebar3 or a 'shell' to run these tests,  I did a quick
+build/config on [[https://github.com/russor/crazierl/][Crazierl]] which didnt have a real shell for the OS.
+
+* Conclusion
+:PROPERTIES:
+:ID:       C4FF59A5-10FB-4E35-99B7-2EB148157010
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+Parallel testing is a simple way to optimize your development loop. Choose between inline wrappers for specific suites or Rebar3 configuration for global application. 
+
+* Resources:
+:PROPERTIES:
+:ID:       056123C6-2DB4-44D3-832E-9B2286DE53B8
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+[[https://www.erlang.org/doc/apps/eunit/chapter.html][EUnit User's Guide]] 
+
+[[https://www.erlang.org/doc/apps/eunit/eunit.html][EUnit Reference Manual]] 
+
+[[https://rebar3.org/docs/testing/eunit/][Rebar3 EUnit Documentation]]

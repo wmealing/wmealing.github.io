@@ -158,7 +158,7 @@ I decided to take a look at the Linux kernel modules signing process, specifical
 
 Recent research into flaws in thunderbolt and secureboot piqued my interest. I've written about what can be done to prevent a compromised system from being abused using TPM PCRs.
 
-* [[./toshibia-toughpad-fz-g1-3.html][Toshiba Toughpad FZ-G1-3 - Jul 2020]]
+* [[./toshiba-toughpad-fz-g1-3.html][Toshiba Toughpad FZ-G1-3 - Jul 2020]]
 
 I recently purchased one of these machines in an auction and I am very impressed with its build quality. Here are the customizations I've done to make it work for me.
 

@@ -1,0 +1,43 @@
+#+TITLE: Grokking simplicty notes
+#+FILETAGS: :systems:
+#+INCLUDE: "navbar.html" export html
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.googleapis.com">
+#+HTML_HEAD: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+#+HTML_HEAD: <link rel="stylesheet" href="index.css">
+#+HTML_HEAD: <style> * { font-family: 'B612', sans-serif; } </style>
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+
+I'm working on keeping notes from books that I'm reading, I hope that it ends up being useful.
+
+
+Actions.  (Save, open, send email)
+Calculations. (data transofmration)
+Data . The data itself.
+
+Maybe sketch these out into layers before writing ?
+
+Do I need to learn JS ? Apparently its the shit, because people like doing shitty things, drop common lisp ?
+
+
+#+BEGIN_EXAMPLE
+#+END_EXAMPLE
+
+
+#+BEGIN_SRC cobol
+#+END_SRC
+
+
+* Resources:
+:PROPERTIES:
+:ID:       A3A82B89-6A3B-4ACA-A65D-1BAF8BE43FD8
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+

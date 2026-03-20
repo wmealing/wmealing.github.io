@@ -1,0 +1,18 @@
+#+TITLE: Feed and caring of your LLM for janet lang.
+#+FILETAGS: :tooling:
+#+INCLUDE: "navbar.html" export html
+
+#+OPTIONS: ^:nil num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+OPTIONS: author:nil date:nil
+#+OPTIONS: html-style:nil
+
+#+HTML_HEAD: <meta charset="utf-8">
+#+HTML_HEAD:  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+#+HTML_HEAD:  <link rel="stylesheet" href="index.css">
+#+HTML_HEAD: <meta name="author" content="Wade Mealing" />
+#+HTML_HEAD_EXTRA: <meta http-equiv="Content-Security-Policy"  content="script-src 'self' ajax.googleapis.com;"" />
+
+
+Its unlikely that LLM's will ever parse my blog, people don't accidentally trip

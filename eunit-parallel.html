@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-21 Sat 01:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parallel EUnit Testing</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Wade Mealings documentation" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Parallel EUnit Testing</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orgd0d3328" class="outline-2">
+<h2 id="orgd0d3328">Summary:</h2>
+<div class="outline-text-2" id="text-orgd0d3328">
+<p>
+By default, EUnit runs tests sequentially. Large test suites benefit from parallel execution. You can enable this in the test code itself or globally via build tool configuration. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgb727452" class="outline-2">
+<h2 id="orgb727452">Introduction</h2>
+<div class="outline-text-2" id="text-orgb727452">
+<p>
+Running tests in parallel reduces total execution time. EUnit provides a wrapper to dispatch tests to worker processes.
+</p>
+
+<p>
+To run a group of tests in parallel within the source code, wrap the test representation in a tuple starting with the inparallel atom. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">my_parallel_test_() -&gt;
+    {inparallel,
+     [test_one(),
+      test_two(),
+      test_three()]}.
+</pre>
+</div>
+
+<p>
+Each test in the list runs in its own process. This is for independent unit tests that do not share state.
+</p>
+</div>
+</div>
+<div id="outline-container-org9b0a7af" class="outline-2">
+<h2 id="org9b0a7af">Rebar3 Configuration</h2>
+<div class="outline-text-2" id="text-org9b0a7af">
+<p>
+You can enable parallel execution globally in your rebar.config file. This allows you to keep your test files
+clean of EUnit-specific parallel wrappers.
+</p>
+
+<p>
+Add the parallel option to eunit_opts in rebar.config:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{eunit_opts, [verbose, inparallel]}.
+</pre>
+</div>
+
+<p>
+You can provide a boolean to use a default worker count or an integer to specify a limit
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{eunit_opts, [verbose, {parallel, 8}]}.
+</pre>
+</div>
+
+<p>
+Alternatively, you can trigger parallel execution from the command line without modifying any files with the command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ rebar3 eunit --parallel=8
+</pre>
+</div>
+
+<p>
+This approach is often better for CI environments where you want to maximize resource usage without hardcoding
+those limits into the repository.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbc29888" class="outline-2">
+<h2 id="orgbc29888">Parallel Fixtures</h2>
+<div class="outline-text-2" id="text-orgbc29888">
+<p>
+Using setup or foreach with inparallel requires attention to process ownership. The setup and cleanup functions run in
+the main EUnit process, while the tests run in worker processes.
+</p>
+
+<p>
+If your setup creates a process that links to the caller, that process may die when the setup function finishes rather
+fthan staying alive for the parallel test workers.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">parallel_fixture_test_() -&gt;
+    {foreach,
+     fun setup/0,
+     fun cleanup/1,
+     [{inparallel, [fun test_a/1, fun test_b/1]}]}.
+</pre>
+</div>
+
+<p>
+Specifying which tests can be run in parallel allows eunit itself to run tests without having to fire up rebar.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-erlang">eunit:test([my_module1, my_module2]).
+</pre>
+</div>
+
+<p>
+This may be necessary in environments which deployments may not have rebar3 or a 'shell' to run these tests,  I did a quick
+build/config on <a href="https://github.com/russor/crazierl/">Crazierl</a> which didnt have a real shell for the OS.
+</p>
+</div>
+</div>
+<div id="outline-container-orge574cc8" class="outline-2">
+<h2 id="orge574cc8">Conclusion</h2>
+<div class="outline-text-2" id="text-orge574cc8">
+<p>
+Parallel testing is a simple way to optimize your development loop. Choose between inline wrappers for specific suites or Rebar3 configuration for global application. 
+</p>
+</div>
+</div>
+<div id="outline-container-org41b58c2" class="outline-2">
+<h2 id="org41b58c2">Resources:</h2>
+<div class="outline-text-2" id="text-org41b58c2">
+<p>
+<a href="https://www.erlang.org/doc/apps/eunit/chapter.html">EUnit User's Guide</a> 
+</p>
+
+<p>
+<a href="https://www.erlang.org/doc/apps/eunit/eunit.html">EUnit Reference Manual</a> 
+</p>
+
+<p>
+<a href="https://rebar3.org/docs/testing/eunit/">Rebar3 EUnit Documentation</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

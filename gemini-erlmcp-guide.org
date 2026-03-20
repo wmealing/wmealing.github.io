@@ -1,0 +1,136 @@
+#+TITLE: Configuring gemini for erlang-mcp.
+#+FILETAGS: :systems:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Configuring gemini for erlang-mcp" />
+
+* Summary:
+:PROPERTIES:
+:ID:       0339B083-C379-49EB-8A9E-27A92C9D370A
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+Gemini CLI supports project-specific Model Context Protocol (MCP) server protocol,
+I've recently setup erlang-mcp.  This document explains how to use erlmcp to aid in the
+development of your erlang code, not as an mcp tool for other mean.
+
+* Introduction
+:PROPERTIES:
+:ID:       1A3C7246-C1C6-43B8-AD82-5721BA52AF74
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+MCP's are the new hot thing for AI to interoperate with tooling running on either local or remote systems.
+
+Most MCP's are things like reading files , writing files, executing programs, but you can use language-specific
+MCP's which allow the AI to verify its beliefs, executing with a real system immediately revealing syntax
+and hallucionations earlier in the progress, saving time and money.
+
+** Projects and System wide.
+:PROPERTIES:
+:ID:       9227A4A6-878E-457C-9DD7-C53D1734B3CD
+:END:
+
+Gemini allows for MCP's to exist ia a 'per project' or 'system wide', This entry focuses on the 'per project'
+option,
+
+*** Project setup:
+:PROPERTIES:
+:ID:       F3BF9686-C5B7-4684-9BDE-B68CE69F26A1
+:END:
+
+As you would want to use MCP to write your erlang.
+
+#+BEGIN_SRC sh
+{deps, [
+    {erlmcp, {git, "https://github.com/erlsci/erlmcp.git", {branch, "main"}}}
+]}.
+#+END_SRC
+
+*** Per Project
+:PROPERTIES:
+:ID:       790F7808-A970-4554-A242-84FC3B240245
+:END:
+
+Create the .gemini directory: In the root directory of your project.
+
+#+BEGIN_SRC sh
+mkdir -p .gemini
+#+END_SRC
+
+Create a settings.json file, it may or may not already exist already:
+
+This configuration 'stdin/stdout' as the communication mechanism between the gemini-cli and
+the erlang mcp.  Gemini and the MCP standard allow for networked MCP servers however
+at this point its going to be local.
+
+The "mcpServers" key for this json is a top level element in settings.json
+
+#+BEGIN_SRC json
+  {
+      "mcpServers": {
+          "erlang-mcp": {
+              "cwd": "/home/wmealing/Projects/erlmcp"
+              "env": {
+                  "EMCP_DIR": "/home/wmealing/Prejects/erlmcp"
+              },
+              "command": "erl",
+              "args": [
+                  "/home/wmealing/Projects/erlmcp/_build/simple/lib/erlmcp/ebin",
+                  "/home/wmealing/Projects/erlmcp/_build/simple/lib/jesse/ebin",
+                  "/home/wmealing/Projects/erlmcp/_build/simple/lib/jsx/ebin",
+                  "-noshell",
+                  "-eval",
+                  "code:load_file(simple_server_stdio), simple_server_stdio:start()"]
+          }
+      }
+    }
+#+END_SRC
+
+- Note that this JSON commands are not executed in shell, things like wildcard matching or $VARiables
+  in 'args' or 'command' do NOT work.
+
+- Note if you have anything in the ~/.erlang file which creates output to stdout, you may need to work around this,
+  you can do so by setting the "HOME" environment in the above example to a directory not containing the .erlang file.
+
+If you need to use wildcard matching, you should make a shell script and wrap your MCP in this, or set
+up your requirements within the erlang code itself.
+
+**  Wrapping MCP in shell script.
+:PROPERTIES:
+:ID:       7062FAA2-262C-42CB-83DA-4AD9B4B0246B
+:END:
+
+If you have a lot of setup to do around your project, it might be worthwhile wrapping your MCP in a shell script.
+
+It is important that the shell script not output anything to stdout in the script.  I'll show a demo if you
+want to use rebar as your erlang environment configuration.
+
+#+BEGIN_SRC bash
+  #!env bash
+  export ERL_FLAGS="-sname mynode -setcookie mycookie -noshell"
+  rebar3 as simple shell --eval 'code:load_file(simple_server_stdio), simple_server_stdio:start()'
+#+End_SRC
+
+* Conclusion
+:PROPERTIES:
+:ID:       41860084-FE12-42DE-B529-A30E12F48FDC
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+
+You likely already have  of it or you wouldn't have come to this blog, I've given up trying to figure
+out why google wont index this, maybe it'll do it after I've already passed away.  At the time of writing
+I can't find anything I've written on google.
+
+
+
+* Resources:
+:PROPERTIES:
+:ID:       7BF418D6-1C1E-46A3-8B04-BC9B8795D965
+:PUBDATE:  2026-03-12 Thu 04:15
+:END:
+
+

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-21 Sat 00:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CAVEMAN 2 - peer programming with claude.ai in common lisp.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Caveman2 claud.ai peer programming" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CAVEMAN 2 - peer programming with claude.ai in common lisp.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org45366b7" class="outline-2">
+<h2 id="org45366b7">Summary:</h2>
+<div class="outline-text-2" id="text-org45366b7">
+<p>
+Everyone says AI is going to take programmers jobs, I'm going to take claudes job and find all the
+mistakes that the "revolutionary" software is supposed to do, that'll show em!
+</p>
+</div>
+</div>
+<div id="outline-container-orgf5bf9ae" class="outline-2">
+<h2 id="orgf5bf9ae">Introduction</h2>
+<div class="outline-text-2" id="text-orgf5bf9ae">
+<p>
+I keep hearing that there are people who haven't written software since 2020, and that all the work that
+code they have written is written by AI.  Usually whenever I ask any of the AI questions the lack of quality
+of the code is laughable and doesn't understand a lot of the human context that is involved in understanding
+what is required.
+</p>
+
+<p>
+My quotes to claud are in the prompt box, its responses are marked as response, I will be confirming that this
+idea works by walking through the answer to ensure its sanity.  My omments inline with a "&gt;".
+</p>
+
+
+<p>
+The prompt:
+</p>
+
+<pre class="example" id="org267b834">
+You are a common lisp expert, who will be helping me with a
+front end and back end of the site.  We will be pair programming together.
+I will provide prompts for you and you can assist me by providing code.  I want to start with how to make a
+project with the caveman2 library.   The project is to write a common lisp server with a htmx running on the
+client.    The website is called Unicorn , which allows me to ask the user for a color and return matches in
+the database of 'images that match a specific color' that have have a similar color.  This website will assume
+that the database exists and has each row has a column with the most frequently color used in the image.   I want
+minimal javascript in the application ideally using HTMX.  I wish to use the templating system built into caveman2
+and any other templating language.  Please create the server in caveman2 (the common lisp framework) that can deal
+with functionality,  Additional features will be requested at a later date.  Thank you.
+</pre>
+
+<p>
+The response:
+</p>
+
+
+<p>
+I understand you want to create a Common Lisp server using Caveman2 framework, with HTMX on the client side.
+</p>
+
+<p>
+The project, named Unicorn, will allow users to input a color and return matching images from a database.
+</p>
+
+<p>
+Let's start by setting up the project structure and implementing the basic functionality.
+</p>
+
+<p>
+First, let's create a new Caveman2 project:
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">(ql:quickload :caveman2)
+(caveman2:make-project #P"~/quicklisp/local-projects/unicorn/")
+</pre>
+</div>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Ok, this is kinda ok, my quicklisp loadable projects live in ~/quicklisp/local-projects/ , which is where unicorn should</td>
+</tr>
+
+<tr>
+<td class="org-left">be created, but lets issue that and try.</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">CL-USER&gt;   (ql:quickload :caveman2)
+To load "caveman2":
+  Load 1 ASDF system:
+    caveman2
+; Loading "caveman2"
+
+(:CAVEMAN2)
+CL-USER&gt; (caveman2:make-project #P"~/quicklisp/local-projects/unicorn/")
+writing ~/quicklisp/local-projects/unicorn/unicorn.asd
+writing ~/quicklisp/local-projects/unicorn/unicorn-test.asd
+writing ~/quicklisp/local-projects/unicorn/app.lisp
+writing ~/quicklisp/local-projects/unicorn/README.markdown
+writing ~/quicklisp/local-projects/unicorn/.gitignore
+writing ~/quicklisp/local-projects/unicorn/db/schema.sql
+writing ~/quicklisp/local-projects/unicorn/src/config.lisp
+writing ~/quicklisp/local-projects/unicorn/src/db.lisp
+writing ~/quicklisp/local-projects/unicorn/src/main.lisp
+writing ~/quicklisp/local-projects/unicorn/src/view.lisp
+writing ~/quicklisp/local-projects/unicorn/src/web.lisp
+writing ~/quicklisp/local-projects/unicorn/static/css/main.css
+writing ~/quicklisp/local-projects/unicorn/templates/index.html
+writing ~/quicklisp/local-projects/unicorn/templates/_errors/404.html
+writing ~/quicklisp/local-projects/unicorn/templates/layouts/default.html
+writing ~/quicklisp/local-projects/unicorn/tests/unicorn.lispn&gt; 
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Ok, thats a start.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">(defsystem "unicorn"
+  :version "0.1.0"
+  :author "Your Name"
+  :license "LLGPL"
+  :depends-on ("clack"
+               "lack"
+               "caveman2"
+               "envy"
+               "cl-ppcre"
+               "uiop"
+               "mito"
+               "cl-markup"
+               "cl-htmx")
+  :components ((:module "src"
+                :components
+                ((:file "main" :depends-on ("config" "view" "db"))
+                 (:file "web" :depends-on ("view"))
+                 (:file "view" :depends-on ("config"))
+                 (:file "db" :depends-on ("config"))
+                 (:file "config"))))
+  :description "Unicorn - Color-based Image Search"
+  :in-order-to ((test-op (test-op "unicorn-test"))))
+</pre>
+</div>
+
+<p>
+Create a new file src/db.lisp:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(in-package :cl-user)
+(defpackage unicorn.db
+  (:use :cl)
+  (:import-from :unicorn.config
+                :config)
+  (:export :connect-db
+           :disconnect-db
+           :with-connection
+           :query-images-by-color))
+(in-package :unicorn.db)
+
+(defun connect-db ()
+  (cl-sqlite:connect (config :database-path)))
+
+(defun disconnect-db (db)
+  (cl-sqlite:disconnect db))
+
+(defmacro with-connection (&amp;body body)
+  `(let ((db (connect-db)))
+     (unwind-protect
+          (progn ,@body)
+       (disconnect-db db))))
+
+(defun query-images-by-color (color)
+  (with-connection
+    (cl-sqlite:execute-to-list
+     db
+     "SELECT * FROM images WHERE main_color LIKE ?"
+     (list (format nil "%~A%" color)))))
+</pre>
+</div>
+
+
+<p>
+Now, let's modify the main application file. Open ~/projects/unicorn/src/web.lisp and update it with the following content:
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">  (in-package :cl-user)
+(defpackage unicorn.web
+  (:use :cl
+        :caveman2
+        :unicorn.config
+        :unicorn.view
+        :unicorn.db)
+  (:export :*web*))
+(in-package :unicorn.web)
+
+(defclass &lt;web&gt; (&lt;app&gt;) ())
+(defvar *web* (make-instance '&lt;web&gt;))
+(clear-routing-rules *web*)
+
+(defroute "/" ()
+  (render #P"index.html"))
+
+(defroute "/search" (&amp;key _method (|color| ""))
+  (if (string= _method "post")
+      (render-json (query-images-by-color |color|))
+      (render #P"search.html")))
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Create the template files
+
+<ul class="org-ul">
+<li>templates/layouts/default.html:</li>
+</ul></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Unicorn - Color-based Image Search&lt;/title&gt;
+    &lt;script src="https://unpkg.com/htmx.org@1.6.1"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" type="text/css" media="screen" href="/css/main.css"&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Unicorn&lt;/h1&gt;
+    {% block content %}{% endblock %}
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">This misses our custom style sheet, which was the line:</td>
+</tr>
+
+<tr>
+<td class="org-left">&lt;link rel="stylesheet" type="text/css" media="screen" href="/css/main.css"&gt;</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+And the template templates/index.html:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-HTML">{% extends "layouts/default.html" %}
+{% block content %}
+&lt;h2&gt;Welcome to Unicorn&lt;/h2&gt;
+&lt;p&gt;Search for images by color:&lt;/p&gt;
+&lt;form hx-post="/search" hx-target="#results"&gt;
+  &lt;input type="text" name="color" placeholder="Enter a color"&gt;
+  &lt;button type="submit"&gt;Search&lt;/button&gt;
+&lt;/form&gt;
+&lt;div id="results"&gt;&lt;/div&gt;
+{% endblock %}
+
+</pre>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-html">{% extends "layouts/default.html" %}
+{% block content %}
+&lt;h2&gt;Search Results&lt;/h2&gt;
+{% if results %}
+  &lt;ul&gt;
+    {% for image in results %}
+    &lt;li&gt;
+      &lt;img src="{{ image.url }}" alt="{{ image.description }}"&gt;
+      &lt;p&gt;Main color: {{ image.main_color }}&lt;/p&gt;
+    &lt;/li&gt;
+    {% endfor %}
+  &lt;/ul&gt;
+{% else %}
+  &lt;p&gt;No results found.&lt;/p&gt;
+{% endif %}
+{% endblock %}
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9e62673" class="outline-2">
+<h2 id="org9e62673">Conclusion</h2>
+<div class="outline-text-2" id="text-org9e62673">
+<p>
+Wrap it up here.
+</p>
+</div>
+</div>
+<div id="outline-container-org2e4949f" class="outline-2">
+<h2 id="org2e4949f">Resources:</h2>
+<div class="outline-text-2" id="text-org2e4949f">
+</div>
+</div>
+</div>
+</body>
+</html>
