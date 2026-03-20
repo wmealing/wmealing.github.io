@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-21 Sat 02:05 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Abstraction vs Transformation</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Why abstractions sucks and trasnformation doesnt" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Abstraction vs Transformation</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org71c5d3f" class="outline-2">
+<h2 id="org71c5d3f">Summary:</h2>
+<div class="outline-text-2" id="text-org71c5d3f">
+<p>
+Frequently in software development, efficiency and performance concerns weigh heavily on my mind.  As a programmer
+deeply immersed in different languages, I've encountered my fair share of performance challenges when attempting to
+scale my code against ever-growing data sets.  I have come to see creating abstractions can and frequently does mask
+implementation details that massively degrades performance.
+</p>
+</div>
+</div>
+<div id="outline-container-org5a1c534" class="outline-2">
+<h2 id="org5a1c534">One more time, with feeling.</h2>
+<div class="outline-text-2" id="text-org5a1c534">
+<p>
+One particularly frustrating experience is fresh in my mind: a seemingly innocuous
+performance issue that eluded resolution for far longer than it should have.
+</p>
+
+<p>
+The culprit? Multiple layers of abstraction obfuscating a simple task:
+transforming a list.  My "real life" example was from C++,  I was going to
+have and example here however it sparked quite a lot of debate and anger
+between my 4 blog readers, so i'll retract it.
+</p>
+
+<p>
+This ordeal underscored a critical truth: while programming abstractions
+are touted as the solution to complex problems, they can often obscure the
+underlying simplicity of the task at hand, leading to suboptimal performance
+outcomes. Conversely, embracing data transformations can offer a more
+efficient and effective approach to getting the work done.
+</p>
+
+<p>
+Abstractions allow "humans" to reason about code and present a neater
+view of the problem, they hide the complexities behind a thin verneer of
+an API while ensureing that the compiler and runtime take the performance
+hit during build and run time.
+</p>
+
+<p>
+<a href="https://blog.klipse.tech/">Yehonathan Sharvit</a> talks about using data as the focal point of an application
+in his book <a href="https://www.manning.com/books/data-oriented-programming">data oriented programming</a>.   I think he's on to a good point although
+he doesn't go far enough.
+</p>
+
+<p>
+Unfortunately Yehonathan has a fair share of detractors that miss the point, because
+they are entrapped by their own thought process.  To quote Morpheus from the matrix:
+</p>
+
+<blockquote>
+<p>
+'You have to understand. Most people are not ready to be unplugged. And many of them are so
+inured and so hopelessly dependent on the system that they will fight to protect it.'
+</p>
+</blockquote>
+
+<p>
+The logic is undeniable though:
+</p>
+
+<ul class="org-ul">
+<li>any instruction executed require a resource (memory, disk, cpu, etc)</li>
+<li>Abstractions require execution resources (same above)</li>
+<li>Transformations of ANY KIND require execution time and memory.</li>
+</ul>
+
+<p>
+Therefore:
+</p>
+
+<p>
+Used Resource = Abstraction Resources + Transformation Resources
+</p>
+
+<p>
+will always be greater than
+</p>
+
+<p>
+Used Resource = Transformation Resource.
+</p>
+
+<p>
+Most people will say that making life easier for the programmer should be the primary design concern of
+programming. I hear CPU is cheap, disk is cheap, all hardware is cheap, while this is true it is great
+until it isn't.  Layers of abstractions present 'simple' view but a tightly coupled 'data to class'
+performance profile.
+</p>
+
+<p>
+Eventually, we as a profession will need to understand that hardware has limitations and has -very-
+specific performance characteristics that can be exploited.
+</p>
+
+<p>
+The "Higher up" the abstractions are, the less likely native hardware features will be used.  Compilers
+at the moment are simply not clever enough.  Maybe one day, AI will allow this kind of magic, but not yet.
+</p>
+
+<p>
+If your abstraction does not offer the abiltiy to view or execute code to specifically take advantage of
+hardware features, the performant code/features will be abstracted away and the benefit lost.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb8f9c0d" class="outline-2">
+<h2 id="orgb8f9c0d">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb8f9c0d">
+<p>
+Software abstractions are designed to optimize for human cognition, not hardware execution. They allow us to reason about
+complex systems without getting bogged down in register management or memory layouts. However, every layer of indirection,
+virtual machine, a heavy ORM, or a "clean" architectural wrapper—introduces a performance tax.
+</p>
+
+<p>
+Sometimes the abstraction tax is almost unmeasureable; other times, it requires a full audit of your system’s resources to
+really understand.
+</p>
+</div>
+<div id="outline-container-org4db3139" class="outline-3">
+<h3 id="org4db3139">Measure Twice, Optimize Once</h3>
+<div class="outline-text-3" id="text-org4db3139">
+<p>
+The biggest mistake a developer can make is "premature de-abstraction." Tearing down a helpful interface because you
+assume it’s slow is a recipe for messy, unmaintainable code.
+</p>
+
+<p>
+To ensure you are fixing problems that actually exist, measurement is non-negotiable. You need to identify
+whether the bottleneck is a fundamental algorithmic flaw or if the abstraction layer itself is adding significant
+"noise" to the execution path.
+</p>
+</div>
+</div>
+<div id="outline-container-org904b7fb" class="outline-3">
+<h3 id="org904b7fb">Visualizing the Invisible</h3>
+<div class="outline-text-3" id="text-org904b7fb">
+<p>
+Thankfully, we no longer have to guess. Modern profiling tools have turned performance analysis
+from a dark art into a visual science. Tools like <a href="https://www.brendangregg.com/flamegraphs.html">flame graphs</a>, eBPF tracers, and <a href="https://max-au.com/2022/10/04/the-power-of-erlang-tracing/">distributed tracing</a> allow us
+to "see" the cost of our abstractions in real-time.
+</p>
+
+<p>
+On the surface flame graphs are just function calls; you are looking at the weight of your architectural decisions.
+If a single abstraction layer is consuming a large of your CPU cycles just to pass data to around. thats your smoking gun.
+</p>
+
+<p>
+Consider using a single function for transformation (which can be optimised in a single location) instead of going through
+multiple levels of abstraction.
+</p>
+</div>
+</div>
+<div id="outline-container-org0c617bd" class="outline-3">
+<h3 id="org0c617bd">The Golden Rule of Optimization</h3>
+<div class="outline-text-3" id="text-org0c617bd">
+<p>
+Before you reach for the delete key, looking up sse2 function calls,  or start rewriting in assembly,
+remember: Identify before you optimize. Effective performance analysis requires isolating the impact of
+abstractions. If you can’t see the cost of the wrapper, you can’t justify the cost of removing it.
+</p>
+
+<p>
+Long term, this likely doesn't matter anyway, soon this will all be written in AI, and people will just
+vibe code something no matter what the performance impact is.   God help us.
+</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

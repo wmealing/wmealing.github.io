@@ -1,0 +1,129 @@
+#+TITLE: Abstraction vs Transformation
+#+FILETAGS: :systems:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Why abstractions sucks and trasnformation doesnt" />
+
+* Summary:
+:PROPERTIES:
+:ID:       E069C260-0B34-48B9-8874-2BD6207BFF7C
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
+
+Frequently in software development, efficiency and performance concerns weigh heavily on my mind.  As a programmer
+deeply immersed in different languages, I've encountered my fair share of performance challenges when attempting to
+scale my code against ever-growing data sets.  I have come to see creating abstractions can and frequently does mask
+implementation details that massively degrades performance.
+
+
+* One more time, with feeling.
+:PROPERTIES:
+:ID:       F48111D9-C040-46F3-ABC8-1D58CCEA442D
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
+
+One particularly frustrating experience is fresh in my mind: a seemingly innocuous
+performance issue that eluded resolution for far longer than it should have.
+
+The culprit? Multiple layers of abstraction obfuscating a simple task:
+transforming a list.  My "real life" example was from C++,  I was going to
+have and example here however it sparked quite a lot of debate and anger
+between my 4 blog readers, so i'll retract it.
+
+This ordeal underscored a critical truth: while programming abstractions
+are touted as the solution to complex problems, they can often obscure the
+underlying simplicity of the task at hand, leading to suboptimal performance
+outcomes. Conversely, embracing data transformations can offer a more
+efficient and effective approach to getting the work done.
+
+Abstractions allow "humans" to reason about code and present a neater
+view of the problem, they hide the complexities behind a thin verneer of
+an API while ensureing that the compiler and runtime take the performance
+hit during build and run time.
+
+[[https://blog.klipse.tech/][Yehonathan Sharvit]] talks about using data as the focal point of an application
+in his book [[https://www.manning.com/books/data-oriented-programming][data oriented programming]].   I think he's on to a good point although
+he doesn't go far enough.
+
+Unfortunately Yehonathan has a fair share of detractors that miss the point, because
+they are entrapped by their own thought process.  To quote Morpheus from the matrix:
+
+#+BEGIN_QUOTE
+'You have to understand. Most people are not ready to be unplugged. And many of them are so
+inured and so hopelessly dependent on the system that they will fight to protect it.'
+#+END_QUOTE
+
+The logic is undeniable though:
+
+- any instruction executed require a resource (memory, disk, cpu, etc)
+- Abstractions require execution resources (same above)
+- Transformations of ANY KIND require execution time and memory.
+
+Therefore:
+
+  Used Resource = Abstraction Resources + Transformation Resources
+
+  will always be greater than
+
+  Used Resource = Transformation Resource.
+
+Most people will say that making life easier for the programmer should be the primary design concern of
+programming. I hear CPU is cheap, disk is cheap, all hardware is cheap, while this is true it is great
+until it isn't.  Layers of abstractions present 'simple' view but a tightly coupled 'data to class'
+performance profile.
+
+Eventually, we as a profession will need to understand that hardware has limitations and has -very-
+specific performance characteristics that can be exploited.
+
+The "Higher up" the abstractions are, the less likely native hardware features will be used.  Compilers
+at the moment are simply not clever enough.  Maybe one day, AI will allow this kind of magic, but not yet.
+
+If your abstraction does not offer the abiltiy to view or execute code to specifically take advantage of
+hardware features, the performant code/features will be abstracted away and the benefit lost.
+
+* Conclusion
+:PROPERTIES:
+:ID:       B94F47A0-DC48-4094-B536-122F91C6269F
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
+
+Software abstractions are designed to optimize for human cognition, not hardware execution. They allow us to reason about
+complex systems without getting bogged down in register management or memory layouts. However, every layer of indirection,
+virtual machine, a heavy ORM, or a "clean" architectural wrapper—introduces a performance tax.
+
+Sometimes the abstraction tax is almost unmeasureable; other times, it requires a full audit of your system’s resources to
+really understand.
+
+** Measure Twice, Optimize Once
+
+The biggest mistake a developer can make is "premature de-abstraction." Tearing down a helpful interface because you
+assume it’s slow is a recipe for messy, unmaintainable code.
+
+To ensure you are fixing problems that actually exist, measurement is non-negotiable. You need to identify
+whether the bottleneck is a fundamental algorithmic flaw or if the abstraction layer itself is adding significant
+"noise" to the execution path.
+
+** Visualizing the Invisible
+Thankfully, we no longer have to guess. Modern profiling tools have turned performance analysis
+from a dark art into a visual science. Tools like [[https://www.brendangregg.com/flamegraphs.html][flame graphs]], eBPF tracers, and [[https://max-au.com/2022/10/04/the-power-of-erlang-tracing/][distributed tracing]] allow us
+to "see" the cost of our abstractions in real-time.
+
+On the surface flame graphs are just function calls; you are looking at the weight of your architectural decisions.
+If a single abstraction layer is consuming a large of your CPU cycles just to pass data to around. thats your smoking gun.
+
+Consider using a single function for transformation (which can be optimised in a single location) instead of going through
+multiple levels of abstraction.
+
+** The Golden Rule of Optimization
+
+Before you reach for the delete key, looking up sse2 function calls,  or start rewriting in assembly,
+remember: Identify before you optimize. Effective performance analysis requires isolating the impact of
+abstractions. If you can’t see the cost of the wrapper, you can’t justify the cost of removing it.
+
+Long term, this likely doesn't matter anyway, soon this will all be written in AI, and people will just
+vibe code something no matter what the performance impact is.   God help us.
+
+
+

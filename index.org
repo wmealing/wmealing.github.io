@@ -6,220 +6,162 @@
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
-* [[./raft-webserver.html][Highly Durable execution in erlang - Mar 2026]]
+* [[./abstraction-vs-transformation.html][Abstraction vs Transformation - Mar 2026]]
 
-Have you ever wonder what happens after an Erlang supervisor tries to "let it crash" but realizes it can't magically
-restore the data lost in the process? This post investigates the practice  of building a 3-node cluster using
-the [[https://github.com/rabbitmq/ra][ra library]]  to handle the heavy lifting of the Raft consensus protocol.  We’ll walk through setting up a distributed
-Key-Value store, implementing a clever "bootstrap loop" to keep your nodes from hanging during startup, and even
-purposefully killing the leader node to watch the cluster elect a new head and sync back up without breaking a sweat.
+Performance and efficiency weigh heavy on my mind lately. I've spent enough time in the world of Lisp to see how abstractions can mask the implementation details that actually matter for speed. This is a bit of a rant on why transformation is often a better path than building layers that just get in the way.
 
-If you're looking for a straight-to-the-code guide on distributed state and high availability.  This is it.
+* [[./gemini-erlmcp-guide.html][Configuring Gemini for Erlang-MCP - Mar 2026]]
+
+I've been setting up the Gemini CLI with the Model Context Protocol (MCP) server. Specifically, I've got erlang-mcp working to help out with development. This guide walks through the setup and how it can actually be useful when you're working on Erlang code.
+
+* [[./KO2-EP-133-midi-sysex-messages.html][Decoding the KO2 EP-133 SYSEX messages - Mar 2026]]
+
+Teenage Engineering released the EP-133, and I've been digging into the USB MIDI stream to see what's actually going on. This is a massive dump of the SYSEX messages I've managed to decode so far. If you're into MIDI hacking or just want to see how this hardware talks, check it out.
+
+* [[./raft-webserver.html][Highly Durable execution in Erlang - Mar 2026]]
+
+Have you ever wonder what happens after an Erlang supervisor tries to "let it crash" but realizes it can't magically restore the data lost in the process? This post investigates the practice of building a 3-node cluster using the ra library to handle the Raft consensus protocol.
+
+* [[./caveman2-with-ai.html][Caveman2 and AI Peer Programming - Mar 2026]]
+
+Everyone keeps saying AI is going to take our jobs. I decided to take the opposite approach and try to take Claude's job by finding all the mistakes it makes when trying to write Common Lisp. Peer programming with an LLM is a weird experience.
+
+* [[./trickbot-persistence.html][Trickbot Persistence and Evasion - Mar 2026]]
+
+A system reboot usually clears things out, but malware like Trickbot has plenty of tricks to stay around. I've looked into the persistence mechanisms it uses to survive reboots and kernel updates. It's an interesting dive into how these things hide in plain sight.
 
 * [[https://wmealing.github.io/cellium-remote-shell.html][Erlang Remote Shell for Rapid Development - Nov 2025]]
 
-Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the corye advantage of OTP:
-continuous introspection. Using the remote shell workflow is the answer, transforming your text editor, specifically
-Emacs, into a dynamic window directly into your running Erlang system.
+Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the core advantage of OTP: continuous introspection. Using the remote shell workflow is the answer, transforming your text editor into a dynamic window directly into your running Erlang system.
 
-Stop treating your Erlang application like a fragile, traditional compiled binary. By leveraging the oldschool power of remsh
-(remote shell), you gain the ability to inspect, interact with, and even update code in-situ. This is the
-essence of Erlang's "operational elegance"—it's not just "let it crash," it's "fix it in a live system."
-Embrace this workflow for true live, continuous development and maintenance, allowing you to build the
-highly available, fault-tolerant systems Erlang was designed for, without ever needing to stop.
+* [[./feed-llm-janet.html][Care and Feeding of your LLM for Janet - Oct 2025]]
 
-* [[./cellium-progressbar.html][Cellium 003  - Oct 2025]]
+It's unlikely that LLMs will ever spend much time parsing my blog, but I figured I'd write down some notes on how to help them understand Janet. It's a great language that deserves better representation in the training sets.
 
-Sometimes a simple text percentage isn't enough, you need bars; you need a visual indicator to show the user that work is
-actually being done. The progress bar provides a clean, terminal-friendly bar that you can update dynamically. We'll dive
-into the Erlang source, look at how the percentage is clamped to a valid range. It's a small piece of code, but a necessary
-addition to the widget toolkit that you can use, TODAY! 
+* [[./eunit-parallel.html][Running Eunit Tests in Parallel - Oct 2025]]
 
+Waiting for tests is a waste of time. I've been looking into how to get Eunit tests running in parallel to speed up the feedback loop. It's not always straightforward, but the time saved is worth the effort.
 
-* [[./cellium-focus.html][Cellium 002  - Oct 2025]]
+* [[./grokking-simplicty.html][Grokking Simplicity - Notes and Rants - Oct 2025]]
 
-I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus.  Ive made
-a rudimentary attempt at adding focus to the 'cellium' behavior, you can read about how to use it to your advantage h
-[[http://wmealing.github.io/cellium-focus.html][here.]]
+I'm trying to keep better notes on the books I'm reading. Grokking Simplicity is a good one, and I've compiled my thoughts and some useful bits from the text. Hopefully it ends up being useful to someone else too.
 
-* [[./cellium-first.html][Cellium 001  - Oct 2025]]
+* [[./going-pro.html][Going Pro with Handy and Bryant - Oct 2025]]
 
-In an attempt to make my erlang code a little less complex, i've been convinced that I must drop the web and all the
-complexity that entails. I've written a TUI library called [[https://github.com/wmealing/cellium][cellium]] which uses the popular TEA architecture to lull developers
-into a sense of familiarity. 
+Just some notes and reflections on professional development, specifically looking at some advice from Handy and Bryant. It's good to step back from the code sometimes and think about the bigger picture of how we work.
 
+* [[./cellium-progressbar.html][Cellium 003 - Oct 2025]]
 
-* [[https://wmealing.github.io/github-not-connecting.html][Rebar3 / git not connecting to github  - Oct 2025]]
+Sometimes a simple text percentage isn't enough, you need bars. The progress bar provides a clean, terminal-friendly bar that you can update dynamically. We'll dive into the Erlang source and look at how the percentage is clamped to a valid range.
 
-Rebar3 was failing to fetch dependencies from github when I was setting up a new LFE project. The git:// protocol was timing out, but ssh and https worked fine. Rather than spending hours debugging network issues I can't control, I found a simple fix using git's url rewriting feature. One config command later and rebar3 can fetch dependencies without complaint. I
-have documented a fix in git itself that works around the problme.  This applies to regular Erlang projects too!.
+* [[./cellium-focus.html][Cellium 002 - Oct 2025]]
 
-* [[https://wmealing.github.io/eunit-surefire-report.html][Consuming eunit surefire xml reports  - Oct 2025]]
+I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus. I've made a rudimentary attempt at adding focus to the 'cellium' behavior, which you can use to your advantage.
 
-Eunit spits out test results to the console, but sometimes you want something a bit more presentable. There is a plugin that generates surefire style XML output, and you can use maven's surefire-reports tool to turn that into HTML. I'll show you how to wire up rebar.config and create a basic pom.xml to get this working. If you need better test reports for your Erlang projects, this might help.
+* [[./cellium-first.html][Cellium 001 - Oct 2025]]
 
-* [[https://wmealing.github.io/erlang-emacs-2025.html][Setting up Emacs and Erlang  - Sep 2025]]
+In an attempt to make my erlang code a little less complex, I've been convinced that I must drop the web and all the complexity that entails. I've written a TUI library called cellium which uses the popular TEA architecture.
 
-Using Erlang in Emacs, I'll show  you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into
-a usable setup in 2025.   Its simpler than you think.  If you can think of any improvements please let me know.
+* [[https://wmealing.github.io/github-not-connecting.html][Rebar3 / git not connecting to github - Oct 2025]]
 
-* [[./robust-recovery.html][Robust Recovery in Erlang  - Aug 2025]]
+Rebar3 was failing to fetch dependencies from github when I was setting up a new LFE project. I found a simple fix using git's url rewriting feature. One config command later and rebar3 can fetch dependencies without complaint.
 
-Managing failureis a common challenge, especially when some of those tasks are prone to failure.
+* [[https://wmealing.github.io/eunit-surefire-report.html][Consuming eunit surefire xml reports - Oct 2025]]
 
-Erlang, with its actor process model, offers an elegant solution.
+Eunit spits out test results to the console, but sometimes you want something a bit more presentable. I'll show you how to wire up rebar.config and create a basic pom.xml to get surefire style XML output turned into HTML.
 
-This post dives into a practical example of how to orchestrate a number of jobs, monitor each one for success or
-failure, and then compile a report on theff outcomes. We'll explore how Erlang's unique approach to
-fault tolerance allows a central process to supervise many workers, and handling their failure however you see fit. 
+* [[https://wmealing.github.io/erlang-emacs-2025.html][Setting up Emacs and Erlang - Sep 2025]]
 
+Using Erlang in Emacs, I'll show you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into a usable setup in 2025. It's simpler than you think.
 
-* [[https://wmealing.github.io/using-style-dictionaries.html][Using Style Dictionaries from clojure - COt 2024]]
+* [[./robust-recovery.html][Robust Recovery in Erlang - Aug 2025]]
 
-Unify your design system and codebase the functional way. In this post, I’ll show you how to harness the power of Style Dictionary
-from Clojure—turning token files for use in your clojure code with minimal fuss. Learn how to bring structured, scalable theming into
-your Clojure workflow.
+Managing failure is a common challenge. This post dives into a practical example of how to orchestrate jobs, monitor each one for success or failure, and compile a report on the outcomes using Erlang's unique approach to fault tolerance.
 
+* [[./lfe-gen-server.html][Lisp Flavored Erlang Gen Server - 2024]]
 
-* [[http://wmealing.github.io/sending-email-in-common-lisp.html][Sending email in common-lisp (Sep 2024)]]
+I decided to collapse two of my interests, lisp and erlang. Lisp flavored erlang isn't going to win any popularity contests, but it's something I don't entirely hate working on. Here's a quick tutorial on gen_server.
 
-Want to integrate email functionality into your common-lisp applications, the cl-smtp library can help. In this blog entry, we’ll walk you through the process of using cl-smtp
-to send emails via Google’s mail servers. Whether you're setting up notifications, alerts, or just automating your email processes, this guide will help you configure cl-smtp to
-work seamlessly with Gmail’s SMTP server.  
+* [[https://wmealing.github.io/using-style-dictionaries.html][Using Style Dictionaries from Clojure - Oct 2024]]
 
+Unify your design system and codebase the functional way. In this post, I'll show you how to harness the power of Style Dictionary from Clojure, turning token files for use in your clojure code with minimal fuss.
 
-* [[https://wmealing.github.io/custom-software-errors.html][The best error messages ive ever seen]]
-:LOGBOOK:
-- Note taken on [2024-09-08 Sun 21:42]
-:END:
+* [[http://wmealing.github.io/sending-email-in-common-lisp.html][Sending email in Common Lisp - Sep 2024]]
 
-Writing clear and effective error messages is a crucial skill for any programmer, no matter what the language.  Well-crafted error messages will
-improve the usability of software by guiding users to understand and resolve issues quickly. A good error message not only informs the user about
-what went wrong but also suggests potential solutions or next steps. In this introductory paragraph, we will explore key principles and techniques
-that can help developers create error messages that are informative, actionable, and user-friendly and more importantly take advantage of any
-assistance and resources that you may have at your disposal.  I expanded on this a bit more [[https://wmealing.github.io/custom-software-errors.html][here]].
+Want to integrate email functionality into your Common Lisp applications? The cl-smtp library can help. We'll walk through the process of using cl-smtp to send emails via Google's mail servers.
 
-* [[http://wmealing.github.io/mac-os-midi-router-broken.html][Apple Mac OS Midi routing is broken.]]
+* [[https://wmealing.github.io/custom-software-errors.html][The best error messages I've ever seen - Sep 2024]]
 
-I have some new music making hardware, and wanted to try to get them to talk together.  Use a Mac they
-say 'everything just works',   No clearly it doesnt.  I did however find a work around.  If anyone
-is trying to use a USB host to route a midi controller (USB organ) to a synth (USB) start [[http://wmealing.github.io/mac-os-midi-router-broken.html][Reading]]
+Writing clear and effective error messages is a crucial skill. A good error message not only informs the user about what went wrong but also suggests potential solutions. I've expanded on the principles of user-friendly errors here.
+
+* [[http://wmealing.github.io/mac-os-midi-router-broken.html][Apple Mac OS Midi routing is broken]]
+
+I have some new music making hardware and wanted to try to get them to talk together. Mac OS Midi routing is definitely not as seamless as people say, but I did find a workaround for routing USB MIDI hosts.
 
 * [[http://wmealing.github.io/minimise.html][Minimise]]
 
-In the interest of not polluting the internet with my ill-informed opinion and staying
-away from the madness that is modern culture, I've deleted a bunch of social media and
-messenger accounts.  Less of me on the internet can only be a net win for society.
-
+In the interest of not polluting the internet with my ill-informed opinion, I've deleted a bunch of social media and messenger accounts. Less of me on the internet can only be a net win for society.
 
 * [[./reverse-engineering-teenage-engineering.html][Downloading the EP133 firmware from Teenage Engineering]]
 
-Teenage Engineering released the EP-133, a mid range sampler/synth, I looked into the updater
-to find out as much as I can before I buy one.  The firmware provided from teenage engineering
-is encrypted, but i've [[./reverse-engineering-teenage-engineering.html][documented what i have found so far.]]
+Teenage Engineering released the EP-133, a mid range sampler/synth. I looked into the updater to find out as much as I can. The firmware is encrypted, but I've documented what I've found so far.
 
-* [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp]] [2023]
+* [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp - 2023]]
 
-So, the headline is a bit of a lie.  This entry talks about using clojure like "atoms" to simplify
-management of shared, synchronous, independent state.  Common lisp being the all-singing all-dancing
-monkey of the lisp world, i had to see if atoms can be used this way.  It turns out it is easier
-than I thought. [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Check it.]]
+This entry talks about using Clojure like "atoms" to simplify management of shared, synchronous, independent state in Common Lisp. It turns out it is easier than I thought.
 
+* [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD - 2023]]
 
-* [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD]] [2023]
+I'm involved in competing with spawnfest this weekend, so I figured it's time to setup LFE for CI/CD with GitHub Actions. It's a simple setup that runs tests and handles containers.
 
-I'm involved in 'competing' with [[https://spawnfest.org/][spawnfest]] this weekend, I figured its time to setup [[file:lfe-github-actions.html][LFE for CI/CD with GitHub Actions]].
-Its a pretty simple setup that runs the test, i'll expand on this in the future to include creating containers and
-pushing to production.
+* [[https://wmealing.github.io/htmx-common-lisp.html][Common Lisp and HTMX - 2023]]
 
-* [[https://wmealing.github.io/htmx-common-lisp.html][Common Lisp and HTMX]] [2023]
+Common Lisp and HTMX provide a sane platform to develop basic applications. I outline the reasons that I have chosen them and the new voice I plan to use while blogging.
 
-Common lisp and HTMX provide a sane platform to develop basic applications.  I [[https://wmealing.github.io/htmx-common-lisp.html][outline the reasons]] that I have chosen them.
-This post also marks the new voice I plan to use while blogging. I no longer care to engage in debate with people without being paid.
+* [[./emacs-org-babel-analysis.html][Supercharge your workflow with Emacs and org-babel]]
 
-* [[./emacs-org-babel-analysis.html ][Supercharge your workflow with emacs and org-babel]].
+I do kernel flaw analysis for a living, and someone asked me for a write up on how I use org-babel to do my work. I've documented the whole workflow in this rant.
 
-I do kernel flaw analysis for a living, someone asked me to do a short write up on how I use org-babel to
-do my work. I've documented it [[./emacs-org-babel-analysis.html][in this rant]].
+* [[./less-than-optimistic.html][Choosing the wrong roads]]
 
-* [[./lfe-gen-server.html][Lisp Flavored Erlang Gen Server - 2024.]]
+I've spent the last week reflecting on some poor programming life choices I've made. If you disagree with the majority, perhaps you are wrong. I've written about it to clear my mind.
 
-I decided to collapse two of my interests, lisp and erlang.  Lisp flavored erlang isnt going to win
-any popularity contests, but it is something that I dont entirely hate  working on.  Ive written
-a quick tutorial describing one of the [[https://wmealing.github.io/lfe-gen-server.html][core features of erlang]].
+* [[./simple-cobol-query.html][COBOL - Simple screen for keyboard input]]
 
-* [[./less-than-optimistic.html][Choosing the wrong roads.]]
+One of the effectively powerful things that gnuCOBOL can do is a TUI. It's not fancy but it gets the job done much quicker than most webapps. Here is a simple example for Linux and Mac OS X.
 
-I've spent the last week reflecting on some poor programming life choices that I've made.
-disagree with the majority, perhaps you are wrong.  I'm not stupid enough to think that i'm smarter
-than most people.  To be honest its probably not worth reading because you already think just like
-this.  If I [[https://wmealing.github.io/less-than-optimistic.html][write about it]], perhaps it will clear my mind.
+* [[http://wmealing.github.io/lisp-range.html][Python Range function in Lisp - Aug 2022]]
 
-* COBOL - Simple "Curses" like screen to get keyboard input.
+I have wanted a quick way to do something similar to the python range function in Common Lisp. Sometimes I just want immediate list creation without the boilerplate.
 
-On of the simple but effectively powerful things that gnuCOBOL can do is a TUI.  Its not
-fancy (when it implements UTF8 correctly, it will be fancy-af) but it gets the job
-done much quicker than most webapps do.
+* [[http://wmealing.github.io/wx-erlang-example.html][Simple WX example in Erlang - July 2022]]
 
-Check out my [[./simple-cobol-query.html][Simple example]] which I've got working on Linux and MacOS X.
+I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry. This is what works for me.
 
-* Python Range function in lisp [Aug 2022]
+* [[https://wmealing.github.io/mirai-delete-yourself.html][MIRAI analysis - evasion by deleting code - Nov 2020]]
 
-I have wanted a quick way to something similar to the python range function (range n y) in common lisp.
-Sometimes I just want to have some kind of immediate list creation.  [[http://wmealing.github.io/lisp-range][See my drivel on this topic.]]
+The MIRAI malware deletes itself from disk to make it harder to analyse. This post goes into detail on how it works, a rust implementation, and a few improvements.
 
-* Simple WX example in erlang [July 2022]
+* [[https://wmealing.github.io/watchdog-in-rust.html][MIRAI analysis - watchdog access in Rust - Nov 2020]]
 
-I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry.
+The MIRAI malware uses a technique to prevent the systems watchdog from rebooting the machine. I share what I learned about this and ported the logic to Rust.
 
-The one that works for me at the moment is [[http://wmealing.github.io/wx-erlang-example][WX Erlang]]
+* [[./ebpf-disabled-for-users.html][Userspace eBPF - Sep 2020]]
 
-* MIRAI analysis - evasion - deleting the executing code [Nov 2020]
+A few distros have users allowed to insert eBPF programs, but it's disabled in others. I've documented my findings after talking to the decision holders who made these choices.
 
-The MIRAI malware deletes itself from disk in an attempt to make it
-harder to analyse. [[https://wmealing.github.io/mirai-delete-yourself][This post]] goes into detail on how it works, a rust
-implementation and a few improvements that could have been done.
+* [[./signed-kernel-modules.html][Anatomy of kernel module signing - Aug 2020]]
 
-* MIRAI analysis - watchdog access in rust [Nov 2020]
+I decided to take a look at the Linux kernel modules signing process, specifically regarding its implementations on Red Hat Enterprise Linux and the misinformation in recent malware.
 
-The MIRAI malware uses an technique intended to prevent the systems
-watchdog from rebooting the machine when its too busy.  [[https://wmealing.github.io/watchdog-in-rust][I share what I learned about this and ported it to rust.]]
+* [[./tpm-pcr07.html][Encrypting a disk for specific system boot - Aug 2020]]
 
-* Userspace eBPF [Sep 2 2020]
+Recent research into flaws in thunderbolt and secureboot piqued my interest. I've written about what can be done to prevent a compromised system from being abused using TPM PCRs.
 
-A few distros have users allowed to insert eBPF programs.  This is disabled in
-some distributions.  [[./ebpf-disabled-for-users.html][I've documented my findings]] after talking to different
-decision holders who made some of these choices.
+* [[./toshibia-toughpad-fz-g1-3.html][Toshiba Toughpad FZ-G1-3 - Jul 2020]]
 
-* Anatomy of kernel module signing  [Aug 20 2020]
-
-I decided to take a look at the Linux kernel modules signing process.  It seems
-that the recent drovorub malware has some interesting misinformation regarding 
-module signing, so I had decided to take a look at the [[./signed-kernel-modules.html][regarding its implementations on Red hat Enterprise Linux]].
-
-* Encrypting a disk to only boot in a specific system. [Aug 9 2020]
-
-Recent research papers related to flaws in thunderbolt and secureboot have
-piqued my interest in learning more about what can be done to prevent a system
-comprimised in such a way from being abused.  I've written about
-[[./tpm-pcr07.html][it here]]
-
-* [[./toshibia-toughpad-fz-g1-3.html][Toshiba Toughpad FZ-G1-3 [Jul 25 2020]]]
-
-I have recently purchased one of these machines in an auction, and I am -very-
-impressed with its build quality.   While this one is not its current purchase
-release, I've got a page talking about the customizations and things I have
-learned about it [[./toshiba-toughpad-fz-g1-3.html][While making it work for me]]
-
-
+I recently purchased one of these machines in an auction and I am very impressed with its build quality. Here are the customizations I've done to make it work for me.
 
 * Kernel SecuriTea
 
-I work on a small youtube channel where I talk about kernel security issues
-that interest me.  I work on quite a lot of these in my work so i'm limited to
-what I can cover.
-
-
-
-
-
+I work on a small youtube channel where I talk about kernel security issues that interest me. I work on quite a lot of these in my work so i'm limited to what I can cover.
