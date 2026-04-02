@@ -38,6 +38,7 @@ This should allow for applications to use this as a library, as therealcarloratm
 :PROPERTIES:
 :END:
 
+My big takeaway here is to ensure that i dont use umbrella apps for libraries again.
 
 
 * Resources:
