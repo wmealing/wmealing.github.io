@@ -1,0 +1,50 @@
+#+TITLE: CELLIUM 004 - Apr 2026
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+
+* Summary: Docs published annd conversion to a 'library'.
+:PROPERTIES:
+:END:
+
+I didn't realise, [[https://github.com/therealcarloratm][therealcarloratm]] had lodged an issue on the [[https://github.com/wmealing/cellium][cellium]] git repo asking
+about how to use this project as library. 
+
+https://github.com/wmealing/celldemo
+
+
+
+* Introduction
+:PROPERTIES:
+:END:
+
+
+#+BEGIN_EXAMPLE
+===> Dependency failure: source for cellium does not contain a recognizable project and can not be built
+#+END_EXAMPLE
+
+The problem was that i had designed it as an [[https://adoptingerlang.org/docs/development/umbrella_projects/][umbrella project]], This type of application has multiple working
+sub folders under the ./app/ folder.  I had only had one, with plans to add more related issues in the future.
+
+Instead, I found out that others had been using my code, as is.. so I decided to restructure my app using the
+rebar3 "app" template.
+
+This should allow for applications to use this as a library, as therealcarloratm expected.
+
+
+* Conclusion
+:PROPERTIES:
+:END:
+
+
+
+* Resources:
+:PROPERTIES:
+:END:
+
+** Using [[https://rebar3.org/docs/commands/][rebar commands]]
+** The [[https://adoptingerlang.org/docs/development/umbrella_projects/][umbrella project]]
+
+

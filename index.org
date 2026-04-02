@@ -6,6 +6,11 @@
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
+* [[./cellium-updates.html][Cellium 004 - A non Umbrella Project - Apr 2026]]
+
+A user of my library suggested they couldn't use the cellium application in a project as a dependency in rebar, I've had to
+migrate the project from an umbrella to a standard application to make it happen, now it works, thats a win.
+
 * [[./abstraction-vs-transformation.html][Abstraction vs Transformation - Mar 2026]]
 
 Performance and efficiency weigh heavy on my mind lately. I've spent enough time in the world of Lisp to see how abstractions can mask the implementation details that actually matter for speed. This is a bit of a rant on why transformation is often a better path than building layers that just get in the way.
