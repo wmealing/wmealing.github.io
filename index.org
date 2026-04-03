@@ -6,6 +6,11 @@
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
+* [[./cellium-widget-gallery.html][Cellium 005 - Aint nobody Reading this - Apr 2026]]
+
+I've updated the widget gallery to demonstrate two new widgets.. There are screenshots in here of cellium of the current state.
+All screenshots were taken using any other terminal than apples terminal, because it cant render more than 16 colors well.
+
 * [[./cellium-updates.html][Cellium 004 - A non Umbrella Project - Apr 2026]]
 
 A user of my library suggested they couldn't use the cellium application in a project as a dependency in rebar, I've had to

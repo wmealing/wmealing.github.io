@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-04-04 Sat 05:01 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CELLIUM 005 - Apr 2026</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Wade Mealings documentation" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CELLIUM 005 - Apr 2026</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-org65b1450" class="outline-2">
+<h2 id="org65b1450">Summary: Widget Gallery</h2>
+<div class="outline-text-2" id="text-org65b1450">
+<p>
+I've recently updated the widget gallery for 'built in' widgets for cellium.
+</p>
+
+<p>
+If you want to see the demo in action, check out my cellium project, rebar3 compile it, then run
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ make run <span class="org-variable-name">example</span>=widgets_gallery
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9d24ef3" class="outline-2">
+<h2 id="org9d24ef3">Introduction</h2>
+<div class="outline-text-2" id="text-org9d24ef3">
+</div>
+<div id="outline-container-orgd29c7e8" class="outline-4">
+<h4 id="orgd29c7e8">Basic:</h4>
+<div class="outline-text-4" id="text-orgd29c7e8">
+<p>
+The first tab is radio buttons, checkboxes, and regular button, buttons.
+</p>
+
+<p>
+The image also has a "tab", the current tab is "basic" and has a highlight, i was thinking maybe i should highlight the whole
+tab |&#x2013;&#x2014;| part, but im on the fence at the moment.
+</p>
+
+
+
+
+<div id="org9ed2e83" class="figure">
+<p><img src="./images/basic-tab.png" alt="basic-tab.png" width="1000px" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb17d8f0" class="outline-4">
+<h4 id="orgb17d8f0">Progress</h4>
+<div class="outline-text-4" id="text-orgb17d8f0">
+<p>
+Progress meters are useful, these use utf8, because if you're not using utf8 , i dont know what to say about that
+</p>
+
+<ul class="org-ul">
+<li>Unicode Character “█” (U+2588)</li>
+<li>Some lighter version of the same.</li>
+</ul>
+
+<p>
+I did have [] and _ but this get complicated, and looked pretty bad.
+</p>
+
+<p>
+Volume is different to progress, bceause it doesnt have the end cap [ ] on.  You interact with them both with the arrow keys.
+</p>
+
+<p>
+Loading widget, you can't see it here, but those funky braile dots rotate, i'm probabaly breaking all kinds of accessibility
+issues with it.
+</p>
+
+<p>
+The switch, which is basically a fancy word for a toggle, i should probably move that over to basic. Its more of a button.
+</p>
+
+<p>
+Too bad, the screenshots are taken so thats what you're getting.
+</p>
+
+
+
+
+<div id="org5583136" class="figure">
+<p><img src="./images/progress-tab.png" alt="progress-tab.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org686f635" class="outline-4">
+<h4 id="org686f635">Inputs</h4>
+<div class="outline-text-4" id="text-org686f635">
+<p>
+This demonstrates a 'frame' widget, with the "Input frame" title.  If you hit tab a few times, the focus
+will change to the contents of the "Input Frame" and you can just type into the text field, super obv.
+</p>
+
+
+
+<div id="orgb6aca00" class="figure">
+<p><img src="./images/input-tab.png" alt="input-tab.png" width="1000px" />
+</p>
+</div>
+
+
+
+<p>
+A hidden thing on every frame is the status bar, its the grey thing down the bottom, you can decide what
+goes on it, choose the most obvious things you need for your users.
+</p>
+
+<p>
+I also noticed that until you interact (aka hit tab), the focus manager assumes you're focus is undefined,
+Maybe thats.. right ? Naming the focus in the status bar is not strictly necessary, I just put it there
+to help with debugging.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org04507ea" class="outline-2">
+<h2 id="org04507ea">Conclusion</h2>
+<div class="outline-text-2" id="text-org04507ea">
+<p>
+i'm definitely going to update this again later, when I have more .. widgets, but this is it for now.
+</p>
+</div>
+</div>
+<div id="outline-container-org4b0fbbf" class="outline-2">
+<h2 id="org4b0fbbf">Resources:</h2>
+<div class="outline-text-2" id="text-org4b0fbbf">
+</div>
+<div id="outline-container-org9255728" class="outline-3">
+<h3 id="org9255728">Using <a href="https://rebar3.org/docs/commands/">rebar commands</a></h3>
+</div>
+<div id="outline-container-orgcbc3885" class="outline-3">
+<h3 id="orgcbc3885">The <a href="https://adoptingerlang.org/docs/development/umbrella_projects/">umbrella project</a></h3>
+</div>
+</div>
+</div>
+</body>
+</html>
