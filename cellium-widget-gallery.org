@@ -30,7 +30,7 @@ tab |-----| part, but im on the fence at the moment.
 
 
 
-#+ATTR_HTML: :width 1000px
+#+ATTR_HTML: width 1000px
 #+ATTR_ORG: :align center
 [[./images/basic-tab.png]]
 
@@ -66,7 +66,8 @@ This demonstrates a 'frame' widget, with the "Input frame" title.  If you hit ta
 will change to the contents of the "Input Frame" and you can just type into the text field, super obv.
 
 
-#+ATTR_HTML: :width 1000px
+
+#+ATTR_HTML:  width 1000px
 #+ATTR_ORG: :align center
 [[./images/input-tab.png]]
 
@@ -86,7 +87,6 @@ to help with debugging.
 i'm definitely going to update this again later, when I have more .. widgets, but this is it for now.
 
 
-make run example=widgets_gallery
 
 * Resources:
 :PROPERTIES:
