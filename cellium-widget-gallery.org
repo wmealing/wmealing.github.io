@@ -84,15 +84,6 @@ to help with debugging.
 :PROPERTIES:
 :END:
 
-i'm definitely going to update this again later, when I have more .. widgets, but this is it for now.
-
-
-
-* Resources:
-:PROPERTIES:
-:END:
-
-** Using [[https://rebar3.org/docs/commands/][rebar commands]]
-** The [[https://adoptingerlang.org/docs/development/umbrella_projects/][umbrella project]]
+I'm definitely going to update this again later, when I have more .. widgets, but this is it for now.
 
 
