@@ -4,7 +4,6 @@
 
 * Posts in Security
 
-- [[file:developing-7902.html][REPLACE]]
 - [[file:ebpf-disabled-for-users.html][Why eBPF for users is disabled in some distributions]]
 - [[file:mirai-delete-yourself.html][Mirai Delete yourself]]
 - [[file:reverse-engineering-teenage-engineering.html][Getting firmware from teenage engineering.]]
