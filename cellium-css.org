@@ -56,6 +56,80 @@ The parser currently handles:
 
 - Note: at the moment it only allows for a single stylesheet, but I feel like it should allow for multiple style sheets.
 
+* Examples of Working CSS
+:PROPERTIES:
+:END:
+
+Here are some examples of CSS rules that currently work in Cellium:
+
+** Basic Widget Styling
+You can set colors and background colors using either standard color names (as atoms) or integer values if your terminal supports them.
+
+#+BEGIN_SRC css
+.box {
+    color: white;
+    background-color: blue;
+}
+
+#sidebar {
+    background-color: black;
+    color: 7;
+}
+#+END_SRC
+
+** Layout Control
+The =expand= property is used by containers to determine if a widget should take up all available space.
+
+#+BEGIN_SRC css
+.main-content {
+    expand: true;
+}
+
+.fixed-sidebar {
+    expand: false;
+    width: 20;
+}
+#+END_SRC
+
+** Focus and Interactivity
+You can define which widgets are focusable and how they look when they gain focus.
+
+#+BEGIN_SRC css
+.input-field {
+    focusable: true;
+    background-color: black;
+    color: white;
+}
+
+.input-field:focused {
+    background-color: white;
+    color: black;
+}
+
+.button {
+    focusable: true;
+    color: cyan;
+}
+
+.button:focused {
+    color: black;
+    background-color: cyan;
+}
+#+END_SRC
+
+** Specialized Widget Properties
+Some properties are specific to certain widget types, like title alignment for frames or debug borders for containers.
+
+#+BEGIN_SRC css
+.bordered-frame {
+    title_align: center;
+}
+
+.debug-container {
+    debug: true;
+}
+#+END_SRC
+
 * Technical Implementation
 :PROPERTIES:
 :END:
@@ -78,4 +152,4 @@ interactive terminal applications in Erlang.
 :END:
 
 ** The [[https://github.com/wmealing/cellium][Cellium Repository]]
-** Cellium [[https://github.com/wmealing/cellium/blob/main/src/css.erl][css.erl source code]]
+** [[https://github.com/wmealing/cellium/blob/master/src/css.erl][css.erl source code]]
