@@ -1,0 +1,81 @@
+#+TITLE: CELLIUM 006 - CSS Support
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Cellium CSS Support" />
+
+* Summary:
+:PROPERTIES:
+:END:
+
+Cellium has introduced basic CSS support, allowing developers to separate the visual styling of widgets from their structural definition.
+This currently includes ID and class selectors, as well as state-based styling for focused elements.
+
+
+* Introduction
+:PROPERTIES:
+:END:
+
+One of the challenges in building Terminal User Interfaces (TUIs) is managing the visual properties of widgets without
+cluttering the layout logic. By adopting a subset of CSS, Cellium allows for a more declarative approach to styling.
+
+While not 'perfect', the concepts of CSS styling widgets should allow for developers to be able to theme their work
+with familiar concepts.
+
+* Current State of CSS Support
+:PROPERTIES:
+:END:
+
+The current implementation in =css.erl= provides several key features:
+
+** Selectors
+Cellium supports two primary selectors:
+
+- *ID Selectors*: Target specific widgets using =#widget_id=.
+- *Class Selectors*: Target groups of widgets using =.class_name=.
+
+** State-based Styling
+The =:focused= pseudo-class is supported, enabling different styles when a widget has input focus. For example:
+
+#+BEGIN_EXAMPLE
+.button:focused {
+    color: black;
+    background-color: cyan;
+}
+#+END_EXAMPLE
+
+** Stylesheet Loading
+
+Stylesheets can be loaded from external files using =css:load_stylesheet/1=, or the default styles can be applied via =css:style/1=.
+
+** Property Parsing
+The parser currently handles:
+- Integers (for colors and sizes)
+- Booleans (=true=, =false=)
+- Atoms (for general property values like colors or alignment)
+
+- Note: at the moment it only allows for a single stylesheet, but I feel like it should allow for multiple style sheets.
+
+* Technical Implementation
+:PROPERTIES:
+:END:
+
+When styling is applied, Cellium walks the layout tree and merges properties from the stylesheet into the widget maps. It prioritizes ID
+styles over class styles and focused styles over normal styles.
+
+Crucially, the styling engine respects calculated layout properties like =x=, =y=, =width=, and =height=, ensuring that visual updates don't
+accidentally break the layout positioning.  As a developer you probably dont want to be messing with that in the css anyway.
+
+* Conclusion
+:PROPERTIES:
+:END:
+
+While the current CSS support is a subset of the full specification, it provides a solid foundation for building themed and
+interactive terminal applications in Erlang.
+
+* Resources:
+:PROPERTIES:
+:END:
+
+** The [[https://github.com/wmealing/cellium][Cellium Repository]]
+** Cellium [[https://github.com/wmealing/cellium/blob/main/src/css.erl][css.erl source code]]
