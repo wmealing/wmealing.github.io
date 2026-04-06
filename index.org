@@ -6,6 +6,12 @@
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
+* [[./cellium-widget-gallery.html][Cellium 006 - CSS Support]] - Apr 2026
+
+I haven't talked abotu this yet, but there is basic "styling" support of text widgets in cellium, it makes theming it
+a little easier.  Its 'somewhat' working right now.. i'll need to have support for multiple style sheets, i'll address
+that in the future.
+
 * [[./cellium-widget-gallery.html][Cellium 005 - Aint nobody Reading this - Apr 2026]]
 
 I've updated the widget gallery to demonstrate two new widgets.. There are screenshots in here of cellium of the current state.
