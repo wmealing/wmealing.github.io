@@ -3,8 +3,10 @@
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
-#+INCLUDE: "navbar.html" export html
+#+INCLUDE: "projects.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
+
+* Recent Blog Posts
 
 * [[./cellium-css.html][Cellium 006 - CSS Support]] - Apr 2026
 
