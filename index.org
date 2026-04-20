@@ -3,12 +3,13 @@
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
 #+INCLUDE: "projects.html" export html
 #+HTML_HEAD: <meta name="description" content="Erlang, TUI, Oldschool code" />
 
 * Recent Blog Posts
 
-* [[./cellium-css.html][Cellium 006 - CSS Support]] - Apr 2026
+* [[./cellium-css.html][Cellium 006 - CSS Support - Apr 2026]] 
 
 I haven't talked abotu this yet, but there is basic "styling" support of text widgets in cellium, it makes theming it
 a little easier.  Its 'somewhat' working right now.. i'll need to have support for multiple style sheets, i'll address

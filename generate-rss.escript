@@ -49,8 +49,8 @@ generate_rss(Items) ->
     Header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
              "<rss version=\"2.0\">\n"
              "<channel>\n"
-             "<title>My Erlang Feed</title>\n"
-             "<link>http://example.com</link>\n"
+             "<title>Wade Mealing - Erlang | Infosec | Human</title>\n"
+             "<link>http://wmealing.github.io</link>\n"
              "<description>RSS generated via Erlang</description>\n",
     Footer = "</channel>\n</rss>",
     ItemXML = lists:map(fun item_to_xml/1, Items),
@@ -60,6 +60,6 @@ item_to_xml({Title, Link, Desc}) ->
     io_lib:format(
         "<item>\n"
         "<title>~s</title>\n"
-        "<link>~s</link>\n"
+        "<link>https://wmealing.github.io/~s</link>\n"
         "<description>~s</description>\n"
         "</item>\n", [Title, Link, Desc]).

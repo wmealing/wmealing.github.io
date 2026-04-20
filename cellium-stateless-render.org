@@ -1,0 +1,174 @@
+#+TITLE: Cellium State Injection
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+HTML_HEAD: <meta name="description" content="Stateless Rendering" />
+
+* Summary:
+:PROPERTIES:
+:END:
+
+[[https://github.com/wmealing/cellium][Cellium]] implements the [[https://guide.elm-lang.org/architecture/][Elm Architecture]], I've been working on some minor changes to make working with it in erlang as simply as I can.
+
+I think what I've written is called "Stateful component projection", Instead of passing every UI detail down through a massive chain
+of functions, I’m keeping a set of computed values in the model under a map of 'widget_states, via unique ID. When it’s time to draw the
+widget, the draw code looks up the widget_states 'id' and grafts it back on right before the draw.
+
+Maybe its a bad idea to have 'widget data' in the Model, fortunately its optional, I can't guarantee it will stick around.
+
+* Introduction
+:PROPERTIES:
+:END:
+
+While writing applications using my Cellium application, I found myself writing the same pattern of code over and over again.  This can not stand.
+
+Widgets in cellium have a =render/2= function that takes a 'map' of properties' for the widget, and the buffer to render it to.  The properties
+define the attributes that the programmer can use to influence widget behavior and visual properties.
+
+While you could 'hand build' wigets, I thought it might be nicer to use a simple DSL.
+
+The DSL is trivial (famous last words).
+
+The outer type is a tuple, chosen because it has Constant Time Access.  Here is its shape:
+
+#+BEGIN_SRC erlang
+{widget_type_atom, PropList, Children}
+#+END_SRC
+
+Breaking that down: 
+- Arg1: The widget type, which is the module name as an atom.
+- Arg2: A property list, which is an erlang [[https://www.erlang.org/doc/apps/stdlib/proplists.html][proplist]].
+- Arg3: A list of children widgets, which take the same form as this very demonstration.
+
+(There is an option for custom widgets, but lets just forget about those for now).
+
+This DSL gets turned into erlang widgetry, and each widget's module code eventually gets callled with render() (or render_focused() ).
+
+In the DSL code, properties were set manually like this:
+
+#+BEGIN_SRC erlang
+%% -- snip --
+{text, [{id, foo},{label, function(DataFromModel) }] , []},
+%% -- snip --
+#+END_SRC
+
+This set the 'one' property, and sure you could write a 'super' function which returns the proplist,
+but it was a bit messy.
+
+Instead of that, i thought.. you know what, I'm lazy as hell and I just can't take it anymore.
+
+I'm going allow model map called "widget_states" which contains a map of widget ids,
+and merge the values for that widget id, into the dsl automatically.
+
+This magic is optional magic though, you dont need to put or have a widget_states in your mode, I'm not your mum.
+
+*** Example:
+
+In the example below, notice how `text_input` and `list` are defined with only an `id`.
+The framework "fills in" the text and scroll position automatically from the Model.
+
+#+BEGIN_SRC erlang
+render(Model) ->
+    {vbox, [], [
+        {text_input, [{id, my_search_box}, {expand, true}]},
+        {list, [{id, results_list}, {expand, true}]}
+    ]}.
+#+END_SRC
+
+*** Initializing State
+
+You can provide initial values for components in your =init/1= function:
+
+#+BEGIN_SRC erlang
+init(_) ->
+    Model = #{
+        widget_states => #{
+            my_search_box => #{text => "Initial search..."},
+            results_list => #{items => ["Apple", "Banana", "Cherry"]}
+        }
+    },
+    {ok, Model}.
+#+END_SRC
+
+Cellium (based on the Elm Architecture), the update function is the "brain" of the application.
+It is a pure function responsible for transforming the current state of your world into a new state
+based on something that just happened.
+
+The "update" function takes two args, the current model, and the message, does modifications and returns
+the updated model.
+
+#+BEGIN_SRC erlang
+  update(Model, Msg) ->
+       ....
+       UpdatedModel.
+#+END_SRC
+
+I thought, SURELY i should move my logic into this function, not in the render function.
+
+Instead, now in my =update/2= function:
+
+#+BEGIN_SRC erlang
+  update(Model, Msg) ->
+      WidgetStates = maps:get(widget_states, Model),
+      UpdatedModel = Model#{ widget_states => WidgetStates#{ my_search_box => #{text => "Searching...."} } }.
+      UpdatedModel.
+#+END_SRC
+
+I'll show you what i mean to update the values to merge with the widget states.  In the example
+below i want to update the OriginalModel's widget_states with a new widget to merge with.
+
+#+BEGIN_SRC erlang
+  28> OriginalState = #{ a => b, widget_states => #{ x => ok, display => #{text => "foo"}}}.
+  #{a => b, widget_states => #{x => someatom,
+                               display => #{text => "foo"}}}
+
+  29> WidgetStates = maps:get(widget_states, OriginalState).
+  #{x => someatom, display => #{text => "foo"}}
+
+  30> UpdatedModel = Model#{ widget_states => WidgetStates#{ my_search_box => #{text => "Searching...."} } }.
+  #{a => b, widget_states =>
+        #{x => someatom,
+          display => #{text => "foo"},
+          my_search_box => #{text => "Searching...."}}}
+#+END_SRC
+
+You can put this logic in your update/2, with calls to whatever external erlang process to get live updates from
+other parts of your system.  If you had multiple values to merge, just save it for the last update and use maps:merge/2
+(faster and generates less garbage).
+
+*** What does this look like ?
+
+This means that updating the widget_states of the model, eventually will affect the rendered widget, so that
+modification in =update/2= above would turn:
+
+#+BEGIN_SRC erlang
+    {vbox, [], [
+        {text_input, [{id, my_search_box}, {expand, true}]}]}.
+#+END_SRC
+
+Into
+
+#+BEGIN_SRC erlang
+    {vbox, [], [
+        {text_input, [{id, my_search_box}, {expand, true}, {text, "searching..."}]}]}.
+#+END_SRC
+
+This means you can update the widgets in the modules =update/2= function and it will apply.
+
+
+* Conclusion
+:PROPERTIES:
+:END:
+
+Just do things, this is my thing.
+
+
+* Resources:
+:PROPERTIES:
+:END:
+
+- [[https://erlang.org/documentation/doc-6.0/doc/reference_manual/maps.html][Erlang maps docs]]
+
+
+
+

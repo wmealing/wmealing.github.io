@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-04-21 Tue 01:08 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cellium State Injection</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Stateless Rendering" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Cellium State Injection</h1>
+<div id="outline-container-org132b35b" class="outline-2">
+<h2 id="org132b35b">Summary:</h2>
+<div class="outline-text-2" id="text-org132b35b">
+<p>
+<a href="https://github.com/wmealing/cellium">Cellium</a> implements the <a href="https://guide.elm-lang.org/architecture/">Elm Architecture</a>, I've been working on some minor changes to make working with it in erlang as simply as I can.
+</p>
+
+<p>
+I think what I've written is called "Stateful component projection", Instead of passing every UI detail down through a massive chain
+of functions, I’m keeping a set of computed values in the model under a map of 'widget_states, via unique ID. When it’s time to draw the
+widget, the draw code looks up the widget_states 'id' and grafts it back on right before the draw.
+</p>
+
+<p>
+Maybe its a bad idea to have 'widget data' in the Model, fortunately its optional, I can't guarantee it will stick around.
+</p>
+</div>
+</div>
+<div id="outline-container-org00b646a" class="outline-2">
+<h2 id="org00b646a">Introduction</h2>
+<div class="outline-text-2" id="text-org00b646a">
+<p>
+While writing applications using my Cellium application, I found myself writing the same pattern of code over and over again.  This can not stand.
+</p>
+
+<p>
+Widgets in cellium have a <code>render/2</code> function that takes a 'map' of properties' for the widget, and the buffer to render it to.  The properties
+define the attributes that the programmer can use to influence widget behavior and visual properties.
+</p>
+
+<p>
+While you could 'hand build' wigets, I thought it might be nicer to use a simple DSL.
+</p>
+
+<p>
+The DSL is trivial (famous last words).
+</p>
+
+<p>
+The outer type is a tuple, chosen because it has Constant Time Access.  Here is its shape:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{widget_type_atom, PropList, Children}
+</pre>
+</div>
+
+<p>
+Breaking that down: 
+</p>
+<ul class="org-ul">
+<li>Arg1: The widget type, which is the module name as an atom.</li>
+<li>Arg2: A property list, which is an erlang <a href="https://www.erlang.org/doc/apps/stdlib/proplists.html">proplist</a>.</li>
+<li>Arg3: A list of children widgets, which take the same form as this very demonstration.</li>
+</ul>
+
+<p>
+(There is an option for custom widgets, but lets just forget about those for now).
+</p>
+
+<p>
+This DSL gets turned into erlang widgetry, and each widget's module code eventually gets callled with render() (or render_focused() ).
+</p>
+
+<p>
+In the DSL code, properties were set manually like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">%% -- snip --
+{text, [{id, foo},{label, function(DataFromModel) }] , []},
+%% -- snip --
+</pre>
+</div>
+
+<p>
+This set the 'one' property, and sure you could write a 'super' function which returns the proplist,
+but it was a bit messy.
+</p>
+
+<p>
+Instead of that, i thought.. you know what, I'm lazy as hell and I just can't take it anymore.
+</p>
+
+<p>
+I'm going allow model map called "widget_states" which contains a map of widget ids,
+and merge the values for that widget id, into the dsl automatically.
+</p>
+
+<p>
+This magic is optional magic though, you dont need to put or have a widget_states in your mode, I'm not your mum.
+</p>
+</div>
+<div id="outline-container-org1eb129f" class="outline-4">
+<h4 id="org1eb129f">Example:</h4>
+<div class="outline-text-4" id="text-org1eb129f">
+<p>
+In the example below, notice how `text_input` and `list` are defined with only an `id`.
+The framework "fills in" the text and scroll position automatically from the Model.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">render(Model) -&gt;
+    {vbox, [], [
+        {text_input, [{id, my_search_box}, {expand, true}]},
+        {list, [{id, results_list}, {expand, true}]}
+    ]}.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf4dca07" class="outline-4">
+<h4 id="orgf4dca07">Initializing State</h4>
+<div class="outline-text-4" id="text-orgf4dca07">
+<p>
+You can provide initial values for components in your <code>init/1</code> function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">init(_) -&gt;
+    Model = #{
+        widget_states =&gt; #{
+            my_search_box =&gt; #{text =&gt; "Initial search..."},
+            results_list =&gt; #{items =&gt; ["Apple", "Banana", "Cherry"]}
+        }
+    },
+    {ok, Model}.
+</pre>
+</div>
+
+<p>
+Cellium (based on the Elm Architecture), the update function is the "brain" of the application.
+It is a pure function responsible for transforming the current state of your world into a new state
+based on something that just happened.
+</p>
+
+<p>
+The "update" function takes two args, the current model, and the message, does modifications and returns
+the updated model.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">update(Model, Msg) -&gt;
+     ....
+     UpdatedModel.
+</pre>
+</div>
+
+<p>
+I thought, SURELY i should move my logic into this function, not in the render function.
+</p>
+
+<p>
+Instead, now in my <code>update/2</code> function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">update(Model, Msg) -&gt;
+    WidgetStates = maps:get(widget_states, Model),
+    UpdatedModel = Model#{ widget_states =&gt; WidgetStates#{ my_search_box =&gt; #{text =&gt; "Searching...."} } }.
+    UpdatedModel.
+</pre>
+</div>
+
+<p>
+I'll show you what i mean to update the values to merge with the widget states.  In the example
+below i want to update the OriginalModel's widget_states with a new widget to merge with.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">28&gt; OriginalState = #{ a =&gt; b, widget_states =&gt; #{ x =&gt; ok, display =&gt; #{text =&gt; "foo"}}}.
+#{a =&gt; b, widget_states =&gt; #{x =&gt; someatom,
+                             display =&gt; #{text =&gt; "foo"}}}
+
+29&gt; WidgetStates = maps:get(widget_states, OriginalState).
+#{x =&gt; someatom, display =&gt; #{text =&gt; "foo"}}
+
+30&gt; UpdatedModel = Model#{ widget_states =&gt; WidgetStates#{ my_search_box =&gt; #{text =&gt; "Searching...."} } }.
+#{a =&gt; b, widget_states =&gt;
+      #{x =&gt; someatom,
+        display =&gt; #{text =&gt; "foo"},
+        my_search_box =&gt; #{text =&gt; "Searching...."}}}
+</pre>
+</div>
+
+<p>
+You can put this logic in your update/2, with calls to whatever external erlang process to get live updates from
+other parts of your system.  If you had multiple values to merge, just save it for the last update and use maps:merge/2
+(faster and generates less garbage).
+</p>
+</div>
+</div>
+<div id="outline-container-org76d92d5" class="outline-4">
+<h4 id="org76d92d5">What does this look like ?</h4>
+<div class="outline-text-4" id="text-org76d92d5">
+<p>
+This means that updating the widget_states of the model, eventually will affect the rendered widget, so that
+modification in <code>update/2</code> above would turn:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{vbox, [], [
+    {text_input, [{id, my_search_box}, {expand, true}]}]}.
+</pre>
+</div>
+
+<p>
+Into
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">{vbox, [], [
+    {text_input, [{id, my_search_box}, {expand, true}, {text, "searching..."}]}]}.
+</pre>
+</div>
+
+<p>
+This means you can update the widgets in the modules <code>update/2</code> function and it will apply.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5e750f2" class="outline-2">
+<h2 id="org5e750f2">Conclusion</h2>
+<div class="outline-text-2" id="text-org5e750f2">
+<p>
+Just do things, this is my thing.
+</p>
+</div>
+</div>
+<div id="outline-container-org1c9857a" class="outline-2">
+<h2 id="org1c9857a">Resources:</h2>
+<div class="outline-text-2" id="text-org1c9857a">
+<ul class="org-ul">
+<li><a href="https://erlang.org/documentation/doc-6.0/doc/reference_manual/maps.html">Erlang maps docs</a></li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
