@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 00:24 -->
+<!-- 2026-04-21 Tue 01:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CAVEMAN 2 - peer programming with claude.ai in common lisp.</title>
@@ -19,51 +19,62 @@
 <div id="content" class="content">
 <h1 class="title">CAVEMAN 2 - peer programming with claude.ai in common lisp.</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-org45366b7" class="outline-2">
-<h2 id="org45366b7">Summary:</h2>
-<div class="outline-text-2" id="text-org45366b7">
+<div id="outline-container-org2cf31c8" class="outline-2">
+<h2 id="org2cf31c8">Summary:</h2>
+<div class="outline-text-2" id="text-org2cf31c8">
 <p>
 Everyone says AI is going to take programmers jobs, I'm going to take claudes job and find all the
 mistakes that the "revolutionary" software is supposed to do, that'll show em!
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5bf9ae" class="outline-2">
-<h2 id="orgf5bf9ae">Introduction</h2>
-<div class="outline-text-2" id="text-orgf5bf9ae">
+<div id="outline-container-org222366f" class="outline-2">
+<h2 id="org222366f">Introduction</h2>
+<div class="outline-text-2" id="text-org222366f">
 <p>
 I keep hearing that there are people who haven't written software since 2020, and that all the work that
 code they have written is written by AI.  Usually whenever I ask any of the AI questions the lack of quality
@@ -81,7 +92,7 @@ idea works by walking through the answer to ensure its sanity.  My omments inlin
 The prompt:
 </p>
 
-<pre class="example" id="org267b834">
+<pre class="example" id="orga57415e">
 You are a common lisp expert, who will be helping me with a
 front end and back end of the site.  We will be pair programming together.
 I will provide prompts for you and you can assist me by providing code.  I want to start with how to make a
@@ -362,17 +373,17 @@ And the template templates/index.html:
 </div>
 </div>
 </div>
-<div id="outline-container-org9e62673" class="outline-2">
-<h2 id="org9e62673">Conclusion</h2>
-<div class="outline-text-2" id="text-org9e62673">
+<div id="outline-container-org98997f7" class="outline-2">
+<h2 id="org98997f7">Conclusion</h2>
+<div class="outline-text-2" id="text-org98997f7">
 <p>
 Wrap it up here.
 </p>
 </div>
 </div>
-<div id="outline-container-org2e4949f" class="outline-2">
-<h2 id="org2e4949f">Resources:</h2>
-<div class="outline-text-2" id="text-org2e4949f">
+<div id="outline-container-org11fed3d" class="outline-2">
+<h2 id="org11fed3d">Resources:</h2>
+<div class="outline-text-2" id="text-org11fed3d">
 </div>
 </div>
 </div>

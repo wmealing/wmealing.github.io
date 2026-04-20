@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 00:24 -->
+<!-- 2026-04-21 Tue 01:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using erlangs remote shell during devel.</title>
@@ -19,42 +19,53 @@
 <div id="content" class="content">
 <h1 class="title">Using erlangs remote shell during devel.</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-orgccebb60" class="outline-2">
-<h2 id="orgccebb60">Summary:</h2>
-<div class="outline-text-2" id="text-orgccebb60">
+<div id="outline-container-org832dd9d" class="outline-2">
+<h2 id="org832dd9d">Summary:</h2>
+<div class="outline-text-2" id="text-org832dd9d">
 <p>
 Have you ever worked on a project, you write enough code that you're looking at ways to reduce the time it takes
 to turn your idea into working, tested code.  The ideas are many, but it feels like your wasted minutes add up so
@@ -82,9 +93,9 @@ into the erlang repl.
 </p>
 </div>
 </div>
-<div id="outline-container-org3478266" class="outline-2">
-<h2 id="org3478266">Introduction</h2>
-<div class="outline-text-2" id="text-org3478266">
+<div id="outline-container-org6855d96" class="outline-2">
+<h2 id="org6855d96">Introduction</h2>
+<div class="outline-text-2" id="text-org6855d96">
 <p>
 Erlang is a distributed system out of the box and the <a href="https://www.erlang.org/doc/apps/stdlib/shell.html">erlang shell</a> itself allows for a system to connect to any of
 the nodes in the <a href="https://www.erlang.org/doc/system/distributed.html">distributed erlang system</a>.  The distribution itself demonstrated here is the non encrypted nono tls/ssl
@@ -120,9 +131,9 @@ You must setup emacs, this replaces the 'erlang-shell' with a remote erlang shel
 </p>
 </div>
 </div>
-<div id="outline-container-org0e40a92" class="outline-2">
-<h2 id="org0e40a92">Specifics:</h2>
-<div class="outline-text-2" id="text-org0e40a92">
+<div id="outline-container-org60f5cfa" class="outline-2">
+<h2 id="org60f5cfa">Specifics:</h2>
+<div class="outline-text-2" id="text-org60f5cfa">
 <p>
 The 'main' erlang program must be started before you can connect another "shell" to it.  Lisp people  may call this a 'networked repl', but in erlang parlance
 it is called a 'remote shell'.  In this case both 'nodes' are on the same machine but there is nothing stopping you from doing this in
@@ -231,9 +242,9 @@ It is not strictly limited to 'compiling' code, you can also write erlang functi
 </p>
 </div>
 </div>
-<div id="outline-container-org58f5525" class="outline-2">
-<h2 id="org58f5525">Conclusion</h2>
-<div class="outline-text-2" id="text-org58f5525">
+<div id="outline-container-org38d4513" class="outline-2">
+<h2 id="org38d4513">Conclusion</h2>
+<div class="outline-text-2" id="text-org38d4513">
 <p>
 This workflow is super convenienct; it fundamentally changes the nature of the interaction
 with the system. By adopting the <b><b>remote shell workflow</b></b>, you are no longer treating your application as a
@@ -252,13 +263,13 @@ developing your Erlang application the way it was designed to be run: <a href="h
 </p>
 </div>
 </div>
-<div id="outline-container-orgbba4ea3" class="outline-2">
-<h2 id="orgbba4ea3">Resources:</h2>
-<div class="outline-text-2" id="text-orgbba4ea3">
+<div id="outline-container-org1ea2737" class="outline-2">
+<h2 id="org1ea2737">Resources:</h2>
+<div class="outline-text-2" id="text-org1ea2737">
 </div>
-<div id="outline-container-orga004cd6" class="outline-3">
-<h3 id="orga004cd6"><a href="https://www.erlang.org/doc/system/code_loading.html">Erlang/OTP Documentation (The Core)</a></h3>
-<div class="outline-text-3" id="text-orga004cd6">
+<div id="outline-container-org7a61661" class="outline-3">
+<h3 id="org7a61661"><a href="https://www.erlang.org/doc/system/code_loading.html">Erlang/OTP Documentation (The Core)</a></h3>
+<div class="outline-text-3" id="text-org7a61661">
 <p>
 <b><b>Code Loading Mechanism (Hot Code Swapping)</b></b>: A  deep-dive explanation of "Code Replacement" and the "Current" and "Old" module versions.
 </p>
@@ -272,9 +283,9 @@ developing your Erlang application the way it was designed to be run: <a href="h
 </p>
 </div>
 </div>
-<div id="outline-container-orgc4c8d1a" class="outline-3">
-<h3 id="orgc4c8d1a">Community Tutorials and Guides</h3>
-<div class="outline-text-3" id="text-orgc4c8d1a">
+<div id="outline-container-orga5b7880" class="outline-3">
+<h3 id="orga5b7880">Community Tutorials and Guides</h3>
+<div class="outline-text-3" id="text-orga5b7880">
 <p>
 <a href="https://learnyousomeerlang.com/starting-out">Learn You Some Erlang for Great Good</a>
 </p>
@@ -292,9 +303,9 @@ An accessible community resource with excellent, practical sections covering the
 </p>
 </div>
 </div>
-<div id="outline-container-org05815a2" class="outline-3">
-<h3 id="org05815a2"><a href="https://www.erlang.org/docs/24/man/erlang.el">Emacs/LISP Integration Specifics</a></h3>
-<div class="outline-text-3" id="text-org05815a2">
+<div id="outline-container-orgb150d37" class="outline-3">
+<h3 id="orgb150d37"><a href="https://www.erlang.org/docs/24/man/erlang.el">Emacs/LISP Integration Specifics</a></h3>
+<div class="outline-text-3" id="text-orgb150d37">
 <p>
 <b><b>Official Erlang Mode for Emacs</b></b>: The core documentation for `erlang.el`, which provides the foundation for commands like `erlang-shell` and `erlang-compile`.
 </p>

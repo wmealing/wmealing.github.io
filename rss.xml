@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+<title>Wade Mealing - Erlang | Infosec | Human</title>
+<link>http://wmealing.github.io</link>
+<description>RSS generated via Erlang</description>
+<item>
+<title>Wade Mealing </title>
+<link>https://wmealing.github.io/index.html</link>
+<description>Erlang, TUI, Oldschool code</description>
+</item>
+<item>
+<title>CELLIUM 006 - CSS Support</title>
+<link>https://wmealing.github.io/cellium-css.html</link>
+<description>Cellium CSS Support</description>
+</item>
+<item>
+<title>Cellium State Injection</title>
+<link>https://wmealing.github.io/cellium-stateless-render.html</link>
+<description>Stateless Rendering</description>
+</item>
+<item>
+<title>Category: Tooling</title>
+<link>https://wmealing.github.io/tooling.html</link>
+<description></description>
+</item>
+<item>
+<title>Category: Security</title>
+<link>https://wmealing.github.io/security.html</link>
+<description></description>
+</item>
+<item>
+<title>Category: Systems</title>
+<link>https://wmealing.github.io/systems.html</link>
+<description></description>
+</item>
+<item>
+<title>CELLIUM 005 - Apr 2026</title>
+<link>https://wmealing.github.io/cellium-widget-gallery.html</link>
+<description>Wade Mealings documentation</description>
+</item>
+<item>
+<title>CELLIUM 004 - Apr 2026</title>
+<link>https://wmealing.github.io/cellium-tabs.html</link>
+<description>Wade Mealings documentation</description>
+</item>
+<item>
+<title>CELLIUM 004 - Apr 2026</title>
+<link>https://wmealing.github.io/cellium-updates.html</link>
+<description>Wade Mealings documentation</description>
+</item>
+<item>
+<title>Going pro - ethics</title>
+<link>https://wmealing.github.io/going-pro.html</link>
+<description>Erlang, TUI, Oldschool code</description>
+</item>
+<item>
+<title>Toshiba Toughpad FZ-G1 mk3</title>
+<link>https://wmealing.github.io/toshiba-toughpad-fz-g1-3.html</link>
+<description>Toshiba Toughpad FZ-G1 mk3</description>
+</item>
+<item>
+<title>Abstraction vs Transformation</title>
+<link>https://wmealing.github.io/abstraction-vs-transformation.html</link>
+<description>Why abstractions sucks and trasnformation doesnt</description>
+</item>
+<item>
+<title>Parallel EUnit Testing</title>
+<link>https://wmealing.github.io/eunit-parallel.html</link>
+<description>Wade Mealings documentation</description>
+</item>
+<item>
+<title>Mirai's Watchdog in rust.</title>
+<link>https://wmealing.github.io/watchdog-in-rust.html</link>
+<description>default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'</description>
+</item>
+<item>
+<title>Trickbot persistence.</title>
+<link>https://wmealing.github.io/trickbot-persistence.html</link>
+<description></description>
+</item>
+<item>
+<title>Mirai Delete yourself</title>
+<link>https://wmealing.github.io/mirai-delete-yourself.html</link>
+<description></description>
+</item>
+<item>
+<title>Grokking simplicty notes</title>
+<link>https://wmealing.github.io/grokking-simplicty.html</link>
+<description>default-src 'self'; img-src https://*; child-src 'none';</description>
+</item>
+<item>
+<title>WXerlang simple example</title>
+<link>https://wmealing.github.io/wx-erlang-example.html</link>
+<description>Erlang, TUI, Oldschool code</description>
+</item>
+<item>
+<title>Using erlangs remote shell during devel.</title>
+<link>https://wmealing.github.io/cellium-remote-shell.html</link>
+<description>Using erlangs repl and remote shell during development</description>
+</item>
+<item>
+<title>Building a 3-Node Cluster with Erlang and 'ra'</title>
+<link>https://wmealing.github.io/raft-webserver.html</link>
+<description>Using RA for clustering with native OTP 27+ JSON</description>
+</item>
+<item>
+<title>Signed kernel modules</title>
+<link>https://wmealing.github.io/signed-kernel-modules.html</link>
+<description>Wade Mealings documentation</description>
+</item>
+<item>
+<title>Github actions (CI/CD) for LFE.</title>
+<link>https://wmealing.github.io/lfe-github-actions.html</link>
+<description>Lisp Flavored Erlang  CI/CD.</description>
+</item>
+<item>
+<title>CELLIUM BASIC THEORY</title>
+<link>https://wmealing.github.io/cellium-first.html</link>
+<description>Introduction to cellium concepts</description>
+</item>
+<item>
+<title>CELLIUM 003: progress bar </title>
+<link>https://wmealing.github.io/cellium-progressbar.html</link>
+<description>Cellium progress bar widget</description>
+</item>
+<item>
+<title>Decoding the KO2 Sysex messages.</title>
+<link>https://wmealing.github.io/KO2-EP-133-midi-sysex-messages.html</link>
+<description>Decoding the KO2 EP-133 SYSEX messages from USB MIDI</description>
+</item>
+</channel>
+</rss>

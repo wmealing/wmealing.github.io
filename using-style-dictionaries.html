@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 00:25 -->
+<!-- 2026-04-21 Tue 01:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -19,42 +19,53 @@
 <div id="content" class="content">
 <h1 class="title">Using "style-dictionary" from Clojure.</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-orgcec36b4" class="outline-2">
-<h2 id="orgcec36b4">Summary:</h2>
-<div class="outline-text-2" id="text-orgcec36b4">
+<div id="outline-container-orgafe228a" class="outline-2">
+<h2 id="orgafe228a">Summary:</h2>
+<div class="outline-text-2" id="text-orgafe228a">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -62,9 +73,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </p>
 </div>
 </div>
-<div id="outline-container-org0181643" class="outline-2">
-<h2 id="org0181643">Introduction</h2>
-<div class="outline-text-2" id="text-org0181643">
+<div id="outline-container-org9b86698" class="outline-2">
+<h2 id="org9b86698">Introduction</h2>
+<div class="outline-text-2" id="text-org9b86698">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -79,7 +90,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="org7220fb5">
+<pre class="example" id="org0e92395">
 
 A style dictionary consists of:
 
@@ -108,9 +119,9 @@ explain what the complexities here easily, please drop me a line.
 </p>
 </div>
 </div>
-<div id="outline-container-org3cd1af5" class="outline-2">
-<h2 id="org3cd1af5">Getting the 'design tokens' / 'style dictionary'.</h2>
-<div class="outline-text-2" id="text-org3cd1af5">
+<div id="outline-container-orgcc40cce" class="outline-2">
+<h2 id="orgcc40cce">Getting the 'design tokens' / 'style dictionary'.</h2>
+<div class="outline-text-2" id="text-orgcc40cce">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
@@ -156,9 +167,9 @@ The files it generated were created in the ./json
 </pre>
 </div>
 </div>
-<div id="outline-container-org7cfcb78" class="outline-3">
-<h3 id="org7cfcb78">Using the token json files.</h3>
-<div class="outline-text-3" id="text-org7cfcb78">
+<div id="outline-container-org328a2be" class="outline-3">
+<h3 id="org328a2be">Using the token json files.</h3>
+<div class="outline-text-3" id="text-org328a2be">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
@@ -314,17 +325,17 @@ Along with its 'dark sibling'
 </div>
 </div>
 </div>
-<div id="outline-container-orgccc7b52" class="outline-2">
-<h2 id="orgccc7b52">Conclusion</h2>
-<div class="outline-text-2" id="text-orgccc7b52">
+<div id="outline-container-orgbb9e55e" class="outline-2">
+<h2 id="orgbb9e55e">Conclusion</h2>
+<div class="outline-text-2" id="text-orgbb9e55e">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdb3664a" class="outline-2">
-<h2 id="orgdb3664a">Resources:</h2>
-<div class="outline-text-2" id="text-orgdb3664a">
+<div id="outline-container-org54df115" class="outline-2">
+<h2 id="org54df115">Resources:</h2>
+<div class="outline-text-2" id="text-org54df115">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>

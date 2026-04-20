@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 00:24 -->
+<!-- 2026-04-21 Tue 01:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sending email in common-lisp</title>
@@ -19,59 +19,70 @@
 <div id="content" class="content">
 <h1 class="title">Sending email in common-lisp</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-orgb68787e" class="outline-2">
-<h2 id="orgb68787e">Summary:</h2>
-<div class="outline-text-2" id="text-orgb68787e">
+<div id="outline-container-org33dd4da" class="outline-2">
+<h2 id="org33dd4da">Summary:</h2>
+<div class="outline-text-2" id="text-org33dd4da">
 <p>
 This page covers how to send an email from your common-lisp coding using the cl-smtp library using googles gmail servers.
 </p>
 </div>
 </div>
-<div id="outline-container-org21d9d28" class="outline-2">
-<h2 id="org21d9d28">Introduction</h2>
-<div class="outline-text-2" id="text-org21d9d28">
+<div id="outline-container-org032a0a4" class="outline-2">
+<h2 id="org032a0a4">Introduction</h2>
+<div class="outline-text-2" id="text-org032a0a4">
 <p>
 This post covers a working example on how to send email from the common-lisp (cl) language using googles servers.  The provided
 example has been tested as an individual, and regularly used from the 'google workspace' account.
 </p>
 </div>
 </div>
-<div id="outline-container-org6731237" class="outline-2">
-<h2 id="org6731237">Requirements:</h2>
-<div class="outline-text-2" id="text-org6731237">
+<div id="outline-container-org09e4ef2" class="outline-2">
+<h2 id="org09e4ef2">Requirements:</h2>
+<div class="outline-text-2" id="text-org09e4ef2">
 <p>
 An Application password.
 </p>
@@ -82,9 +93,9 @@ configured for the account or you can not make app passwords.
 </p>
 </div>
 </div>
-<div id="outline-container-org58fa714" class="outline-2">
-<h2 id="org58fa714">The code:</h2>
-<div class="outline-text-2" id="text-org58fa714">
+<div id="outline-container-orgb639e2b" class="outline-2">
+<h2 id="orgb639e2b">The code:</h2>
+<div class="outline-text-2" id="text-orgb639e2b">
 <p>
 Listed below is the common-lisp code that is required to send email.   The "password" is stored
 in the environment variable GMAIL_KEY, as a single string.  Google often displays on the 'app password'
@@ -123,13 +134,13 @@ page as 4 sets of 4 characters, aka xxxx xxxx xxxx xxxx , however experience sho
 </div>
 </div>
 </div>
-<div id="outline-container-orgeadf079" class="outline-2">
-<h2 id="orgeadf079">Ideas for improvement.</h2>
-<div class="outline-text-2" id="text-orgeadf079">
+<div id="outline-container-org89712d2" class="outline-2">
+<h2 id="org89712d2">Ideas for improvement.</h2>
+<div class="outline-text-2" id="text-org89712d2">
 </div>
-<div id="outline-container-orgab0b894" class="outline-3">
-<h3 id="orgab0b894">1. Secret Storage mechanism.</h3>
-<div class="outline-text-3" id="text-orgab0b894">
+<div id="outline-container-org992b193" class="outline-3">
+<h3 id="org992b193">1. Secret Storage mechanism.</h3>
+<div class="outline-text-3" id="text-org992b193">
 <p>
 The application password needs to be stored somewhere, my advice is not to have it stored in plaintext.
 </p>
@@ -140,9 +151,9 @@ some of them have secrets file.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdf73665" class="outline-3">
-<h3 id="orgdf73665">2. Preventing secret leaks.</h3>
-<div class="outline-text-3" id="text-orgdf73665">
+<div id="outline-container-orgaa2f9ee" class="outline-3">
+<h3 id="orgaa2f9ee">2. Preventing secret leaks.</h3>
+<div class="outline-text-3" id="text-orgaa2f9ee">
 <p>
 After the secret is loaded into memory, destroy the file or environment setting so it is harder for attackers
 to abuse the information.
@@ -158,9 +169,9 @@ When it is loaded, use  <a href="https://github.com/rotatef/secret-values">Secre
 </p>
 </div>
 </div>
-<div id="outline-container-org3a3bef2" class="outline-3">
-<h3 id="org3a3bef2">3. Preventing accidental/intention spamming.</h3>
-<div class="outline-text-3" id="text-org3a3bef2">
+<div id="outline-container-orgeb7eb03" class="outline-3">
+<h3 id="orgeb7eb03">3. Preventing accidental/intention spamming.</h3>
+<div class="outline-text-3" id="text-orgeb7eb03">
 <p>
 Your application may accidentally send out hundreds of mail if a function is run repeatedly accidentally.
 It is important that the program keep an accurate, reliable mechanism to know when a limits are abused.
@@ -168,14 +179,14 @@ It is important that the program keep an accurate, reliable mechanism to know wh
 </div>
 </div>
 </div>
-<div id="outline-container-org26f4e0c" class="outline-2">
-<h2 id="org26f4e0c">Conclusion</h2>
-<div class="outline-text-2" id="text-org26f4e0c">
+<div id="outline-container-orga215e11" class="outline-2">
+<h2 id="orga215e11">Conclusion</h2>
+<div class="outline-text-2" id="text-orga215e11">
 </div>
 </div>
-<div id="outline-container-org5c00bac" class="outline-2">
-<h2 id="org5c00bac">Resources:</h2>
-<div class="outline-text-2" id="text-org5c00bac">
+<div id="outline-container-org572a73e" class="outline-2">
+<h2 id="org572a73e">Resources:</h2>
+<div class="outline-text-2" id="text-org572a73e">
 <p>
 <a href="https://gitlab.common-lisp.net/cl-smtp/cl-smtp">https://gitlab.common-lisp.net/cl-smtp/cl-smtp</a>
 </p>

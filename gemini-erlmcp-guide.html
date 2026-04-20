@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 00:24 -->
+<!-- 2026-04-21 Tue 01:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Configuring gemini for erlang-mcp.</title>
@@ -19,42 +19,53 @@
 <div id="content" class="content">
 <h1 class="title">Configuring gemini for erlang-mcp.</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-org5281e99" class="outline-2">
-<h2 id="org5281e99">Summary:</h2>
-<div class="outline-text-2" id="text-org5281e99">
+<div id="outline-container-org9b8babb" class="outline-2">
+<h2 id="org9b8babb">Summary:</h2>
+<div class="outline-text-2" id="text-org9b8babb">
 <p>
 Gemini CLI supports project-specific Model Context Protocol (MCP) server protocol,
 I've recently setup erlang-mcp.  This document explains how to use erlmcp to aid in the
@@ -62,9 +73,9 @@ development of your erlang code, not as an mcp tool for other mean.
 </p>
 </div>
 </div>
-<div id="outline-container-org0943211" class="outline-2">
-<h2 id="org0943211">Introduction</h2>
-<div class="outline-text-2" id="text-org0943211">
+<div id="outline-container-org5c932de" class="outline-2">
+<h2 id="org5c932de">Introduction</h2>
+<div class="outline-text-2" id="text-org5c932de">
 <p>
 MCP's are the new hot thing for AI to interoperate with tooling running on either local or remote systems.
 </p>
@@ -75,17 +86,17 @@ MCP's which allow the AI to verify its beliefs, executing with a real system imm
 and hallucionations earlier in the progress, saving time and money.
 </p>
 </div>
-<div id="outline-container-org54de728" class="outline-3">
-<h3 id="org54de728">Projects and System wide.</h3>
-<div class="outline-text-3" id="text-org54de728">
+<div id="outline-container-orgc0a9ef6" class="outline-3">
+<h3 id="orgc0a9ef6">Projects and System wide.</h3>
+<div class="outline-text-3" id="text-orgc0a9ef6">
 <p>
 Gemini allows for MCP's to exist ia a 'per project' or 'system wide', This entry focuses on the 'per project'
 option,
 </p>
 </div>
-<div id="outline-container-org2f732e5" class="outline-4">
-<h4 id="org2f732e5">Project setup:</h4>
-<div class="outline-text-4" id="text-org2f732e5">
+<div id="outline-container-org56d6bc6" class="outline-4">
+<h4 id="org56d6bc6">Project setup:</h4>
+<div class="outline-text-4" id="text-org56d6bc6">
 <p>
 As you would want to use MCP to write your erlang.
 </p>
@@ -98,9 +109,9 @@ As you would want to use MCP to write your erlang.
 </div>
 </div>
 </div>
-<div id="outline-container-org8972c46" class="outline-4">
-<h4 id="org8972c46">Per Project</h4>
-<div class="outline-text-4" id="text-org8972c46">
+<div id="outline-container-org6b07f1a" class="outline-4">
+<h4 id="org6b07f1a">Per Project</h4>
+<div class="outline-text-4" id="text-org6b07f1a">
 <p>
 Create the .gemini directory: In the root directory of your project.
 </p>
@@ -161,9 +172,9 @@ up your requirements within the erlang code itself.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc931d0b" class="outline-3">
-<h3 id="orgc931d0b">Wrapping MCP in shell script.</h3>
-<div class="outline-text-3" id="text-orgc931d0b">
+<div id="outline-container-orgd25e4db" class="outline-3">
+<h3 id="orgd25e4db">Wrapping MCP in shell script.</h3>
+<div class="outline-text-3" id="text-orgd25e4db">
 <p>
 If you have a lot of setup to do around your project, it might be worthwhile wrapping your MCP in a shell script.
 </p>
@@ -182,9 +193,9 @@ rebar3 as simple shell --eval 'code:load_file(simple_server_stdio), simple_serve
 </div>
 </div>
 </div>
-<div id="outline-container-org2160d5d" class="outline-2">
-<h2 id="org2160d5d">Conclusion</h2>
-<div class="outline-text-2" id="text-org2160d5d">
+<div id="outline-container-org7785ea9" class="outline-2">
+<h2 id="org7785ea9">Conclusion</h2>
+<div class="outline-text-2" id="text-org7785ea9">
 <p>
 You likely already have  of it or you wouldn't have come to this blog, I've given up trying to figure
 out why google wont index this, maybe it'll do it after I've already passed away.  At the time of writing
@@ -192,9 +203,9 @@ I can't find anything I've written on google.
 </p>
 </div>
 </div>
-<div id="outline-container-org6c66f8b" class="outline-2">
-<h2 id="org6c66f8b">Resources:</h2>
-<div class="outline-text-2" id="text-org6c66f8b">
+<div id="outline-container-org0795edd" class="outline-2">
+<h2 id="org0795edd">Resources:</h2>
+<div class="outline-text-2" id="text-org0795edd">
 </div>
 </div>
 </div>

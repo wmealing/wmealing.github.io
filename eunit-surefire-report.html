@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 00:24 -->
+<!-- 2026-04-21 Tue 01:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Consuming eunit surefire xml reports.</title>
@@ -19,42 +19,53 @@
 <div id="content" class="content">
 <h1 class="title">Consuming eunit surefire xml reports.</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-org37fdaa2" class="outline-2">
-<h2 id="org37fdaa2">Introduction</h2>
-<div class="outline-text-2" id="text-org37fdaa2">
+<div id="outline-container-orgc6b545c" class="outline-2">
+<h2 id="orgc6b545c">Introduction</h2>
+<div class="outline-text-2" id="text-orgc6b545c">
 <p>
 Eunit outputs test results on the command line, there is an eunit plugin to
 generate 'surefire' style xml output.  This can be consumed by the 'surefire-reports'
@@ -63,9 +74,9 @@ some people.
 </p>
 </div>
 </div>
-<div id="outline-container-orgce43fd3" class="outline-2">
-<h2 id="orgce43fd3">Basic configuration:</h2>
-<div class="outline-text-2" id="text-orgce43fd3">
+<div id="outline-container-org409efd7" class="outline-2">
+<h2 id="org409efd7">Basic configuration:</h2>
+<div class="outline-text-2" id="text-org409efd7">
 <p>
 Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
 </p>
@@ -248,17 +259,17 @@ html records,  If historical raw data is required, you could version the XML fil
 </p>
 </div>
 </div>
-<div id="outline-container-org2d6535b" class="outline-2">
-<h2 id="org2d6535b">Conclusion</h2>
-<div class="outline-text-2" id="text-org2d6535b">
+<div id="outline-container-orgf491b0c" class="outline-2">
+<h2 id="orgf491b0c">Conclusion</h2>
+<div class="outline-text-2" id="text-orgf491b0c">
 <p>
 The maven surefire reports tool is a simple way to generate html from eunit reports.
 </p>
 </div>
 </div>
-<div id="outline-container-org7845d23" class="outline-2">
-<h2 id="org7845d23">Resources:</h2>
-<div class="outline-text-2" id="text-org7845d23">
+<div id="outline-container-orgaefa753" class="outline-2">
+<h2 id="orgaefa753">Resources:</h2>
+<div class="outline-text-2" id="text-orgaefa753">
 <p>
 <a href="https://www.erlang.org/doc/apps/eunit/chapter.html">https://www.erlang.org/doc/apps/eunit/chapter.html</a>
 </p>

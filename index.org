@@ -9,7 +9,12 @@
 
 * Recent Blog Posts
 
-* [[./cellium-css.html][Cellium 006 - CSS Support - Apr 2026]] 
+* [[./cellium-stateless-render.html][Cellium 007 - State Injection]] - Apr 2026
+
+I've been working on a way to simplify working with widgets in Cellium. Instead of passing every UI detail down through a massive chain of functions, I’m keeping a set of computed values in the model. When it’s time to draw the widget, the draw code looks up the state and grafts it back on right before the draw.
+
+* [[./cellium-css.html][Cellium 006 - CSS Support]] - Apr 2026
+
 
 I haven't talked abotu this yet, but there is basic "styling" support of text widgets in cellium, it makes theming it
 a little easier.  Its 'somewhat' working right now.. i'll need to have support for multiple style sheets, i'll address

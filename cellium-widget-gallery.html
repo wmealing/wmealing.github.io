@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-04 Sat 05:06 -->
+<!-- 2026-04-21 Tue 01:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 005 - Apr 2026</title>
@@ -19,42 +19,53 @@
 <div id="content" class="content">
 <h1 class="title">CELLIUM 005 - Apr 2026</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
-<div id="outline-container-org9826404" class="outline-2">
-<h2 id="org9826404">Summary: Widget Gallery</h2>
-<div class="outline-text-2" id="text-org9826404">
+<div id="outline-container-org5deaba4" class="outline-2">
+<h2 id="org5deaba4">Summary: Widget Gallery</h2>
+<div class="outline-text-2" id="text-org5deaba4">
 <p>
 I've recently updated the widget gallery for 'built in' widgets for cellium.
 </p>
@@ -64,18 +75,18 @@ If you want to see the demo in action, check out my cellium project, rebar3 comp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ make run <span class="org-variable-name">example</span>=widgets_gallery
+<pre class="src src-sh">$ make run example=widgets_gallery
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org269f689" class="outline-2">
-<h2 id="org269f689">Introduction</h2>
-<div class="outline-text-2" id="text-org269f689">
+<div id="outline-container-org52615c7" class="outline-2">
+<h2 id="org52615c7">Introduction</h2>
+<div class="outline-text-2" id="text-org52615c7">
 </div>
-<div id="outline-container-org0b8c536" class="outline-4">
-<h4 id="org0b8c536">Basic:</h4>
-<div class="outline-text-4" id="text-org0b8c536">
+<div id="outline-container-orgbe40af0" class="outline-4">
+<h4 id="orgbe40af0">Basic:</h4>
+<div class="outline-text-4" id="text-orgbe40af0">
 <p>
 The first tab is radio buttons, checkboxes, and regular button, buttons.
 </p>
@@ -88,15 +99,15 @@ tab |&#x2013;&#x2014;| part, but im on the fence at the moment.
 
 
 
-<div id="orgb0e19bb" class="figure">
+<div id="org6b6a4f7" class="figure">
 <p><img src="./images/basic-tab.png" alt="basic-tab.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdc426ee" class="outline-4">
-<h4 id="orgdc426ee">Progress</h4>
-<div class="outline-text-4" id="text-orgdc426ee">
+<div id="outline-container-org1cdbe36" class="outline-4">
+<h4 id="org1cdbe36">Progress</h4>
+<div class="outline-text-4" id="text-org1cdbe36">
 <p>
 Progress meters are useful, these use utf8, because if you're not using utf8 , i dont know what to say about that
 </p>
@@ -130,15 +141,15 @@ Too bad, the screenshots are taken so thats what you're getting.
 
 
 
-<div id="org1895fce" class="figure">
+<div id="org96952aa" class="figure">
 <p><img src="./images/progress-tab.png" alt="progress-tab.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org9f1147a" class="outline-4">
-<h4 id="org9f1147a">Inputs</h4>
-<div class="outline-text-4" id="text-org9f1147a">
+<div id="outline-container-org8b397bc" class="outline-4">
+<h4 id="org8b397bc">Inputs</h4>
+<div class="outline-text-4" id="text-org8b397bc">
 <p>
 This demonstrates a 'frame' widget, with the "Input frame" title.  If you hit tab a few times, the focus
 will change to the contents of the "Input Frame" and you can just type into the text field, super obv.
@@ -147,7 +158,7 @@ will change to the contents of the "Input Frame" and you can just type into the 
 
 
 
-<div id="org2db455d" class="figure">
+<div id="org011225a" class="figure">
 <p><img src="./images/input-tab.png" alt="input-tab.png" />
 </p>
 </div>
@@ -167,9 +178,9 @@ to help with debugging.
 </div>
 </div>
 </div>
-<div id="outline-container-orga6ecb94" class="outline-2">
-<h2 id="orga6ecb94">Conclusion</h2>
-<div class="outline-text-2" id="text-orga6ecb94">
+<div id="outline-container-org4e72b59" class="outline-2">
+<h2 id="org4e72b59">Conclusion</h2>
+<div class="outline-text-2" id="text-org4e72b59">
 <p>
 I'm definitely going to update this again later, when I have more .. widgets, but this is it for now.
 </p>

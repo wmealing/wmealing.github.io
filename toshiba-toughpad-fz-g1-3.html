@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-03-21 Sat 02:11 -->
+<!-- 2026-04-21 Tue 01:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Toshiba Toughpad FZ-G1 mk3</title>
@@ -19,45 +19,56 @@
 <div id="content" class="content">
 <h1 class="title">Toshiba Toughpad FZ-G1 mk3</h1>
 <nav class="navbar-custom">
-    <div class="navbar-grid">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-        <div class="navbar-section">
-            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
-            <div class="navbar-tags">
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
-                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="navbar-section">
-            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
-            <div class="navbar-tags">
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
-                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="navbar-section">
-            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
-            <div class="navbar-tags">
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
-                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
-            </div>
-        </div>
-
     </div>
 </nav>
 <p>
 I've got <b>Fedora 32</b> installed on this system. The advice below may work on other distributions. I'd be happy to do more of these if anyone wanted to throw a few Toughpads my way.
 </p>
-<div id="outline-container-orga1a97ac" class="outline-2">
-<h2 id="orga1a97ac">Brightness:</h2>
-<div class="outline-text-2" id="text-orga1a97ac">
+<div id="outline-container-orgced82f6" class="outline-2">
+<h2 id="orgced82f6">Brightness:</h2>
+<div class="outline-text-2" id="text-orgced82f6">
 <p>
 The brightness controls in <b>Gnome 3 / Fedora 32</b> do not work out of the box. These instructions have also been tested on <b>Red Hat Enterprise Linux 8</b>.
 </p>
@@ -111,9 +122,9 @@ There should only be a single directory in <code>/sys/class/backlight</code> and
 </p>
 </div>
 </div>
-<div id="outline-container-org52dbe83" class="outline-2">
-<h2 id="org52dbe83">DOCK PINOUT</h2>
-<div class="outline-text-2" id="text-org52dbe83">
+<div id="outline-container-orgf09c23d" class="outline-2">
+<h2 id="orgf09c23d">DOCK PINOUT</h2>
+<div class="outline-text-2" id="text-orgf09c23d">
 <p>
 I'm interested in building a dock for this laptop. There are a lot of docks available for it, some as expensive as 1.5k, which are well beyond the acceptable price range that I'm willing to pay for a dock.
 </p>
@@ -299,48 +310,48 @@ I have to assume that the system can also be charged through the dock, I just do
 </p>
 </div>
 </div>
-<div id="outline-container-orgd43907e" class="outline-2">
-<h2 id="orgd43907e">Front facing buttons.</h2>
-<div class="outline-text-2" id="text-orgd43907e">
+<div id="outline-container-orgec97cc0" class="outline-2">
+<h2 id="orgec97cc0">Front facing buttons.</h2>
+<div class="outline-text-2" id="text-orgec97cc0">
 <p>
 The front facing buttons on the Toughpad mostly worked out of the box. I had done some initial setup (implied).
 </p>
 </div>
-<div id="outline-container-orgcdbdfa2" class="outline-3">
-<h3 id="orgcdbdfa2">A1 and A2</h3>
-<div class="outline-text-3" id="text-orgcdbdfa2">
+<div id="outline-container-org871de00" class="outline-3">
+<h3 id="org871de00">A1 and A2</h3>
+<div class="outline-text-3" id="text-org871de00">
 <p>
 Currently have only <b>A1 working</b>, <b>A2 is not working</b>. I've started <a href="./toughpad-fz-g1-buttons-acpi.md">chronicaling my investigation</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-orga4b4d4e" class="outline-3">
-<h3 id="orga4b4d4e">Volume up and volume down</h3>
-<div class="outline-text-3" id="text-orga4b4d4e">
+<div id="outline-container-org48abd77" class="outline-3">
+<h3 id="org48abd77">Volume up and volume down</h3>
+<div class="outline-text-3" id="text-org48abd77">
 <p>
 Status: <b>working</b>
 </p>
 </div>
 </div>
-<div id="outline-container-orga9087d8" class="outline-3">
-<h3 id="orga9087d8">Windows key</h3>
-<div class="outline-text-3" id="text-orga9087d8">
+<div id="outline-container-org5efdd8a" class="outline-3">
+<h3 id="org5efdd8a">Windows key</h3>
+<div class="outline-text-3" id="text-org5efdd8a">
 <p>
 Status: <b>working</b> (Looks like it's working&#x2026; not sure what it sends)
 </p>
 </div>
 </div>
-<div id="outline-container-org2c7c0f5" class="outline-3">
-<h3 id="org2c7c0f5">Rotate key</h3>
-<div class="outline-text-3" id="text-org2c7c0f5">
+<div id="outline-container-orgdec2cc1" class="outline-3">
+<h3 id="orgdec2cc1">Rotate key</h3>
+<div class="outline-text-3" id="text-orgdec2cc1">
 <p>
 Status: <b>working</b> (Screen doesn't rotate, not sure what it sends)
 </p>
 </div>
 </div>
-<div id="outline-container-orgdcb27cc" class="outline-3">
-<h3 id="orgdcb27cc">Power button</h3>
-<div class="outline-text-3" id="text-orgdcb27cc">
+<div id="outline-container-orgd6cae72" class="outline-3">
+<h3 id="orgd6cae72">Power button</h3>
+<div class="outline-text-3" id="text-orgd6cae72">
 <p>
 Status: <b>working</b> (This can power off system)
 </p>
