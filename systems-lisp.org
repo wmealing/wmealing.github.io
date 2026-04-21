@@ -1,0 +1,11 @@
+#+TITLE: Subcategory: Lisp
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts tagged with lisp
+
+- [[file:atomic-operations-in-common-lisp.html][Atomic operations in common lisp]]
+- [[file:caveman2-with-ai.html][CAVEMAN 2 - peer programming with claude.ai in common lisp.]]
+- [[file:htmx-common-lisp.html][HTMX in common lisp.]]
+- [[file:lisp-range.html][Python range operator in lisp.]]
+- [[file:sending-email-in-common-lisp.html][Sending email in common-lisp]]

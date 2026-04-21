@@ -1,5 +1,5 @@
 #+TITLE: Using "style-dictionary" from Clojure.
-#+FILETAGS: :tooling:
+#+FILETAGS: :tooling:clojure:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"

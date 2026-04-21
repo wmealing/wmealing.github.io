@@ -3,6 +3,7 @@
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
+#+FILETAGS: :systems:cellium:
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
 
 * Summary: Widget Gallery

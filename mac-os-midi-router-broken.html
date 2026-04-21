@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mac OS X Sonoma midi router is broken.</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,18 +63,18 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgf651514" class="outline-2">
-<h2 id="orgf651514">Summary:</h2>
-<div class="outline-text-2" id="text-orgf651514">
+<div id="outline-container-orgc464243" class="outline-2">
+<h2 id="orgc464243">Summary:</h2>
+<div class="outline-text-2" id="text-orgc464243">
 <p>
 How to connect a USB midi keyboard (Minilab3) to a synthesizer (KO2) using
 a USB MIDI host.
 </p>
 </div>
 </div>
-<div id="outline-container-org8084135" class="outline-2">
-<h2 id="org8084135">Introduction</h2>
-<div class="outline-text-2" id="text-org8084135">
+<div id="outline-container-org3e9be2e" class="outline-2">
+<h2 id="org3e9be2e">Introduction</h2>
+<div class="outline-text-2" id="text-org3e9be2e">
 <p>
 I believed there should be a method of connecting two digital musical instruments
 together via USB.  This shouldn't be too much to ask.  The Musical Instrument
@@ -96,18 +96,18 @@ technology.  A USB Midi standard happened, and that brings you to my recent
 two purchases:
 </p>
 </div>
-<div id="outline-container-org6148105" class="outline-3">
-<h3 id="org6148105">ARTURIA Minilab 3</h3>
-<div class="outline-text-3" id="text-org6148105">
+<div id="outline-container-orge6b02b0" class="outline-3">
+<h3 id="orge6b02b0">ARTURIA Minilab 3</h3>
+<div class="outline-text-3" id="text-orge6b02b0">
 <p>
 A compact MIDI controller known for its versatility and tactile feel, offering
 an array of pads, knobs, and keys for expressive performance.
 </p>
 </div>
 </div>
-<div id="outline-container-org0799630" class="outline-3">
-<h3 id="org0799630">KO2 Sampler Composer</h3>
-<div class="outline-text-3" id="text-org0799630">
+<div id="outline-container-org982c90d" class="outline-3">
+<h3 id="org982c90d">KO2 Sampler Composer</h3>
+<div class="outline-text-3" id="text-org982c90d">
 <p>
 A powerful sampler and composer, capable of transforming MIDI input into
 rich, textured soundscapes and melodies.  Its the new kid on the block.
@@ -154,7 +154,7 @@ Below is an example of the routing that I had expected to work (IT DOES NOT).
 </p>
 
 
-<div id="orgebc509c" class="figure">
+<div id="orge67bfb3" class="figure">
 <p><img src="./images/apple-midi-studio-routing-broken.png" alt="apple-midi-studio-routing-broken.png" width="800px" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Broken midi studio in osx.</p>
@@ -173,9 +173,9 @@ software companies in the world.  However I assure you that it appears that it d
 </div>
 </div>
 </div>
-<div id="outline-container-org8bf0251" class="outline-2">
-<h2 id="org8bf0251">What to do ?</h2>
-<div class="outline-text-2" id="text-org8bf0251">
+<div id="outline-container-org2169b30" class="outline-2">
+<h2 id="org2169b30">What to do ?</h2>
+<div class="outline-text-2" id="text-org2169b30">
 <p>
 I was told that there was some software that may help.  It was spoken about in hushed tones.
 The software was named "MIDI PATCHBAY",  Which sounds like exactly what I needed.  I had an
@@ -216,7 +216,7 @@ You can add a route with the button named "Add New Route". Check out this beauti
 </p>
 
 
-<div id="orgfd0f1df" class="figure">
+<div id="org0b2d95a" class="figure">
 <p><img src="./images/midi-router.png" alt="midi-router.png" width="800px" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Working application to route midi.</p>
@@ -233,18 +233,18 @@ the midi events are sent through to the KO2 and it works.
 </p>
 </div>
 </div>
-<div id="outline-container-orga307eba" class="outline-2">
-<h2 id="orga307eba">Conclusion</h2>
-<div class="outline-text-2" id="text-orga307eba">
+<div id="outline-container-org3f07655" class="outline-2">
+<h2 id="org3f07655">Conclusion</h2>
+<div class="outline-text-2" id="text-org3f07655">
 <p>
 Apple OSX midi configuration software is likely broken, I found "Midi router" that seems to route midi
 messages.  It works great.
 </p>
 </div>
 </div>
-<div id="outline-container-orge3944ad" class="outline-2">
-<h2 id="orge3944ad">Resources:</h2>
-<div class="outline-text-2" id="text-orge3944ad">
+<div id="outline-container-org95c5e33" class="outline-2">
+<h2 id="org95c5e33">Resources:</h2>
+<div class="outline-text-2" id="text-org95c5e33">
 <p>
 <a href="https://github.com/yaros-eu/midi_router/tree/master">Midi Router</a>
 </p>

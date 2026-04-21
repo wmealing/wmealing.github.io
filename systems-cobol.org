@@ -1,0 +1,7 @@
+#+TITLE: Subcategory: Cobol
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts tagged with cobol
+
+- [[file:simple-cobol-query.html][GNUCOBOL "SCREEN" and keyboard input.]]

@@ -1,5 +1,5 @@
 #+TITLE: Why eBPF for users is disabled in some distributions
-#+FILETAGS: :security:
+#+FILETAGS: :security:ebpf:
 #+AUTHOR: Wade mealing
 #+DATE: 2020-09-02 Wed 13:53
 

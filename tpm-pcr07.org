@@ -1,5 +1,5 @@
 #+TITLE: PCRS on Red Hat Enterprise Linux.
-#+FILETAGS: :security:
+#+FILETAGS: :security:kernel:
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
 #+OPTIONS: ^:nil num:nil

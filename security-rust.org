@@ -1,0 +1,7 @@
+#+TITLE: Subcategory: Rust
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts tagged with rust
+
+- [[file:watchdog-in-rust.html][Mirai's Watchdog in rust.]]

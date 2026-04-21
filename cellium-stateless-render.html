@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:17 -->
+<!-- 2026-04-21 Tue 14:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Cellium State Injection</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgfeb944e" class="outline-2">
-<h2 id="orgfeb944e">Summary:</h2>
-<div class="outline-text-2" id="text-orgfeb944e">
+<div id="outline-container-org224a663" class="outline-2">
+<h2 id="org224a663">Summary:</h2>
+<div class="outline-text-2" id="text-org224a663">
 <p>
 <a href="https://github.com/wmealing/cellium">Cellium</a> implements the <a href="https://guide.elm-lang.org/architecture/">Elm Architecture</a>, I've been working on some minor changes to make working with it in erlang as simply as I can.
 </p>
@@ -81,9 +81,9 @@ Maybe its a bad idea to have 'widget data' in the Model, fortunately its optiona
 </p>
 </div>
 </div>
-<div id="outline-container-org570a3f7" class="outline-2">
-<h2 id="org570a3f7">Introduction</h2>
-<div class="outline-text-2" id="text-org570a3f7">
+<div id="outline-container-org859bf0f" class="outline-2">
+<h2 id="org859bf0f">Introduction</h2>
+<div class="outline-text-2" id="text-org859bf0f">
 <p>
 While writing applications using my Cellium application, I found myself writing the same pattern of code over and over again.  This can not stand.
 </p>
@@ -156,9 +156,9 @@ and merge the values for that widget id, into the dsl automatically.
 This magic is optional magic though, you dont need to put or have a widget_states in your mode, I'm not your mum.
 </p>
 </div>
-<div id="outline-container-org49b5df8" class="outline-4">
-<h4 id="org49b5df8">Example:</h4>
-<div class="outline-text-4" id="text-org49b5df8">
+<div id="outline-container-org82ed7d3" class="outline-4">
+<h4 id="org82ed7d3">Example:</h4>
+<div class="outline-text-4" id="text-org82ed7d3">
 <p>
 In the example below, notice how `text_input` and `list` are defined with only an `id`.
 The framework "fills in" the text and scroll position automatically from the Model.
@@ -174,9 +174,9 @@ The framework "fills in" the text and scroll position automatically from the Mod
 </div>
 </div>
 </div>
-<div id="outline-container-org25e5134" class="outline-4">
-<h4 id="org25e5134">Initializing State</h4>
-<div class="outline-text-4" id="text-org25e5134">
+<div id="outline-container-orgfcdbee1" class="outline-4">
+<h4 id="orgfcdbee1">Initializing State</h4>
+<div class="outline-text-4" id="text-orgfcdbee1">
 <p>
 You can provide initial values for components in your <code>init/1</code> function:
 </p>
@@ -255,9 +255,9 @@ other parts of your system.  If you had multiple values to merge, just save it f
 </p>
 </div>
 </div>
-<div id="outline-container-orgd0f8118" class="outline-4">
-<h4 id="orgd0f8118">What does this look like ?</h4>
-<div class="outline-text-4" id="text-orgd0f8118">
+<div id="outline-container-org39823ef" class="outline-4">
+<h4 id="org39823ef">What does this look like ?</h4>
+<div class="outline-text-4" id="text-org39823ef">
 <p>
 This means that updating the widget_states of the model, eventually will affect the rendered widget, so that
 modification in <code>update/2</code> above would turn:
@@ -285,17 +285,17 @@ This means you can update the widgets in the modules <code>update/2</code> funct
 </div>
 </div>
 </div>
-<div id="outline-container-org5eb6cc1" class="outline-2">
-<h2 id="org5eb6cc1">Conclusion</h2>
-<div class="outline-text-2" id="text-org5eb6cc1">
+<div id="outline-container-org71ff5f5" class="outline-2">
+<h2 id="org71ff5f5">Conclusion</h2>
+<div class="outline-text-2" id="text-org71ff5f5">
 <p>
 Just do things, this is my thing.
 </p>
 </div>
 </div>
-<div id="outline-container-orgee05144" class="outline-2">
-<h2 id="orgee05144">Resources:</h2>
-<div class="outline-text-2" id="text-orgee05144">
+<div id="outline-container-org544f47b" class="outline-2">
+<h2 id="org544f47b">Resources:</h2>
+<div class="outline-text-2" id="text-org544f47b">
 <ul class="org-ul">
 <li><a href="https://erlang.org/documentation/doc-6.0/doc/reference_manual/maps.html">Erlang maps docs</a></li>
 </ul>

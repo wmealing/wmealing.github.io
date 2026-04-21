@@ -1,5 +1,5 @@
 #+TITLE: Building a 3-Node Cluster with Erlang and 'ra'
-#+FILETAGS: :systems:
+#+FILETAGS: :systems:erlang:
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html

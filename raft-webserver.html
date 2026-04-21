@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a 3-Node Cluster with Erlang and 'ra'</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org8194ac2" class="outline-2">
-<h2 id="org8194ac2">Summary</h2>
-<div class="outline-text-2" id="text-org8194ac2">
+<div id="outline-container-org1e29e62" class="outline-2">
+<h2 id="org1e29e62">Summary</h2>
+<div class="outline-text-2" id="text-org1e29e62">
 <p>
 In this post, we’re going to build a small, highly available Key-Value store using ra, an implementation of the
 Raft consensus protocol.  The "Wade" web server (not made by myself) is running to present this data to
@@ -73,9 +73,9 @@ the end user.
 </p>
 </div>
 </div>
-<div id="outline-container-org40a4051" class="outline-2">
-<h2 id="org40a4051">Introduction</h2>
-<div class="outline-text-2" id="text-org40a4051">
+<div id="outline-container-org960f465" class="outline-2">
+<h2 id="org960f465">Introduction</h2>
+<div class="outline-text-2" id="text-org960f465">
 <p>
 If you’ve spent any time in the Erlang ecosystem, you’ve heard the mantra: "Let it crash". Erlang supervisors are
 world-class at restarting processes and returning a system to a clean state.
@@ -102,9 +102,9 @@ instead of that i plan to talk about the practical side while using 'ra' in  erl
 </p>
 </div>
 </div>
-<div id="outline-container-org047a72a" class="outline-2">
-<h2 id="org047a72a">The Architecture:</h2>
-<div class="outline-text-2" id="text-org047a72a">
+<div id="outline-container-orgd61b2a3" class="outline-2">
+<h2 id="orgd61b2a3">The Architecture:</h2>
+<div class="outline-text-2" id="text-orgd61b2a3">
 <p>
 In this specific implementation, I've chosen some useful erlang libraries:
 </p>
@@ -122,9 +122,9 @@ running on their own ip, each 'nodes' special config is in the ./config director
 </p>
 </div>
 </div>
-<div id="outline-container-orgc6937e9" class="outline-2">
-<h2 id="orgc6937e9">Getting "Consensus" and dealing with failures:</h2>
-<div class="outline-text-2" id="text-orgc6937e9">
+<div id="outline-container-orgac63ae6" class="outline-2">
+<h2 id="orgac63ae6">Getting "Consensus" and dealing with failures:</h2>
+<div class="outline-text-2" id="text-orgac63ae6">
 <p>
 The <a href="https://raft.github.io/">Raft Consensus algorithm</a> is a distributed consensus algorithm between different 'nodes'.
 When the cluster starts, it DOES require all the nodes to connect and join the cluster.  Only
@@ -144,17 +144,17 @@ across each node in the cluster. Only once a majority of nodes have acknowledged
 </p>
 </div>
 </div>
-<div id="outline-container-orgd112838" class="outline-2">
-<h2 id="orgd112838">The implementation:</h2>
-<div class="outline-text-2" id="text-orgd112838">
+<div id="outline-container-orge715197" class="outline-2">
+<h2 id="orge715197">The implementation:</h2>
+<div class="outline-text-2" id="text-orge715197">
 <p>
 To get this running, we’ll us <code>rebar3</code>. Our goal is to have the <code>ra</code> library and our
 <code>wade</code> endpoints initialized as part of the application startup, lets do that.
 </p>
 </div>
-<div id="outline-container-org6dc4c04" class="outline-3">
-<h3 id="org6dc4c04">1. Dependencies and Profiles</h3>
-<div class="outline-text-3" id="text-org6dc4c04">
+<div id="outline-container-org010fd7e" class="outline-3">
+<h3 id="org010fd7e">1. Dependencies and Profiles</h3>
+<div class="outline-text-3" id="text-org010fd7e">
 <p>
 Create a new app:
 </p>
@@ -185,9 +185,9 @@ a different TCP port, because its easier.
 </p>
 </div>
 </div>
-<div id="outline-container-orga0d24c1" class="outline-3">
-<h3 id="orga0d24c1">2. The Supervisor and Cluster Init</h3>
-<div class="outline-text-3" id="text-orga0d24c1">
+<div id="outline-container-orgcb46cbb" class="outline-3">
+<h3 id="orgcb46cbb">2. The Supervisor and Cluster Init</h3>
+<div class="outline-text-3" id="text-orgcb46cbb">
 <p>
 The first step would be to create module that implements the 'ra_machine'
 behavior.  This is not a gen_server, this defines the 'Machine Module' and then
@@ -218,17 +218,17 @@ pass it to the cluster initialization (in ra:start_cluster/4).
 </div>
 </div>
 </div>
-<div id="outline-container-org4756aa2" class="outline-3">
-<h3 id="org4756aa2">3. The cluster bootstrapper.</h3>
-<div class="outline-text-3" id="text-org4756aa2">
+<div id="outline-container-orgd826982" class="outline-3">
+<h3 id="orgd826982">3. The cluster bootstrapper.</h3>
+<div class="outline-text-3" id="text-orgd826982">
 <p>
 The ha_app_bootstrapper.erl module is a gen_server responsible for ensuring the Raft cluster is initialized
 and that the local node correctly joins or restarts its participation in that cluster.
 </p>
 </div>
-<div id="outline-container-org6fbfca5" class="outline-4">
-<h4 id="org6fbfca5">How it "Calls Itself" (The Bootstrap Loop)</h4>
-<div class="outline-text-4" id="text-org6fbfca5">
+<div id="outline-container-orge3a05e2" class="outline-4">
+<h4 id="orge3a05e2">How it "Calls Itself" (The Bootstrap Loop)</h4>
+<div class="outline-text-4" id="text-orge3a05e2">
 <p>
 The module uses Erlang's message-passing system to create a non-blocking retry loop.
 This prevents the node from hanging if peers are not yet online.  This is the method
@@ -249,16 +249,16 @@ state in the background.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3d27ee7" class="outline-4">
-<h4 id="org3d27ee7">How it Starts or Joins the Cluster</h4>
-<div class="outline-text-4" id="text-org3d27ee7">
+<div id="outline-container-org66a86ee" class="outline-4">
+<h4 id="org66a86ee">How it Starts or Joins the Cluster</h4>
+<div class="outline-text-4" id="text-org66a86ee">
 <p>
 The logic follows a specific hierarchy of checks to determine the node's role:
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org99fdc50"></a>Step A: Network Connectivity<br />
-<div class="outline-text-5" id="text-org99fdc50">
+<li><a id="orgaf81596"></a>Step A: Network Connectivity<br />
+<div class="outline-text-5" id="text-orgaf81596">
 <div class="org-src-container">
 <pre class="src src-erlang">handle_info(bootstrap, State = #{nodes := Nodes}) -&gt;
   ClusterName = kv_store,
@@ -275,8 +275,8 @@ allowing the <a href="https://github.com/rabbitmq/ra">ra library</a> to communic
 </p>
 </div>
 </li>
-<li><a id="orgb5da997"></a>Step B: Starting the Raft System<br />
-<div class="outline-text-5" id="text-orgb5da997">
+<li><a id="org9a8b9cc"></a>Step B: Starting the Raft System<br />
+<div class="outline-text-5" id="text-org9a8b9cc">
 <p>
 Raft is a consensus algorithm designed for managing a replicated log across a cluster of nodes, ensuring all nodes agree
 on the same data and state, even during failures.  Raft clusters usually need an odd number of nodes, (most commonly 3 or 5),
@@ -306,8 +306,8 @@ the default ra_system should be started and the ra:overview() function should re
 </div>
 </div>
 </li>
-<li><a id="org170f88b"></a>Step C: Restarting or Joining (Existing State)<br />
-<div class="outline-text-5" id="text-org170f88b">
+<li><a id="org79756be"></a>Step C: Restarting or Joining (Existing State)<br />
+<div class="outline-text-5" id="text-org79756be">
 <p>
 If the Raft system is running, it checks if this node already knows about the kv_store cluster:
 </p>
@@ -335,8 +335,8 @@ case maps:find(ClusterName, Servers) of
 </div>
 </div>
 </li>
-<li><a id="org38f3dbc"></a>Step D: Bootstrapping a Fresh Cluster<br />
-<div class="outline-text-5" id="text-org38f3dbc">
+<li><a id="orgc36811a"></a>Step D: Bootstrapping a Fresh Cluster<br />
+<div class="outline-text-5" id="text-orgc36811a">
 <div class="org-src-container">
 <pre class="src src-erlang">case node() == hd(Nodes) of
   true -&gt;
@@ -411,9 +411,9 @@ across all nodes.
 </ul>
 </div>
 </div>
-<div id="outline-container-org8363b33" class="outline-3">
-<h3 id="org8363b33">3. The State Machine (src/my_kv_machine.erl)</h3>
-<div class="outline-text-3" id="text-org8363b33">
+<div id="outline-container-orga78e3bb" class="outline-3">
+<h3 id="orga78e3bb">3. The State Machine (src/my_kv_machine.erl)</h3>
+<div class="outline-text-3" id="text-orga78e3bb">
 <p>
 This is where the 'consensus' becomes 'state'. RA internally replays
 commands to recreate the map.  This is a very simplified machine and
@@ -451,9 +451,9 @@ making the information overload too high.
 </p>
 </div>
 </div>
-<div id="outline-container-orgecb521a" class="outline-3">
-<h3 id="orgecb521a">4. The Web Handler (src/wade_raft_handler.erl)</h3>
-<div class="outline-text-3" id="text-orgecb521a">
+<div id="outline-container-org7470791" class="outline-3">
+<h3 id="org7470791">4. The Web Handler (src/wade_raft_handler.erl)</h3>
+<div class="outline-text-3" id="text-org7470791">
 <p>
 The web site  we have created is a simple method to show the operational status of
 each of the cluster nodes.  Each of the nodes serves up the same data, querying
@@ -489,17 +489,17 @@ only three nodes, with specific names, which was done to simplify the demonstrat
 </div>
 </div>
 </div>
-<div id="outline-container-orgf77b5c3" class="outline-2">
-<h2 id="orgf77b5c3">Demonstration.</h2>
-<div class="outline-text-2" id="text-orgf77b5c3">
+<div id="outline-container-org85ac39e" class="outline-2">
+<h2 id="org85ac39e">Demonstration.</h2>
+<div class="outline-text-2" id="text-org85ac39e">
 <p>
 Robert Virdings has a famous quote <a href="https://erlangforums.com/t/roberts-comment-and-now-for-the-tricky-bit-anyone-know-where-it-was-made/5154/3">and now for the tricky bit</a>.  You may hav enoticed
 that this is at the start of the demonstration section, that is intentional.
 </p>
 </div>
-<div id="outline-container-org3b72e6a" class="outline-3">
-<h3 id="org3b72e6a">Step 1: The "Happy Path"</h3>
-<div class="outline-text-3" id="text-org3b72e6a">
+<div id="outline-container-org565d3c7" class="outline-3">
+<h3 id="org565d3c7">Step 1: The "Happy Path"</h3>
+<div class="outline-text-3" id="text-org565d3c7">
 <p>
 Erlang has its own <a href="https://www.erlang.org/doc/apps/erts/erl_dist_protocol.html">distribution protocol</a>, which allows connected erlang nodes to be
 able to communicate with other nodes using the built-in library using existing erlang
@@ -530,7 +530,7 @@ Post some data to the leader with curl or visit the web page:
 </p>
 
 
-<div id="org18cf399" class="figure">
+<div id="orgd2e7e5b" class="figure">
 <p><img src="./images/key-value-form.png" alt="key-value-form.png" />
 </p>
 </div>
@@ -540,15 +540,15 @@ This should appear in the display box above the form:
 </p>
 
 
-<div id="org682db58" class="figure">
+<div id="org6c1fe81" class="figure">
 <p><img src="./images/kv-state.png" alt="kv-state.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org32d5597" class="outline-3">
-<h3 id="org32d5597">Step 2: Terminating the node</h3>
-<div class="outline-text-3" id="text-org32d5597">
+<div id="outline-container-org1055299" class="outline-3">
+<h3 id="org1055299">Step 2: Terminating the node</h3>
+<div class="outline-text-3" id="text-org1055299">
 <p>
 Find the OS process for Node 1 (the Leader) and <code>kill -9</code> it. The cluster pauses
 for a split second, heartbeats fail, and Nodes 2 and 3 hold an election. One is
@@ -557,15 +557,15 @@ functional.
 </p>
 
 
-<div id="org4cb077f" class="figure">
+<div id="org0436718" class="figure">
 <p><img src="./images/node1-down.png" alt="node1-down.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbeff61d" class="outline-3">
-<h3 id="orgbeff61d">Step 3: The Resurrection</h3>
-<div class="outline-text-3" id="text-orgbeff61d">
+<div id="outline-container-org9cc4a53" class="outline-3">
+<h3 id="org9cc4a53">Step 3: The Resurrection</h3>
+<div class="outline-text-3" id="text-org9cc4a53">
 <p>
 Bring Node 1 back online. It will realize it is behind. It will receive a log
 update from the new Leader and jump forward in history instantly. The protocol
@@ -577,7 +577,7 @@ It isnt exciting, but all nodes end up syncing up.
 </p>
 
 
-<div id="org21f23c0" class="figure">
+<div id="orgedbd2b9" class="figure">
 <p><img src="./images/node1-recovered.png" alt="node1-recovered.png" />
 </p>
 </div>
@@ -589,9 +589,9 @@ HA is quite decent.
 </p>
 </div>
 </div>
-<div id="outline-container-org17b9171" class="outline-3">
-<h3 id="org17b9171">Trade offs</h3>
-<div class="outline-text-3" id="text-org17b9171">
+<div id="outline-container-org2ba3f1c" class="outline-3">
+<h3 id="org2ba3f1c">Trade offs</h3>
+<div class="outline-text-3" id="text-org2ba3f1c">
 <p>
 Using the ra library for consensus in Erlang/OTP applications offers a robust, Raft-based alternative to erlangs built in 'mnesia'.
 </p>
@@ -624,9 +624,9 @@ each cluster must be re-created at each of of the code upgrade points.
 </p>
 </div>
 </div>
-<div id="outline-container-org8276c20" class="outline-3">
-<h3 id="org8276c20">Future.</h3>
-<div class="outline-text-3" id="text-org8276c20">
+<div id="outline-container-org77189f5" class="outline-3">
+<h3 id="org77189f5">Future.</h3>
+<div class="outline-text-3" id="text-org77189f5">
 <p>
 It may be worth investigating, several operational and architectural challenges emerge
 that warrant deeper investigation. Distributed systems built on Raft consensus, such as those utilizing
@@ -634,9 +634,9 @@ the ra library, offer robust consistency, but their real-world performance is he
 handle network volatility and data density.
 </p>
 </div>
-<div id="outline-container-org5d21238" class="outline-4">
-<h4 id="org5d21238">Operational Resilience and Partition Logic</h4>
-<div class="outline-text-4" id="text-org5d21238">
+<div id="outline-container-org1de8f49" class="outline-4">
+<h4 id="org1de8f49">Operational Resilience and Partition Logic</h4>
+<div class="outline-text-4" id="text-org1de8f49">
 <p>
 A primary focus of our upcoming research will be the nuance of failure detection. There is a significant
 operational difference between a terminated node and a simple network partition. We aim to rigorously test
@@ -646,9 +646,9 @@ during transient network instability.
 </p>
 </div>
 </div>
-<div id="outline-container-org99b14d4" class="outline-4">
-<h4 id="org99b14d4">Benchmarking State and Recovery</h4>
-<div class="outline-text-4" id="text-org99b14d4">
+<div id="outline-container-org9429f38" class="outline-4">
+<h4 id="org9429f38">Benchmarking State and Recovery</h4>
+<div class="outline-text-4" id="text-org9429f38">
 <p>
 Efficiency is another major frontier. We plan to quantify the "storage tax" of the State Machine—measuring
 the disk footprint utilized by ra for its write-ahead logs and snapshots compared to the actual application
@@ -658,9 +658,9 @@ more educated decisions on what size data is right for an application.
 </p>
 </div>
 </div>
-<div id="outline-container-orge3d8379" class="outline-4">
-<h4 id="orge3d8379">Dynamic Scaling and Advanced Storage</h4>
-<div class="outline-text-4" id="text-orge3d8379">
+<div id="outline-container-org6003349" class="outline-4">
+<h4 id="org6003349">Dynamic Scaling and Advanced Storage</h4>
+<div class="outline-text-4" id="text-org6003349">
 <p>
 Finally, we are exploring ways to move beyond the constraints of static configuration. Our goals include:
 </p>
@@ -679,9 +679,9 @@ Finally, we are exploring ways to move beyond the constraints of static configur
 </div>
 </div>
 </div>
-<div id="outline-container-org8627229" class="outline-3">
-<h3 id="org8627229">Resources</h3>
-<div class="outline-text-3" id="text-org8627229">
+<div id="outline-container-org6a0d0e8" class="outline-3">
+<h3 id="org6a0d0e8">Resources</h3>
+<div class="outline-text-3" id="text-org6a0d0e8">
 <p>
 <a href="https://github.com/wmealing/ha_app">The 'ha_app" demonstration app referenced in this blog.</a>
 </p>

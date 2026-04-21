@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Github actions (CI/CD) for LFE.</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orge8d1215" class="outline-2">
-<h2 id="orge8d1215">What is CD/CD ?</h2>
-<div class="outline-text-2" id="text-orge8d1215">
+<div id="outline-container-org7f85bc1" class="outline-2">
+<h2 id="org7f85bc1">What is CD/CD ?</h2>
+<div class="outline-text-2" id="text-org7f85bc1">
 <p>
 If you want to take the headache and room for human error out of delivering software, the current trend is to
 use "Continious Integration" and "Continious Delivery" which is a fancy word for automated testing of Merge requests
@@ -81,7 +81,7 @@ branded as 'GitHub Actions'.
 In their words:
 </p>
 
-<pre class="example" id="orgad7cd19">
+<pre class="example" id="org8c9bd87">
 GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that
 allows you to automate your build, test, and deployment pipeline. You can create workflows
 that build and test every pull request to your repository, or deploy merged pull requests
@@ -89,9 +89,9 @@ to production.
 </pre>
 </div>
 </div>
-<div id="outline-container-org5b4449e" class="outline-2">
-<h2 id="org5b4449e">Why do I need it ?</h2>
-<div class="outline-text-2" id="text-org5b4449e">
+<div id="outline-container-org3136db5" class="outline-2">
+<h2 id="org3136db5">Why do I need it ?</h2>
+<div class="outline-text-2" id="text-org3136db5">
 <p>
 Github have a high level overview of their offerings, along with how they expect it to be
 used <a href="https://resources.github.com/ci-cd/">on their github resources page</a>. With minimal effort, you can find many well thought out sites that
@@ -109,9 +109,9 @@ Unlike the GitHub docs, I'm not giving you the shiny version, only how I see it.
 </p>
 </div>
 </div>
-<div id="outline-container-orge511b7b" class="outline-2">
-<h2 id="orge511b7b">How it works.</h2>
-<div class="outline-text-2" id="text-orge511b7b">
+<div id="outline-container-org5304b41" class="outline-2">
+<h2 id="org5304b41">How it works.</h2>
+<div class="outline-text-2" id="text-org5304b41">
 <ol class="org-ol">
 <li>An event occurs on your repository (push, pull, mr ).</li>
 <li>GitHub searches the .github/workflows directory in your repository for "yml" workflow files that are present.</li>
@@ -251,9 +251,9 @@ part of this , I will probably expand on in another post.
 </p>
 </div>
 </div>
-<div id="outline-container-org18b909a" class="outline-2">
-<h2 id="org18b909a">Resources:</h2>
-<div class="outline-text-2" id="text-org18b909a">
+<div id="outline-container-org1847201" class="outline-2">
+<h2 id="org1847201">Resources:</h2>
+<div class="outline-text-2" id="text-org1847201">
 <p>
 <a href="https://github.com/wmealing/CI-CD-TEST/tree/main">https://github.com/wmealing/CI-CD-TEST/tree/main</a>
 </p>

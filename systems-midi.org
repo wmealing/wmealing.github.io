@@ -1,0 +1,7 @@
+#+TITLE: Subcategory: Midi
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts tagged with midi
+
+- [[file:KO2-EP-133-midi-sysex-messages.html][Decoding the KO2 Sysex messages.]]

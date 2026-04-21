@@ -4,6 +4,7 @@
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+#+FILETAGS: :systems:cellium:
 
 * Summary: Docs published annd conversion to a 'library'.
 :PROPERTIES:

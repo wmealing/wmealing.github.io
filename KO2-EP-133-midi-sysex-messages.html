@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Decoding the KO2 Sysex messages.</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,18 +63,18 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org5f3ecee" class="outline-2">
-<h2 id="org5f3ecee">Summary:</h2>
-<div class="outline-text-2" id="text-org5f3ecee">
+<div id="outline-container-org38ecaa5" class="outline-2">
+<h2 id="org38ecaa5">Summary:</h2>
+<div class="outline-text-2" id="text-org38ecaa5">
 <p>
 We're going to dive into what I can find out about the teenage engineering.  I'm documenting my findings
 and explaining how you can help.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdff3ee5" class="outline-2">
-<h2 id="orgdff3ee5">Introduction</h2>
-<div class="outline-text-2" id="text-orgdff3ee5">
+<div id="outline-container-orgcd66ca3" class="outline-2">
+<h2 id="orgcd66ca3">Introduction</h2>
+<div class="outline-text-2" id="text-orgcd66ca3">
 <p>
 Sysex is a subtype of midi messages.  This is not the notes, samples, or any other kind of music data.
 It is a side band to transfer "non midi" information.
@@ -96,9 +96,9 @@ I WOULD appreciate a dump of your ko2 long with any insight you can provide (eve
 If you use this data in a library or document, please give me a reference for the work done here that has helped you.
 </p>
 </div>
-<div id="outline-container-orgbff2eed" class="outline-3">
-<h3 id="orgbff2eed">How you can help:</h3>
-<div class="outline-text-3" id="text-orgbff2eed">
+<div id="outline-container-org766d065" class="outline-3">
+<h3 id="org766d065">How you can help:</h3>
+<div class="outline-text-3" id="text-org766d065">
 <p>
 Download a a midi monitor such as Midi monitor ( <a href="https://www.snoize.com/midimonitor/">https://www.snoize.com/midimonitor/</a> for mac) Or <a href="https://www.bome.com/products/sendsx">send sx</a> for windows
 or <a href="https://alsa.opensrc.org/Amidi">amidi</a> for Linux.  Each of them has their own method of capturing that you should test.  Ensure that you can both
@@ -120,14 +120,14 @@ further decoding these packets, please email me at the name of this blog (ie the
 </div>
 </div>
 </div>
-<div id="outline-container-orge6da7be" class="outline-2">
-<h2 id="orge6da7be">Stage 1: On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https://teenage.engineering/apps/ep-sample-tool</a> )</h2>
-<div class="outline-text-2" id="text-orge6da7be">
+<div id="outline-container-org51a38f6" class="outline-2">
+<h2 id="org51a38f6">Stage 1: On sample tool ( <a href="https://teenage.engineering/apps/ep-sample-tool">https://teenage.engineering/apps/ep-sample-tool</a> )</h2>
+<div class="outline-text-2" id="text-org51a38f6">
 <p>
 Connect the EP-133 to the USB, visit the website, power on the device:
 </p>
 
-<pre class="example" id="org650cf48">
+<pre class="example" id="org1a25874">
 0  20:17:26.941	From EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
 1  20:17:27.201	To EP-133	SysEx		Universal Non-Real Time 6 bytes	F0 7E 7F 06 01 F7
 2  20:17:27.209	From EP-133	SysEx		Universal Non-Real Time 17 bytes	F0 7E 33 06 02 00 20 76 20 00 01 00 00 00 00 00 F7
@@ -1089,9 +1089,9 @@ Connect the EP-133 to the USB, visit the website, power on the device:
 20:17:30.568	From EP-133	SysEx		Teenage Engineering 198 bytes	F0 00 20 76 33 40 3A 71 05 00 00 00 00 7B 22 63 68 61 00 6E 6E 65 6C 73 22 3A 00 32 2C 22 73 61 6D 70 00 6C 65 5F 72 61 74 65 00 22 3A 34 36 38 37 35 00 2C 22 66 6F 72 6D 61 00 74 22 3A 22 73 31 36 00 22 2C 22 63 72 63 22 00 3A 33 34 32 36 35 32 00 38 35 38 36 2C 22 6C 00 6F 6F 70 5F 73 74 61 00 72 74 22 3A 2D 31 2C 00 22 6C 6F 6F 70 5F 65 00 6E 64 22 3A 2D 31 2C 00 22 6E 61 6D 65 22 3A 00 22 73 65 61 72 63 68 00 20 63 68 6F 72 64 22 00 2C 22 61 6D 70 6C 69 00 74 75 64 65 22 3A 39 00 30 2C 22 70 6C 61 79 00 6D 6F 64 65 22 3A 32 00 2C 22 72 65 6C 65 61 00 73 65 22 3A 31 32 38 00 7D 00 F7
 </pre>
 </div>
-<div id="outline-container-org79b5c6f" class="outline-3">
-<h3 id="org79b5c6f">Message #1 (System Identity Request) - HOST -&gt; EP-133 (Uuniveral non-real ?)</h3>
-<div class="outline-text-3" id="text-org79b5c6f">
+<div id="outline-container-orgd2abd75" class="outline-3">
+<h3 id="orgd2abd75">Message #1 (System Identity Request) - HOST -&gt; EP-133 (Uuniveral non-real ?)</h3>
+<div class="outline-text-3" id="text-orgd2abd75">
 <p>
 I am unsure if this packet is generated by the operating system or the client application.
 </p>
@@ -1118,15 +1118,15 @@ This should be in the following format: F0 7E 7F 06 02 00 00 11 11 22 22 33 33 0
 </p>
 </div>
 </div>
-<div id="outline-container-org20074fb" class="outline-3">
-<h3 id="org20074fb">Message #1 (System Identity Response) EP-133 -&gt; HOST (Uuniveral non-real ?)</h3>
-<div class="outline-text-3" id="text-org20074fb">
+<div id="outline-container-orgf2d3a45" class="outline-3">
+<h3 id="orgf2d3a45">Message #1 (System Identity Response) EP-133 -&gt; HOST (Uuniveral non-real ?)</h3>
+<div class="outline-text-3" id="text-orgf2d3a45">
 <p>
 I am unsure if this packet is generated by the operating system or the client application.
 </p>
 
 
-<div id="orgcd99f76" class="figure">
+<div id="orge07c5ff" class="figure">
 <p><img src="./images/midi-sysex-discovery-packet.png" alt="midi-sysex-discovery-packet.png" width="400px" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Discovery Message</p>
@@ -1139,9 +1139,9 @@ feels like OS level responsibility not application level.
 </p>
 </div>
 </div>
-<div id="outline-container-org68aef87" class="outline-3">
-<h3 id="org68aef87">Message #3 (System Configuration Request) HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-org68aef87">
+<div id="outline-container-orgc6b4261" class="outline-3">
+<h3 id="orgc6b4261">Message #3 (System Configuration Request) HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-orgc6b4261">
 <p>
 This packet was sent from the host TO the EP-133.
 </p>
@@ -1154,7 +1154,7 @@ F0 00 20 76 33 40 77 14 01 F7
 I have deduced that this is the explanation of the packet
 </p>
 
-<div class="FIXED" id="orgb122490">
+<div class="FIXED" id="org4b01439">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1179,14 +1179,14 @@ sequence number start ?
 </p>
 </div>
 </div>
-<div id="outline-container-org7b5cba8" class="outline-3">
-<h3 id="org7b5cba8">Message #4 (System Configuration Response) EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org7b5cba8">
+<div id="outline-container-org6b592d2" class="outline-3">
+<h3 id="org6b592d2">Message #4 (System Configuration Response) EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-org6b592d2">
 <p>
 F0 00 20 76 33 40 37 14 01 00 00 70 72 6F 64 75 63 74 00 3A 45 50 2D 31 33 33 00 3B 6D 6F 64 65 3A 6E 00 6F 72 6D 61 6C 3B 73 00 6B 75 3A 54 45 30 33 00 32 41 53 30 30 31 3B 00 6F 73 5F 76 65 72 73 00 69 6F 6E 3A 31 2E 31 00 2E 32 3B 73 77 5F 76 00 65 72 73 69 6F 6E 3A 00 31 2E 31 2E 32 3B 62 00 6C 5F 76 65 72 73 69 00 6F 6E 3A 31 30 30 30 00 2E 30 2E 31 30 3B 73 00 65 72 69 61 6C 3A 45 00 33 50 54 56 32 4A 54 F7
 </p>
 
-<div class="FIXED" id="orgbb198db">
+<div class="FIXED" id="org340ead4">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering as per <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1221,9 +1221,9 @@ I think these are key : value ; separated by semicolons.
 </p>
 </div>
 </div>
-<div id="outline-container-org101d3ae" class="outline-3">
-<h3 id="org101d3ae">Message #5 (Continuation ? Next Message ?)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-org101d3ae">
+<div id="outline-container-org8cc691a" class="outline-3">
+<h3 id="org8cc691a">Message #5 (Continuation ? Next Message ?)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-org8cc691a">
 <p>
 This packet was sent from the host TO the EP-133.
 </p>
@@ -1232,7 +1232,7 @@ This packet was sent from the host TO the EP-133.
 F0 00 20 76 33 40 77 15 05 00 01 01 00 40 00 00 F7
 </p>
 
-<div class="FIXED" id="org6af3230">
+<div class="FIXED" id="org42fd004">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1263,14 +1263,14 @@ something to do with requesting the sample names that are coming up.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd914566" class="outline-3">
-<h3 id="orgd914566">Message #6  (Continuation ?) EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-orgd914566">
+<div id="outline-container-org0c1ab0e" class="outline-3">
+<h3 id="org0c1ab0e">Message #6  (Continuation ?) EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-org0c1ab0e">
 <p>
 F0 00 20 76 33 40 37 15 05 00 00 0C 00 00 02 00 F7
 </p>
 
-<div class="FIXED" id="org59e7ebe">
+<div class="FIXED" id="orgf5d4f05">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1304,14 +1304,14 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 </div>
 </div>
-<div id="outline-container-orgd9a2950" class="outline-3">
-<h3 id="orgd9a2950">Message #7 (New command)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-orgd9a2950">
+<div id="outline-container-org0bd101f" class="outline-3">
+<h3 id="org0bd101f">Message #7 (New command)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-org0bd101f">
 <p>
 F0 00 20 76 33 40 77 16 05 00 04 00 00 00 00 F7
 </p>
 
-<div class="FIXED" id="orga60f669">
+<div class="FIXED" id="org1741a3d">
 <p>
 F0 - Start of System Exclusive (known as SOX)
 00 20 76 - Manufacturers id for teenage engineering 0x00 0x20 0x76 (according to the <a href="https://www.midi.org/specifications-old/item/manufacturer-id-numbers">midi manufacturers id numbers</a>.
@@ -1343,9 +1343,9 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 </div>
 </div>
-<div id="outline-container-org6a988e2" class="outline-3">
-<h3 id="org6a988e2">Message #8 (Response to #7)  EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org6a988e2">
+<div id="outline-container-org33dec61" class="outline-3">
+<h3 id="org33dec61">Message #8 (Response to #7)  EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-org33dec61">
 <p>
 F0 00 20 76 33 40 37 16 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08 73 00 07 50 0E 00 00 00 00 00 70 72 6F 6A 65 00 63 74 73 00 F7
 </p>
@@ -1354,7 +1354,7 @@ F0 00 20 76 33 40 37 16 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08
 We're going to start skipping the duplicated structure.
 </p>
 
-<div class="FIXED" id="orgbb22979">
+<div class="FIXED" id="orgb9a1d2c">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM THE EP-133
@@ -1383,14 +1383,14 @@ It might be possible that this is letting the 'host' know it can query for "soun
 </p>
 </div>
 </div>
-<div id="outline-container-org0559a58" class="outline-3">
-<h3 id="org0559a58">Message #9 (Project Request maybe ?)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-org0559a58">
+<div id="outline-container-org1822b05" class="outline-3">
+<h3 id="org1822b05">Message #9 (Project Request maybe ?)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-org1822b05">
 <p>
 F0 00 20 76 33 40 77 17 05 00 04 00 00 00 00 F7
 </p>
 
-<div class="FIXED" id="org6de0dac">
+<div class="FIXED" id="org1d4f669">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 77 - TO THE EP-133.
@@ -1409,9 +1409,9 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 </div>
 </div>
-<div id="outline-container-orgab85402" class="outline-3">
-<h3 id="orgab85402">Message #10 (WHAT?)   EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-orgab85402">
+<div id="outline-container-orgbc026bb" class="outline-3">
+<h3 id="orgbc026bb">Message #10 (WHAT?)   EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-orgbc026bb">
 <p>
 F0 00 20 76 33 40 37 17 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08 73 00 07 50 0E 00 00 00 00 00 70 72 6F 6A 65 00 63 74 73 00 F7
 </p>
@@ -1420,7 +1420,7 @@ F0 00 20 76 33 40 37 17 05 00 08 00 00 03 68 0E 00 00 00 00 00 73 6F 75 6E 64 08
 Oh no, this looks very FAMILIAR
 </p>
 
-<div class="FIXED" id="org0848f2d">
+<div class="FIXED" id="org6155702">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM THE EP-133.
@@ -1442,9 +1442,9 @@ This looks very similar to the previous.. packet of the same type.. what is this
 </p>
 </div>
 </div>
-<div id="outline-container-org5221f3b" class="outline-3">
-<h3 id="org5221f3b">Message #11 (WHAT?)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-org5221f3b">
+<div id="outline-container-org5797989" class="outline-3">
+<h3 id="org5797989">Message #11 (WHAT?)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-org5797989">
 <p>
 F0 00 20 76 33 40 77 18 05 00 04 00 01 00 00 F7
 </p>
@@ -1453,7 +1453,7 @@ F0 00 20 76 33 40 77 18 05 00 04 00 01 00 00 F7
 So, this response looks similar to #9, but its NOT.  This has a 1.  We queried for 0 before, now we query for 1 ?
 </p>
 
-<div class="FIXED" id="orgea3d4d1">
+<div class="FIXED" id="orgcde39dd">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 77 - TO THE EP-133.
@@ -1471,14 +1471,14 @@ F7 - End of System Exclusive (known as EOX)
 </div>
 </div>
 </div>
-<div id="outline-container-org6dc19f0" class="outline-3">
-<h3 id="org6dc19f0">Message #12 (WHAT?) EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org6dc19f0">
+<div id="outline-container-orgffeb2ee" class="outline-3">
+<h3 id="orgffeb2ee">Message #12 (WHAT?) EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-orgffeb2ee">
 <p>
 F0 00 20 76 33 40 37 18 05 00 00 00 01 F7
 </p>
 
-<div class="FIXED" id="org759ed51">
+<div class="FIXED" id="orgb23054a">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM THE EP-133
@@ -1498,14 +1498,14 @@ I have more than one project, more than one custom sound, more than 1 of most th
 </p>
 </div>
 </div>
-<div id="outline-container-org487c876" class="outline-3">
-<h3 id="org487c876">Message #13 (WHAT?)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-org487c876">
+<div id="outline-container-org0b0e5bb" class="outline-3">
+<h3 id="org0b0e5bb">Message #13 (WHAT?)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-org0b0e5bb">
 <p>
 F0 00 20 76 33 40 77 19 05 00 04 00 01 00 00 F7
 </p>
 
-<div class="FIXED" id="org1667606">
+<div class="FIXED" id="org0c0546c">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 77 - TO THE EP-133
@@ -1527,14 +1527,14 @@ This looks same as packet 11.. No real change.. sequence number thats it ?
 </p>
 </div>
 </div>
-<div id="outline-container-orgb231564" class="outline-3">
-<h3 id="orgb231564">Message #14 (What) EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-orgb231564">
+<div id="outline-container-org543e7df" class="outline-3">
+<h3 id="org543e7df">Message #14 (What) EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-org543e7df">
 <p>
 F0 00 20 76 33 40 37 19 05 00 00 00 01 F7
 </p>
 
-<div class="FIXED" id="org81e7445">
+<div class="FIXED" id="org75cfbb4">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM  THE EP-133
@@ -1554,14 +1554,14 @@ Looks the same as #12.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf8a8a79" class="outline-3">
-<h3 id="orgf8a8a79">Message #15: (What) HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-orgf8a8a79">
+<div id="outline-container-orgdf2f480" class="outline-3">
+<h3 id="orgdf2f480">Message #15: (What) HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-orgdf2f480">
 <p>
 F0 00 20 76 33 40 77 1A 05 08 07 02 07 50 00 00 F7
 </p>
 
-<div class="FIXED" id="org85ad2bd">
+<div class="FIXED" id="orgf64247c">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 77 - TO THE EP-133
@@ -1591,14 +1591,14 @@ in an enum lookup in the teenage engineering source code.
 </p>
 </div>
 </div>
-<div id="outline-container-org0b68df2" class="outline-3">
-<h3 id="org0b68df2">Message #16 ( "active" json response ) PE-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org0b68df2">
+<div id="outline-container-orgb1e3dd3" class="outline-3">
+<h3 id="orgb1e3dd3">Message #16 ( "active" json response ) PE-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-orgb1e3dd3">
 <p>
 F0 00 20 76 33 40 37 1A 05 00 00 00 00 7B 22 61 63 74 00 69 76 65 22 3A 33 30 00 30 30 7D 00 F7
 </p>
 
-<div class="FIXED" id="org66e9843">
+<div class="FIXED" id="org3591581">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM THE EP-133
@@ -1631,14 +1631,14 @@ to see how it is used, if you can find out drop me a line.
 </p>
 </div>
 </div>
-<div id="outline-container-org70e1dd9" class="outline-3">
-<h3 id="org70e1dd9">Message #17 (Storage capacity query)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-org70e1dd9">
+<div id="outline-container-org2dc3e01" class="outline-3">
+<h3 id="org2dc3e01">Message #17 (Storage capacity query)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-org2dc3e01">
 <p>
 F0 00 20 76 33 40 77 1B 05 08 07 02 03 68 00 00 F7
 </p>
 
-<div class="FIXED" id="org560f1d7">
+<div class="FIXED" id="orgd3bce77">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 77 - TO THE EP-133
@@ -1717,15 +1717,15 @@ Its likely a similar type as packet #15.
 </p>
 </div>
 </div>
-<div id="outline-container-org11b6acc" class="outline-3">
-<h3 id="org11b6acc">Message #18 (What)  EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org11b6acc">
+<div id="outline-container-org6c0c829" class="outline-3">
+<h3 id="org6c0c829">Message #18 (What)  EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-org6c0c829">
 <p>
 F0 00 20 76 33 40 37 1B 05 00 00 00 00 7B 22 6D 61 78 00 5F 63 61 70 61 63 69 00 74 79 22 3A 36 32 38 00 35 33 31 32 30 2C 22 00 66 72 65 65 5F 73 70 00 61 63 65 5F 69 6E 5F 00 62 79 74 65 73 22 3A 00 31 32 30 35 35 30 33 00 32 7D 00 F7
 </p>
 
 
-<div class="FIXED" id="org2129d35">
+<div class="FIXED" id="org73a8377">
 <p>
 F0 00 20 76 33 40 - Explained earlier
 37 - FROM THE EP-133
@@ -1744,14 +1744,14 @@ Ok, so I think we can say packet 16 was a 'storage space capacity' query.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc8d6c67" class="outline-3">
-<h3 id="orgc8d6c67">Message #19 (What)  HOST -&gt; EP-133</h3>
-<div class="outline-text-3" id="text-orgc8d6c67">
+<div id="outline-container-orgd63b577" class="outline-3">
+<h3 id="orgd63b577">Message #19 (What)  HOST -&gt; EP-133</h3>
+<div class="outline-text-3" id="text-orgd63b577">
 <p>
 F0 00 20 76 33 40 77 1C 05 04 0B 0B 38 F7
 </p>
 
-<div class="FIXED" id="org35f99cc">
+<div class="FIXED" id="org8add55a">
 <p>
 F0 00 20 76 33 40 - Message Prologue
 76 - TO THE EP-133
@@ -1771,14 +1771,14 @@ This is likely another query, (they are short, responses are longer)
 </p>
 </div>
 </div>
-<div id="outline-container-org6220d6c" class="outline-3">
-<h3 id="org6220d6c">Message #20 (What)  EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org6220d6c">
+<div id="outline-container-orge103abe" class="outline-3">
+<h3 id="orge103abe">Message #20 (What)  EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-orge103abe">
 <p>
 F0 00 20 76 33 40 37 1C 05 00 0A 0B 38 07 50 0E 00 00 00 00 00 30 31 00 F7
 </p>
 
-<div class="FIXED" id="org2069f0c">
+<div class="FIXED" id="orga609cef">
 <p>
 F0 00 20 76 33 40 - Message Prologue
 37 - FROM THE EP-133
@@ -1809,14 +1809,14 @@ I dont know what this is.
 </p>
 </div>
 </div>
-<div id="outline-container-org54882f8" class="outline-3">
-<h3 id="org54882f8">Message #21 (What) HOST -&gt; EP-133.</h3>
-<div class="outline-text-3" id="text-org54882f8">
+<div id="outline-container-orgce4168c" class="outline-3">
+<h3 id="orgce4168c">Message #21 (What) HOST -&gt; EP-133.</h3>
+<div class="outline-text-3" id="text-orgce4168c">
 <p>
 F0 00 20 76 33 40 77 1D 05 10 04 00 00 03 68 F7
 </p>
 
-<div class="FIXED" id="org33f5a23">
+<div class="FIXED" id="org07511c8">
 <p>
 F0 00 20 76 33 40 - Message Prologue
 76 - TO THE EP-133
@@ -1838,14 +1838,14 @@ This is a status command executed from the host.
 </p>
 </div>
 </div>
-<div id="outline-container-org9c980b7" class="outline-3">
-<h3 id="org9c980b7">Message #21 (What)  EP-133 -&gt; HOST</h3>
-<div class="outline-text-3" id="text-org9c980b7">
+<div id="outline-container-org5ba7774" class="outline-3">
+<h3 id="org5ba7774">Message #21 (What)  EP-133 -&gt; HOST</h3>
+<div class="outline-text-3" id="text-org5ba7774">
 <p>
 F0 00 20 76 33 40 37 1D 05 00 00 00 00 00 01 1D 00 00 01 2F 18 30 30 31 2E 70 00 63 6D 00 00 02 1D 00 02 00 29 06 30 30 32 2E 00 70 63 6D 00 00 03 1D 08 00 01 05 0E 30 30 33 00 2E 70 63 6D 00 00 04 10 1D 00 01 08 72 30 30 00 34 2E 70 63 6D 00 00 20 05 1D 00 00 61 20 30 00 30 35 2E 70 63 6D 00 60 00 06 1D 00 00 2B 28 00 30 30 36 2E 70 63 6D 00 00 00 07 1D 00 00 4A 00 00 30 30 37 2E 70 63 00 6D 00 00 08 1D 00 00 01 1C 00 30 30 38 2E 70 00 63 6D 00 00 09 1D 00 00 00 1A 02 30 30 39 2E 00 70 63 6D 00 00 0A 1D 08 00 00 44 10 30 31 30 00 2E 70 63 6D 00 00 0B 10 1D 00 00 37 52 30 31 00 31 2E 70 63 6D 00 00 20 0C 1D 00 00 61 5A 30 00 31 32 2E 70 63 6D 00 20 00 0D 1D 00 00 24 30 00 30 31 33 2E 70 63 6D 00 00 00 0E 1D 00 00 5B 01 0C 30 31 34 2E 70 63 00 6D 00 00 0F 1D 00 00 03 2E 78 30 31 35 2E 70 00 63 6D 00 00 10 1D 00 04 00 6C 24 30 31 36 2E 00 70 63 6D 00 00 11 1D 00 00 01 2D 40 30 31 37 00 2E 70 63 6D 00 00 12 18 1D 00 00 07 50 30 31 00 38 2E 70 63 6D 00 00 20 13 1D 00 00 6F 5C 30 00 31 39 2E 70 63 6D 00 00 00 14 1D 00 00 55 28 00 30 32 30 2E 70 63 6D 40 00 00 15 1D 00 01 06 01 74 30 32 31 2E 70 63 00 6D 00 F7
 </p>
 
-<div class="FIXED" id="org19dc8dd">
+<div class="FIXED" id="org3525606">
 <p>
 F0 00 20 76 33 40 - Message Prologue
 76 - TO THE EP-133
@@ -1892,9 +1892,9 @@ I noticed ^A ^B ^C -&gt; ^U  in this response.
 </div>
 </div>
 </div>
-<div id="outline-container-org5317113" class="outline-2">
-<h2 id="org5317113">Areas of improvement.</h2>
-<div class="outline-text-2" id="text-org5317113">
+<div id="outline-container-orge0ed72c" class="outline-2">
+<h2 id="orge0ed72c">Areas of improvement.</h2>
+<div class="outline-text-2" id="text-orge0ed72c">
 <p>
 I could script the capture of the data, change one thing, turn it off
 regenerate the capture, compare the two to find what changed.
@@ -1905,17 +1905,17 @@ That'd be nice, but its not done yet.
 </p>
 </div>
 </div>
-<div id="outline-container-org89f7fc3" class="outline-2">
-<h2 id="org89f7fc3">Conclusion</h2>
-<div class="outline-text-2" id="text-org89f7fc3">
+<div id="outline-container-orgc803fd3" class="outline-2">
+<h2 id="orgc803fd3">Conclusion</h2>
+<div class="outline-text-2" id="text-orgc803fd3">
 <p>
 Wrap it up here.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd9b1ec1" class="outline-2">
-<h2 id="orgd9b1ec1">Resources:</h2>
-<div class="outline-text-2" id="text-orgd9b1ec1">
+<div id="outline-container-org15f79cd" class="outline-2">
+<h2 id="org15f79cd">Resources:</h2>
+<div class="outline-text-2" id="text-org15f79cd">
 </div>
 </div>
 </div>

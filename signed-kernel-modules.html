@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orge526f0c" class="outline-2">
-<h2 id="orge526f0c">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-orge526f0c">
+<div id="outline-container-orge38c85c" class="outline-2">
+<h2 id="orge38c85c">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-orge38c85c">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -87,9 +87,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </p>
 </div>
 </div>
-<div id="outline-container-org1e733fe" class="outline-2">
-<h2 id="org1e733fe">How is it signed ?</h2>
-<div class="outline-text-2" id="text-org1e733fe">
+<div id="outline-container-org6d04bcb" class="outline-2">
+<h2 id="org6d04bcb">How is it signed ?</h2>
+<div class="outline-text-2" id="text-org6d04bcb">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -141,13 +141,13 @@ signatures.
 </p>
 </div>
 </div>
-<div id="outline-container-org67bc8fa" class="outline-2">
-<h2 id="org67bc8fa">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-org67bc8fa">
+<div id="outline-container-org5b61006" class="outline-2">
+<h2 id="org5b61006">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org5b61006">
 </div>
-<div id="outline-container-orgaa03d20" class="outline-3">
-<h3 id="orgaa03d20">Module location</h3>
-<div class="outline-text-3" id="text-orgaa03d20">
+<div id="outline-container-orge3b9dc2" class="outline-3">
+<h3 id="orge3b9dc2">Module location</h3>
+<div class="outline-text-3" id="text-orge3b9dc2">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -162,9 +162,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd6b4a55" class="outline-3">
-<h3 id="orgd6b4a55">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-orgd6b4a55">
+<div id="outline-container-orgd541268" class="outline-3">
+<h3 id="orgd541268">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-orgd541268">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -184,13 +184,13 @@ depmod to locate the relevant module to meet the kernels request.
 </p>
 </div>
 </div>
-<div id="outline-container-org11ebdec" class="outline-3">
-<h3 id="org11ebdec">The signature</h3>
-<div class="outline-text-3" id="text-org11ebdec">
+<div id="outline-container-org874a38e" class="outline-3">
+<h3 id="org874a38e">The signature</h3>
+<div class="outline-text-3" id="text-org874a38e">
 </div>
-<div id="outline-container-orgc9d7eb1" class="outline-4">
-<h4 id="orgc9d7eb1">Signature metadata.</h4>
-<div class="outline-text-4" id="text-orgc9d7eb1">
+<div id="outline-container-orgf3d498d" class="outline-4">
+<h4 id="orgf3d498d">Signature metadata.</h4>
+<div class="outline-text-4" id="text-orgf3d498d">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
@@ -241,7 +241,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="org6a2051e">
+<pre class="example" id="org55fa034">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -351,9 +351,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 </div>
-<div id="outline-container-orga56b883" class="outline-2">
-<h2 id="orga56b883">Source</h2>
-<div class="outline-text-2" id="text-orga56b883">
+<div id="outline-container-org59e43f4" class="outline-2">
+<h2 id="org59e43f4">Source</h2>
+<div class="outline-text-2" id="text-org59e43f4">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -374,7 +374,7 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="org48701ca">
+<pre class="example" id="org4a8fca5">
 init_module() 
  -&gt; load_module() 
   -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
@@ -533,7 +533,7 @@ Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
 </p>
 
-<pre class="example" id="orgbedf450">
+<pre class="example" id="org4100dc7">
 
 [ req ]
 default_bits = 4096
@@ -641,9 +641,9 @@ practices for public/private keys.
 </p>
 </div>
 </div>
-<div id="outline-container-org456346d" class="outline-2">
-<h2 id="org456346d">Additional Resources:</h2>
-<div class="outline-text-2" id="text-org456346d">
+<div id="outline-container-orgbf64d44" class="outline-2">
+<h2 id="orgbf64d44">Additional Resources:</h2>
+<div class="outline-text-2" id="text-orgbf64d44">
 <p>
 <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Red Hat Guide for secure boot</a>
 </p>

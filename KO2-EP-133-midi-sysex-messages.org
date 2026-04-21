@@ -1,5 +1,5 @@
 #+TITLE: Decoding the KO2 Sysex messages.
-#+FILETAGS: :systems:
+#+FILETAGS: :systems:midi:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"

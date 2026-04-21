@@ -1,5 +1,5 @@
 #+TITLE: Github actions (CI/CD) for LFE.
-#+FILETAGS: :tooling:
+#+FILETAGS: :tooling:cicd:lfe:
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
 #+OPTIONS: date:nil

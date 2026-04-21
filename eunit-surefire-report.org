@@ -1,5 +1,5 @@
 #+TITLE: Consuming eunit surefire xml reports.
-#+FILETAGS: :tooling:
+#+FILETAGS: :tooling:erlang:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"

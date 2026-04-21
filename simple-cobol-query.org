@@ -1,5 +1,5 @@
 #+TITLE: GNUCOBOL "SCREEN" and keyboard input.
-#+FILETAGS: :systems:
+#+FILETAGS: :systems:cobol:
 #+OPTIONS: ^:nil num:nil toc:nil
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html

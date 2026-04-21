@@ -1,0 +1,14 @@
+#+TITLE: Subcategory: Erlang
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+
+* Posts tagged with erlang
+
+- [[file:cellium-remote-shell.html][Using erlangs remote shell during devel.]]
+- [[file:erlang-emacs-2025.html][Setting up Emacs for Erlang in 2025]]
+- [[file:eunit-parallel.html][Parallel EUnit Testing]]
+- [[file:eunit-surefire-report.html][Consuming eunit surefire xml reports.]]
+- [[file:gemini-erlmcp-guide.html][Configuring gemini for erlang-mcp.]]
+- [[file:raft-webserver.html][Building a 3-Node Cluster with Erlang and 'ra']]
+- [[file:robust-recovery.html][Robust Recovery of Erlang Crashes: Handling failures and Error Reporting]]
+- [[file:wx-erlang-example.html][WXerlang simple example]]

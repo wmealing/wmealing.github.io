@@ -1,5 +1,5 @@
 #+TITLE: Signed kernel modules
-#+FILETAGS: :security:
+#+FILETAGS: :security:kernel:
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: date:nil
 #+OPTIONS: toc:2 

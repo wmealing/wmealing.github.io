@@ -4,6 +4,7 @@
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Cellium CSS Support" />
+#+FILETAGS: :systems:cellium:
 
 * Summary:
 :PROPERTIES:

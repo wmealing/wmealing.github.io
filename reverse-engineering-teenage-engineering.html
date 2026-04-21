@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Getting firmware from teenage engineering.</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -63,17 +63,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org57ff6a8" class="outline-2">
-<h2 id="org57ff6a8">Summary:</h2>
-<div class="outline-text-2" id="text-org57ff6a8">
+<div id="outline-container-org9f79767" class="outline-2">
+<h2 id="org9f79767">Summary:</h2>
+<div class="outline-text-2" id="text-org9f79767">
 <p>
 A nobody like me, getting firmware from teenage engineerings website.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf52198c" class="outline-2">
-<h2 id="orgf52198c">Introduction</h2>
-<div class="outline-text-2" id="text-orgf52198c">
+<div id="outline-container-orge3f997f" class="outline-2">
+<h2 id="orge3f997f">Introduction</h2>
+<div class="outline-text-2" id="text-orge3f997f">
 <p>
 Teenage engineering direct people to their website updater <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a>
 which can update a number of Teenage Engineering devices.
@@ -85,7 +85,7 @@ I fire up developer tools and go to the network table, while loading the page:
 </p>
 
 
-<div id="orge9eabef" class="figure">
+<div id="org171bf31" class="figure">
 <p><img src="images/te-download-1.png" alt="te-download-1.png" width="800px" />
 </p>
 </div>
@@ -106,7 +106,7 @@ of twisted obfustication process to minimise the js.
 If i download the js, its not the entire file:
 </p>
 
-<pre class="example" id="orgd58048a">
+<pre class="example" id="org1420352">
 ()=&gt;{var Mp=Object.create;var Uo=Object.defineProperty;var Np=Object.getOwnPropertyDescriptor;var
 Op=Object.getOwnPropertyNames;var Lp=Object.getPrototypeOf,zp=Object.prototype.hasOwnProperty;var
 pr=(e,t)=&gt;()=&gt;(t||e((t={exports:{}}).exports,t),t.exports),Tu=(e,t)=&gt;{for(var r in t)Uo(e,r,
@@ -126,9 +126,9 @@ Unfortunately, its a mess of react and minification has stripped useful names fr
 and variables, so I'm going to have to take another direction. Great.
 </p>
 </div>
-<div id="outline-container-org8c12dc4" class="outline-3">
-<h3 id="org8c12dc4">The midi diversion.</h3>
-<div class="outline-text-3" id="text-org8c12dc4">
+<div id="outline-container-orgae84e5f" class="outline-3">
+<h3 id="orgae84e5f">The midi diversion.</h3>
+<div class="outline-text-3" id="text-orgae84e5f">
 <p>
 So, I noticed that when I visit the page, a prompt appears in chrome asking for permission
 to access a midi device.  So I assume that this means the browser needed to support
@@ -145,9 +145,9 @@ I see 97 mentions of "MIDI" in the javascript, so i'll try another idea.
 </p>
 </div>
 </div>
-<div id="outline-container-org45b3ede" class="outline-3">
-<h3 id="org45b3ede">Tracking the download.</h3>
-<div class="outline-text-3" id="text-org45b3ede">
+<div id="outline-container-org85465d3" class="outline-3">
+<h3 id="org85465d3">Tracking the download.</h3>
+<div class="outline-text-3" id="text-org85465d3">
 <p>
 I found there were, many, many uses of the word, "url" so checking that was going to be painful.
 </p>
@@ -179,7 +179,7 @@ beginning the update.
 So I look for another fetch
 </p>
 
-<pre class="example" id="orgf5a742b">
+<pre class="example" id="orgf2d45f4">
 let r = (await fetch("/_software/releases.json").then(i=&gt;i.json()).then(i=&gt;i).catch(i=&gt;i)).devices;
 </pre>
 
@@ -276,7 +276,7 @@ I wont upload all three.
 </p>
 
 
-<div id="org866076c" class="figure">
+<div id="orgbd76908" class="figure">
 <p><img src="images/133-randomness.png" alt="133-randomness.png" width="800px" />
 </p>
 </div>
@@ -321,9 +321,9 @@ need to buy hardware to to do it.
 </div>
 </div>
 </div>
-<div id="outline-container-org6835e38" class="outline-2">
-<h2 id="org6835e38">Conclusion</h2>
-<div class="outline-text-2" id="text-org6835e38">
+<div id="outline-container-org8050b89" class="outline-2">
+<h2 id="org8050b89">Conclusion</h2>
+<div class="outline-text-2" id="text-org8050b89">
 <p>
 Sadly, Teenage Engineering ships encrypted firmware, which I have shown that you
 can get a copy of.  None of the verisons have unencrypted data, so the key to
@@ -340,9 +340,9 @@ and code, that'd be nice, please contact me.
 </p>
 </div>
 </div>
-<div id="outline-container-org2d73899" class="outline-2">
-<h2 id="org2d73899">Resources:</h2>
-<div class="outline-text-2" id="text-org2d73899">
+<div id="outline-container-org44c4253" class="outline-2">
+<h2 id="org44c4253">Resources:</h2>
+<div class="outline-text-2" id="text-org44c4253">
 <ul class="org-ul">
 <li>Teenage engineering update utility  - <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a></li>
 <li>Binwalk (firwmare analysis tool) - <a href="https://github.com/ReFirmLabs/binwalk">https://github.com/ReFirmLabs/binwalk</a></li>

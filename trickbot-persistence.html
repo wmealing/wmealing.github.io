@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:18 -->
+<!-- 2026-04-21 Tue 14:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trickbot persistence.</title>
@@ -27,29 +27,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -62,9 +62,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org69cbcd0" class="outline-2">
-<h2 id="org69cbcd0">What is persistence ?</h2>
-<div class="outline-text-2" id="text-org69cbcd0">
+<div id="outline-container-org35ac48d" class="outline-2">
+<h2 id="org35ac48d">What is persistence ?</h2>
+<div class="outline-text-2" id="text-org35ac48d">
 <p>
 A system may be rebooted during regular intervals as part of its
 lifecycle when a new kernel is updated or if it enters an unknown
@@ -77,9 +77,9 @@ task scheduling service to ensure it will continue to execute
 </p>
 </div>
 </div>
-<div id="outline-container-org4fc5463" class="outline-2">
-<h2 id="org4fc5463">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org4fc5463">
+<div id="outline-container-org6694883" class="outline-2">
+<h2 id="org6694883">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-org6694883">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -88,7 +88,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="org6efa405">
+<pre class="example" id="org9c6178f">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -98,7 +98,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="orgbe0f62a">
+<pre class="example" id="org7b71def">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -108,7 +108,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="org5136504">
+<pre class="example" id="org513d019">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -117,14 +117,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-org2e60acb" class="outline-2">
-<h2 id="org2e60acb">The sample code.</h2>
-<div class="outline-text-2" id="text-org2e60acb">
+<div id="outline-container-org8841005" class="outline-2">
+<h2 id="org8841005">The sample code.</h2>
+<div class="outline-text-2" id="text-org8841005">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="org0850e74">
+<pre class="example" id="org423026a">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -140,9 +140,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-orga410480" class="outline-2">
-<h2 id="orga410480">Porting to rust.</h2>
-<div class="outline-text-2" id="text-orga410480">
+<div id="outline-container-org87be8d7" class="outline-2">
+<h2 id="org87be8d7">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org87be8d7">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -164,7 +164,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="org889a90c">
+<pre class="example" id="org5796628">
 use std::fs;
 
  fn main() {
@@ -197,9 +197,9 @@ using the same ports and had the same process name.
 </p>
 </div>
 </div>
-<div id="outline-container-org6890a5b" class="outline-2">
-<h2 id="org6890a5b">Resources:</h2>
-<div class="outline-text-2" id="text-org6890a5b">
+<div id="outline-container-orgac24c49" class="outline-2">
+<h2 id="orgac24c49">Resources:</h2>
+<div class="outline-text-2" id="text-orgac24c49">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>

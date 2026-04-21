@@ -1,5 +1,5 @@
 #+TITLE: Rebar3 not connecting to github.
-#+FILETAGS: :tooling:
+#+FILETAGS: :tooling:git:
 
 #+OPTIONS: ^:nil num:nil toc:nil 
 #+SETUPFILE: "./setupfile.org"

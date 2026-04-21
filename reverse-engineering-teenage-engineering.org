@@ -1,5 +1,5 @@
 #+TITLE: Getting firmware from teenage engineering.
-#+FILETAGS: :security:
+#+FILETAGS: :security:malware:
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"

@@ -1,5 +1,5 @@
 #+TITLE: Lfe Flavored Erlang Gen Server
-#+FILETAGS: :systems:
+#+FILETAGS: :systems:lfe:
 #+OPTIONS: ^:nil num:nil
 #+OPTIONS: toc:nil
 #+OPTIONS: date:nil

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 01:17 -->
+<!-- 2026-04-21 Tue 14:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atomic operations in common lisp</title>
@@ -28,29 +28,29 @@
             <div class="navbar-section">
                 <a href="systems.html"><h3>Systems</h3></a>
                 <div class="navbar-tags">
-                    <a href="systems.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="security.html"><h3>Security</h3></a>
                 <div class="navbar-tags">
-                    <a href="security.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security.html"><span class="navbar-tag">Rust</span></a>
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
                 </div>
             </div>
 
             <div class="navbar-section">
                 <a href="tooling.html"><h3>Tooling</h3></a>
                 <div class="navbar-tags">
-                    <a href="tooling.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling.html"><span class="navbar-tag">OpenSCAD</span></a>
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
                 </div>
             </div>
         </div>
@@ -183,9 +183,9 @@ This documention was confusing for me.  I think what they meant to say is.
 whose CAR is one of the following:
 </pre>
 </div>
-<div id="outline-container-orga7a8589" class="outline-2">
-<h2 id="orga7a8589">Non threaded example</h2>
-<div class="outline-text-2" id="text-orga7a8589">
+<div id="outline-container-orge883ecb" class="outline-2">
+<h2 id="orge883ecb">Non threaded example</h2>
+<div class="outline-text-2" id="text-orge883ecb">
 <p>
 Putting that knowledge into work, we can start by making a single-threaded / single process
 demonstration that mutates the list in place.
@@ -241,9 +241,9 @@ contending it may be run many times.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd83fcba" class="outline-2">
-<h2 id="orgd83fcba">Multi-threaded example.</h2>
-<div class="outline-text-2" id="text-orgd83fcba">
+<div id="outline-container-orgd97e502" class="outline-2">
+<h2 id="orgd97e502">Multi-threaded example.</h2>
+<div class="outline-text-2" id="text-orgd97e502">
 <p>
 Lets now make a multi-threaded example,  We're going to cheat a little and create a harmless side effect
 of printing to the screen so that we can visualize each time the pure function is run.
@@ -365,9 +365,9 @@ I'll update this post if I find any more information, but I'm pleasently surpris
 </p>
 </div>
 </div>
-<div id="outline-container-org2f80fd2" class="outline-2">
-<h2 id="org2f80fd2">Resources:</h2>
-<div class="outline-text-2" id="text-org2f80fd2">
+<div id="outline-container-org7069c7f" class="outline-2">
+<h2 id="org7069c7f">Resources:</h2>
+<div class="outline-text-2" id="text-org7069c7f">
 </div>
 </div>
 </div>

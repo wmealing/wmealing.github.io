@@ -1,5 +1,5 @@
 #+TITLE: Mirai's Watchdog in rust.
-#+FILETAGS: :security:
+#+FILETAGS: :security:rust:
 #+INCLUDE: "navbar.html" export html
 #+ROAM_ALIAS: Mirais watchdog in rust.
 #+ROAM_TAGS: watchdog malware rust
