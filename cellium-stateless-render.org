@@ -1,9 +1,9 @@
-#+TITLE: Cellium State Injection
+#+TITLE: Cellium State Injection 007 
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
-#+HTML_HEAD: <meta name="description" content="Stateless Rendering" />
+#+HTML_HEAD: <meta name="description" content="Stateless Rendering In cellium / tuis" />
 #+FILETAGS: :systems:cellium:
 
 * Summary:

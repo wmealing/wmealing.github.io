@@ -3,21 +3,21 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 14:58 -->
+<!-- 2026-04-21 Tue 15:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Cellium State Injection</title>
+<title>Cellium State Injection 007</title>
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
-<meta name="description" content="Stateless Rendering" />
+<meta name="description" content="Stateless Rendering In cellium / tuis" />
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">Cellium State Injection</h1>
+<h1 class="title">Cellium State Injection 007</h1>
 <nav class="navbar-custom">
     <div class="navbar-container">
         <div class="navbar-brand">
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org224a663" class="outline-2">
-<h2 id="org224a663">Summary:</h2>
-<div class="outline-text-2" id="text-org224a663">
+<div id="outline-container-orgba83582" class="outline-2">
+<h2 id="orgba83582">Summary:</h2>
+<div class="outline-text-2" id="text-orgba83582">
 <p>
 <a href="https://github.com/wmealing/cellium">Cellium</a> implements the <a href="https://guide.elm-lang.org/architecture/">Elm Architecture</a>, I've been working on some minor changes to make working with it in erlang as simply as I can.
 </p>
@@ -81,9 +81,9 @@ Maybe its a bad idea to have 'widget data' in the Model, fortunately its optiona
 </p>
 </div>
 </div>
-<div id="outline-container-org859bf0f" class="outline-2">
-<h2 id="org859bf0f">Introduction</h2>
-<div class="outline-text-2" id="text-org859bf0f">
+<div id="outline-container-orgec15db0" class="outline-2">
+<h2 id="orgec15db0">Introduction</h2>
+<div class="outline-text-2" id="text-orgec15db0">
 <p>
 While writing applications using my Cellium application, I found myself writing the same pattern of code over and over again.  This can not stand.
 </p>
@@ -156,9 +156,9 @@ and merge the values for that widget id, into the dsl automatically.
 This magic is optional magic though, you dont need to put or have a widget_states in your mode, I'm not your mum.
 </p>
 </div>
-<div id="outline-container-org82ed7d3" class="outline-4">
-<h4 id="org82ed7d3">Example:</h4>
-<div class="outline-text-4" id="text-org82ed7d3">
+<div id="outline-container-org699155a" class="outline-4">
+<h4 id="org699155a">Example:</h4>
+<div class="outline-text-4" id="text-org699155a">
 <p>
 In the example below, notice how `text_input` and `list` are defined with only an `id`.
 The framework "fills in" the text and scroll position automatically from the Model.
@@ -174,9 +174,9 @@ The framework "fills in" the text and scroll position automatically from the Mod
 </div>
 </div>
 </div>
-<div id="outline-container-orgfcdbee1" class="outline-4">
-<h4 id="orgfcdbee1">Initializing State</h4>
-<div class="outline-text-4" id="text-orgfcdbee1">
+<div id="outline-container-org3166665" class="outline-4">
+<h4 id="org3166665">Initializing State</h4>
+<div class="outline-text-4" id="text-org3166665">
 <p>
 You can provide initial values for components in your <code>init/1</code> function:
 </p>
@@ -255,9 +255,9 @@ other parts of your system.  If you had multiple values to merge, just save it f
 </p>
 </div>
 </div>
-<div id="outline-container-org39823ef" class="outline-4">
-<h4 id="org39823ef">What does this look like ?</h4>
-<div class="outline-text-4" id="text-org39823ef">
+<div id="outline-container-org57b6a68" class="outline-4">
+<h4 id="org57b6a68">What does this look like ?</h4>
+<div class="outline-text-4" id="text-org57b6a68">
 <p>
 This means that updating the widget_states of the model, eventually will affect the rendered widget, so that
 modification in <code>update/2</code> above would turn:
@@ -285,17 +285,17 @@ This means you can update the widgets in the modules <code>update/2</code> funct
 </div>
 </div>
 </div>
-<div id="outline-container-org71ff5f5" class="outline-2">
-<h2 id="org71ff5f5">Conclusion</h2>
-<div class="outline-text-2" id="text-org71ff5f5">
+<div id="outline-container-org245180b" class="outline-2">
+<h2 id="org245180b">Conclusion</h2>
+<div class="outline-text-2" id="text-org245180b">
 <p>
 Just do things, this is my thing.
 </p>
 </div>
 </div>
-<div id="outline-container-org544f47b" class="outline-2">
-<h2 id="org544f47b">Resources:</h2>
-<div class="outline-text-2" id="text-org544f47b">
+<div id="outline-container-orge556db9" class="outline-2">
+<h2 id="orge556db9">Resources:</h2>
+<div class="outline-text-2" id="text-orge556db9">
 <ul class="org-ul">
 <li><a href="https://erlang.org/documentation/doc-6.0/doc/reference_manual/maps.html">Erlang maps docs</a></li>
 </ul>
