@@ -1,4 +1,4 @@
-#+TITLE: Cellium 002 - focus
+#+TITLE: CELLIUM 002 - focus
 #+FILETAGS: :systems:cellium:
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
 #+SETUPFILE: "./setupfile.org"
