@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:14 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 002 - focus</title>
@@ -63,24 +63,24 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orge64ad6f" class="outline-2">
-<h2 id="orge64ad6f">Summary</h2>
-<div class="outline-text-2" id="text-orge64ad6f">
+<div id="outline-container-org53e3829" class="outline-2">
+<h2 id="org53e3829">Summary</h2>
+<div class="outline-text-2" id="text-org53e3829">
 <p>
 I started building <a href="https://github.com/wmealing/cellium">Cellium</a>, an Erlang <b><b>Text-User Interface (TUI)</b></b> library, to simplify creating basic user interfaces for my Erlang tooling. This article details the concept and implementation of <b><b>widget focus</b></b> within Cellium.
 </p>
 </div>
 </div>
-<div id="outline-container-orgda4688c" class="outline-2">
-<h2 id="orgda4688c">Core Focus Concept</h2>
-<div class="outline-text-2" id="text-orgda4688c">
+<div id="outline-container-orgd5204e1" class="outline-2">
+<h2 id="orgd5204e1">Core Focus Concept</h2>
+<div class="outline-text-2" id="text-orgd5204e1">
 <p>
 Widget focus is a standard design pattern in TUI and GUI development. It designates the currently active or target interactive <b><b>widget</b></b>, which must be distinguishable via a visual indicator.
 </p>
 </div>
-<div id="outline-container-org27d5f01" class="outline-3">
-<h3 id="org27d5f01">Visual Indication Examples:</h3>
-<div class="outline-text-3" id="text-org27d5f01">
+<div id="outline-container-orgd9cc14b" class="outline-3">
+<h3 id="orgd9cc14b">Visual Indication Examples:</h3>
+<div class="outline-text-3" id="text-orgd9cc14b">
 <p>
 Different widgets will have different ways of displaying they have 'focus'.
 </p>
@@ -94,9 +94,9 @@ Different widgets will have different ways of displaying they have 'focus'.
 </ul>
 </div>
 </div>
-<div id="outline-container-org3e1425c" class="outline-3">
-<h3 id="org3e1425c">Navigation</h3>
-<div class="outline-text-3" id="text-org3e1425c">
+<div id="outline-container-org534ecfc" class="outline-3">
+<h3 id="org534ecfc">Navigation</h3>
+<div class="outline-text-3" id="text-org534ecfc">
 <p>
 Users typically navigate between focusable elements using standard key bindings:
 </p>
@@ -112,9 +112,9 @@ A navigation aid is sometimes in the 'footer (or status bar)' of the terminal, b
 </div>
 </div>
 </div>
-<div id="outline-container-orge2e73d5" class="outline-2">
-<h2 id="orge2e73d5">Focus Management Implementation</h2>
-<div class="outline-text-2" id="text-orge2e73d5">
+<div id="outline-container-orgeeb01a9" class="outline-2">
+<h2 id="orgeeb01a9">Focus Management Implementation</h2>
+<div class="outline-text-2" id="text-orgeeb01a9">
 <p>
 Cellium provides an <b><b>optional, built-in default focus handler</b></b> to improve the developer experience (DX).
 </p>
@@ -133,9 +133,9 @@ To disable the automatic focus handler, set `auto_focus` to `false` when startin
 </pre>
 </div>
 </div>
-<div id="outline-container-org471956d" class="outline-3">
-<h3 id="org471956d">Registering Focusable Widgets</h3>
-<div class="outline-text-3" id="text-org471956d">
+<div id="outline-container-org855fb3e" class="outline-3">
+<h3 id="org855fb3e">Registering Focusable Widgets</h3>
+<div class="outline-text-3" id="text-org855fb3e">
 <p>
 The <b><b>`focus_manager`</b></b> gen server tracks the list of focusable widgets, the current focus, and handles focus changes.
 </p>
@@ -154,9 +154,9 @@ You must explicitly register a widget to include it in the focus chain using its
 </p>
 </div>
 </div>
-<div id="outline-container-orgab15af9" class="outline-3">
-<h3 id="orgab15af9">Navigation Functions</h3>
-<div class="outline-text-3" id="text-orgab15af9">
+<div id="outline-container-org7717579" class="outline-3">
+<h3 id="org7717579">Navigation Functions</h3>
+<div class="outline-text-3" id="text-org7717579">
 <p>
 With `auto_focus` enabled, Cellium automatically translates Tab and Shift + Tab key presses into calls to:
 </p>
@@ -178,16 +178,16 @@ You can also set focus explicitly:
 </div>
 </div>
 </div>
-<div id="outline-container-org53f9e3d" class="outline-2">
-<h2 id="org53f9e3d">Widget Rendering and Focus State</h2>
-<div class="outline-text-2" id="text-org53f9e3d">
+<div id="outline-container-org8c59903" class="outline-2">
+<h2 id="org8c59903">Widget Rendering and Focus State</h2>
+<div class="outline-text-2" id="text-org8c59903">
 <p>
 To render a widget based on its focus state, you can query the <code>focus_manager</code> within your <code>render</code> function.
 </p>
 </div>
-<div id="outline-container-orgbe2d792" class="outline-3">
-<h3 id="orgbe2d792">Retrieving the Focused Widget</h3>
-<div class="outline-text-3" id="text-orgbe2d792">
+<div id="outline-container-orgc464f3a" class="outline-3">
+<h3 id="orgc464f3a">Retrieving the Focused Widget</h3>
+<div class="outline-text-3" id="text-orgc464f3a">
 <p>
 Use <code>get_focused/0</code> to find the identifier of the currently focused widget:
 </p>
@@ -198,9 +198,9 @@ Use <code>get_focused/0</code> to find the identifier of the currently focused w
 </div>
 </div>
 </div>
-<div id="outline-container-orgc62367c" class="outline-3">
-<h3 id="orgc62367c">Checking Focusability</h3>
-<div class="outline-text-3" id="text-orgc62367c">
+<div id="outline-container-orgabbae6a" class="outline-3">
+<h3 id="orgabbae6a">Checking Focusability</h3>
+<div class="outline-text-3" id="text-orgabbae6a">
 <p>
 Use <code>can_focus/1</code> to check if a widget is focusable:
 </p>
@@ -211,9 +211,9 @@ Use <code>can_focus/1</code> to check if a widget is focusable:
 </div>
 </div>
 </div>
-<div id="outline-container-org387c955" class="outline-3">
-<h3 id="org387c955">Setting the focus visual indication</h3>
-<div class="outline-text-3" id="text-org387c955">
+<div id="outline-container-org7f0cd44" class="outline-3">
+<h3 id="org7f0cd44">Setting the focus visual indication</h3>
+<div class="outline-text-3" id="text-org7f0cd44">
 <p>
 Widgets that have 'focus' should appear different. For example boxes typically changes their
 border style (e.g., from single to double lines).
@@ -237,9 +237,9 @@ The helper function, <b>view:maybe_set_focus(Widget)</b>, automatically checks t
 <code>has_focus</code> attribute if the widget is focused.
 </p>
 </div>
-<div id="outline-container-orgba18663" class="outline-4">
-<h4 id="orgba18663">Using the Focus Helper</h4>
-<div class="outline-text-4" id="text-orgba18663">
+<div id="outline-container-org6edde46" class="outline-4">
+<h4 id="org6edde46">Using the Focus Helper</h4>
+<div class="outline-text-4" id="text-org6edde46">
 <p>
 By wrapping the widget in the <code>view:maybe_set_focus</code> function, it will query the <code>focus_manager</code> and set the has_focus attribute
 value if the widget has focus.  This function returns a widget map with the focus attribute set appropriately.
@@ -260,9 +260,9 @@ value if the widget has focus.  This function returns a widget map with the focu
 </div>
 </div>
 </div>
-<div id="outline-container-org7b52046" class="outline-4">
-<h4 id="org7b52046">Manual Setting of Focus (Direct Attribute Manipulation)</h4>
-<div class="outline-text-4" id="text-org7b52046">
+<div id="outline-container-org8d6b772" class="outline-4">
+<h4 id="org8d6b772">Manual Setting of Focus (Direct Attribute Manipulation)</h4>
+<div class="outline-text-4" id="text-org8d6b772">
 <p>
 It is still possible to manually set the <code>has_focus</code> attribute of a widget, which will render the widget
 as if it had focused, however setting this value <b><b>does not</b></b> inform the <code>focus_manager</code> that this widget is
@@ -291,17 +291,17 @@ Changes to 'what has focus' should be done in the <code>update/2</code> function
 </div>
 </div>
 </div>
-<div id="outline-container-orgdedc5f5" class="outline-2">
-<h2 id="orgdedc5f5">Demo</h2>
-<div class="outline-text-2" id="text-orgdedc5f5">
+<div id="outline-container-org9c63a0c" class="outline-2">
+<h2 id="org9c63a0c">Demo</h2>
+<div class="outline-text-2" id="text-org9c63a0c">
 <p>
 
 </p>
 </div>
 </div>
-<div id="outline-container-org60f9c92" class="outline-2">
-<h2 id="org60f9c92">Conclusion</h2>
-<div class="outline-text-2" id="text-org60f9c92">
+<div id="outline-container-orge754b2e" class="outline-2">
+<h2 id="orge754b2e">Conclusion</h2>
+<div class="outline-text-2" id="text-orge754b2e">
 <p>
 While not every TUI application will need focus management, having it there should save developers from having
 to write their own.  This same <code>has_focus</code> attribute should be added if you write custom widgets that could accept
@@ -309,9 +309,9 @@ focus.
 </p>
 </div>
 </div>
-<div id="outline-container-org11c20e9" class="outline-2">
-<h2 id="org11c20e9">Resources:</h2>
-<div class="outline-text-2" id="text-org11c20e9">
+<div id="outline-container-org5e4013c" class="outline-2">
+<h2 id="org5e4013c">Resources:</h2>
+<div class="outline-text-2" id="text-org5e4013c">
 <ul class="org-ul">
 <li><p>
 <b><b>TUI/GUI Design Patterns:</b></b>

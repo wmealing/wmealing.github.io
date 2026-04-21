@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:15 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai Delete yourself</title>
@@ -62,9 +62,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org5c78c73" class="outline-2">
-<h2 id="org5c78c73">Why delete the executable ?</h2>
-<div class="outline-text-2" id="text-org5c78c73">
+<div id="outline-container-org44550ed" class="outline-2">
+<h2 id="org44550ed">Why delete the executable ?</h2>
+<div class="outline-text-2" id="text-org44550ed">
 <p>
 The Mirai malware uses a technique to remove itself from disk after
 executing has started.  This adds additional complexity of
@@ -79,9 +79,9 @@ complexity while trying to analyse it in action.
 </p>
 </div>
 </div>
-<div id="outline-container-org09ae879" class="outline-2">
-<h2 id="org09ae879">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org09ae879">
+<div id="outline-container-org21d703e" class="outline-2">
+<h2 id="org21d703e">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-org21d703e">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -90,7 +90,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="org2342134">
+<pre class="example" id="orgc4f4a0d">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -100,7 +100,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="org8f427f8">
+<pre class="example" id="orgccda86e">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -110,7 +110,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="org431db82">
+<pre class="example" id="org446be94">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -119,14 +119,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-org82de73f" class="outline-2">
-<h2 id="org82de73f">The sample code.</h2>
-<div class="outline-text-2" id="text-org82de73f">
+<div id="outline-container-org047c195" class="outline-2">
+<h2 id="org047c195">The sample code.</h2>
+<div class="outline-text-2" id="text-org047c195">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="org2964dbd">
+<pre class="example" id="org1aed149">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -142,9 +142,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-org8b8b60e" class="outline-2">
-<h2 id="org8b8b60e">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org8b8b60e">
+<div id="outline-container-org732759b" class="outline-2">
+<h2 id="org732759b">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org732759b">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -166,7 +166,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="org0c9b489">
+<pre class="example" id="orgea5e3da">
 use std::fs;
 
  fn main() {
@@ -203,9 +203,9 @@ I believe this would be similar to <a href="https://github.com/jxy-s/herpaderpin
 </p>
 </div>
 </div>
-<div id="outline-container-org851fbc9" class="outline-2">
-<h2 id="org851fbc9">Resources:</h2>
-<div class="outline-text-2" id="text-org851fbc9">
+<div id="outline-container-org471575b" class="outline-2">
+<h2 id="org471575b">Resources:</h2>
+<div class="outline-text-2" id="text-org471575b">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>

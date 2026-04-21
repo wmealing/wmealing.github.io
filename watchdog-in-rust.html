@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:15 -->
+<!-- 2026-04-21 Tue 15:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -203,9 +203,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4a4bb1a">Disabling the watchdog.</a></li>
-<li><a href="#org5d1c294">The magic close feature.</a></li>
-<li><a href="#org7c9843d">Additional resources</a></li>
+<li><a href="#org47e6080">Disabling the watchdog.</a></li>
+<li><a href="#org7d5a8b2">The magic close feature.</a></li>
+<li><a href="#org61e4b6c">Additional resources</a></li>
 </ul>
 </div>
 </div>
@@ -254,16 +254,16 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org4a4bb1a" class="outline-2">
-<h2 id="org4a4bb1a">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-org4a4bb1a">
+<div id="outline-container-org47e6080" class="outline-2">
+<h2 id="org47e6080">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-org47e6080">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org17761ed">
+<pre class="example" id="org90229ac">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -281,7 +281,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="orgce85390">
+<pre class="example" id="org93cc25e">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -312,9 +312,9 @@ method of disabling the watchdog. there is another&#x2026;
 </p>
 </div>
 </div>
-<div id="outline-container-org5d1c294" class="outline-2">
-<h2 id="org5d1c294">The magic close feature.</h2>
-<div class="outline-text-2" id="text-org5d1c294">
+<div id="outline-container-org7d5a8b2" class="outline-2">
+<h2 id="org7d5a8b2">The magic close feature.</h2>
+<div class="outline-text-2" id="text-org7d5a8b2">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
@@ -372,9 +372,9 @@ Wild right ?
 </p>
 </div>
 </div>
-<div id="outline-container-org7c9843d" class="outline-2">
-<h2 id="org7c9843d">Additional resources</h2>
-<div class="outline-text-2" id="text-org7c9843d">
+<div id="outline-container-org61e4b6c" class="outline-2">
+<h2 id="org61e4b6c">Additional resources</h2>
+<div class="outline-text-2" id="text-org61e4b6c">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -383,7 +383,7 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2026-04-21 Tue 15:15</p>
+<p class="date">Created: 2026-04-21 Tue 15:26</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

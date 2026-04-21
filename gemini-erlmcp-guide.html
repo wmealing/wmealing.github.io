@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:14 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Configuring gemini for erlang-mcp.</title>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orga71400f" class="outline-2">
-<h2 id="orga71400f">Summary:</h2>
-<div class="outline-text-2" id="text-orga71400f">
+<div id="outline-container-org68f0859" class="outline-2">
+<h2 id="org68f0859">Summary:</h2>
+<div class="outline-text-2" id="text-org68f0859">
 <p>
 Gemini CLI supports project-specific Model Context Protocol (MCP) server protocol,
 I've recently setup erlang-mcp.  This document explains how to use erlmcp to aid in the
@@ -73,9 +73,9 @@ development of your erlang code, not as an mcp tool for other mean.
 </p>
 </div>
 </div>
-<div id="outline-container-org2566e2c" class="outline-2">
-<h2 id="org2566e2c">Introduction</h2>
-<div class="outline-text-2" id="text-org2566e2c">
+<div id="outline-container-org83c2ab4" class="outline-2">
+<h2 id="org83c2ab4">Introduction</h2>
+<div class="outline-text-2" id="text-org83c2ab4">
 <p>
 MCP's are the new hot thing for AI to interoperate with tooling running on either local or remote systems.
 </p>
@@ -86,17 +86,17 @@ MCP's which allow the AI to verify its beliefs, executing with a real system imm
 and hallucionations earlier in the progress, saving time and money.
 </p>
 </div>
-<div id="outline-container-orgc16fd90" class="outline-3">
-<h3 id="orgc16fd90">Projects and System wide.</h3>
-<div class="outline-text-3" id="text-orgc16fd90">
+<div id="outline-container-org97709e4" class="outline-3">
+<h3 id="org97709e4">Projects and System wide.</h3>
+<div class="outline-text-3" id="text-org97709e4">
 <p>
 Gemini allows for MCP's to exist ia a 'per project' or 'system wide', This entry focuses on the 'per project'
 option,
 </p>
 </div>
-<div id="outline-container-orgf1f9a32" class="outline-4">
-<h4 id="orgf1f9a32">Project setup:</h4>
-<div class="outline-text-4" id="text-orgf1f9a32">
+<div id="outline-container-orgbd42208" class="outline-4">
+<h4 id="orgbd42208">Project setup:</h4>
+<div class="outline-text-4" id="text-orgbd42208">
 <p>
 As you would want to use MCP to write your erlang.
 </p>
@@ -109,9 +109,9 @@ As you would want to use MCP to write your erlang.
 </div>
 </div>
 </div>
-<div id="outline-container-orgeae1393" class="outline-4">
-<h4 id="orgeae1393">Per Project</h4>
-<div class="outline-text-4" id="text-orgeae1393">
+<div id="outline-container-orgdbe6d61" class="outline-4">
+<h4 id="orgdbe6d61">Per Project</h4>
+<div class="outline-text-4" id="text-orgdbe6d61">
 <p>
 Create the .gemini directory: In the root directory of your project.
 </p>
@@ -172,9 +172,9 @@ up your requirements within the erlang code itself.
 </div>
 </div>
 </div>
-<div id="outline-container-org12ef9f6" class="outline-3">
-<h3 id="org12ef9f6">Wrapping MCP in shell script.</h3>
-<div class="outline-text-3" id="text-org12ef9f6">
+<div id="outline-container-org7a6d8a2" class="outline-3">
+<h3 id="org7a6d8a2">Wrapping MCP in shell script.</h3>
+<div class="outline-text-3" id="text-org7a6d8a2">
 <p>
 If you have a lot of setup to do around your project, it might be worthwhile wrapping your MCP in a shell script.
 </p>
@@ -193,9 +193,9 @@ rebar3 as simple shell --eval 'code:load_file(simple_server_stdio), simple_serve
 </div>
 </div>
 </div>
-<div id="outline-container-orge37bf7c" class="outline-2">
-<h2 id="orge37bf7c">Conclusion</h2>
-<div class="outline-text-2" id="text-orge37bf7c">
+<div id="outline-container-orgf9beb19" class="outline-2">
+<h2 id="orgf9beb19">Conclusion</h2>
+<div class="outline-text-2" id="text-orgf9beb19">
 <p>
 You likely already have  of it or you wouldn't have come to this blog, I've given up trying to figure
 out why google wont index this, maybe it'll do it after I've already passed away.  At the time of writing
@@ -203,9 +203,9 @@ I can't find anything I've written on google.
 </p>
 </div>
 </div>
-<div id="outline-container-orgee311fa" class="outline-2">
-<h2 id="orgee311fa">Resources:</h2>
-<div class="outline-text-2" id="text-orgee311fa">
+<div id="outline-container-orgd4115a6" class="outline-2">
+<h2 id="orgd4115a6">Resources:</h2>
+<div class="outline-text-2" id="text-orgd4115a6">
 </div>
 </div>
 </div>

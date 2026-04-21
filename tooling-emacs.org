@@ -4,6 +4,5 @@
 
 * Posts tagged with emacs
 
-- [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.
-Evaluation of flaw: **CVE-YYYY-NNNNN**]]
+- [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.]]
 - [[file:erlang-emacs-2025.html][Setting up Emacs for Erlang in 2025]]

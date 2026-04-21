@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:14 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM BASIC THEORY</title>
@@ -64,18 +64,18 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgf2bf3af" class="outline-2">
-<h2 id="orgf2bf3af">Summary:</h2>
-<div class="outline-text-2" id="text-orgf2bf3af">
+<div id="outline-container-orga9ee83b" class="outline-2">
+<h2 id="orga9ee83b">Summary:</h2>
+<div class="outline-text-2" id="text-orga9ee83b">
 <p>
 I started building <a href="https://github.com/wmealing/cellium">Cellium</a>, a TUI (Text-User Interface) library for Erlang, because I got fed up with the complexity of building
 basic user interfaces for my Erlang tooling. It's an itch I needed to scratch.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf8a4f4" class="outline-2">
-<h2 id="orgbf8a4f4">Introduction</h2>
-<div class="outline-text-2" id="text-orgbf8a4f4">
+<div id="outline-container-org62738c1" class="outline-2">
+<h2 id="org62738c1">Introduction</h2>
+<div class="outline-text-2" id="text-org62738c1">
 <p>
 Look, I'm not entirely sure who I'm writing this for. It feels like throwing a message in a bottle onto the internet,
 Google's certainly not indexing it, so maybe this is a complete waste of time. But here we are.
@@ -146,9 +146,9 @@ My first smart move was to stop reinventing the wheel and borrow from those who 
 example on Ratatouille's approach.  I looked at the examples.
 </p>
 </div>
-<div id="outline-container-org9281331" class="outline-3">
-<h3 id="org9281331">The Cellium Example</h3>
-<div class="outline-text-3" id="text-org9281331">
+<div id="outline-container-org00c0921" class="outline-3">
+<h3 id="org00c0921">The Cellium Example</h3>
+<div class="outline-text-3" id="text-org00c0921">
 <p>
 The resulting basic counter example looks pretty similar to their <a href="https://github.com/ndreynolds/ratatouille/blob/master/examples/counter.exs">Elixir version</a>:
 </p>
@@ -207,16 +207,16 @@ And here's what it looks like in action:
 </p>
 
 
-<div id="org078f2ff" class="figure">
+<div id="org55bdf75" class="figure">
 <p><img src="./images/counter-demo.png" alt="counter-demo.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc5931ab" class="outline-2">
-<h2 id="orgc5931ab">Current Hurdles.</h2>
-<div class="outline-text-2" id="text-orgc5931ab">
+<div id="outline-container-org758a98c" class="outline-2">
+<h2 id="org758a98c">Current Hurdles.</h2>
+<div class="outline-text-2" id="text-org758a98c">
 <p>
 While the core concept is sound, Erlang throws up a few unique roadblocks compared to Elixir.
 </p>
@@ -295,50 +295,50 @@ core logic down, adopting their rendering concept will perhaps allow moe to remo
 </p>
 </div>
 </div>
-<div id="outline-container-org836d5c9" class="outline-2">
-<h2 id="org836d5c9">Where Cellium Differentiates</h2>
-<div class="outline-text-2" id="text-org836d5c9">
+<div id="outline-container-orge67b22f" class="outline-2">
+<h2 id="orge67b22f">Where Cellium Differentiates</h2>
+<div class="outline-text-2" id="text-orge67b22f">
 <p>
 I'm not  copying; there are a few areas where I want Cellium to be different.
 </p>
 </div>
-<div id="outline-container-org88b71bb" class="outline-4">
-<h4 id="org88b71bb">"CSS-Like" Theming Engine:</h4>
-<div class="outline-text-4" id="text-org88b71bb">
+<div id="outline-container-org1654b7e" class="outline-4">
+<h4 id="org1654b7e">"CSS-Like" Theming Engine:</h4>
+<div class="outline-text-4" id="text-org1654b7e">
 <p>
 I'm working on a theming engine that applies attributes to widgets, similar to how CSS works. The idea is to make
 theme edits live and easy. Of course, CSS attributes should <b>overwrite</b> coded values—that's what the C in CSS stands for (Cascading!), right? 😉
 </p>
 </div>
 </div>
-<div id="outline-container-org3614580" class="outline-4">
-<h4 id="org3614580"><b>Robust Crash Handling:</b></h4>
-<div class="outline-text-4" id="text-org3614580">
+<div id="outline-container-org8f9e9a6" class="outline-4">
+<h4 id="org8f9e9a6"><b>Robust Crash Handling:</b></h4>
+<div class="outline-text-4" id="text-org8f9e9a6">
 <p>
 I want to be absolutely sure that if an <code>update</code> function fails, the rest of the system keeps running smoothly. This will be a core part of my test suite.
 </p>
 </div>
 </div>
-<div id="outline-container-orge4b00a4" class="outline-4">
-<h4 id="orge4b00a4"><b>It's Pure Erlang:</b></h4>
-<div class="outline-text-4" id="text-orge4b00a4">
+<div id="outline-container-org30d4ac7" class="outline-4">
+<h4 id="org30d4ac7"><b>It's Pure Erlang:</b></h4>
+<div class="outline-text-4" id="text-org30d4ac7">
 <p>
 The simple fact that I can't find another mature TUI library written purely in Erlang appears to be the motivation enough for me to keep going.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orge4ec86b" class="outline-2">
-<h2 id="orge4ec86b">What's Next?</h2>
-<div class="outline-text-2" id="text-orge4ec86b">
+<div id="outline-container-orgf23586c" class="outline-2">
+<h2 id="orgf23586c">What's Next?</h2>
+<div class="outline-text-2" id="text-orgf23586c">
 <p>
 I should look at adopting a better event format. The termbox2_nif  messages aren't the clearest. <a href="https://github.com/ndreynolds/ratatouille/issues/6">The Ratatouille project</a> has a great idea for standardizing TUI events. If I can use a cleaner event format, maybe I can even drop the direct termbox messages and just use their event structure natively.
 </p>
 </div>
 </div>
-<div id="outline-container-org7a3bd72" class="outline-2">
-<h2 id="org7a3bd72">Conclusion</h2>
-<div class="outline-text-2" id="text-org7a3bd72">
+<div id="outline-container-orgb0aefd4" class="outline-2">
+<h2 id="orgb0aefd4">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb0aefd4">
 <p>
 I've laid out the current state of Cellium and talked through the key issues—Erlang's quirks and the realization that
 others have done this before. I'll keep plugging away at this, even if I never get a single user and my writings remain
@@ -346,9 +346,9 @@ on github.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd4b1c97" class="outline-2">
-<h2 id="orgd4b1c97">Resources:</h2>
-<div class="outline-text-2" id="text-orgd4b1c97">
+<div id="outline-container-org78dac79" class="outline-2">
+<h2 id="org78dac79">Resources:</h2>
+<div class="outline-text-2" id="text-org78dac79">
 <p>
 <a href="https://github.com/termbox/termbox2">https://github.com/termbox/termbox2</a>
 </p>

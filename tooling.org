@@ -5,8 +5,7 @@
 * Posts in Tooling
 
 - [[file:custom-software-errors.html][Higher quality errors for custom software.]]
-- [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.
-Evaluation of flaw: **CVE-YYYY-NNNNN**]]
+- [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.]]
 - [[file:erlang-emacs-2025.html][Setting up Emacs for Erlang in 2025]]
 - [[file:eunit-parallel.html][Parallel EUnit Testing]]
 - [[file:eunit-surefire-report.html][Consuming eunit surefire xml reports.]]

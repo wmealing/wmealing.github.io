@@ -34,8 +34,6 @@ Each flaw that is analysed starts from a template, the template contains the a â
 Before any of the tree structure there is some file specific metadata:
 
 #+BEGIN_EXAMPLE
-
-#+TITLE: Evaluation of flaw: **CVE-YYYY-NNNNN**
 #+TODO: [_] [âœ“] [x] [x] [NA]
 #+options: num:nil
 

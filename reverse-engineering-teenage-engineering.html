@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:15 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Getting firmware from teenage engineering.</title>
@@ -63,17 +63,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgcb786cb" class="outline-2">
-<h2 id="orgcb786cb">Summary:</h2>
-<div class="outline-text-2" id="text-orgcb786cb">
+<div id="outline-container-org03cf253" class="outline-2">
+<h2 id="org03cf253">Summary:</h2>
+<div class="outline-text-2" id="text-org03cf253">
 <p>
 A nobody like me, getting firmware from teenage engineerings website.
 </p>
 </div>
 </div>
-<div id="outline-container-org38b1c8c" class="outline-2">
-<h2 id="org38b1c8c">Introduction</h2>
-<div class="outline-text-2" id="text-org38b1c8c">
+<div id="outline-container-orgbcf4d6a" class="outline-2">
+<h2 id="orgbcf4d6a">Introduction</h2>
+<div class="outline-text-2" id="text-orgbcf4d6a">
 <p>
 Teenage engineering direct people to their website updater <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a>
 which can update a number of Teenage Engineering devices.
@@ -85,7 +85,7 @@ I fire up developer tools and go to the network table, while loading the page:
 </p>
 
 
-<div id="org8a767b2" class="figure">
+<div id="orgfcee1e8" class="figure">
 <p><img src="images/te-download-1.png" alt="te-download-1.png" width="800px" />
 </p>
 </div>
@@ -106,7 +106,7 @@ of twisted obfustication process to minimise the js.
 If i download the js, its not the entire file:
 </p>
 
-<pre class="example" id="orgb996ffa">
+<pre class="example" id="org347d760">
 ()=&gt;{var Mp=Object.create;var Uo=Object.defineProperty;var Np=Object.getOwnPropertyDescriptor;var
 Op=Object.getOwnPropertyNames;var Lp=Object.getPrototypeOf,zp=Object.prototype.hasOwnProperty;var
 pr=(e,t)=&gt;()=&gt;(t||e((t={exports:{}}).exports,t),t.exports),Tu=(e,t)=&gt;{for(var r in t)Uo(e,r,
@@ -126,9 +126,9 @@ Unfortunately, its a mess of react and minification has stripped useful names fr
 and variables, so I'm going to have to take another direction. Great.
 </p>
 </div>
-<div id="outline-container-org1cabbe2" class="outline-3">
-<h3 id="org1cabbe2">The midi diversion.</h3>
-<div class="outline-text-3" id="text-org1cabbe2">
+<div id="outline-container-org1c3ba44" class="outline-3">
+<h3 id="org1c3ba44">The midi diversion.</h3>
+<div class="outline-text-3" id="text-org1c3ba44">
 <p>
 So, I noticed that when I visit the page, a prompt appears in chrome asking for permission
 to access a midi device.  So I assume that this means the browser needed to support
@@ -145,9 +145,9 @@ I see 97 mentions of "MIDI" in the javascript, so i'll try another idea.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb367875" class="outline-3">
-<h3 id="orgb367875">Tracking the download.</h3>
-<div class="outline-text-3" id="text-orgb367875">
+<div id="outline-container-orgef5c604" class="outline-3">
+<h3 id="orgef5c604">Tracking the download.</h3>
+<div class="outline-text-3" id="text-orgef5c604">
 <p>
 I found there were, many, many uses of the word, "url" so checking that was going to be painful.
 </p>
@@ -179,7 +179,7 @@ beginning the update.
 So I look for another fetch
 </p>
 
-<pre class="example" id="org3ce0c4e">
+<pre class="example" id="org72949fa">
 let r = (await fetch("/_software/releases.json").then(i=&gt;i.json()).then(i=&gt;i).catch(i=&gt;i)).devices;
 </pre>
 
@@ -276,7 +276,7 @@ I wont upload all three.
 </p>
 
 
-<div id="orgbc5be3d" class="figure">
+<div id="org15ed412" class="figure">
 <p><img src="images/133-randomness.png" alt="133-randomness.png" width="800px" />
 </p>
 </div>
@@ -321,9 +321,9 @@ need to buy hardware to to do it.
 </div>
 </div>
 </div>
-<div id="outline-container-org9900e0f" class="outline-2">
-<h2 id="org9900e0f">Conclusion</h2>
-<div class="outline-text-2" id="text-org9900e0f">
+<div id="outline-container-orgbd9fbe0" class="outline-2">
+<h2 id="orgbd9fbe0">Conclusion</h2>
+<div class="outline-text-2" id="text-orgbd9fbe0">
 <p>
 Sadly, Teenage Engineering ships encrypted firmware, which I have shown that you
 can get a copy of.  None of the verisons have unencrypted data, so the key to
@@ -340,9 +340,9 @@ and code, that'd be nice, please contact me.
 </p>
 </div>
 </div>
-<div id="outline-container-org0a5b15c" class="outline-2">
-<h2 id="org0a5b15c">Resources:</h2>
-<div class="outline-text-2" id="text-org0a5b15c">
+<div id="outline-container-org5cae40e" class="outline-2">
+<h2 id="org5cae40e">Resources:</h2>
+<div class="outline-text-2" id="text-org5cae40e">
 <ul class="org-ul">
 <li>Teenage engineering update utility  - <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a></li>
 <li>Binwalk (firwmare analysis tool) - <a href="https://github.com/ReFirmLabs/binwalk">https://github.com/ReFirmLabs/binwalk</a></li>

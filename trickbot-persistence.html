@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:15 -->
+<!-- 2026-04-21 Tue 15:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trickbot persistence.</title>
@@ -62,9 +62,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org2b080c9" class="outline-2">
-<h2 id="org2b080c9">What is persistence ?</h2>
-<div class="outline-text-2" id="text-org2b080c9">
+<div id="outline-container-org63ec604" class="outline-2">
+<h2 id="org63ec604">What is persistence ?</h2>
+<div class="outline-text-2" id="text-org63ec604">
 <p>
 A system may be rebooted during regular intervals as part of its
 lifecycle when a new kernel is updated or if it enters an unknown
@@ -77,9 +77,9 @@ task scheduling service to ensure it will continue to execute
 </p>
 </div>
 </div>
-<div id="outline-container-org0b5ca68" class="outline-2">
-<h2 id="org0b5ca68">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org0b5ca68">
+<div id="outline-container-org04bd4db" class="outline-2">
+<h2 id="org04bd4db">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-org04bd4db">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -88,7 +88,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="org691ead9">
+<pre class="example" id="org496b181">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -98,7 +98,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="org4cfbbb8">
+<pre class="example" id="org4fa2bef">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -108,7 +108,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="org545f9b1">
+<pre class="example" id="org28363c2">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -117,14 +117,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-orga96beaf" class="outline-2">
-<h2 id="orga96beaf">The sample code.</h2>
-<div class="outline-text-2" id="text-orga96beaf">
+<div id="outline-container-org510f5da" class="outline-2">
+<h2 id="org510f5da">The sample code.</h2>
+<div class="outline-text-2" id="text-org510f5da">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="orgd9facad">
+<pre class="example" id="org8b4fc7c">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -140,9 +140,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-org1fc4955" class="outline-2">
-<h2 id="org1fc4955">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org1fc4955">
+<div id="outline-container-org2dd5203" class="outline-2">
+<h2 id="org2dd5203">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org2dd5203">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -164,7 +164,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="orge3157ad">
+<pre class="example" id="org117d915">
 use std::fs;
 
  fn main() {
@@ -197,9 +197,9 @@ using the same ports and had the same process name.
 </p>
 </div>
 </div>
-<div id="outline-container-org69454d1" class="outline-2">
-<h2 id="org69454d1">Resources:</h2>
-<div class="outline-text-2" id="text-org69454d1">
+<div id="outline-container-org9fa0c19" class="outline-2">
+<h2 id="org9fa0c19">Resources:</h2>
+<div class="outline-text-2" id="text-org9fa0c19">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
