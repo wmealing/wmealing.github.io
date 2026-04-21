@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 14:58 -->
+<!-- 2026-04-21 Tue 15:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Setting up Emacs for Erlang in 2025</title>
@@ -100,9 +100,9 @@ Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. So
 2005 (hello, `distel`), while others are new enough that the documentation hasn’t caught up yet (tree-sitter Erlang,
 WhatsApp’s Erlang Language Platform). Here is what i have working.
 </p>
-<div id="outline-container-org7f95711" class="outline-2">
-<h2 id="org7f95711">Installing Erlang</h2>
-<div class="outline-text-2" id="text-org7f95711">
+<div id="outline-container-orgca4ee09" class="outline-2">
+<h2 id="orgca4ee09">Installing Erlang</h2>
+<div class="outline-text-2" id="text-orgca4ee09">
 <p>
 If you install Erlang with Homebrew, beware: you don’t always get the optional extras — like the Emacs Lisp files.
 You need the full OTP installation (with all the developer tooling), you’re better off using <a href="https://github.com/kerl/kerl">https://github.com/kerl/kerl</a>.
@@ -122,9 +122,9 @@ This gets the most recent version of OTP source, it works with most versions of 
 </p>
 </div>
 </div>
-<div id="outline-container-org77925b2" class="outline-2">
-<h2 id="org77925b2">Setting up Emacs</h2>
-<div class="outline-text-2" id="text-org77925b2">
+<div id="outline-container-orgbae80d8" class="outline-2">
+<h2 id="orgbae80d8">Setting up Emacs</h2>
+<div class="outline-text-2" id="text-orgbae80d8">
 <p>
 You need both the classic <code>erlang</code> mode and the newer tree-sitter based <code>erlang-ts</code> mode. Both need to be installed.
 </p>
@@ -137,9 +137,9 @@ M-x package-install RET flycheck-popup-tip RET
 </div>
 </div>
 </div>
-<div id="outline-container-orgf3288cd" class="outline-2">
-<h2 id="orgf3288cd">Configure <code>erlang-mode</code></h2>
-<div class="outline-text-2" id="text-orgf3288cd">
+<div id="outline-container-orga493b99" class="outline-2">
+<h2 id="orga493b99">Configure <code>erlang-mode</code></h2>
+<div class="outline-text-2" id="text-orga493b99">
 <p>
 This is based on the official <a href="https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html">erlang</a> docs, except with slightly more modern syntax.
 </p>
@@ -155,9 +155,9 @@ This is based on the official <a href="https://www.erlang.org/doc/apps/tools/erl
 </div>
 </div>
 </div>
-<div id="outline-container-org6c71df9" class="outline-2">
-<h2 id="org6c71df9">Setup Flycheck</h2>
-<div class="outline-text-2" id="text-org6c71df9">
+<div id="outline-container-orgf12de2f" class="outline-2">
+<h2 id="orgf12de2f">Setup Flycheck</h2>
+<div class="outline-text-2" id="text-orgf12de2f">
 <p>
 Hook Erlang into <code>flycheck</code>:
 </p>
@@ -202,7 +202,7 @@ Evaluate the new flycheck definition above, open an erlang buffer in emacs and r
 Sample output:
 </p>
 
-<pre class="example" id="org96e0377">
+<pre class="example" id="orgcc8cc97">
 Syntax checkers for buffer tui_loop.erl in erlang-mode:
 
 First checker to run:
@@ -234,9 +234,9 @@ enable disabled checkers.
 </div>
 </div>
 </div>
-<div id="outline-container-org30ae1a5" class="outline-2">
-<h2 id="org30ae1a5">Rebar3 Integration</h2>
-<div class="outline-text-2" id="text-org30ae1a5">
+<div id="outline-container-orgc9fa58e" class="outline-2">
+<h2 id="orgc9fa58e">Rebar3 Integration</h2>
+<div class="outline-text-2" id="text-orgc9fa58e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq inferior-erlang-machine "rebar3")
 (setq inferior-erlang-machine-options '("shell"))
@@ -293,9 +293,9 @@ It should be the parent directory which contains a rebar.config file.
 </p>
 </div>
 </div>
-<div id="outline-container-org0da03d3" class="outline-2">
-<h2 id="org0da03d3">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
-<div class="outline-text-2" id="text-org0da03d3">
+<div id="outline-container-org9a62e44" class="outline-2">
+<h2 id="org9a62e44">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
+<div class="outline-text-2" id="text-org9a62e44">
 <p>
 Previously I had been using <a href="https://github.com/erlang-ls/erlang_ls">erlang_ls</a> as a language server.  As of Aug 16, 2025, this project has been archived on github, Thank you
 Roberto Aloi for all the hard work that was part of this great tool.  I haven't been able to get elp working reliably with
@@ -338,9 +338,9 @@ buffer.
 </p>
 </div>
 </div>
-<div id="outline-container-org8fb11c6" class="outline-2">
-<h2 id="org8fb11c6">Closing</h2>
-<div class="outline-text-2" id="text-org8fb11c6">
+<div id="outline-container-org80ffb0c" class="outline-2">
+<h2 id="org80ffb0c">Closing</h2>
+<div class="outline-text-2" id="text-org80ffb0c">
 <p>
 That’s my erlang editing stack in 2025: Erlang mode, Erlang tree-sitter, Flycheck, rebar3 integration, and WhatsApp’s LSP server.
 </p>

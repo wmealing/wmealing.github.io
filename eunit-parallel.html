@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 14:58 -->
+<!-- 2026-04-21 Tue 15:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallel EUnit Testing</title>
@@ -63,17 +63,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgedfeee6" class="outline-2">
-<h2 id="orgedfeee6">Summary:</h2>
-<div class="outline-text-2" id="text-orgedfeee6">
+<div id="outline-container-orgd6a032f" class="outline-2">
+<h2 id="orgd6a032f">Summary:</h2>
+<div class="outline-text-2" id="text-orgd6a032f">
 <p>
 By default, EUnit runs tests sequentially. Large test suites benefit from parallel execution. You can enable this in the test code itself or globally via build tool configuration. 
 </p>
 </div>
 </div>
-<div id="outline-container-orga09ef59" class="outline-2">
-<h2 id="orga09ef59">Introduction</h2>
-<div class="outline-text-2" id="text-orga09ef59">
+<div id="outline-container-org91ebe9a" class="outline-2">
+<h2 id="org91ebe9a">Introduction</h2>
+<div class="outline-text-2" id="text-org91ebe9a">
 <p>
 Running tests in parallel reduces total execution time. EUnit provides a wrapper to dispatch tests to worker processes.
 </p>
@@ -96,9 +96,9 @@ Each test in the list runs in its own process. This is for independent unit test
 </p>
 </div>
 </div>
-<div id="outline-container-org0ef42a7" class="outline-2">
-<h2 id="org0ef42a7">Rebar3 Configuration</h2>
-<div class="outline-text-2" id="text-org0ef42a7">
+<div id="outline-container-orgc85596c" class="outline-2">
+<h2 id="orgc85596c">Rebar3 Configuration</h2>
+<div class="outline-text-2" id="text-orgc85596c">
 <p>
 You can enable parallel execution globally in your rebar.config file. This allows you to keep your test files
 clean of EUnit-specific parallel wrappers.
@@ -137,9 +137,9 @@ those limits into the repository.
 </p>
 </div>
 </div>
-<div id="outline-container-org706fd42" class="outline-2">
-<h2 id="org706fd42">Parallel Fixtures</h2>
-<div class="outline-text-2" id="text-org706fd42">
+<div id="outline-container-orgcdec41b" class="outline-2">
+<h2 id="orgcdec41b">Parallel Fixtures</h2>
+<div class="outline-text-2" id="text-orgcdec41b">
 <p>
 Using setup or foreach with inparallel requires attention to process ownership. The setup and cleanup functions run in
 the main EUnit process, while the tests run in worker processes.
@@ -175,17 +175,17 @@ build/config on <a href="https://github.com/russor/crazierl/">Crazierl</a> which
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf02063" class="outline-2">
-<h2 id="orgbf02063">Conclusion</h2>
-<div class="outline-text-2" id="text-orgbf02063">
+<div id="outline-container-org522cea9" class="outline-2">
+<h2 id="org522cea9">Conclusion</h2>
+<div class="outline-text-2" id="text-org522cea9">
 <p>
 Parallel testing is a simple way to optimize your development loop. Choose between inline wrappers for specific suites or Rebar3 configuration for global application. 
 </p>
 </div>
 </div>
-<div id="outline-container-org960ab70" class="outline-2">
-<h2 id="org960ab70">Resources:</h2>
-<div class="outline-text-2" id="text-org960ab70">
+<div id="outline-container-org232fd05" class="outline-2">
+<h2 id="org232fd05">Resources:</h2>
+<div class="outline-text-2" id="text-org232fd05">
 <p>
 <a href="https://www.erlang.org/doc/apps/eunit/chapter.html">EUnit User's Guide</a> 
 </p>

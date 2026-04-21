@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 14:58 -->
+<!-- 2026-04-21 Tue 15:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Why eBPF for users is disabled in some distributions</title>
@@ -64,9 +64,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org2fefbdd" class="outline-2">
-<h2 id="org2fefbdd">Table of Contents</h2>
-<div class="outline-text-2" id="text-org2fefbdd">
+<div id="outline-container-org41eec27" class="outline-2">
+<h2 id="org41eec27">Table of Contents</h2>
+<div class="outline-text-2" id="text-org41eec27">
 <ul class="org-ul">
 <li>Why eBPF filter operations are privileged in some distributions?</li>
 <li>Why is this effectively limited to root (CAP_SYS_ADMIN) only?</li>
@@ -75,9 +75,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org832877d" class="outline-2">
-<h2 id="org832877d">Why eBPF filter operations are privileged in some distributions?</h2>
-<div class="outline-text-2" id="text-org832877d">
+<div id="outline-container-org8976cf5" class="outline-2">
+<h2 id="org8976cf5">Why eBPF filter operations are privileged in some distributions?</h2>
+<div class="outline-text-2" id="text-org8976cf5">
 <p>
 eBPF is a mechanism in which local users can tell the Linux kernel to attach pseudocode to tracepoints, kprobes, and perf events in the kernel. This pseudocode is later translated into native instructions and executed. Because of this it is heavily used in performance tuning and benchmarking. As this instrumentation can be carried out without recompiling the kernel, eBPF is very attractive for systems where this could be prohibitive either due to cost, downtime, or complexity.
 </p>
@@ -103,9 +103,9 @@ It provides such checks as:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbc4e190" class="outline-2">
-<h2 id="orgbc4e190">Why is this effectively limited to root (CAP_SYS_ADMIN) only?</h2>
-<div class="outline-text-2" id="text-orgbc4e190">
+<div id="outline-container-org5905fe8" class="outline-2">
+<h2 id="org5905fe8">Why is this effectively limited to root (CAP_SYS_ADMIN) only?</h2>
+<div class="outline-text-2" id="text-org5905fe8">
 <p>
 The decision to limit this syscall to a user with CAP_SYS_ADMIN in the initial namespace was intended to reduce the attack surface available to potential intruders.
 </p>
@@ -123,9 +123,9 @@ Since pseudocode translation and verification is a complex process, error handli
 </p>
 </div>
 </div>
-<div id="outline-container-org7db5fa6" class="outline-2">
-<h2 id="org7db5fa6">How can I give a user access to use eBPF?</h2>
-<div class="outline-text-2" id="text-org7db5fa6">
+<div id="outline-container-org3fc068c" class="outline-2">
+<h2 id="org3fc068c">How can I give a user access to use eBPF?</h2>
+<div class="outline-text-2" id="text-org3fc068c">
 <p>
 One possible workaround is to use setcap(8) to set the CAP_SYS_ADMIN flag on a trusted binary with minimal attack surface that would call the relevant bpf(2) syscall. For more information on the capabilities feature of the kernel check out capabilities(7).
 </p>
@@ -139,9 +139,9 @@ Red Hat Enterprise Linux does not have /proc/sys/kernel/unprivileged_bpf_disable
 </p>
 </div>
 </div>
-<div id="outline-container-orge647adc" class="outline-2">
-<h2 id="orge647adc">Conclusion</h2>
-<div class="outline-text-2" id="text-orge647adc">
+<div id="outline-container-orga7c4d39" class="outline-2">
+<h2 id="orga7c4d39">Conclusion</h2>
+<div class="outline-text-2" id="text-orga7c4d39">
 <p>
 Some Linux distributions, in the future, may ship with the ability to allow users to insert eBPF rules. At this time RHEL and CENTOS has attempted to reduce the risk of eBPF exploitation by limiting access to root and CAP_SYS_ADMIN enabled processes. This trade-off reduces the attack vector on the system at the cost of limiting which users can take advantage of eBPF functionality.
 </p>

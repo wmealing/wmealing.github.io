@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 14:59 -->
+<!-- 2026-04-21 Tue 15:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PCRS on Red Hat Enterprise Linux.</title>
@@ -74,9 +74,9 @@ TPM status is communicated with the operating system through “Trusted Platform
 <p>
 Some attacks may modify the boot process to gain additional privileges while the system is running.
 </p>
-<div id="outline-container-orgf7cfa89" class="outline-2">
-<h2 id="orgf7cfa89">Option 1 : LUKS decryption on PCRS validation.</h2>
-<div class="outline-text-2" id="text-orgf7cfa89">
+<div id="outline-container-org07e6bf2" class="outline-2">
+<h2 id="org07e6bf2">Option 1 : LUKS decryption on PCRS validation.</h2>
+<div class="outline-text-2" id="text-org07e6bf2">
 <p>
 As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
 </p>
@@ -100,9 +100,9 @@ The device will fail to decrypt at boot time if the PCR has changed between the 
 </p>
 </div>
 </div>
-<div id="outline-container-org583008b" class="outline-2">
-<h2 id="org583008b">Option 2: Integrity Measurement Architecture (IMA).</h2>
-<div class="outline-text-2" id="text-org583008b">
+<div id="outline-container-org834fc69" class="outline-2">
+<h2 id="org834fc69">Option 2: Integrity Measurement Architecture (IMA).</h2>
+<div class="outline-text-2" id="text-org834fc69">
 <p>
 The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
 </p>
@@ -134,9 +134,9 @@ There may be a method to fail the boot on this aggregate being different but I d
 </p>
 </div>
 </div>
-<div id="outline-container-org57fe1ab" class="outline-2">
-<h2 id="org57fe1ab">Additional Information:</h2>
-<div class="outline-text-2" id="text-org57fe1ab">
+<div id="outline-container-org506d88e" class="outline-2">
+<h2 id="org506d88e">Additional Information:</h2>
+<div class="outline-text-2" id="text-org506d88e">
 <p>
 [Wikipedia on TPM](<a href="https://en.wikipedia.org/wiki/Trusted_Platform_Module">https://en.wikipedia.org/wiki/Trusted_Platform_Module</a>)
 </p>
