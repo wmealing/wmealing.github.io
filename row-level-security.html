@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-05-24 Sun 21:05 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to handle headless IoT clients safely without building a massive intermediary auth API.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Wade Mealings documentation" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">How to handle headless IoT clients safely without building a massive intermediary auth API.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<p>
+I was recently hacking away on a side project when I noticed my client-side IoT code was repeating a tedious
+pattern. The client did an HTTP REST request, the server checked if the data in the JSON matched a valid
+device-id and a secret, and if everything lined up, the server punched the data into the database.
+</p>
+
+<p>
+There wasn't a lot of value in that middle tier and it felt like it was going to be a real bottleneck
+when my delusion of having thousands of concurrent users inevitably becomes a reality. My goal shifted:
+I wanted to move the burden of this validation code from my application layer to someone else. In this case,
+that is the database.
+</p>
+
+<p>
+Because I'm not a complete sadist, I had previously decided to use Postgres. Supabase was my first choice
+here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
+of excellent open-source projects.
+</p>
+<div id="outline-container-orgeacc718" class="outline-2">
+<h2 id="orgeacc718">The moving parts</h2>
+<div class="outline-text-2" id="text-orgeacc718">
+<p>
+It's a bit tricky, but we can get away with not having to build a lot of the code and infrastructure required
+to do this by using Postgres Row Level Security (RLS), PostgREST and some table configuration.
+</p>
+
+<p>
+PostgREST is a standalone server that automatically turns your Postgres schema into a REST API. Supabase
+runs it for you behind the scenes, so any HTTP request to your Supabase project URL is handled by PostgREST
+before it ever touches the database.
+</p>
+</div>
+<div id="outline-container-org954fb59" class="outline-3">
+<h3 id="org954fb59">The Moving parts: Row Level Security ?</h3>
+<div class="outline-text-3" id="text-org954fb59">
+<p>
+Postgres has always let you control who can access a table. You can allow or deny a specific database
+role access to an entire table. That's coarse-grained security.
+</p>
+
+<p>
+Row Level Security (RLS) lets you increase even more control,  It allows control of exactly which rows a role
+can touch, using a security policy written in standard SQL.
+</p>
+
+<p>
+RLS acts as a hidden WHERE clause appended to every query by the database engine itself. If the policy
+returns false for a given row, that row is completely invisible to a read query, and writes are rejected
+before any data moves. It's not application code enforcing this — it's the database engine itself.
+</p>
+
+<p>
+You can write policies for any of these operations:
+</p>
+
+<ul class="org-ul">
+<li><code>SELECT</code> — limit who can read specific rows</li>
+<li><code>INSERT</code> — limit who can write new rows</li>
+<li><code>UPDATE</code> — limit who can modify existing rows</li>
+<li><code>DELETE</code> — limit who can remove rows</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6ad7d43" class="outline-3">
+<h3 id="org6ad7d43">The Moving Parts: The Schema</h3>
+<div class="outline-text-3" id="text-org6ad7d43">
+<p>
+This demo has two tables: one stores metadata concerning the device itself, and the second stores the telemetry readings taken by those devices.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">-- The devices table stores the id and secret for each registered device
+CREATE TABLE devices (
+  id            uuid  PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       uuid  NOT NULL REFERENCES auth.users(id),
+  device_id     text  UNIQUE NOT NULL,
+  device_secret text  NOT NULL,
+  name          text,
+  created_at    timestamptz DEFAULT now()
+);
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sql">CREATE TABLE device_readings (
+  id          uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+  device_id   text        NOT NULL REFERENCES devices(device_id),
+  value       text        NOT NULL,
+  recorded_at timestamptz DEFAULT now()
+);
+</pre>
+</div>
+
+<p>
+The administrative user sets up the devices table beforehand, whereas the hardware devices only need to write
+to device_readings table.
+</p>
+
+<p>
+And some fictional setup data to help illustrate the point.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">-- A test user already exists in auth.users (created via Supabase auth)
+
+-- Register a device belonging to that user
+INSERT INTO devices (user_id, device_id, device_secret, name)
+VALUES ('00000000-0000-0000-0000-000000000001', 'dev-001', 'changeme-super-secret-32-bytes!!', 'Test Device');
+
+-- Device posts data into device_readings (no user_id here)
+INSERT INTO device_readings (device_id, value)
+VALUES ('dev-001', 'first reading'),
+       ('dev-001', 'second reading'),
+       ('dev-001', '23.5');
+</pre>
+</div>
+
+<p>
+Unsurprisingly, you must enable "ROW LEVEL SECURITY" on a table; it's not automatic - you must turn it on per table.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">ALTER TABLE device_readings ENABLE ROW LEVEL SECURITY;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga3332a2" class="outline-3">
+<h3 id="orga3332a2">Enforcing the Security Logic</h3>
+<div class="outline-text-3" id="text-orga3332a2">
+</div>
+<div id="outline-container-orgd690976" class="outline-4">
+<h4 id="orgd690976">Restricted Read Access (<code>SELECT</code>)</h4>
+<div class="outline-text-4" id="text-orgd690976">
+<p>
+When an application user reads from device_readings, they should only see data from devices they actually own.
+Since device_readings doesn't have a user_id column directly, we look up ownership by joining through the devices
+table.
+</p>
+
+<p>
+The ownership chain looks like this:
+</p>
+
+<p>
+<code>auth.users → devices.user_id → device_readings.device_id</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">CREATE POLICY "user_see_own_device_rows"
+  ON device_readings
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM devices
+      WHERE devices.device_id = device_readings.device_id
+        AND devices.user_id   = auth.uid()
+    )
+  );
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc32d7b" class="outline-4">
+<h4 id="orgcc32d7b">Unauthenticated Write Access (<code>INSERT</code>)</h4>
+<div class="outline-text-4" id="text-orgcc32d7b">
+<p>
+When a device posts a new reading it uses a HTTP POST. PostgREST translates that into a native SQL
+<code>INSERT</code> on <code>device_readings</code>. Before the row is written, the RLS policy calls
+<code>verify_device_secret(device_id, header_secret)</code>.
+</p>
+
+<ul class="org-ul">
+<li><p>
+The <code>header_secret</code> comes from the <code>x-device-secret</code> HTTP header. PostgREST
+stashes all request headers into a session variable before running the query,
+so the policy can read it back with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">current_setting('request.headers')::json-&gt;&gt;'x-device-secret'
+</pre>
+</div></li>
+
+<li>If <code>verify_device_secret</code> returns false — wrong secret, missing header,
+unknown device — the <code>INSERT</code> is rejected and PostgREST returns HTTP 403.
+   No row is written. The device gets no information about why it failed.</li>
+</ul>
+
+<p>
+Here is the function to validate the device secret matches the device id:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">-- The function checks if the secret matches for a given device_id
+ CREATE OR REPLACE FUNCTION verify_device_secret(p_device_id text, p_secret text)
+ RETURNS boolean
+ LANGUAGE sql
+ SECURITY DEFINER
+ STABLE
+ AS $$
+   SELECT EXISTS (
+     SELECT 1 FROM devices
+     WHERE device_id     = p_device_id
+       AND device_secret = p_secret
+   );
+ $$;
+</pre>
+</div>
+
+<p>
+The <code>SECURITY DEFINER</code> part is important. Using it, the function runs as its owner (the superuser),
+not as the anon role calling it. Without it, the anon role would need <code>SELECT</code> on <code>devices</code> to do the
+lookup, which would expose the secrets table. With it, the anon role can call the function but never
+sees the <code>devices</code> table directly.
+</p>
+
+<p>
+We also need to explicitly grant the anon role permission to call the function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">GRANT EXECUTE ON FUNCTION verify_device_secret TO anon;
+</pre>
+</div>
+
+<p>
+Without this, the RLS policy will fail with a permission error even if the secret is correct.
+</p>
+
+<p>
+So the full chain is: HTTP header → RLS policy → verify_device_secret() → devices table.
+</p>
+
+<p>
+Now, we bind this function to our INSERT policy:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">CREATE POLICY "device_insert_own_readings"
+  ON device_readings
+  FOR INSERT
+  TO anon
+  WITH CHECK (
+    verify_device_secret(
+      device_id,
+      current_setting('request.headers', true)::json-&gt;&gt;'x-device-secret'
+    )
+  );
+</pre>
+</div>
+
+<p>
+Note: INSERT policies use WITH CHECK instead of USING. USING filters rows on read; WITH CHECK validates rows on write.
+</p>
+</div>
+</div>
+<div id="outline-container-org816ef28" class="outline-4">
+<h4 id="org816ef28">The Client Payload (curl Example)</h4>
+<div class="outline-text-4" id="text-org816ef28">
+<p>
+This is the 'curl' equivalent of the code that my IOT device would use.  I'm using <a href="https://atomvm.org/">atomvm</a>
+on my client side, but this effectively reproduces the same thing.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">curl -X POST https://your-project.supabase.co/rest/v1/device_readings \
+  -H "apikey: your-publishable-key" \
+  -H "Authorization: Bearer your-publishable-key" \
+  -H "Content-Type: application/json" \
+  -H "x-device-secret: changeme-super-secret-32-bytes!!" \
+  -d '{"device_id": "dev-001", "value": "23.5"}'
+</pre>
+</div>
+
+<p>
+On success: HTTP 201, no body. On wrong secret: HTTP 403.
+</p>
+
+<p>
+The two keys are doing different jobs:
+</p>
+<ul class="org-ul">
+<li><code>apikey</code> / <code>Authorization</code> — identifies the Supabase project. This is the publishable key, found
+under your Supabase project Settings → API. It is safe to ship on the device.</li>
+<li><code>x-device-secret</code> — authenticates the specific device, checked by the RLS policy. This is private
+and unique per device.</li>
+</ul>
+
+<p>
+In production, device registration (inserting a row into <code>devices</code>) would be handled by an admin
+interface or provisioning script. The device itself only needs its <code>device_id</code> and <code>device_secret</code>
+burned into its firmware at manufacture or setup time.
+</p>
+</div>
+</div>
+<div id="outline-container-org8bd11e0" class="outline-4">
+<h4 id="org8bd11e0">Making Data Immutable (UPDATE &amp; DELETE)</h4>
+<div class="outline-text-4" id="text-org8bd11e0">
+<p>
+Devices should only ever record history, never rewrite it. The cleanest way to enforce data immutability
+in Postgres RLS is elegantly simple: don't write a policy for it.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf368811" class="outline-2">
+<h2 id="orgf368811">Architectural Flow</h2>
+<div class="outline-text-2" id="text-orgf368811">
+<blockquote>
+<p>
+[Device Client] ──(POST /rest/v1/device_readings)──&gt; [PostgREST]
+                                                          │
+                                            (Sets session headers &amp; passes INSERT)
+                                                          │
+                                                          ▼
+                                                   [Postgres Engine]
+                                            (Evaluates RLS -&gt; Calls verify_device_secret)
+</p>
+</blockquote>
+
+<p>
+The publishable key burned into your device firmware only unlocks the main gateway. It grants no structural
+write privileges until the custom per-device secret passes validation inside the database layer.
+</p>
+
+<p>
+The practical upshot: If an individual device gets compromised out in the field, you rotate exactly one row
+in your database for that single device secret. The rest of your hardware fleet remains completely untouched,
+and you don’t have an authentication server application to patch, scale, or maintain.
+</p>
+</div>
+</div>
+<div id="outline-container-org74c9a39" class="outline-2">
+<h2 id="org74c9a39">Conclusion</h2>
+<div class="outline-text-2" id="text-org74c9a39">
+<p>
+Pairing Postgres Row Level Security with PostgREST gives you a lightweight and easy
+way to decouple web services and completely get out of the way when edge clients need
+to push structured data home.
+</p>
+
+<p>
+Is it the perfect, infinitely scalable, long-term architecture for every enterprise? Maybe not.
+But it is an elegant, rock-solid starting point. And if I ever need to scale past it, I can simply
+redirect my DNS to an edge proxy layer where I can perform custom rate-limiting, DDoS filtering, or token transformations later down the road.
+</p>
+</div>
+</div>
+<div id="outline-container-org0c6755e" class="outline-2">
+<h2 id="org0c6755e">Resources:</h2>
+<div class="outline-text-2" id="text-org0c6755e">
+<p>
+<a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL Row Level Security Documentation</a>
+</p>
+
+<p>
+<a href="https://github.com/PostgREST/postgrest">PostgREST GitHub Repository</a>
+</p>
+
+<p>
+<a href="https://docs.postgrest.org/en/v14/">PostgREST Official Documentation</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -9,6 +9,12 @@
 
 * Recent Blog Posts
 
+* [[./row-level-security.html][Headless IoT Auth with Postgres RLS - May 2026]]
+
+I got tired of writing the same device-authentication middleware for every IoT project. This post walks
+through how Postgres Row Level Security and PostgREST let each device authenticate directly at the
+database layer using a per-device secret, with no auth server in the middle to build, scale, or break.
+
 * [[./cellium-stateless-render.html][Cellium 007 - State Injection]] - Apr 2026
 
 I've been working on a way to simplify working with widgets in Cellium. Instead of passing every UI detail down through a massive chain of functions, I’m keeping a set of computed values in the model. When it’s time to draw the widget, the draw code looks up the state and grafts it back on right before the draw.

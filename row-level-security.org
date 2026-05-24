@@ -1,0 +1,281 @@
+#+TITLE: How to handle headless IoT clients safely without building a massive intermediary auth API.
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Wade Mealings documentation" />
+
+
+I was recently hacking away on a side project when I noticed my client-side IoT code was repeating a tedious
+pattern. The client did an HTTP REST request, the server checked if the data in the JSON matched a valid
+device-id and a secret, and if everything lined up, the server punched the data into the database.
+
+There wasn't a lot of value in that middle tier and it felt like it was going to be a real bottleneck
+when my delusion of having thousands of concurrent users inevitably becomes a reality. My goal shifted:
+I wanted to move the burden of this validation code from my application layer to someone else. In this case,
+that is the database.
+
+Because I'm not a complete sadist, I had previously decided to use Postgres. Supabase was my first choice
+here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
+of excellent open-source projects.
+
+* The moving parts
+:PROPERTIES:
+:ID:       72EE38AE-AD36-4DAA-A7F0-22A728AC141C
+:PUBDATE:  Sun 24 May 2026 02:23:00 AEST
+:END:
+
+It's a bit tricky, but we can get away with not having to build a lot of the code and infrastructure required
+to do this by using Postgres Row Level Security (RLS), PostgREST and some table configuration.
+
+PostgREST is a standalone server that automatically turns your Postgres schema into a REST API. Supabase
+runs it for you behind the scenes, so any HTTP request to your Supabase project URL is handled by PostgREST
+before it ever touches the database.
+
+** The Moving parts: Row Level Security ?
+
+Postgres has always let you control who can access a table. You can allow or deny a specific database
+role access to an entire table. That's coarse-grained security.
+
+Row Level Security (RLS) lets you increase even more control,  It allows control of exactly which rows a role
+can touch, using a security policy written in standard SQL.
+
+RLS acts as a hidden WHERE clause appended to every query by the database engine itself. If the policy
+returns false for a given row, that row is completely invisible to a read query, and writes are rejected
+before any data moves. It's not application code enforcing this — it's the database engine itself.
+
+You can write policies for any of these operations:
+
+- =SELECT= — limit who can read specific rows
+- =INSERT= — limit who can write new rows
+- =UPDATE= — limit who can modify existing rows
+- =DELETE= — limit who can remove rows
+
+** The Moving Parts: The Schema
+
+This demo has two tables: one stores metadata concerning the device itself, and the second stores the telemetry readings taken by those devices.
+
+#+BEGIN_SRC sql
+  -- The devices table stores the id and secret for each registered device
+  CREATE TABLE devices (
+    id            uuid  PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id       uuid  NOT NULL REFERENCES auth.users(id),
+    device_id     text  UNIQUE NOT NULL,
+    device_secret text  NOT NULL,
+    name          text,
+    created_at    timestamptz DEFAULT now()
+  );
+#+END_SRC
+
+#+BEGIN_SRC sql
+  CREATE TABLE device_readings (
+    id          uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+    device_id   text        NOT NULL REFERENCES devices(device_id),
+    value       text        NOT NULL,
+    recorded_at timestamptz DEFAULT now()
+  );
+#+END_SRC
+
+The administrative user sets up the devices table beforehand, whereas the hardware devices only need to write
+to device_readings table.
+
+And some fictional setup data to help illustrate the point.
+
+#+BEGIN_SRC sql
+    -- A test user already exists in auth.users (created via Supabase auth)
+
+    -- Register a device belonging to that user
+    INSERT INTO devices (user_id, device_id, device_secret, name)
+    VALUES ('00000000-0000-0000-0000-000000000001', 'dev-001', 'changeme-super-secret-32-bytes!!', 'Test Device');
+
+    -- Device posts data into device_readings (no user_id here)
+    INSERT INTO device_readings (device_id, value)
+    VALUES ('dev-001', 'first reading'),
+           ('dev-001', 'second reading'),
+           ('dev-001', '23.5');
+#+END_SRC
+
+Unsurprisingly, you must enable "ROW LEVEL SECURITY" on a table; it's not automatic - you must turn it on per table.
+
+#+BEGIN_SRC sql
+ALTER TABLE device_readings ENABLE ROW LEVEL SECURITY;
+#+END_SRC
+
+** Enforcing the Security Logic
+
+*** Restricted Read Access (=SELECT=)
+
+When an application user reads from device_readings, they should only see data from devices they actually own.
+Since device_readings doesn't have a user_id column directly, we look up ownership by joining through the devices
+table.
+
+The ownership chain looks like this:
+
+ =auth.users → devices.user_id → device_readings.device_id=
+
+#+BEGIN_SRC sql
+  CREATE POLICY "user_see_own_device_rows"
+    ON device_readings
+    FOR SELECT
+    TO authenticated
+    USING (
+      EXISTS (
+        SELECT 1 FROM devices
+        WHERE devices.device_id = device_readings.device_id
+          AND devices.user_id   = auth.uid()
+      )
+    );
+#+END_SRC
+
+
+
+*** Unauthenticated Write Access (=INSERT=)
+
+When a device posts a new reading it uses a HTTP POST. PostgREST translates that into a native SQL
+=INSERT= on =device_readings=. Before the row is written, the RLS policy calls
+=verify_device_secret(device_id, header_secret)=.
+
+ - The =header_secret= comes from the =x-device-secret= HTTP header. PostgREST
+   stashes all request headers into a session variable before running the query,
+   so the policy can read it back with:
+
+   #+BEGIN_SRC sql
+      current_setting('request.headers')::json->>'x-device-secret'
+   #+END_SRC
+
+ - If =verify_device_secret= returns false — wrong secret, missing header,
+   unknown device — the =INSERT= is rejected and PostgREST returns HTTP 403.
+      No row is written. The device gets no information about why it failed.
+
+Here is the function to validate the device secret matches the device id:
+
+#+BEGIN_SRC sql
+    -- The function checks if the secret matches for a given device_id
+     CREATE OR REPLACE FUNCTION verify_device_secret(p_device_id text, p_secret text)
+     RETURNS boolean
+     LANGUAGE sql
+     SECURITY DEFINER
+     STABLE
+     AS $$
+       SELECT EXISTS (
+         SELECT 1 FROM devices
+         WHERE device_id     = p_device_id
+           AND device_secret = p_secret
+       );
+     $$;
+#+END_SRC 
+
+The =SECURITY DEFINER= part is important. Using it, the function runs as its owner (the superuser),
+not as the anon role calling it. Without it, the anon role would need =SELECT= on =devices= to do the
+lookup, which would expose the secrets table. With it, the anon role can call the function but never
+sees the =devices= table directly.
+
+We also need to explicitly grant the anon role permission to call the function:
+
+#+BEGIN_SRC sql
+GRANT EXECUTE ON FUNCTION verify_device_secret TO anon;
+#+END_SRC
+
+Without this, the RLS policy will fail with a permission error even if the secret is correct.
+
+So the full chain is: HTTP header → RLS policy → verify_device_secret() → devices table.
+
+Now, we bind this function to our INSERT policy:
+
+#+BEGIN_SRC sql
+  CREATE POLICY "device_insert_own_readings"
+    ON device_readings
+    FOR INSERT
+    TO anon
+    WITH CHECK (
+      verify_device_secret(
+        device_id,
+        current_setting('request.headers', true)::json->>'x-device-secret'
+      )
+    );
+  #+END_SRC
+
+Note: INSERT policies use WITH CHECK instead of USING. USING filters rows on read; WITH CHECK validates rows on write.
+
+
+*** The Client Payload (curl Example)
+
+This is the 'curl' equivalent of the code that my IOT device would use.  I'm using [[https://atomvm.org/][atomvm]]
+on my client side, but this effectively reproduces the same thing.
+
+#+BEGIN_SRC sh
+curl -X POST https://your-project.supabase.co/rest/v1/device_readings \
+  -H "apikey: your-publishable-key" \
+  -H "Authorization: Bearer your-publishable-key" \
+  -H "Content-Type: application/json" \
+  -H "x-device-secret: changeme-super-secret-32-bytes!!" \
+  -d '{"device_id": "dev-001", "value": "23.5"}'
+#+END_SRC
+
+On success: HTTP 201, no body. On wrong secret: HTTP 403.
+
+The two keys are doing different jobs:
+ - =apikey= / =Authorization= — identifies the Supabase project. This is the publishable key, found
+   under your Supabase project Settings → API. It is safe to ship on the device.
+ - =x-device-secret= — authenticates the specific device, checked by the RLS policy. This is private
+   and unique per device.
+
+In production, device registration (inserting a row into =devices=) would be handled by an admin
+interface or provisioning script. The device itself only needs its =device_id= and =device_secret=
+burned into its firmware at manufacture or setup time.
+
+*** Making Data Immutable (UPDATE & DELETE)
+
+Devices should only ever record history, never rewrite it. The cleanest way to enforce data immutability
+in Postgres RLS is elegantly simple: don't write a policy for it.
+
+* Architectural Flow
+:PROPERTIES:
+:ID:       C41184E3-F26D-4AB6-A293-42D7D60C8FB1
+:END:
+
+#+BEGIN_QUOTE
+[Device Client] ──(POST /rest/v1/device_readings)──> [PostgREST]
+                                                          │
+                                            (Sets session headers & passes INSERT)
+                                                          │
+                                                          ▼
+                                                   [Postgres Engine]
+                                            (Evaluates RLS -> Calls verify_device_secret)
+#+END_QUOTE
+
+The publishable key burned into your device firmware only unlocks the main gateway. It grants no structural
+write privileges until the custom per-device secret passes validation inside the database layer.
+
+The practical upshot: If an individual device gets compromised out in the field, you rotate exactly one row
+in your database for that single device secret. The rest of your hardware fleet remains completely untouched,
+and you don’t have an authentication server application to patch, scale, or maintain.
+
+* Conclusion
+:PROPERTIES:
+:ID:       B86A8861-08A2-47E1-B618-21C58491DA1E
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
+
+Pairing Postgres Row Level Security with PostgREST gives you a lightweight and easy
+way to decouple web services and completely get out of the way when edge clients need
+to push structured data home.
+
+Is it the perfect, infinitely scalable, long-term architecture for every enterprise? Maybe not.
+But it is an elegant, rock-solid starting point. And if I ever need to scale past it, I can simply
+redirect my DNS to an edge proxy layer where I can perform custom rate-limiting, DDoS filtering, or token transformations later down the road.
+
+* Resources:
+:PROPERTIES:
+:ID:       FB26D3AC-3E67-4DDF-B647-0BBABCBF87A1
+:PUBDATE:  2026-03-12 Thu 04:14
+:END:
+
+[[https://www.postgresql.org/docs/current/ddl-rowsecurity.html][PostgreSQL Row Level Security Documentation]]
+
+[[https://github.com/PostgREST/postgrest][PostgREST GitHub Repository]]
+
+[[https://docs.postgrest.org/en/v14/][PostgREST Official Documentation]]
+
+
+
