@@ -11,11 +11,11 @@ pattern. The client did an HTTP REST request, the server checked if the data in 
 device-id and a secret, and if everything lined up, the server punched the data into the database.
 
 There wasn't a lot of value in that middle tier and it felt like it was going to be a real bottleneck
-when my delusion of having thousands of concurrent users inevitably becomes a reality. My goal shifted:
+when thousands of concurrent users inevitably becomes a reality. My goal shifted:
 I wanted to move the burden of this validation code from my application layer to someone else. In this case,
 that is the database.
 
-Because I'm not a complete sadist, I had previously decided to use Postgres. Supabase was my first choice
+I had previously decided to use Postgres. Supabase was my first choice
 here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
 of excellent open-source projects.
 
@@ -234,7 +234,7 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
 :ID:       C41184E3-F26D-4AB6-A293-42D7D60C8FB1
 :END:
 
-#+BEGIN_QUOTE
+#+BEGIN_EXAMPLE
 [Device Client] ──(POST /rest/v1/device_readings)──> [PostgREST]
                                                           │
                                             (Sets session headers & passes INSERT)
@@ -242,7 +242,7 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
                                                           ▼
                                                    [Postgres Engine]
                                             (Evaluates RLS -> Calls verify_device_secret)
-#+END_QUOTE
+#+END_EXAMPLE
 
 The publishable key burned into your device firmware only unlocks the main gateway. It grants no structural
 write privileges until the custom per-device secret passes validation inside the database layer.
@@ -261,8 +261,7 @@ Pairing Postgres Row Level Security with PostgREST gives you a lightweight and e
 way to decouple web services and completely get out of the way when edge clients need
 to push structured data home.
 
-Is it the perfect, infinitely scalable, long-term architecture for every enterprise? Maybe not.
-But it is an elegant, rock-solid starting point. And if I ever need to scale past it, I can simply
+It is an elegant, rock-solid starting point. And if I ever need to scale past it, I can simply
 redirect my DNS to an edge proxy layer where I can perform custom rate-limiting, DDoS filtering, or token transformations later down the road.
 
 * Resources:
