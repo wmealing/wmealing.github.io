@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-05-24 Sun 21:05 -->
+<!-- 2026-05-26 Tue 02:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to handle headless IoT clients safely without building a massive intermediary auth API.</title>
@@ -71,19 +71,19 @@ device-id and a secret, and if everything lined up, the server punched the data 
 
 <p>
 There wasn't a lot of value in that middle tier and it felt like it was going to be a real bottleneck
-when my delusion of having thousands of concurrent users inevitably becomes a reality. My goal shifted:
+when thousands of concurrent users inevitably becomes a reality. My goal shifted:
 I wanted to move the burden of this validation code from my application layer to someone else. In this case,
 that is the database.
 </p>
 
 <p>
-Because I'm not a complete sadist, I had previously decided to use Postgres. Supabase was my first choice
+I had previously decided to use Postgres. Supabase was my first choice
 here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
 of excellent open-source projects.
 </p>
-<div id="outline-container-orgeacc718" class="outline-2">
-<h2 id="orgeacc718">The moving parts</h2>
-<div class="outline-text-2" id="text-orgeacc718">
+<div id="outline-container-org203963e" class="outline-2">
+<h2 id="org203963e">The moving parts</h2>
+<div class="outline-text-2" id="text-org203963e">
 <p>
 It's a bit tricky, but we can get away with not having to build a lot of the code and infrastructure required
 to do this by using Postgres Row Level Security (RLS), PostgREST and some table configuration.
@@ -95,9 +95,9 @@ runs it for you behind the scenes, so any HTTP request to your Supabase project 
 before it ever touches the database.
 </p>
 </div>
-<div id="outline-container-org954fb59" class="outline-3">
-<h3 id="org954fb59">The Moving parts: Row Level Security ?</h3>
-<div class="outline-text-3" id="text-org954fb59">
+<div id="outline-container-orgc276176" class="outline-3">
+<h3 id="orgc276176">The Moving parts: Row Level Security ?</h3>
+<div class="outline-text-3" id="text-orgc276176">
 <p>
 Postgres has always let you control who can access a table. You can allow or deny a specific database
 role access to an entire table. That's coarse-grained security.
@@ -126,9 +126,9 @@ You can write policies for any of these operations:
 </ul>
 </div>
 </div>
-<div id="outline-container-org6ad7d43" class="outline-3">
-<h3 id="org6ad7d43">The Moving Parts: The Schema</h3>
-<div class="outline-text-3" id="text-org6ad7d43">
+<div id="outline-container-orgcea6389" class="outline-3">
+<h3 id="orgcea6389">The Moving Parts: The Schema</h3>
+<div class="outline-text-3" id="text-orgcea6389">
 <p>
 This demo has two tables: one stores metadata concerning the device itself, and the second stores the telemetry readings taken by those devices.
 </p>
@@ -190,13 +190,13 @@ Unsurprisingly, you must enable "ROW LEVEL SECURITY" on a table; it's not automa
 </div>
 </div>
 </div>
-<div id="outline-container-orga3332a2" class="outline-3">
-<h3 id="orga3332a2">Enforcing the Security Logic</h3>
-<div class="outline-text-3" id="text-orga3332a2">
+<div id="outline-container-org8a957a7" class="outline-3">
+<h3 id="org8a957a7">Enforcing the Security Logic</h3>
+<div class="outline-text-3" id="text-org8a957a7">
 </div>
-<div id="outline-container-orgd690976" class="outline-4">
-<h4 id="orgd690976">Restricted Read Access (<code>SELECT</code>)</h4>
-<div class="outline-text-4" id="text-orgd690976">
+<div id="outline-container-org3c445a8" class="outline-4">
+<h4 id="org3c445a8">Restricted Read Access (<code>SELECT</code>)</h4>
+<div class="outline-text-4" id="text-org3c445a8">
 <p>
 When an application user reads from device_readings, they should only see data from devices they actually own.
 Since device_readings doesn't have a user_id column directly, we look up ownership by joining through the devices
@@ -227,9 +227,9 @@ The ownership chain looks like this:
 </div>
 </div>
 </div>
-<div id="outline-container-orgcc32d7b" class="outline-4">
-<h4 id="orgcc32d7b">Unauthenticated Write Access (<code>INSERT</code>)</h4>
-<div class="outline-text-4" id="text-orgcc32d7b">
+<div id="outline-container-org1862b13" class="outline-4">
+<h4 id="org1862b13">Unauthenticated Write Access (<code>INSERT</code>)</h4>
+<div class="outline-text-4" id="text-org1862b13">
 <p>
 When a device posts a new reading it uses a HTTP POST. PostgREST translates that into a native SQL
 <code>INSERT</code> on <code>device_readings</code>. Before the row is written, the RLS policy calls
@@ -321,9 +321,9 @@ Note: INSERT policies use WITH CHECK instead of USING. USING filters rows on rea
 </p>
 </div>
 </div>
-<div id="outline-container-org816ef28" class="outline-4">
-<h4 id="org816ef28">The Client Payload (curl Example)</h4>
-<div class="outline-text-4" id="text-org816ef28">
+<div id="outline-container-org44c91f5" class="outline-4">
+<h4 id="org44c91f5">The Client Payload (curl Example)</h4>
+<div class="outline-text-4" id="text-org44c91f5">
 <p>
 This is the 'curl' equivalent of the code that my IOT device would use.  I'm using <a href="https://atomvm.org/">atomvm</a>
 on my client side, but this effectively reproduces the same thing.
@@ -360,9 +360,9 @@ burned into its firmware at manufacture or setup time.
 </p>
 </div>
 </div>
-<div id="outline-container-org8bd11e0" class="outline-4">
-<h4 id="org8bd11e0">Making Data Immutable (UPDATE &amp; DELETE)</h4>
-<div class="outline-text-4" id="text-org8bd11e0">
+<div id="outline-container-org0dea51d" class="outline-4">
+<h4 id="org0dea51d">Making Data Immutable (UPDATE &amp; DELETE)</h4>
+<div class="outline-text-4" id="text-org0dea51d">
 <p>
 Devices should only ever record history, never rewrite it. The cleanest way to enforce data immutability
 in Postgres RLS is elegantly simple: don't write a policy for it.
@@ -371,11 +371,10 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf368811" class="outline-2">
-<h2 id="orgf368811">Architectural Flow</h2>
-<div class="outline-text-2" id="text-orgf368811">
-<blockquote>
-<p>
+<div id="outline-container-org3f27bd6" class="outline-2">
+<h2 id="org3f27bd6">Architectural Flow</h2>
+<div class="outline-text-2" id="text-org3f27bd6">
+<pre class="example" id="orgd599dc3">
 [Device Client] ──(POST /rest/v1/device_readings)──&gt; [PostgREST]
                                                           │
                                             (Sets session headers &amp; passes INSERT)
@@ -383,8 +382,7 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
                                                           ▼
                                                    [Postgres Engine]
                                             (Evaluates RLS -&gt; Calls verify_device_secret)
-</p>
-</blockquote>
+</pre>
 
 <p>
 The publishable key burned into your device firmware only unlocks the main gateway. It grants no structural
@@ -398,9 +396,9 @@ and you don’t have an authentication server application to patch, scale, or ma
 </p>
 </div>
 </div>
-<div id="outline-container-org74c9a39" class="outline-2">
-<h2 id="org74c9a39">Conclusion</h2>
-<div class="outline-text-2" id="text-org74c9a39">
+<div id="outline-container-org98e848a" class="outline-2">
+<h2 id="org98e848a">Conclusion</h2>
+<div class="outline-text-2" id="text-org98e848a">
 <p>
 Pairing Postgres Row Level Security with PostgREST gives you a lightweight and easy
 way to decouple web services and completely get out of the way when edge clients need
@@ -408,15 +406,14 @@ to push structured data home.
 </p>
 
 <p>
-Is it the perfect, infinitely scalable, long-term architecture for every enterprise? Maybe not.
-But it is an elegant, rock-solid starting point. And if I ever need to scale past it, I can simply
+It is an elegant, rock-solid starting point. And if I ever need to scale past it, I can simply
 redirect my DNS to an edge proxy layer where I can perform custom rate-limiting, DDoS filtering, or token transformations later down the road.
 </p>
 </div>
 </div>
-<div id="outline-container-org0c6755e" class="outline-2">
-<h2 id="org0c6755e">Resources:</h2>
-<div class="outline-text-2" id="text-org0c6755e">
+<div id="outline-container-orgeb701b7" class="outline-2">
+<h2 id="orgeb701b7">Resources:</h2>
+<div class="outline-text-2" id="text-orgeb701b7">
 <p>
 <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL Row Level Security Documentation</a>
 </p>
