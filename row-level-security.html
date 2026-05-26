@@ -81,9 +81,9 @@ I had previously decided to use Postgres. Supabase was my first choice
 here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
 of excellent open-source projects.
 </p>
-<div id="outline-container-orgad85255" class="outline-2">
-<h2 id="orgad85255">The moving parts</h2>
-<div class="outline-text-2" id="text-orgad85255">
+<div id="outline-container-orgc039bb5" class="outline-2">
+<h2 id="orgc039bb5">The moving parts</h2>
+<div class="outline-text-2" id="text-orgc039bb5">
 <p>
 It's a bit tricky, but we can get away with not having to build a lot of the code and infrastructure required
 to do this by using Postgres Row Level Security (RLS), PostgREST and some table configuration.
@@ -95,9 +95,9 @@ runs it for you behind the scenes, so any HTTP request to your Supabase project 
 before it ever touches the database.
 </p>
 </div>
-<div id="outline-container-org857c2a3" class="outline-3">
-<h3 id="org857c2a3">The Moving parts: Row Level Security ?</h3>
-<div class="outline-text-3" id="text-org857c2a3">
+<div id="outline-container-orgf9866ee" class="outline-3">
+<h3 id="orgf9866ee">The Moving parts: Row Level Security ?</h3>
+<div class="outline-text-3" id="text-orgf9866ee">
 <p>
 Postgres has always let you control who can access a table. You can allow or deny a specific database
 role access to an entire table. That's coarse-grained security.
@@ -126,9 +126,9 @@ You can write policies for any of these operations:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc598608" class="outline-3">
-<h3 id="orgc598608">The Moving Parts: The Schema</h3>
-<div class="outline-text-3" id="text-orgc598608">
+<div id="outline-container-org6a1014c" class="outline-3">
+<h3 id="org6a1014c">The Moving Parts: The Schema</h3>
+<div class="outline-text-3" id="text-org6a1014c">
 <p>
 This demo has two tables: one stores metadata concerning the device itself, and the second stores the telemetry readings taken by those devices.
 </p>
@@ -190,13 +190,13 @@ Unsurprisingly, you must enable "ROW LEVEL SECURITY" on a table; it's not automa
 </div>
 </div>
 </div>
-<div id="outline-container-orgd234a98" class="outline-3">
-<h3 id="orgd234a98">Enforcing the Security Logic</h3>
-<div class="outline-text-3" id="text-orgd234a98">
+<div id="outline-container-orgf8a9a4b" class="outline-3">
+<h3 id="orgf8a9a4b">Enforcing the Security Logic</h3>
+<div class="outline-text-3" id="text-orgf8a9a4b">
 </div>
-<div id="outline-container-orgb721932" class="outline-4">
-<h4 id="orgb721932">Restricted Read Access (<code>SELECT</code>)</h4>
-<div class="outline-text-4" id="text-orgb721932">
+<div id="outline-container-orgd9a1e21" class="outline-4">
+<h4 id="orgd9a1e21">Restricted Read Access (<code>SELECT</code>)</h4>
+<div class="outline-text-4" id="text-orgd9a1e21">
 <p>
 When an application user reads from device_readings, they should only see data from devices they actually own.
 Since device_readings doesn't have a user_id column directly, we look up ownership by joining through the devices
@@ -227,9 +227,9 @@ The ownership chain looks like this:
 </div>
 </div>
 </div>
-<div id="outline-container-orgc4a8a1b" class="outline-4">
-<h4 id="orgc4a8a1b">Unauthenticated Write Access (<code>INSERT</code>)</h4>
-<div class="outline-text-4" id="text-orgc4a8a1b">
+<div id="outline-container-orga60fbce" class="outline-4">
+<h4 id="orga60fbce">Unauthenticated Write Access (<code>INSERT</code>)</h4>
+<div class="outline-text-4" id="text-orga60fbce">
 <p>
 When a device posts a new reading it uses a HTTP POST. PostgREST translates that into a native SQL
 <code>INSERT</code> on <code>device_readings</code>. Before the row is written, the RLS policy calls
@@ -295,8 +295,8 @@ Without this, the RLS policy will fail with a permission error even if the secre
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgcc4d259"></a>A note on the RPC exposure tradeoff<br />
-<div class="outline-text-5" id="text-orgcc4d259">
+<li><a id="org4071c2f"></a>A note on the RPC exposure tradeoff<br />
+<div class="outline-text-5" id="text-org4071c2f">
 <p>
 Granting <code>EXECUTE</code> to <code>anon</code> is necessary for the RLS policy to work, but it has a
 side effect: PostgREST automatically exposes every function that <code>anon</code> can execute
@@ -367,9 +367,9 @@ Note: INSERT policies use WITH CHECK instead of USING. USoING filters rows on re
 </li>
 </ul>
 </div>
-<div id="outline-container-org5b70267" class="outline-4">
-<h4 id="org5b70267">The Client Payload (curl Example)</h4>
-<div class="outline-text-4" id="text-org5b70267">
+<div id="outline-container-org98578f8" class="outline-4">
+<h4 id="org98578f8">The Client Payload (curl Example)</h4>
+<div class="outline-text-4" id="text-org98578f8">
 <p>
 This is the 'curl' equivalent of the code that my IOT device would use.  I'm using <a href="https://atomvm.org/">atomvm</a>
 on my client side, but this effectively reproduces the same thing.
@@ -406,9 +406,9 @@ burned into its firmware at manufacture or setup time.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb27dd12" class="outline-4">
-<h4 id="orgb27dd12">Making Data Immutable (UPDATE &amp; DELETE)</h4>
-<div class="outline-text-4" id="text-orgb27dd12">
+<div id="outline-container-org7a3b39a" class="outline-4">
+<h4 id="org7a3b39a">Making Data Immutable (UPDATE &amp; DELETE)</h4>
+<div class="outline-text-4" id="text-org7a3b39a">
 <p>
 Devices should only ever record history, never rewrite it. The cleanest way to enforce data immutability
 in Postgres RLS is elegantly simple: don't write a policy for it.
@@ -417,10 +417,10 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
 </div>
 </div>
 </div>
-<div id="outline-container-org6df9cc4" class="outline-2">
-<h2 id="org6df9cc4">Architectural Flow</h2>
-<div class="outline-text-2" id="text-org6df9cc4">
-<pre class="example" id="org107ec44">
+<div id="outline-container-org8ba002e" class="outline-2">
+<h2 id="org8ba002e">Architectural Flow</h2>
+<div class="outline-text-2" id="text-org8ba002e">
+<pre class="example" id="org3e22124">
 [Device Client] ──(POST /rest/v1/device_readings)──&gt; [PostgREST]
                                                           │
                                             (Sets session headers &amp; passes INSERT)
@@ -442,9 +442,9 @@ and you don’t have an authentication server application to patch, scale, or ma
 </p>
 </div>
 </div>
-<div id="outline-container-orgc8e0684" class="outline-2">
-<h2 id="orgc8e0684">Conclusion</h2>
-<div class="outline-text-2" id="text-orgc8e0684">
+<div id="outline-container-org82ce2d9" class="outline-2">
+<h2 id="org82ce2d9">Conclusion</h2>
+<div class="outline-text-2" id="text-org82ce2d9">
 <p>
 Pairing Postgres Row Level Security with PostgREST gives you a lightweight and easy
 way to decouple web services and completely get out of the way when edge clients need
@@ -457,9 +457,9 @@ redirect my DNS to an edge proxy layer where I can perform custom rate-limiting,
 </p>
 </div>
 </div>
-<div id="outline-container-org9c07ed3" class="outline-2">
-<h2 id="org9c07ed3">Resources:</h2>
-<div class="outline-text-2" id="text-org9c07ed3">
+<div id="outline-container-orgfa57033" class="outline-2">
+<h2 id="orgfa57033">Resources:</h2>
+<div class="outline-text-2" id="text-orgfa57033">
 <p>
 <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL Row Level Security Documentation</a>
 </p>
