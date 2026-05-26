@@ -178,6 +178,39 @@ GRANT EXECUTE ON FUNCTION verify_device_secret TO anon;
 
 Without this, the RLS policy will fail with a permission error even if the secret is correct.
 
+**** A note on the RPC exposure tradeoff
+
+Granting =EXECUTE= to =anon= is necessary for the RLS policy to work, but it has a
+side effect: PostgREST automatically exposes every function that =anon= can execute
+as an HTTP endpoint under =/rest/v1/rpc/=. That means anyone can call
+=verify_device_secret= directly:
+
+#+BEGIN_SRC sh
+curl -X POST https://your-project.supabase.co/rest/v1/rpc/verify_device_secret \
+  -H "apikey: your-publishable-key" \
+  -H "Content-Type: application/json" \
+  -d '{"p_device_id": "dev-001", "p_secret": "guess"}'
+#+END_SRC
+
+This turns your verification function into an oracle — a caller can probe it repeatedly
+to test device-id and secret combinations. Supabase's security advisor will flag this
+as a =SECURITY DEFINER= function callable by =anon=.
+
+In practice this is mitigated by the same properties that make the secret safe in the
+first place: if your =device_secret= is a UUID or 32+ bytes of random entropy, the
+search space makes brute force impractical. Still, it is worth being deliberate about it.
+
+If you are running a custom application server in front of Postgres (rather than
+exposing PostgREST directly to devices), you can close this entirely: revoke =EXECUTE=
+from =anon= and grant it only to your application database role. The RLS policy will
+still fire correctly because the app role has permission, but the =/rpc/= endpoint
+becomes unreachable by unauthenticated callers.
+
+#+BEGIN_SRC sql
+REVOKE EXECUTE ON FUNCTION verify_device_secret(text, text) FROM anon;
+GRANT  EXECUTE ON FUNCTION verify_device_secret(text, text) TO your_app_role;
+#+END_SRC
+
 So the full chain is: HTTP header → RLS policy → verify_device_secret() → devices table.
 
 Now, we bind this function to our INSERT policy:
