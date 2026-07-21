@@ -86,23 +86,18 @@ h1.title {
   padding: var(--space-md) 0;
 }
 
-/* Outrun-style sunset horizon, sitting behind the title text */
+/* Retro halftone-dot texture, sitting behind the title text */
 h1.title::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(circle at 85% 25%, rgba(240, 121, 26, 0.45) 0%, rgba(240, 121, 26, 0.18) 35%, transparent 60%),
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 8px,
-      rgba(138, 59, 38, 0.16) 8px,
-      rgba(138, 59, 38, 0.16) 10px
-    );
-  mask-image: linear-gradient(to bottom, transparent, black);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+  background-image:
+    radial-gradient(rgba(138, 59, 38, 0.32) 1.4px, transparent 1.6px);
+  background-size: 10px 10px;
+  background-position: 0 0;
+  mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
   pointer-events: none;
 }
 
