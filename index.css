@@ -6,7 +6,8 @@
   --color-rust: #8A3B26;
 
   --color-primary: #8A3B26;      /* rust — headings, borders, structure */
-  --color-secondary: #F0791A;    /* orange — accents, highlights */
+  --color-secondary: #F0791A;    /* orange — accents, highlights, backgrounds */
+  --color-heading-accent: #C8600D; /* deep orange — AA-contrast on light bg, used for large text */
   --color-bg-light: #FFFDF9;
   --color-bg-dark: #241A15;
   --color-text-main: #2A1E17;
@@ -18,7 +19,7 @@
   
   --font-size-base: 16px;
   --font-size-sm: 0.875rem;
-  --font-size-h1: 3rem;
+  --font-size-h1: clamp(1.75rem, 1.1rem + 2.6vw, 2.5rem);
   --font-size-h2: 2.25rem;
   --font-size-h3: 1.75rem;
   --font-size-h4: 1.25rem;
@@ -75,11 +76,34 @@ h1, h2, h3, h4 {
 }
 
 h1.title {
+  position: relative;
+  z-index: 0;
   font-size: var(--font-size-h1);
-  color: var(--color-secondary);
+  line-height: 1.15;
+  color: var(--color-heading-accent);
   border-bottom: 2px solid var(--color-primary);
   margin-bottom: var(--space-lg);
-  padding-bottom: var(--space-md);
+  padding: var(--space-md) 0;
+}
+
+/* Outrun-style sunset horizon, sitting behind the title text */
+h1.title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 85% 25%, rgba(240, 121, 26, 0.45) 0%, rgba(240, 121, 26, 0.18) 35%, transparent 60%),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 8px,
+      rgba(138, 59, 38, 0.16) 8px,
+      rgba(138, 59, 38, 0.16) 10px
+    );
+  mask-image: linear-gradient(to bottom, transparent, black);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+  pointer-events: none;
 }
 
 .subtitle {
@@ -93,7 +117,7 @@ h1.title {
 h2 {
   font-size: var(--font-size-h2);
   margin-top: var(--space-lg);
-  border-bottom: 1px solid var(--color-taupe);
+  border-bottom: 5px double var(--color-taupe);
   padding-bottom: var(--space-xs);
 }
 
@@ -140,7 +164,7 @@ h2 a:hover {
   font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-secondary);
+  color: var(--color-heading-accent);
   flex: 0 0 auto;
 }
 
@@ -172,7 +196,7 @@ h2 a:hover {
   color: var(--color-text-muted);
   text-decoration: none;
   padding: 0.25rem 0.5rem;
-  border: 1px solid var(--color-taupe);
+  border: 2px solid var(--color-taupe);
   border-radius: var(--radius-btn);
   transition: all 0.2s;
 }
@@ -236,7 +260,7 @@ h2 a:hover {
   left: 0;
   background: var(--color-bg-light);
   min-width: 280px;
-  border: 1px solid var(--color-taupe);
+  border: 2px solid var(--color-taupe);
   border-top: none;
   box-shadow: var(--shadow);
   padding: var(--space-xs);
@@ -278,6 +302,15 @@ a:hover {
   color: var(--color-secondary);
 }
 
+/* Keyboard focus */
+a:focus-visible,
+.rss-link:focus-visible,
+.navbar-tag:focus-visible,
+.project-box:focus-visible {
+  outline: 3px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
 /* Code */
 pre, code {
   font-family: var(--font-mono);
@@ -310,8 +343,17 @@ p {
 
 hr {
   border: none;
-  border-top: 2px solid var(--color-taupe);
+  height: 5px;
+  background: var(--color-rust);
   margin: var(--space-lg) 0;
+}
+
+hr::after {
+  content: "";
+  display: block;
+  height: 3px;
+  margin-top: 4px;
+  background: var(--color-orange);
 }
 
 @media (max-width: 768px) {
@@ -365,6 +407,7 @@ hr {
 
 .project-box:hover .project-overlay {
   background: rgba(240, 121, 26, 0.95);
+  color: var(--color-text-main);
 }
 
 .project-title {
@@ -378,8 +421,5 @@ hr {
 .project-desc {
   font-size: 0.85rem;
   margin: 4px 0 0 0;
-  opacity: 0.9;
-}
-: 4px 0 0 0;
   opacity: 0.9;
 }
