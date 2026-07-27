@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STELLAR Design System</title>
+    <style>
+        :root {
+            /* Colors */
+            --color-primary: #0B3D91;
+            --color-secondary: #FC3D21;
+            --color-bg-light: #FFFFFF;
+            --color-bg-dark: #000000;
+            --color-text-main: #212121;
+            --color-text-muted: #71767A;
+            --color-link: #0071BC;
+            
+            /* Typography */
+            --font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-size-base: 16px;
+            --font-size-sm: 0.875rem; /* 14px */
+            --font-size-h1: 3rem;
+            --font-size-h2: 2.25rem;
+            --font-size-h3: 1.75rem;
+            --font-size-h4: 1.25rem;
+            
+            /* Spacing */
+            --space-unit: 8px;
+            --space-xs: calc(var(--space-unit) * 1);  /* 8px */
+            --space-sm: calc(var(--space-unit) * 2);  /* 16px */
+            --space-md: calc(var(--space-unit) * 4);  /* 32px */
+            --space-lg: calc(var(--space-unit) * 8);  /* 64px */
+            
+            /* Patterns */
+            --radius-btn: 4px;
+            --radius-card: 8px;
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.5;
+            color: var(--color-text-main);
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: var(--space-lg);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--color-bg-light);
+            padding: var(--space-lg);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow);
+        }
+
+        header {
+            border-bottom: 2px solid var(--color-primary);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+        }
+
+        section {
+            margin-bottom: var(--space-lg);
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-title {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        /* Logo Grid */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+        .logo-box {
+            padding: var(--space-md);
+            border-radius: var(--radius-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .logo-box.light { background: #eee; border: 1px solid #ddd; }
+        .logo-box.dark { background: var(--color-bg-dark); color: white; }
+        .logo-box svg { width: 120px; height: auto; margin-bottom: var(--space-xs); }
+
+        /* Color Swatches */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: var(--space-md);
+        }
+        .swatch-card {
+            border: 1px solid #ddd;
+            border-radius: var(--radius-card);
+            overflow: hidden;
+        }
+        .swatch-color { height: 100px; }
+        .swatch-info { padding: var(--space-xs); font-size: var(--font-size-sm); }
+        .swatch-hex { font-weight: bold; font-family: monospace; }
+
+        /* Typography */
+        .type-scale div { margin-bottom: var(--space-md); border-bottom: 1px solid #f0f0f0; padding-bottom: var(--space-xs); }
+        .h1 { font-size: var(--font-size-h1); }
+        .h2 { font-size: var(--font-size-h2); }
+        .h3 { font-size: var(--font-size-h3); }
+        .h4 { font-size: var(--font-size-h4); }
+        .body { font-size: var(--font-size-base); }
+        .meta { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+
+        /* Spacing */
+        .space-example {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-xs);
+        }
+        .space-bar { height: 24px; background: var(--color-secondary); margin-right: var(--space-sm); }
+        .space-label { font-family: monospace; font-size: var(--font-size-sm); }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary { background: var(--color-primary); color: white; border: none; }
+        .btn-primary:hover { background: #082d6b; }
+        .btn-secondary { background: transparent; border: 2px solid var(--color-primary); color: var(--color-primary); }
+        .btn-secondary:hover { background: rgba(11, 61, 145, 0.05); }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>STELLAR Design System</h1>
+        <p>A technical, high-precision visual language inspired by aerospace engineering.</p>
+    </header>
+
+    <section>
+        <h2 class="section-title">Logos</h2>
+        <div class="logo-grid">
+            <div class="logo-box light">
+                <!-- STELLAR Logo (Dark on Light) -->
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="#0B3D91" />
+                    <path d="M50 15 L54 40 L80 44 L54 48 L50 73 L46 48 L20 44 L46 40 Z" fill="#FC3D21" />
+                    <g fill="#FFFFFF">
+                        <circle cx="30" cy="30" r="1.5" />
+                        <circle cx="70" cy="35" r="1" />
+                        <circle cx="35" cy="70" r="1.2" />
+                        <circle cx="65" cy="75" r="1.5" />
+                    </g>
+                    <text x="50" y="92" font-family="sans-serif" font-weight="900" font-size="12" fill="#0B3D91" text-anchor="middle">STELLAR</text>
+                </svg>
+                <p class="meta">Primary Mark</p>
+            </div>
+            <div class="logo-box dark">
+                <!-- STELLAR Logo (Light on Dark) -->
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="#0B3D91" stroke="#FFFFFF" stroke-width="2" />
+                    <path d="M50 15 L54 40 L80 44 L54 48 L50 73 L46 48 L20 44 L46 40 Z" fill="#FC3D21" />
+                    <g fill="#FFFFFF">
+                        <circle cx="30" cy="30" r="1.5" />
+                        <circle cx="70" cy="35" r="1" />
+                        <circle cx="35" cy="70" r="1.2" />
+                        <circle cx="65" cy="75" r="1.5" />
+                    </g>
+                    <text x="50" y="92" font-family="sans-serif" font-weight="900" font-size="12" fill="#FFFFFF" text-anchor="middle">STELLAR</text>
+                </svg>
+                <p class="meta">Dark Background Variant</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Colors</h2>
+        <div class="swatch-grid">
+            <div class="swatch-card">
+                <div class="swatch-color" style="background: var(--color-primary);"></div>
+                <div class="swatch-info">
+                    <strong>Primary (Deep Space Blue)</strong><br>
+                    <span class="swatch-hex">#0B3D91</span>
+                </div>
+            </div>
+            <div class="swatch-card">
+                <div class="swatch-color" style="background: var(--color-secondary);"></div>
+                <div class="swatch-info">
+                    <strong>Secondary (Propulsion Red)</strong><br>
+                    <span class="swatch-hex">#FC3D21</span>
+                </div>
+            </div>
+            <div class="swatch-card">
+                <div class="swatch-color" style="background: var(--color-text-main);"></div>
+                <div class="swatch-info">
+                    <strong>Text Primary</strong><br>
+                    <span class="swatch-hex">#212121</span>
+                </div>
+            </div>
+            <div class="swatch-card">
+                <div class="swatch-color" style="background: var(--color-link);"></div>
+                <div class="swatch-info">
+                    <strong>Action Blue</strong><br>
+                    <span class="swatch-hex">#0071BC</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Typography</h2>
+        <div class="type-scale">
+            <div>
+                <p class="meta">H1 - 3rem (48px) / Extra Bold</p>
+                <div class="h1">The Future of Exploration</div>
+            </div>
+            <div>
+                <p class="meta">H2 - 2.25rem (36px) / Extra Bold</p>
+                <div class="h2">Orbital Mechanics & Design</div>
+            </div>
+            <div>
+                <p class="meta">H3 - 1.75rem (28px) / Extra Bold</p>
+                <div class="h3">System Architecture</div>
+            </div>
+            <div>
+                <p class="meta">Body - 1rem (16px) / Regular</p>
+                <div class="body">Stellar designs are built on a foundation of precision and reliability. We utilize the same proportions and clear communication standards found in mission-critical aerospace interfaces.</div>
+            </div>
+            <div>
+                <p class="meta">Meta - 0.875rem (14px) / Regular</p>
+                <div class="meta">Last updated: April 20, 2026 • 4 min read</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Spacing</h2>
+        <div class="space-example">
+            <div class="space-bar" style="width: var(--space-xs);"></div>
+            <div class="space-label">XS: 8px (Base Unit)</div>
+        </div>
+        <div class="space-example">
+            <div class="space-bar" style="width: var(--space-sm);"></div>
+            <div class="space-label">SM: 16px</div>
+        </div>
+        <div class="space-example">
+            <div class="space-bar" style="width: var(--space-md);"></div>
+            <div class="space-label">MD: 32px</div>
+        </div>
+        <div class="space-example">
+            <div class="space-bar" style="width: var(--space-lg);"></div>
+            <div class="space-label">LG: 64px</div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Components</h2>
+        <div style="display: flex; gap: var(--space-sm);">
+            <button class="btn btn-primary">Primary Action</button>
+            <button class="btn btn-secondary">Secondary Action</button>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

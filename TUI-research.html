@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-21 Sat 00:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TUI history - My notes.</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="History of tui that i can find" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">TUI history - My notes.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orgd93df1f" class="outline-2">
+<h2 id="orgd93df1f">The Textual Triumph:</h2>
+<div class="outline-text-2" id="text-orgd93df1f">
+<p>
+A Deep Dive into the Evolution and Efficiency of Terminal User Interfaces (TUIs)
+</p>
+
+<p>
+I. The Foundation: From Teletype to Terminal
+</p>
+</div>
+<div id="outline-container-orgeff3deb" class="outline-3">
+<h3 id="orgeff3deb">Chapter 1: The Birth of the Text Screen</h3>
+<div class="outline-text-3" id="text-orgeff3deb">
+<p>
+The CLI Origin: The earliest days (1960s-70s) of computing, punch cards, and batch processing.
+</p>
+
+<p>
+Teletypes and TTYs: The first true interactive text terminals and the limitations of line-by-line interaction.
+</p>
+
+<p>
+The ANSI Escape Code Revolution: How standards like ANSI X3.64 allowed for screen addressing, color, and cursor movement, transforming a stream of text into a true interface.
+</p>
+
+<p>
+Defining the TUI: Clarifying the difference between CLI (Command Line Interface) and TUI (Text User Interface).
+</p>
+</div>
+</div>
+<div id="outline-container-org70172d0" class="outline-3">
+<h3 id="org70172d0">Chapter 2: The Golden Age of TUIs (1980s - 1990s)</h3>
+<div class="outline-text-3" id="text-org70172d0">
+<p>
+The DOS Ecosystem: Programs like Norton Commander, Turbo Pascal/C IDEs, and the speed gained from direct screen buffer access.
+</p>
+
+<p>
+The UNIX Workhorse (Curses and Ncurses): Introduction of the curses library and the concept of portable, stable screen management across different terminals.
+</p>
+
+<p>
+Key Programs: Early text editors (vi/emacs), file managers (midnight commander), and communication tools (minicom).
+</p>
+</div>
+</div>
+<div id="outline-container-org12de064" class="outline-3">
+<h3 id="org12de064">Chapter 3: The Graphical Shift</h3>
+<div class="outline-text-3" id="text-org12de064">
+<p>
+The Rise of the GUI: Xerox Alto, Macintosh, Windows—why GUIs won the mass market (discoverability, metaphor).
+</p>
+
+<p>
+The TUI’s Resilience: Why certain user groups (system administrators, developers, network engineers) never left the terminal.
+</p>
+
+<p>
+Performance Deep Dive: A technical comparison of resource usage, startup time, and memory footprint between a modern TUI and a comparable GUI application.
+</p>
+</div>
+</div>
+<div id="outline-container-org17f7f10" class="outline-3">
+<h3 id="org17f7f10">Chapter 4: The Metrics of Efficiency: Speed and Effectiveness</h3>
+<div class="outline-text-3" id="text-org17f7f10">
+<p>
+Muscle Memory vs. Mouse Clicks: Quantifying the efficiency of keyboard-driven workflows (Vim, Emacs) versus pointer input.
+</p>
+
+<p>
+Cognitive Load: How visual clutter in a GUI can hinder focus, while the constrained environment of a TUI promotes it.
+</p>
+
+<p>
+Composability and Scripting: How TUIs integrate perfectly with scripting languages and the UNIX pipe model, enabling powerful automation impossible with most GUIs.
+</p>
+</div>
+</div>
+<div id="outline-container-org0a0fe26" class="outline-3">
+<h3 id="org0a0fe26">Chapter 5: The Resurgence of the Modern TUI</h3>
+<div class="outline-text-3" id="text-org0a0fe26">
+<p>
+New Design Paradigms: Exploring modern TUI libraries (e.g., tui-rs, Bubbletea, Go-tui) and how they enable richer, faster, and more beautiful interfaces than older ncurses apps.
+</p>
+
+<p>
+Contemporary TUI Applications: Case studies of popular modern tools: lazygit, htop/btop, yewtube, ncspot, and modern terminal text editors like Helix.
+</p>
+
+<p>
+Integrated Workspaces: How tools like tmux and zellij turn the terminal into a complete, productive window manager/IDE.
+</p>
+</div>
+</div>
+<div id="outline-container-org2716368" class="outline-3">
+<h3 id="org2716368">Chapter 6: The TUI in the Cloud</h3>
+<div class="outline-text-3" id="text-org2716368">
+<p>
+Server Management: Why TUIs (like ssh clients and top) are the indispensable backbone of DevOps, SRE, and cloud infrastructure management.
+</p>
+
+<p>
+Remote Development: The role of TUIs and terminals in allowing seamless remote coding environments (e.g., using a terminal inside VS Code to connect to a remote server).
+</p>
+
+<p>
+Security Advantages: Discussing the smaller attack surface and inherent simplicity of terminal applications.
+</p>
+
+<p>
+IV. Beyond the Screen: Culture, Design, and the Future
+</p>
+</div>
+</div>
+<div id="outline-container-org8d6c7f2" class="outline-3">
+<h3 id="org8d6c7f2">Chapter 7: Aesthetics and the Minimalist Movement</h3>
+<div class="outline-text-3" id="text-org8d6c7f2">
+<p>
+Terminal Customization: Exploring themes, colors, and fonts (e.g., Nerd Fonts, ligatures) that make the modern terminal aesthetically pleasing.
+</p>
+
+<p>
+The TUI as a Philosophical Choice: Linking the TUI preference to the broader movements of digital minimalism and focused work.
+</p>
+
+<p>
+Design Principles for Textual Interfaces: Best practices for TUI design, including color usage, layout, and keyboard accessibility.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcea5ed8" class="outline-3">
+<h3 id="orgcea5ed8">Chapter 8: The TUI Development Stack</h3>
+<div class="outline-text-3" id="text-orgcea5ed8">
+<p>
+Core Libraries: A breakdown of how modern TUI frameworks work (cross-platform compatibility, event loops, drawing to the screen).
+</p>
+
+<p>
+Language Choices: Why languages like Rust and Go are preferred for writing high-performance, single-binary TUI applications.
+</p>
+
+<p>
+Building Your Own TUI: A conceptual guide to creating a simple TUI tool.
+</p>
+</div>
+</div>
+<div id="outline-container-orge8887a1" class="outline-3">
+<h3 id="orge8887a1">Chapter 9: Edge Cases and Future Interfaces</h3>
+<div class="outline-text-3" id="text-orge8887a1">
+<p>
+Hybrid Solutions: Tools that bridge the gap (e.g., text-based browsers, applications with both TUI and GUI modes).
+</p>
+
+<p>
+The Future of Text: Speculating on how AI/LLMs could interact with or enhance TUI environments (e.g., natural language commands piped into structured output).
+</p>
+</div>
+</div>
+<div id="outline-container-org652f81f" class="outline-3">
+<h3 id="org652f81f">Chapter 10: Conclusion: The Enduring Power of Text</h3>
+<div class="outline-text-3" id="text-org652f81f">
+<p>
+Summary of Arguments: Reaffirming the TUI's unique position in the computing world.
+</p>
+
+<p>
+Final Thesis: Why the TUI is not a relic of the past, but an essential and evolving part of the future of efficiency-focused computing.
+</p>
+
+
+<pre class="example" id="org806dfe8">
+Example box
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">(Example code)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc64733" class="outline-2">
+<h2 id="orgcc64733">Conclusion</h2>
+<div class="outline-text-2" id="text-orgcc64733">
+<p>
+Wrap it up here.
+</p>
+</div>
+</div>
+<div id="outline-container-org676ce8c" class="outline-2">
+<h2 id="org676ce8c">Resources:</h2>
+<div class="outline-text-2" id="text-org676ce8c">
+</div>
+</div>
+</div>
+</body>
+</html>

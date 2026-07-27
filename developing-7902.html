@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-21 Sat 00:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>REPLACE</title>
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Developing the 7902 driver" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">REPLACE</h1>
+<nav class="navbar-custom">
+    <div class="navbar-grid">
+
+        <div class="navbar-section">
+            <a href="systems.html" style="text-decoration: none;"><h3>Systems & Distributed Programming</h3></a>
+            <div class="navbar-tags">
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Erlang/OTP</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Clojure</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag systems">Lisp Flavored Erlang</span></a>
+                <a href="systems.html" style="text-decoration: none;"><span class="navbar-tag special">Cellium (TUI Framework)</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="security.html" style="text-decoration: none;"><h3>Security & Kernel Research</h3></a>
+            <div class="navbar-tags">
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Linux Kernel Analysis</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">eBPF</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Malware Reversing</span></a>
+                <a href="security.html" style="text-decoration: none;"><span class="navbar-tag security">Rust</span></a>
+            </div>
+        </div>
+
+        <div class="navbar-section">
+            <a href="tooling.html" style="text-decoration: none;"><h3>Tooling & Workflow</h3></a>
+            <div class="navbar-tags">
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">Emacs / Elisp</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">CI/CD Pipelines</span></a>
+                <a href="tooling.html" style="text-decoration: none;"><span class="navbar-tag tooling">OpenSCAD</span></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div id="outline-container-orgee881de" class="outline-2">
+<h2 id="orgee881de">Summary:</h2>
+<div class="outline-text-2" id="text-orgee881de">
+</div>
+</div>
+<div id="outline-container-org6b31eda" class="outline-2">
+<h2 id="org6b31eda">Introduction</h2>
+<div class="outline-text-2" id="text-org6b31eda">
+<p>
+Introduction goes here
+</p>
+
+
+<pre class="example" id="org9c0a434">
+$ journalctl -k -b 0 | grep "iommu" | grep "group"
+ Jan 25 21:04:37 fedora kernel: pci 0000:c4:00.5: Adding to iommu group 0
+ ..
+ Jan 25 21:04:37 fedora kernel: pci 0000:c4:00.5: Adding to iommu group 21
+</pre>
+
+
+<p>
+SHould be in a group by itelf
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">  for g in /sys/kernel/iommu_groups/*; do 
+    echo "IOMMU Group ${g##*/}:"
+    for d in $g/devices/*; do 
+        echo -e "\t$(lspci -nns ${d##*/})"
+    done
+done
+
+</pre>
+</div>
+
+<p>
+Result:
+</p>
+
+
+<p>
+IOMMU Group 15:
+        03:00.0 Network controller [0280]: MEDIATEK Corp. MT7902 802.11ax PCIe Wireless Network Adapter [Filogic 310] [14c3:7902]
+</p>
+</div>
+<div id="outline-container-org50e9daf" class="outline-3">
+<h3 id="org50e9daf">The "Reset" check</h3>
+<div class="outline-text-3" id="text-org50e9daf">
+<p>
+Since you are doing kernel development on real hardware, you should check if your specific PCI device supports
+Function Level Reset (FLR). This allows QEMU to reset the hardware back to a clean state when the VM restarts.
+</p>
+
+<p>
+Run this (replace 01:00.0 with your device's ID):
+</p>
+
+<p>
+Bash
+</p>
+
+<p>
+sudo lspci -vv -s 03:00.0 | grep -i "Capabilities: \[.*\] Express" -A 15 | grep -i "FLR"
+                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset+ SlotPowerLimit 75W TEE-IO-
+                        RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+ FLReset-
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge3fb173" class="outline-2">
+<h2 id="orge3fb173">Conclusion</h2>
+<div class="outline-text-2" id="text-orge3fb173">
+<p>
+Wrap it up here.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd009cb8" class="outline-2">
+<h2 id="orgd009cb8">Resources:</h2>
+<div class="outline-text-2" id="text-orgd009cb8">
+</div>
+</div>
+</div>
+</body>
+</html>

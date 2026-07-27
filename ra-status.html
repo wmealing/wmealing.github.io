@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raft Cluster Monitor</title>
+    <style>
+        .node { border: 2px solid #ccc; padding: 10px; margin: 10px; display: inline-block; width: 200px; transition: 0.3s; }
+        .online { border-color: #2ecc71; background: #eafaf1; }
+        .offline { border-color: #e74c3c; background: #fdedec; opacity: 0.6; }
+        .leader { box-shadow: 0 0 15px #f1c40f; }
+    </style>
+</head>
+<body>
+    <h1>Raft Cluster Status</h1>
+    <div id="cluster">
+        <div id="node8081" class="node"><h3>Node 1 (8081)</h3><p class="status">Connecting...</p></div>
+        <div id="node8082" class="node"><h3>Node 2 (8082)</h3><p class="status">Connecting...</p></div>
+        <div id="node8083" class="node"><h3>Node 3 (8083)</h3><p class="status">Connecting...</p></div>
+    </div>
+
+    <script>
+        async function updateNode(port) {
+            const el = document.getElementById(`node${port}`);
+            try {
+                const res = await fetch(`http://localhost:${port}/state`);
+                const data = await res.json();
+                el.className = 'node online';
+                el.querySelector('.status').innerHTML = `State: ${JSON.stringify(data)}`;
+            } catch (e) {
+                el.className = 'node offline';
+                el.querySelector('.status').innerText = 'OFFLINE';
+            }
+        }
+        setInterval(() => [8081, 8082, 8083].forEach(updateNode), 1000);
+    </script>
+</body>
+</html>
