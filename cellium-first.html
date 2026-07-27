@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-07-28 Tue 04:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM BASIC THEORY</title>
@@ -12,77 +12,74 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Introduction to cellium concepts" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">CELLIUM BASIC THEORY</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-orga9ee83b" class="outline-2">
-<h2 id="orga9ee83b">Summary:</h2>
-<div class="outline-text-2" id="text-orga9ee83b">
+<div id="outline-container-orgc5747df" class="outline-2">
+<h2 id="orgc5747df">Summary:</h2>
+<div class="outline-text-2" id="text-orgc5747df">
 <p>
 I started building <a href="https://github.com/wmealing/cellium">Cellium</a>, a TUI (Text-User Interface) library for Erlang, because I got fed up with the complexity of building
 basic user interfaces for my Erlang tooling. It's an itch I needed to scratch.
 </p>
 </div>
 </div>
-<div id="outline-container-org62738c1" class="outline-2">
-<h2 id="org62738c1">Introduction</h2>
-<div class="outline-text-2" id="text-org62738c1">
+<div id="outline-container-org7a2020a" class="outline-2">
+<h2 id="org7a2020a">Introduction</h2>
+<div class="outline-text-2" id="text-org7a2020a">
 <p>
 Look, I'm not entirely sure who I'm writing this for. It feels like throwing a message in a bottle onto the internet,
 Google's certainly not indexing it, so maybe this is a complete waste of time. But here we are.
 </p>
 
 <p>
-Erlang will always be a language close to my heart. Sure, it has its flaws ( the things I'd love to fix&#x2026; ) but most of those
+Erlang will always be a language close to my heart. Sure, it has its flaws ( the things I'd love to fix&hellip; ) but most of those
 "fixes" are just things I care about and are not suitable for upstream submission.
 </p>
 
@@ -108,7 +105,7 @@ core idea is centered around three main functions:
 
 
 <div class="org-src-container">
-<pre class="src src-erlang">init() -&gt;
+<pre class="src src-erlang"><code>init() -&gt;
     %% Initial setup goes here.
     Model = ....
     {ok, Model}.
@@ -122,7 +119,7 @@ update(Model, Msg) -&gt;
 render(Model) -&gt;
     %% This takes the Model and applies it to the 'view' (the TUI layout)
     {ok, whatever}
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -146,15 +143,15 @@ My first smart move was to stop reinventing the wheel and borrow from those who 
 example on Ratatouille's approach.  I looked at the examples.
 </p>
 </div>
-<div id="outline-container-org00c0921" class="outline-3">
-<h3 id="org00c0921">The Cellium Example</h3>
-<div class="outline-text-3" id="text-org00c0921">
+<div id="outline-container-org7d8a823" class="outline-3">
+<h3 id="org7d8a823">The Cellium Example</h3>
+<div class="outline-text-3" id="text-org7d8a823">
 <p>
 The resulting basic counter example looks pretty similar to their <a href="https://github.com/ndreynolds/ratatouille/blob/master/examples/counter.exs">Elixir version</a>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">-module(counter).
+<pre class="src src-erlang"><code>-module(counter).
 
 -behavior(cellium).
 
@@ -194,7 +191,7 @@ render(#{count := Count}) -&gt;
 
 start() -&gt;
     cellium:start(?MODULE).
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -207,16 +204,16 @@ And here's what it looks like in action:
 </p>
 
 
-<div id="org55bdf75" class="figure">
+<div id="org37107c2" class="figure">
 <p><img src="./images/counter-demo.png" alt="counter-demo.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org758a98c" class="outline-2">
-<h2 id="org758a98c">Current Hurdles.</h2>
-<div class="outline-text-2" id="text-org758a98c">
+<div id="outline-container-orgaa3fb62" class="outline-2">
+<h2 id="orgaa3fb62">Current Hurdles.</h2>
+<div class="outline-text-2" id="text-orgaa3fb62">
 <p>
 While the core concept is sound, Erlang throws up a few unique roadblocks compared to Elixir.
 </p>
@@ -242,8 +239,8 @@ The Ratatouille folks seem to have solved the notorious "Erlang shell problem." 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">$ erl -noshell -sname node1 -setcookie mysecretcookie .... etc
-</pre>
+<pre class="src src-erlang"><code>$ erl -noshell -sname node1 -setcookie mysecretcookie .... etc
+</code></pre>
 </div>
 
 <p>
@@ -255,7 +252,7 @@ Fortunately, Erlang is a distributed language at its core, allowing for an easy 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">(defun remote-erlang-shell ()
+<pre class="src src-elisp"><code>(defun remote-erlang-shell ()
   "Starts an inferior Erlang shell with a randomized -sname using a random string."
   (interactive)
   (let* (
@@ -268,7 +265,7 @@ Fortunately, Erlang is a distributed language at its core, allowing for an easy 
            (random-name (concat "node-" random-part))
            (command (format "erl -sname %s -setcookie mysecretcookie -remsh node1" random-name)))
     (inferior-erlang command)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -295,50 +292,50 @@ core logic down, adopting their rendering concept will perhaps allow moe to remo
 </p>
 </div>
 </div>
-<div id="outline-container-orge67b22f" class="outline-2">
-<h2 id="orge67b22f">Where Cellium Differentiates</h2>
-<div class="outline-text-2" id="text-orge67b22f">
+<div id="outline-container-org3a2ac9d" class="outline-2">
+<h2 id="org3a2ac9d">Where Cellium Differentiates</h2>
+<div class="outline-text-2" id="text-org3a2ac9d">
 <p>
 I'm not  copying; there are a few areas where I want Cellium to be different.
 </p>
 </div>
-<div id="outline-container-org1654b7e" class="outline-4">
-<h4 id="org1654b7e">"CSS-Like" Theming Engine:</h4>
-<div class="outline-text-4" id="text-org1654b7e">
+<div id="outline-container-org728349b" class="outline-4">
+<h4 id="org728349b">"CSS-Like" Theming Engine:</h4>
+<div class="outline-text-4" id="text-org728349b">
 <p>
 I'm working on a theming engine that applies attributes to widgets, similar to how CSS works. The idea is to make
 theme edits live and easy. Of course, CSS attributes should <b>overwrite</b> coded values—that's what the C in CSS stands for (Cascading!), right? 😉
 </p>
 </div>
 </div>
-<div id="outline-container-org8f9e9a6" class="outline-4">
-<h4 id="org8f9e9a6"><b>Robust Crash Handling:</b></h4>
-<div class="outline-text-4" id="text-org8f9e9a6">
+<div id="outline-container-org46cee4b" class="outline-4">
+<h4 id="org46cee4b"><b>Robust Crash Handling:</b></h4>
+<div class="outline-text-4" id="text-org46cee4b">
 <p>
 I want to be absolutely sure that if an <code>update</code> function fails, the rest of the system keeps running smoothly. This will be a core part of my test suite.
 </p>
 </div>
 </div>
-<div id="outline-container-org30d4ac7" class="outline-4">
-<h4 id="org30d4ac7"><b>It's Pure Erlang:</b></h4>
-<div class="outline-text-4" id="text-org30d4ac7">
+<div id="outline-container-org55197ee" class="outline-4">
+<h4 id="org55197ee"><b>It's Pure Erlang:</b></h4>
+<div class="outline-text-4" id="text-org55197ee">
 <p>
 The simple fact that I can't find another mature TUI library written purely in Erlang appears to be the motivation enough for me to keep going.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf23586c" class="outline-2">
-<h2 id="orgf23586c">What's Next?</h2>
-<div class="outline-text-2" id="text-orgf23586c">
+<div id="outline-container-org252b682" class="outline-2">
+<h2 id="org252b682">What's Next?</h2>
+<div class="outline-text-2" id="text-org252b682">
 <p>
 I should look at adopting a better event format. The termbox2_nif  messages aren't the clearest. <a href="https://github.com/ndreynolds/ratatouille/issues/6">The Ratatouille project</a> has a great idea for standardizing TUI events. If I can use a cleaner event format, maybe I can even drop the direct termbox messages and just use their event structure natively.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb0aefd4" class="outline-2">
-<h2 id="orgb0aefd4">Conclusion</h2>
-<div class="outline-text-2" id="text-orgb0aefd4">
+<div id="outline-container-org18a4c80" class="outline-2">
+<h2 id="org18a4c80">Conclusion</h2>
+<div class="outline-text-2" id="text-org18a4c80">
 <p>
 I've laid out the current state of Cellium and talked through the key issues—Erlang's quirks and the realization that
 others have done this before. I'll keep plugging away at this, even if I never get a single user and my writings remain
@@ -346,9 +343,9 @@ on github.
 </p>
 </div>
 </div>
-<div id="outline-container-org78dac79" class="outline-2">
-<h2 id="org78dac79">Resources:</h2>
-<div class="outline-text-2" id="text-org78dac79">
+<div id="outline-container-orged639d5" class="outline-2">
+<h2 id="orged639d5">Resources:</h2>
+<div class="outline-text-2" id="text-orged639d5">
 <p>
 <a href="https://github.com/termbox/termbox2">https://github.com/termbox/termbox2</a>
 </p>
@@ -356,6 +353,7 @@ on github.
 <p>
 <a href="https://github.com/bgwdotdev/shore">https://github.com/bgwdotdev/shore</a>
 </p>
+</div>
 </div>
 </div>
 </div>

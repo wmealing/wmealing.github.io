@@ -1,4 +1,4 @@
-#+TITLE: Wade Mealing 
+#+TITLE: Field Notes
 #+SUBTITLE: Problem solver, Software Engineer, Human.
 
 #+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil

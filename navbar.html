@@ -1,45 +1,38 @@
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
             </div>
         </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>

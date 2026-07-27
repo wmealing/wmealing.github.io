@@ -49,4 +49,13 @@ for CAT in "${CATEGORIES[@]}"; do
     emacs --batch "$INDEX_FILE" -f org-html-export-to-html
 done
 
+# 3. Wrap every exported page's #content in the AmberConsole ac-screen frame
+# (bloom-only — no CRT, no afterglow). apply-amber-frame.py is idempotent, so
+# this is safe to run even over pages category-process.sh will also touch.
+echo "Applying AmberConsole frame..."
+for f in *.org; do
+    b="${f%.org}"
+    [ -f "$b.html" ] && echo "$b.html"
+done | xargs python3 scripts/apply-amber-frame.py
+
 echo "Batch conversion and category generation complete."

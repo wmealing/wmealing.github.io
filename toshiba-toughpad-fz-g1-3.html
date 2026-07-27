@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:26 -->
+<!-- 2026-07-28 Tue 04:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Toshiba Toughpad FZ-G1 mk3</title>
@@ -11,64 +11,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Toshiba Toughpad FZ-G1 mk3" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Toshiba Toughpad FZ-G1 mk3</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
             </div>
         </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
 <p>
 I've got <b>Fedora 32</b> installed on this system. The advice below may work on other distributions. I'd be happy to do more of these if anyone wanted to throw a few Toughpads my way.
 </p>
-<div id="outline-container-orgd8979db" class="outline-2">
-<h2 id="orgd8979db">Brightness:</h2>
-<div class="outline-text-2" id="text-orgd8979db">
+<div id="outline-container-org73002d8" class="outline-2">
+<h2 id="org73002d8">Brightness:</h2>
+<div class="outline-text-2" id="text-org73002d8">
 <p>
 The brightness controls in <b>Gnome 3 / Fedora 32</b> do not work out of the box. These instructions have also been tested on <b>Red Hat Enterprise Linux 8</b>.
 </p>
@@ -78,13 +75,13 @@ You need to create file <code>/usr/share/X11/xorg.conf.d/20-intel.conf</code> an
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">Section "Device"
+<pre class="src src-shell"><code>Section "Device"
             Identifier  "card0"
             Driver      "intel"
             Option      "Backlight"  "intel_backlight"
             BusID       "PCI:0:2:0"
 EndSection
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -100,8 +97,8 @@ I achieved this by creating a file in <code>/etc/modprobe.d/panasonic-backlist.c
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">blacklist panasonic_laptop
-</pre>
+<pre class="src src-shell"><code>blacklist panasonic_laptop
+</code></pre>
 </div>
 
 <p>
@@ -109,8 +106,8 @@ If you want these changes to take effect immediately run the command:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">rmmod panasonic_laptop
-</pre>
+<pre class="src src-shell"><code>rmmod panasonic_laptop
+</code></pre>
 </div>
 
 <p>
@@ -122,9 +119,9 @@ There should only be a single directory in <code>/sys/class/backlight</code> and
 </p>
 </div>
 </div>
-<div id="outline-container-org12701e9" class="outline-2">
-<h2 id="org12701e9">DOCK PINOUT</h2>
-<div class="outline-text-2" id="text-org12701e9">
+<div id="outline-container-org74f9f76" class="outline-2">
+<h2 id="org74f9f76">DOCK PINOUT</h2>
+<div class="outline-text-2" id="text-org74f9f76">
 <p>
 I'm interested in building a dock for this laptop. There are a lot of docks available for it, some as expensive as 1.5k, which are well beyond the acceptable price range that I'm willing to pay for a dock.
 </p>
@@ -154,25 +151,25 @@ I'm going to do some research on the system's pins, and then find out what I can
 <tr>
 <td class="org-right">01</td>
 <td class="org-left">Shield</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">02</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">03</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">04</td>
 <td class="org-left">GRND</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -184,13 +181,13 @@ I'm going to do some research on the system's pins, and then find out what I can
 <tr>
 <td class="org-right">06</td>
 <td class="org-left">16V</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">07</td>
 <td class="org-left">16V</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -202,19 +199,19 @@ I'm going to do some research on the system's pins, and then find out what I can
 <tr>
 <td class="org-right">09</td>
 <td class="org-left">5V</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">10</td>
 <td class="org-left">5V</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">11</td>
 <td class="org-left">GRND</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -232,7 +229,7 @@ I'm going to do some research on the system's pins, and then find out what I can
 <tr>
 <td class="org-right">14</td>
 <td class="org-left">GRND</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -250,7 +247,7 @@ I'm going to do some research on the system's pins, and then find out what I can
 <tr>
 <td class="org-right">17</td>
 <td class="org-left">GRND</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -268,31 +265,31 @@ I'm going to do some research on the system's pins, and then find out what I can
 <tr>
 <td class="org-right">20</td>
 <td class="org-left">GRND</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">21</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">22</td>
 <td class="org-left">SHORT ?</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">23</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-right">24</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -310,51 +307,52 @@ I have to assume that the system can also be charged through the dock, I just do
 </p>
 </div>
 </div>
-<div id="outline-container-org1aca4f5" class="outline-2">
-<h2 id="org1aca4f5">Front facing buttons.</h2>
-<div class="outline-text-2" id="text-org1aca4f5">
+<div id="outline-container-org2aadb42" class="outline-2">
+<h2 id="org2aadb42">Front facing buttons.</h2>
+<div class="outline-text-2" id="text-org2aadb42">
 <p>
 The front facing buttons on the Toughpad mostly worked out of the box. I had done some initial setup (implied).
 </p>
 </div>
-<div id="outline-container-org4ef3317" class="outline-3">
-<h3 id="org4ef3317">A1 and A2</h3>
-<div class="outline-text-3" id="text-org4ef3317">
+<div id="outline-container-org9ce73a8" class="outline-3">
+<h3 id="org9ce73a8">A1 and A2</h3>
+<div class="outline-text-3" id="text-org9ce73a8">
 <p>
 Currently have only <b>A1 working</b>, <b>A2 is not working</b>. I've started <a href="./toughpad-fz-g1-buttons-acpi.md">chronicaling my investigation</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org8ce373e" class="outline-3">
-<h3 id="org8ce373e">Volume up and volume down</h3>
-<div class="outline-text-3" id="text-org8ce373e">
+<div id="outline-container-org0926b21" class="outline-3">
+<h3 id="org0926b21">Volume up and volume down</h3>
+<div class="outline-text-3" id="text-org0926b21">
 <p>
 Status: <b>working</b>
 </p>
 </div>
 </div>
-<div id="outline-container-org0ac1cd5" class="outline-3">
-<h3 id="org0ac1cd5">Windows key</h3>
-<div class="outline-text-3" id="text-org0ac1cd5">
+<div id="outline-container-org28b1319" class="outline-3">
+<h3 id="org28b1319">Windows key</h3>
+<div class="outline-text-3" id="text-org28b1319">
 <p>
-Status: <b>working</b> (Looks like it's working&#x2026; not sure what it sends)
+Status: <b>working</b> (Looks like it's working&hellip; not sure what it sends)
 </p>
 </div>
 </div>
-<div id="outline-container-org850ec70" class="outline-3">
-<h3 id="org850ec70">Rotate key</h3>
-<div class="outline-text-3" id="text-org850ec70">
+<div id="outline-container-orgeb6683b" class="outline-3">
+<h3 id="orgeb6683b">Rotate key</h3>
+<div class="outline-text-3" id="text-orgeb6683b">
 <p>
 Status: <b>working</b> (Screen doesn't rotate, not sure what it sends)
 </p>
 </div>
 </div>
-<div id="outline-container-org24722ca" class="outline-3">
-<h3 id="org24722ca">Power button</h3>
-<div class="outline-text-3" id="text-org24722ca">
+<div id="outline-container-orgc7f4cf2" class="outline-3">
+<h3 id="orgc7f4cf2">Power button</h3>
+<div class="outline-text-3" id="text-orgc7f4cf2">
 <p>
 Status: <b>working</b> (This can power off system)
 </p>
+</div>
 </div>
 </div>
 </div>

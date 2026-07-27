@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-07-28 Tue 04:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Higher quality errors for custom software.</title>
@@ -11,61 +11,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Seriously useful error messages" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Higher quality errors for custom software.</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-org27d19ac" class="outline-2">
-<h2 id="org27d19ac">Summary:</h2>
-<div class="outline-text-2" id="text-org27d19ac">
+<div id="outline-container-org53753e0" class="outline-2">
+<h2 id="org53753e0">Summary:</h2>
+<div class="outline-text-2" id="text-org53753e0">
 <p>
 In-house business software is a very different beast; it is usually target-built to solve
 a very specific problem.  Company bean counters encourage buying off-the-shelf software when it is
@@ -85,9 +82,9 @@ It would be great to see these error types in wider use.
 </p>
 </div>
 </div>
-<div id="outline-container-org4b78064" class="outline-2">
-<h2 id="org4b78064">Introduction</h2>
-<div class="outline-text-2" id="text-org4b78064">
+<div id="outline-container-orgab4cea9" class="outline-2">
+<h2 id="orgab4cea9">Introduction</h2>
+<div class="outline-text-2" id="text-orgab4cea9">
 <p>
 Effective resolution of errors plays a pivotal role in shaping the user experience within
 software applications. The content of the messages, along with information, should not only
@@ -102,9 +99,9 @@ messages and their corresponding well-known user-interaction patterns show how d
 handling is.
 </p>
 </div>
-<div id="outline-container-org177c1f0" class="outline-3">
-<h3 id="org177c1f0">The basics.</h3>
-<div class="outline-text-3" id="text-org177c1f0">
+<div id="outline-container-org6a34a5f" class="outline-3">
+<h3 id="org6a34a5f">The basics.</h3>
+<div class="outline-text-3" id="text-org6a34a5f">
 <p>
 Rather than re-iterate what has already been said, Google has a very good course, in the <a href="https://developers.google.com/tech-writing/error-messages/error-handling">technical writing</a>
 category, which focuses on writing better error messages. It also contains excellent advice for programmers
@@ -136,9 +133,9 @@ run into, and are also able to help others who can run into the same problem.
 </div>
 </div>
 </div>
-<div id="outline-container-org3dfd666" class="outline-2">
-<h2 id="org3dfd666">Improved example.</h2>
-<div class="outline-text-2" id="text-org3dfd666">
+<div id="outline-container-org70a04b0" class="outline-2">
+<h2 id="org70a04b0">Improved example.</h2>
+<div class="outline-text-2" id="text-org70a04b0">
 <p>
 So, let's provide a before and after.  This particular example was chosen as a bland and boring
 example so we wouldn't focus on the error itself.
@@ -148,10 +145,10 @@ example so we wouldn't focus on the error itself.
 Kept in ascii art to remove distractions and debate on how poor my CSS theming skills are.
 </p>
 </div>
-<div id="outline-container-org388c695" class="outline-3">
-<h3 id="org388c695">Before:</h3>
-<div class="outline-text-3" id="text-org388c695">
-<pre class="example" id="org8f1f03d">
+<div id="outline-container-org4d39544" class="outline-3">
+<h3 id="org4d39544">Before:</h3>
+<div class="outline-text-3" id="text-org4d39544">
+<pre class="example" id="org3fe3a93">
 |--------------------------------------------------------------|
 | ⚠️ Error:                                                     |
 |                                                              |
@@ -167,10 +164,10 @@ Kept in ascii art to remove distractions and debate on how poor my CSS theming s
 </pre>
 </div>
 </div>
-<div id="outline-container-org14928ba" class="outline-3">
-<h3 id="org14928ba">After:</h3>
-<div class="outline-text-3" id="text-org14928ba">
-<pre class="example" id="orgef3c9c3">
+<div id="outline-container-org4f58713" class="outline-3">
+<h3 id="org4f58713">After:</h3>
+<div class="outline-text-3" id="text-org4f58713">
+<pre class="example" id="orgb599e1d">
 +------------------------------------------------------------------------+
 | ⚠️ Error #90210C                                                        |
 |                                                                        |
@@ -198,7 +195,7 @@ tooling used in business; you should adjust accordingly.
 </p>
 
 <p>
-&#x2013; CrowdSourced Docs.
+&ndash; CrowdSourced Docs.
 </p>
 
 <p>
@@ -223,14 +220,14 @@ For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;a href="https://&lt;organization&gt;.com/documentation/&lt;error-code&gt;/"&gt;
+<pre class="src src-html"><code>&lt;a href="https://&lt;organization&gt;.com/documentation/&lt;error-code&gt;/"&gt;
   Crowdsourced Docs.
 &lt;/a&gt;
-</pre>
+</code></pre>
 </div>
 
 <p>
-&#x2013; Message the Approvals team (communicate with help).
+&ndash; Message the Approvals team (communicate with help).
 </p>
 
 <p>
@@ -250,10 +247,10 @@ For example, the hyperlink:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;a href="https://&lt;organization&gt;.slack.com/messages/&lt;channel&gt;/"&gt;
+<pre class="src src-html"><code>&lt;a href="https://&lt;organization&gt;.slack.com/messages/&lt;channel&gt;/"&gt;
 Approvals Team Slack
 &lt;/a&gt;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -261,8 +258,8 @@ If the approvals team is more focused on emails, this instead could be a link to
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;a href="mailto:approvals@example.com?subject=This loan needs exposition&amp;body=Please expedite loan id: 12345 because [insert reason here] "&gt;Email approvals&lt;/a&gt;
-</pre>
+<pre class="src src-html"><code>&lt;a href="mailto:approvals@example.com?subject=This loan needs exposition&amp;body=Please expedite loan id: 12345 because [insert reason here] "&gt;Email approvals&lt;/a&gt;
+</code></pre>
 </div>
 
 <p>
@@ -274,7 +271,7 @@ It doesn't have to be the approvals team, but if there is a support team that de
 </p>
 
 <p>
-&#x2013; Approvals Queue ( Advanced Information )
+&ndash; Approvals Queue ( Advanced Information )
 </p>
 
 <p>
@@ -295,7 +292,7 @@ depend on the error.
 </p>
 
 <p>
-&#x2013; The 📋 "Copy error to Clipboard" button (share this with someone helping)
+&ndash; The 📋 "Copy error to Clipboard" button (share this with someone helping)
 </p>
 
 <p>
@@ -319,9 +316,9 @@ support this functionality.
 </div>
 </div>
 </div>
-<div id="outline-container-orgfc3a823" class="outline-2">
-<h2 id="orgfc3a823">Introducing change</h2>
-<div class="outline-text-2" id="text-orgfc3a823">
+<div id="outline-container-org0238ee9" class="outline-2">
+<h2 id="org0238ee9">Introducing change</h2>
+<div class="outline-text-2" id="text-org0238ee9">
 <p>
 Rolling changes like this into an existing code base will likely be complicated; one possible
 solution is incremental improvements.
@@ -333,9 +330,9 @@ users view error messages) or by talking to support staff and dealing with the  
 offenders.
 </p>
 </div>
-<div id="outline-container-org4e2491c" class="outline-3">
-<h3 id="org4e2491c">Incremental Improvements</h3>
-<div class="outline-text-3" id="text-org4e2491c">
+<div id="outline-container-org7863e18" class="outline-3">
+<h3 id="org7863e18">Incremental Improvements</h3>
+<div class="outline-text-3" id="text-org7863e18">
 <p>
 Incremental improvement of error messages involves advancing beyond basic error handling.  Not
 all error conditions will benefit from the additional information. However, if there is an "error
@@ -344,9 +341,9 @@ data would be a great place to start.
 </p>
 </div>
 </div>
-<div id="outline-container-orgeac50d9" class="outline-3">
-<h3 id="orgeac50d9">Error Categories.</h3>
-<div class="outline-text-3" id="text-orgeac50d9">
+<div id="outline-container-org471c74d" class="outline-3">
+<h3 id="org471c74d">Error Categories.</h3>
+<div class="outline-text-3" id="text-org471c74d">
 <p>
 Introducing a common "error category" simplifies the initial rollout of the new error fields. By
 grouping related issues, error categories provide a simplified reference point, facilitating
@@ -360,9 +357,9 @@ and proactive problem-solving approaches addressing the specific issue.
 </p>
 </div>
 </div>
-<div id="outline-container-orgcda7b15" class="outline-3">
-<h3 id="orgcda7b15">Unique Error Identifier</h3>
-<div class="outline-text-3" id="text-orgcda7b15">
+<div id="outline-container-org0bba02a" class="outline-3">
+<h3 id="org0bba02a">Unique Error Identifier</h3>
+<div class="outline-text-3" id="text-org0bba02a">
 <p>
 By assigning distinct identifiers to each error condition, developers establish
 a standardized method for identifying, tracking, and managing errors throughout the
@@ -385,9 +382,9 @@ use the same source code with no variance.
 </p>
 </div>
 </div>
-<div id="outline-container-org9deec8d" class="outline-3">
-<h3 id="org9deec8d">Online References (hyperlinks)</h3>
-<div class="outline-text-3" id="text-org9deec8d">
+<div id="outline-container-org506eed0" class="outline-3">
+<h3 id="org506eed0">Online References (hyperlinks)</h3>
+<div class="outline-text-3" id="text-org506eed0">
 <p>
 This is more than just linking to a wiki page; error pages could link to specific URI's of company
 resources such as Slack, shared drives, or source repositories.  If your userbase is sufficiently
@@ -395,9 +392,9 @@ technical it can also be a link to the source code for more capable users to sel
 </p>
 </div>
 </div>
-<div id="outline-container-org855290b" class="outline-3">
-<h3 id="org855290b">Extending this idea.</h3>
-<div class="outline-text-3" id="text-org855290b">
+<div id="outline-container-orgf1ee1b2" class="outline-3">
+<h3 id="orgf1ee1b2">Extending this idea.</h3>
+<div class="outline-text-3" id="text-orgf1ee1b2">
 <p>
 I consider these 4 basics to be the first generation of improvements. You will find new
 and useful improvements; do not be afraid to use them.
@@ -408,9 +405,9 @@ These  "Wilbert-Hofmann" error messages are used heavily in the group of the com
 </p>
 </div>
 </div>
-<div id="outline-container-org9f80246" class="outline-3">
-<h3 id="org9f80246">Generating documentation from error conditions for support staff.</h3>
-<div class="outline-text-3" id="text-org9f80246">
+<div id="outline-container-org175c3b8" class="outline-3">
+<h3 id="org175c3b8">Generating documentation from error conditions for support staff.</h3>
+<div class="outline-text-3" id="text-org175c3b8">
 <p>
 Software should generate a list of error codes and their reasons for any of the support
 staff who may be dealing with the area of code.
@@ -425,9 +422,9 @@ Should be notified of new error codes and if existing codes are removed or depre
 </p>
 </div>
 </div>
-<div id="outline-container-orgfc5c437" class="outline-3">
-<h3 id="orgfc5c437">Error analysis.</h3>
-<div class="outline-text-3" id="text-orgfc5c437">
+<div id="outline-container-org32c33a6" class="outline-3">
+<h3 id="org32c33a6">Error analysis.</h3>
+<div class="outline-text-3" id="text-org32c33a6">
 <p>
 Analysis of the error messages
 </p>
@@ -441,9 +438,9 @@ Analysis of the error messages
 </div>
 </div>
 </div>
-<div id="outline-container-orgba462db" class="outline-2">
-<h2 id="orgba462db">Conclusion</h2>
-<div class="outline-text-2" id="text-orgba462db">
+<div id="outline-container-org0765487" class="outline-2">
+<h2 id="org0765487">Conclusion</h2>
+<div class="outline-text-2" id="text-org0765487">
 <p>
 The suggestions presented in this document serve as fundamental examples of extending common error
 conditions to enhance the user experience and streamline error management. However, it's essential for
@@ -458,15 +455,16 @@ their software systems.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd4da0d5" class="outline-2">
-<h2 id="orgd4da0d5">Resources:</h2>
-<div class="outline-text-2" id="text-orgd4da0d5">
+<div id="outline-container-orgdfa43fa" class="outline-2">
+<h2 id="orgdfa43fa">Resources:</h2>
+<div class="outline-text-2" id="text-orgdfa43fa">
 <p>
 <a href="https://www.smashingmagazine.com/2022/08/error-messages-ux-design/">https://www.smashingmagazine.com/2022/08/error-messages-ux-design/</a>
 <a href="https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas">https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas</a>
 <a href="https://uxwritinghub.com/error-message-examples/">https://uxwritinghub.com/error-message-examples/</a>
 <a href="https://gitlab.com/cki-project/kernel-workflow/">https://gitlab.com/cki-project/kernel-workflow/</a>
 </p>
+</div>
 </div>
 </div>
 </div>

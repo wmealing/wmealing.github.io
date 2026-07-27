@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:24 -->
+<!-- 2026-07-28 Tue 04:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 006 - CSS Support</title>
@@ -11,70 +11,67 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Cellium CSS Support" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">CELLIUM 006 - CSS Support</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-org31f0683" class="outline-2">
-<h2 id="org31f0683">Summary:</h2>
-<div class="outline-text-2" id="text-org31f0683">
+<div id="outline-container-org0c0cca1" class="outline-2">
+<h2 id="org0c0cca1">Summary:</h2>
+<div class="outline-text-2" id="text-org0c0cca1">
 <p>
 Cellium has introduced basic CSS support, allowing developers to separate the visual styling of widgets from their structural definition.
 This currently includes ID and class selectors, as well as state-based styling for focused elements.
 </p>
 </div>
 </div>
-<div id="outline-container-org1d6e504" class="outline-2">
-<h2 id="org1d6e504">Introduction</h2>
-<div class="outline-text-2" id="text-org1d6e504">
+<div id="outline-container-orgc8bb93a" class="outline-2">
+<h2 id="orgc8bb93a">Introduction</h2>
+<div class="outline-text-2" id="text-orgc8bb93a">
 <p>
 One of the challenges in building Terminal User Interfaces (TUIs) is managing the visual properties of widgets without
 cluttering the layout logic. By adopting a subset of CSS, Cellium allows for a more declarative approach to styling.
@@ -86,16 +83,16 @@ with familiar concepts.
 </p>
 </div>
 </div>
-<div id="outline-container-org481fbea" class="outline-2">
-<h2 id="org481fbea">Current State of CSS Support</h2>
-<div class="outline-text-2" id="text-org481fbea">
+<div id="outline-container-orgb7a8cd6" class="outline-2">
+<h2 id="orgb7a8cd6">Current State of CSS Support</h2>
+<div class="outline-text-2" id="text-orgb7a8cd6">
 <p>
 The current implementation in <code>css.erl</code> provides several key features:
 </p>
 </div>
-<div id="outline-container-orgc4cdb75" class="outline-3">
-<h3 id="orgc4cdb75">Selectors</h3>
-<div class="outline-text-3" id="text-orgc4cdb75">
+<div id="outline-container-orgf2a3f0d" class="outline-3">
+<h3 id="orgf2a3f0d">Selectors</h3>
+<div class="outline-text-3" id="text-orgf2a3f0d">
 <p>
 Cellium supports two primary selectors:
 </p>
@@ -106,14 +103,14 @@ Cellium supports two primary selectors:
 </ul>
 </div>
 </div>
-<div id="outline-container-org8f01417" class="outline-3">
-<h3 id="org8f01417">State-based Styling</h3>
-<div class="outline-text-3" id="text-org8f01417">
+<div id="outline-container-org335eb00" class="outline-3">
+<h3 id="org335eb00">State-based Styling</h3>
+<div class="outline-text-3" id="text-org335eb00">
 <p>
 The <code>:focused</code> pseudo-class is supported, enabling different styles when a widget has input focus. For example:
 </p>
 
-<pre class="example" id="orga0a4ee5">
+<pre class="example" id="org1d63f44">
 .button:focused {
     color: black;
     background-color: cyan;
@@ -121,17 +118,17 @@ The <code>:focused</code> pseudo-class is supported, enabling different styles w
 </pre>
 </div>
 </div>
-<div id="outline-container-org75a5591" class="outline-3">
-<h3 id="org75a5591">Stylesheet Loading</h3>
-<div class="outline-text-3" id="text-org75a5591">
+<div id="outline-container-org1dbb291" class="outline-3">
+<h3 id="org1dbb291">Stylesheet Loading</h3>
+<div class="outline-text-3" id="text-org1dbb291">
 <p>
 Stylesheets can be loaded from external files using <code>css:load_stylesheet/1</code>, or the default styles can be applied via <code>css:style/1</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org29a9d47" class="outline-3">
-<h3 id="org29a9d47">Property Parsing</h3>
-<div class="outline-text-3" id="text-org29a9d47">
+<div id="outline-container-org3fb8b78" class="outline-3">
+<h3 id="org3fb8b78">Property Parsing</h3>
+<div class="outline-text-3" id="text-org3fb8b78">
 <p>
 The parser currently handles:
 </p>
@@ -145,22 +142,22 @@ The parser currently handles:
 </div>
 </div>
 </div>
-<div id="outline-container-orgff872a4" class="outline-2">
-<h2 id="orgff872a4">Examples of Working CSS</h2>
-<div class="outline-text-2" id="text-orgff872a4">
+<div id="outline-container-org878a5ee" class="outline-2">
+<h2 id="org878a5ee">Examples of Working CSS</h2>
+<div class="outline-text-2" id="text-org878a5ee">
 <p>
 Here are some examples of CSS rules that currently work in Cellium:
 </p>
 </div>
-<div id="outline-container-orgca376a6" class="outline-3">
-<h3 id="orgca376a6">Basic Widget Styling</h3>
-<div class="outline-text-3" id="text-orgca376a6">
+<div id="outline-container-org8a92686" class="outline-3">
+<h3 id="org8a92686">Basic Widget Styling</h3>
+<div class="outline-text-3" id="text-org8a92686">
 <p>
 You can set colors and background colors using either standard color names (as atoms) or integer values if your terminal supports them.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-css">.box {
+<pre class="src src-css"><code>.box {
     color: white;
     background-color: blue;
 }
@@ -169,19 +166,19 @@ You can set colors and background colors using either standard color names (as a
     background-color: black;
     color: 7;
 }
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org63e88e0" class="outline-3">
-<h3 id="org63e88e0">Layout Control</h3>
-<div class="outline-text-3" id="text-org63e88e0">
+<div id="outline-container-org71673d4" class="outline-3">
+<h3 id="org71673d4">Layout Control</h3>
+<div class="outline-text-3" id="text-org71673d4">
 <p>
 The <code>expand</code> property is used by containers to determine if a widget should take up all available space.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-css">.main-content {
+<pre class="src src-css"><code>.main-content {
     expand: true;
 }
 
@@ -189,19 +186,19 @@ The <code>expand</code> property is used by containers to determine if a widget 
     expand: false;
     width: 20;
 }
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc710c1e" class="outline-3">
-<h3 id="orgc710c1e">Focus and Interactivity</h3>
-<div class="outline-text-3" id="text-orgc710c1e">
+<div id="outline-container-org870cd69" class="outline-3">
+<h3 id="org870cd69">Focus and Interactivity</h3>
+<div class="outline-text-3" id="text-org870cd69">
 <p>
 You can define which widgets are focusable and how they look when they gain focus.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-css">.input-field {
+<pre class="src src-css"><code>.input-field {
     focusable: true;
     background-color: black;
     color: white;
@@ -221,33 +218,33 @@ You can define which widgets are focusable and how they look when they gain focu
     color: black;
     background-color: cyan;
 }
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfb8ecbb" class="outline-3">
-<h3 id="orgfb8ecbb">Specialized Widget Properties</h3>
-<div class="outline-text-3" id="text-orgfb8ecbb">
+<div id="outline-container-org3a793c7" class="outline-3">
+<h3 id="org3a793c7">Specialized Widget Properties</h3>
+<div class="outline-text-3" id="text-org3a793c7">
 <p>
 Some properties are specific to certain widget types, like title alignment for frames or debug borders for containers.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-css">.bordered-frame {
+<pre class="src src-css"><code>.bordered-frame {
     title_align: center;
 }
 
 .debug-container {
     debug: true;
 }
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orge6a2ab5" class="outline-2">
-<h2 id="orge6a2ab5">Technical Implementation</h2>
-<div class="outline-text-2" id="text-orge6a2ab5">
+<div id="outline-container-org4bff400" class="outline-2">
+<h2 id="org4bff400">Technical Implementation</h2>
+<div class="outline-text-2" id="text-org4bff400">
 <p>
 When styling is applied, Cellium walks the layout tree and merges properties from the stylesheet into the widget maps. It prioritizes ID
 styles over class styles and focused styles over normal styles.
@@ -259,24 +256,25 @@ accidentally break the layout positioning.  As a developer you probably dont wan
 </p>
 </div>
 </div>
-<div id="outline-container-org03b4aa9" class="outline-2">
-<h2 id="org03b4aa9">Conclusion</h2>
-<div class="outline-text-2" id="text-org03b4aa9">
+<div id="outline-container-orgc7b990c" class="outline-2">
+<h2 id="orgc7b990c">Conclusion</h2>
+<div class="outline-text-2" id="text-orgc7b990c">
 <p>
 While the current CSS support is a subset of the full specification, it provides a solid foundation for building themed and
 interactive terminal applications in Erlang.
 </p>
 </div>
 </div>
-<div id="outline-container-orga4fb1e1" class="outline-2">
-<h2 id="orga4fb1e1">Resources:</h2>
-<div class="outline-text-2" id="text-orga4fb1e1">
+<div id="outline-container-orgf43888d" class="outline-2">
+<h2 id="orgf43888d">Resources:</h2>
+<div class="outline-text-2" id="text-orgf43888d">
 </div>
-<div id="outline-container-org817721f" class="outline-3">
-<h3 id="org817721f">The <a href="https://github.com/wmealing/cellium">Cellium Repository</a></h3>
+<div id="outline-container-org2ad2a93" class="outline-3">
+<h3 id="org2ad2a93">The <a href="https://github.com/wmealing/cellium">Cellium Repository</a></h3>
 </div>
-<div id="outline-container-org5f1c0d5" class="outline-3">
-<h3 id="org5f1c0d5"><a href="https://github.com/wmealing/cellium/blob/master/src/css.erl">css.erl source code</a></h3>
+<div id="outline-container-org150974d" class="outline-3">
+<h3 id="org150974d"><a href="https://github.com/wmealing/cellium/blob/master/src/css.erl">css.erl source code</a></h3>
+</div>
 </div>
 </div>
 </div>

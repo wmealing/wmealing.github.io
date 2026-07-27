@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-05-26 Tue 17:24 -->
+<!-- 2026-07-28 Tue 04:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to handle headless IoT clients safely without building a massive intermediary auth API.</title>
@@ -11,56 +11,53 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Wade Mealings documentation" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">How to handle headless IoT clients safely without building a massive intermediary auth API.</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
             </div>
         </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
 <p>
@@ -81,9 +78,9 @@ I had previously decided to use Postgres. Supabase was my first choice
 here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
 of excellent open-source projects.
 </p>
-<div id="outline-container-orgc039bb5" class="outline-2">
-<h2 id="orgc039bb5">The moving parts</h2>
-<div class="outline-text-2" id="text-orgc039bb5">
+<div id="outline-container-org56b4cca" class="outline-2">
+<h2 id="org56b4cca">The moving parts</h2>
+<div class="outline-text-2" id="text-org56b4cca">
 <p>
 It's a bit tricky, but we can get away with not having to build a lot of the code and infrastructure required
 to do this by using Postgres Row Level Security (RLS), PostgREST and some table configuration.
@@ -95,9 +92,9 @@ runs it for you behind the scenes, so any HTTP request to your Supabase project 
 before it ever touches the database.
 </p>
 </div>
-<div id="outline-container-orgf9866ee" class="outline-3">
-<h3 id="orgf9866ee">The Moving parts: Row Level Security ?</h3>
-<div class="outline-text-3" id="text-orgf9866ee">
+<div id="outline-container-orgcda55af" class="outline-3">
+<h3 id="orgcda55af">The Moving parts: Row Level Security ?</h3>
+<div class="outline-text-3" id="text-orgcda55af">
 <p>
 Postgres has always let you control who can access a table. You can allow or deny a specific database
 role access to an entire table. That's coarse-grained security.
@@ -126,15 +123,15 @@ You can write policies for any of these operations:
 </ul>
 </div>
 </div>
-<div id="outline-container-org6a1014c" class="outline-3">
-<h3 id="org6a1014c">The Moving Parts: The Schema</h3>
-<div class="outline-text-3" id="text-org6a1014c">
+<div id="outline-container-org6be0fad" class="outline-3">
+<h3 id="org6be0fad">The Moving Parts: The Schema</h3>
+<div class="outline-text-3" id="text-org6be0fad">
 <p>
 This demo has two tables: one stores metadata concerning the device itself, and the second stores the telemetry readings taken by those devices.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">-- The devices table stores the id and secret for each registered device
+<pre class="src src-sql"><code>-- The devices table stores the id and secret for each registered device
 CREATE TABLE devices (
   id            uuid  PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id       uuid  NOT NULL REFERENCES auth.users(id),
@@ -143,17 +140,17 @@ CREATE TABLE devices (
   name          text,
   created_at    timestamptz DEFAULT now()
 );
-</pre>
+</code></pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-sql">CREATE TABLE device_readings (
+<pre class="src src-sql"><code>CREATE TABLE device_readings (
   id          uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
   device_id   text        NOT NULL REFERENCES devices(device_id),
   value       text        NOT NULL,
   recorded_at timestamptz DEFAULT now()
 );
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -166,7 +163,7 @@ And some fictional setup data to help illustrate the point.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">-- A test user already exists in auth.users (created via Supabase auth)
+<pre class="src src-sql"><code>-- A test user already exists in auth.users (created via Supabase auth)
 
 -- Register a device belonging to that user
 INSERT INTO devices (user_id, device_id, device_secret, name)
@@ -177,7 +174,7 @@ INSERT INTO device_readings (device_id, value)
 VALUES ('dev-001', 'first reading'),
        ('dev-001', 'second reading'),
        ('dev-001', '23.5');
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -185,18 +182,18 @@ Unsurprisingly, you must enable "ROW LEVEL SECURITY" on a table; it's not automa
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">ALTER TABLE device_readings ENABLE ROW LEVEL SECURITY;
-</pre>
+<pre class="src src-sql"><code>ALTER TABLE device_readings ENABLE ROW LEVEL SECURITY;
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf8a9a4b" class="outline-3">
-<h3 id="orgf8a9a4b">Enforcing the Security Logic</h3>
-<div class="outline-text-3" id="text-orgf8a9a4b">
+<div id="outline-container-org244cbb8" class="outline-3">
+<h3 id="org244cbb8">Enforcing the Security Logic</h3>
+<div class="outline-text-3" id="text-org244cbb8">
 </div>
-<div id="outline-container-orgd9a1e21" class="outline-4">
-<h4 id="orgd9a1e21">Restricted Read Access (<code>SELECT</code>)</h4>
-<div class="outline-text-4" id="text-orgd9a1e21">
+<div id="outline-container-org6cfa221" class="outline-4">
+<h4 id="org6cfa221">Restricted Read Access (<code>SELECT</code>)</h4>
+<div class="outline-text-4" id="text-org6cfa221">
 <p>
 When an application user reads from device_readings, they should only see data from devices they actually own.
 Since device_readings doesn't have a user_id column directly, we look up ownership by joining through the devices
@@ -212,7 +209,7 @@ The ownership chain looks like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">CREATE POLICY "user_see_own_device_rows"
+<pre class="src src-sql"><code>CREATE POLICY "user_see_own_device_rows"
   ON device_readings
   FOR SELECT
   TO authenticated
@@ -223,13 +220,13 @@ The ownership chain looks like this:
         AND devices.user_id   = auth.uid()
     )
   );
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga60fbce" class="outline-4">
-<h4 id="orga60fbce">Unauthenticated Write Access (<code>INSERT</code>)</h4>
-<div class="outline-text-4" id="text-orga60fbce">
+<div id="outline-container-orgf13f5e2" class="outline-4">
+<h4 id="orgf13f5e2">Unauthenticated Write Access (<code>INSERT</code>)</h4>
+<div class="outline-text-4" id="text-orgf13f5e2">
 <p>
 When a device posts a new reading it uses a HTTP POST. PostgREST translates that into a native SQL
 <code>INSERT</code> on <code>device_readings</code>. Before the row is written, the RLS policy calls
@@ -244,8 +241,8 @@ so the policy can read it back with:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">current_setting('request.headers')::json-&gt;&gt;'x-device-secret'
-</pre>
+<pre class="src src-sql"><code>current_setting('request.headers')::json-&gt;&gt;'x-device-secret'
+</code></pre>
 </div></li>
 
 <li>If <code>verify_device_secret</code> returns false — wrong secret, missing header,
@@ -258,7 +255,7 @@ Here is the function to validate the device secret matches the device id:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">-- The function checks if the secret matches for a given device_id
+<pre class="src src-sql"><code>-- The function checks if the secret matches for a given device_id
  CREATE OR REPLACE FUNCTION verify_device_secret(p_device_id text, p_secret text)
  RETURNS boolean
  LANGUAGE sql
@@ -271,7 +268,7 @@ Here is the function to validate the device secret matches the device id:
        AND device_secret = p_secret
    );
  $$;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -286,8 +283,8 @@ We also need to explicitly grant the anon role permission to call the function:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">GRANT EXECUTE ON FUNCTION verify_device_secret TO anon;
-</pre>
+<pre class="src src-sql"><code>GRANT EXECUTE ON FUNCTION verify_device_secret TO anon;
+</code></pre>
 </div>
 
 <p>
@@ -295,8 +292,8 @@ Without this, the RLS policy will fail with a permission error even if the secre
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org4071c2f"></a>A note on the RPC exposure tradeoff<br />
-<div class="outline-text-5" id="text-org4071c2f">
+<li><a id="org25fd4b3"></a>A note on the RPC exposure tradeoff<br />
+<div class="outline-text-5" id="text-org25fd4b3">
 <p>
 Granting <code>EXECUTE</code> to <code>anon</code> is necessary for the RLS policy to work, but it has a
 side effect: PostgREST automatically exposes every function that <code>anon</code> can execute
@@ -305,11 +302,11 @@ as an HTTP endpoint under <code>/rest/v1/rpc/</code>. That means anyone can call
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">curl -X POST https://your-project.supabase.co/rest/v1/rpc/verify_device_secret \
+<pre class="src src-sh"><code>curl -X POST https://your-project.supabase.co/rest/v1/rpc/verify_device_secret \
   -H "apikey: your-publishable-key" \
   -H "Content-Type: application/json" \
   -d '{"p_device_id": "dev-001", "p_secret": "guess"}'
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -333,9 +330,9 @@ becomes unreachable by unauthenticated callers.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">REVOKE EXECUTE ON FUNCTION verify_device_secret(text, text) FROM anon;
+<pre class="src src-sql"><code>REVOKE EXECUTE ON FUNCTION verify_device_secret(text, text) FROM anon;
 GRANT  EXECUTE ON FUNCTION verify_device_secret(text, text) TO your_app_role;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -347,7 +344,7 @@ Now, we bind this function to our INSERT policy:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">CREATE POLICY "device_insert_own_readings"
+<pre class="src src-sql"><code>CREATE POLICY "device_insert_own_readings"
   ON device_readings
   FOR INSERT
   TO anon
@@ -357,32 +354,32 @@ Now, we bind this function to our INSERT policy:
       current_setting('request.headers', true)::json-&gt;&gt;'x-device-secret'
     )
   );
-</pre>
+</code></pre>
 </div>
 
 <p>
-Note: INSERT policies use WITH CHECK instead of USING. USoING filters rows on read; WITH CHECK validates rows on write.
+Note: INSERT policies use WITH CHECK instead of USING. USING filters rows on read; WITH CHECK validates rows on write.
 </p>
 </div>
 </li>
 </ul>
 </div>
-<div id="outline-container-org98578f8" class="outline-4">
-<h4 id="org98578f8">The Client Payload (curl Example)</h4>
-<div class="outline-text-4" id="text-org98578f8">
+<div id="outline-container-orgf239786" class="outline-4">
+<h4 id="orgf239786">The Client Payload (curl Example)</h4>
+<div class="outline-text-4" id="text-orgf239786">
 <p>
 This is the 'curl' equivalent of the code that my IOT device would use.  I'm using <a href="https://atomvm.org/">atomvm</a>
 on my client side, but this effectively reproduces the same thing.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">curl -X POST https://your-project.supabase.co/rest/v1/device_readings \
+<pre class="src src-sh"><code>curl -X POST https://your-project.supabase.co/rest/v1/device_readings \
   -H "apikey: your-publishable-key" \
   -H "Authorization: Bearer your-publishable-key" \
   -H "Content-Type: application/json" \
   -H "x-device-secret: changeme-super-secret-32-bytes!!" \
   -d '{"device_id": "dev-001", "value": "23.5"}'
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -406,9 +403,9 @@ burned into its firmware at manufacture or setup time.
 </p>
 </div>
 </div>
-<div id="outline-container-org7a3b39a" class="outline-4">
-<h4 id="org7a3b39a">Making Data Immutable (UPDATE &amp; DELETE)</h4>
-<div class="outline-text-4" id="text-org7a3b39a">
+<div id="outline-container-org8c4ec1e" class="outline-4">
+<h4 id="org8c4ec1e">Making Data Immutable (UPDATE &amp; DELETE)</h4>
+<div class="outline-text-4" id="text-org8c4ec1e">
 <p>
 Devices should only ever record history, never rewrite it. The cleanest way to enforce data immutability
 in Postgres RLS is elegantly simple: don't write a policy for it.
@@ -417,10 +414,10 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
 </div>
 </div>
 </div>
-<div id="outline-container-org8ba002e" class="outline-2">
-<h2 id="org8ba002e">Architectural Flow</h2>
-<div class="outline-text-2" id="text-org8ba002e">
-<pre class="example" id="org3e22124">
+<div id="outline-container-org612f51e" class="outline-2">
+<h2 id="org612f51e">Architectural Flow</h2>
+<div class="outline-text-2" id="text-org612f51e">
+<pre class="example" id="org185673d">
 [Device Client] ──(POST /rest/v1/device_readings)──&gt; [PostgREST]
                                                           │
                                             (Sets session headers &amp; passes INSERT)
@@ -442,9 +439,9 @@ and you don’t have an authentication server application to patch, scale, or ma
 </p>
 </div>
 </div>
-<div id="outline-container-org82ce2d9" class="outline-2">
-<h2 id="org82ce2d9">Conclusion</h2>
-<div class="outline-text-2" id="text-org82ce2d9">
+<div id="outline-container-org46aad1a" class="outline-2">
+<h2 id="org46aad1a">Conclusion</h2>
+<div class="outline-text-2" id="text-org46aad1a">
 <p>
 Pairing Postgres Row Level Security with PostgREST gives you a lightweight and easy
 way to decouple web services and completely get out of the way when edge clients need
@@ -457,9 +454,9 @@ redirect my DNS to an edge proxy layer where I can perform custom rate-limiting,
 </p>
 </div>
 </div>
-<div id="outline-container-orgfa57033" class="outline-2">
-<h2 id="orgfa57033">Resources:</h2>
-<div class="outline-text-2" id="text-orgfa57033">
+<div id="outline-container-orgd0802fa" class="outline-2">
+<h2 id="orgd0802fa">Resources:</h2>
+<div class="outline-text-2" id="text-orgd0802fa">
 <p>
 <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL Row Level Security Documentation</a>
 </p>
@@ -471,6 +468,7 @@ redirect my DNS to an edge proxy layer where I can perform custom rate-limiting,
 <p>
 <a href="https://docs.postgrest.org/en/v14/">PostgREST Official Documentation</a>
 </p>
+</div>
 </div>
 </div>
 </div>

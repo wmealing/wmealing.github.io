@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-07-28 Tue 04:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Setting up Emacs for Erlang in 2025</title>
@@ -11,7 +11,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Emacs and erlang in 2025" />
 <script>
@@ -48,51 +50,46 @@
 </script>
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Setting up Emacs for Erlang in 2025</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
             </div>
         </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
 <p>
@@ -100,9 +97,9 @@ Getting Erlang working properly in Emacs in 2025 can be a bit of a challenge. So
 2005 (hello, `distel`), while others are new enough that the documentation hasn’t caught up yet (tree-sitter Erlang,
 WhatsApp’s Erlang Language Platform). Here is what i have working.
 </p>
-<div id="outline-container-org6c29581" class="outline-2">
-<h2 id="org6c29581">Installing Erlang</h2>
-<div class="outline-text-2" id="text-org6c29581">
+<div id="outline-container-org90e434d" class="outline-2">
+<h2 id="org90e434d">Installing Erlang</h2>
+<div class="outline-text-2" id="text-org90e434d">
 <p>
 If you install Erlang with Homebrew, beware: you don’t always get the optional extras — like the Emacs Lisp files.
 You need the full OTP installation (with all the developer tooling), you’re better off using <a href="https://github.com/kerl/kerl">https://github.com/kerl/kerl</a>.
@@ -113,8 +110,8 @@ As a fallback: clone the repository and point Emacs directly at it in the later 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">git clone https://github.com/erlang/otp.git
-</pre>
+<pre class="src src-bash"><code>git clone https://github.com/erlang/otp.git
+</code></pre>
 </div>
 
 <p>
@@ -122,48 +119,48 @@ This gets the most recent version of OTP source, it works with most versions of 
 </p>
 </div>
 </div>
-<div id="outline-container-org93485ee" class="outline-2">
-<h2 id="org93485ee">Setting up Emacs</h2>
-<div class="outline-text-2" id="text-org93485ee">
+<div id="outline-container-orgbefdcc5" class="outline-2">
+<h2 id="orgbefdcc5">Setting up Emacs</h2>
+<div class="outline-text-2" id="text-orgbefdcc5">
 <p>
 You need both the classic <code>erlang</code> mode and the newer tree-sitter based <code>erlang-ts</code> mode. Both need to be installed.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">M-x package-install RET erlang RET
+<pre class="src src-emacs-lisp"><code>M-x package-install RET erlang RET
 M-x package-install RET company RET
 M-x package-install RET flycheck-popup-tip RET
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8344085" class="outline-2">
-<h2 id="org8344085">Configure <code>erlang-mode</code></h2>
-<div class="outline-text-2" id="text-org8344085">
+<div id="outline-container-orga6014b3" class="outline-2">
+<h2 id="orga6014b3">Configure <code>erlang-mode</code></h2>
+<div class="outline-text-2" id="text-orga6014b3">
 <p>
 This is based on the official <a href="https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html">erlang</a> docs, except with slightly more modern syntax.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq erl-root-dir "/path/to/erlang/otp/")
+<pre class="src src-emacs-lisp"><code>(setq erl-root-dir "/path/to/erlang/otp/")
 (add-to-list 'load-path (concat erl-root-dir "lib/tools-&lt;version&gt;/emacs"))
 (add-to-list 'exec-path (concat erl-root-dir "bin"))
 (setq erlang-man-root-dir (concat erl-root-dir "man"))
 
 (require 'erlang-start)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbc03f3d" class="outline-2">
-<h2 id="orgbc03f3d">Setup Flycheck</h2>
-<div class="outline-text-2" id="text-orgbc03f3d">
+<div id="outline-container-orgbfa73e5" class="outline-2">
+<h2 id="orgbfa73e5">Setup Flycheck</h2>
+<div class="outline-text-2" id="text-orgbfa73e5">
 <p>
 Hook Erlang into <code>flycheck</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-emacs-lisp"><code>
 (flycheck-define-checker erlang
       "An Erlang syntax checker using the Erlang compiler."
       :command ("erlc" "-o" temporary-directory "-Wall"
@@ -186,7 +183,7 @@ Hook Erlang into <code>flycheck</code>:
   (require 'flycheck-popup-tip)
   (flycheck-popup-tip-mode)
 
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -194,15 +191,15 @@ Evaluate the new flycheck definition above, open an erlang buffer in emacs and r
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">M-x flycheck-verify-setup
-</pre>
+<pre class="src src-emacs-lisp"><code>M-x flycheck-verify-setup
+</code></pre>
 </div>
 
 <p>
 Sample output:
 </p>
 
-<pre class="example" id="orge242bd1">
+<pre class="example" id="org79fd9d0">
 Syntax checkers for buffer tui_loop.erl in erlang-mode:
 
 First checker to run:
@@ -226,22 +223,22 @@ enable disabled checkers.
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq erl-nodename-cache
+<pre class="src src-emacs-lisp"><code>(setq erl-nodename-cache
       (make-symbol
        (concat "emacs-node@"
                (car (split-string (shell-command-to-string "hostname"))))))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgce53e73" class="outline-2">
-<h2 id="orgce53e73">Rebar3 Integration</h2>
-<div class="outline-text-2" id="text-orgce53e73">
+<div id="outline-container-org15d2e93" class="outline-2">
+<h2 id="org15d2e93">Rebar3 Integration</h2>
+<div class="outline-text-2" id="text-org15d2e93">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq inferior-erlang-machine "rebar3")
+<pre class="src src-emacs-lisp"><code>(setq inferior-erlang-machine "rebar3")
 (setq inferior-erlang-machine-options '("shell"))
 (setq inferior-erlang-shell-type nil)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -258,7 +255,7 @@ contains a rebar.config file.
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-erlang-set-project-root ()
+<pre class="src src-emacs-lisp"><code>(defun my-erlang-set-project-root ()
   "Set `default-directory` to the parent dir containing `rebar.config` or `rebar.config.script`, if found."
   (when (derived-mode-p 'erlang-mode)
     (let* ((start (or (buffer-file-name) default-directory))
@@ -272,7 +269,7 @@ contains a rebar.config file.
         (setq-local default-directory proj-root)))))
 
 (add-hook 'erlang-mode-hook #'my-erlang-set-project-root)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -284,8 +281,8 @@ You can check that by opening any erlang file and then in emacs, executing.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">M-x pwd
-</pre>
+<pre class="src src-emacs-lisp"><code>M-x pwd
+</code></pre>
 </div>
 
 <p>
@@ -293,9 +290,9 @@ It should be the parent directory which contains a rebar.config file.
 </p>
 </div>
 </div>
-<div id="outline-container-org176ae0a" class="outline-2">
-<h2 id="org176ae0a">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
-<div class="outline-text-2" id="text-org176ae0a">
+<div id="outline-container-org61459a0" class="outline-2">
+<h2 id="org61459a0">Erlang Language Platform (ELP) as the LSP (Language Server Protocol)</h2>
+<div class="outline-text-2" id="text-org61459a0">
 <p>
 Previously I had been using <a href="https://github.com/erlang-ls/erlang_ls">erlang_ls</a> as a language server.  As of Aug 16, 2025, this project has been archived on github, Thank you
 Roberto Aloi for all the hard work that was part of this great tool.  I haven't been able to get elp working reliably with
@@ -308,11 +305,11 @@ the home directory ~/bin because thats in the path.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">wget https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp/&lt;path-arch-specific.tar.gz.
+<pre class="src src-bash"><code>wget https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp/&lt;path-arch-specific.tar.gz.
 tat xvf arch-specific-elptar.gz
 chmod +x elp
 mv elp ~/bin/
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -326,10 +323,10 @@ Configure Emacs:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'eglot)
+<pre class="src src-emacs-lisp"><code>(require 'eglot)
 (add-to-list 'eglot-server-programs '(erlang-mode . ("elp" "server")))
 (add-hook 'erlang-mode-hook 'eglot-ensure)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -338,9 +335,9 @@ buffer.
 </p>
 </div>
 </div>
-<div id="outline-container-org3abe7e9" class="outline-2">
-<h2 id="org3abe7e9">Closing</h2>
-<div class="outline-text-2" id="text-org3abe7e9">
+<div id="outline-container-org08ba82a" class="outline-2">
+<h2 id="org08ba82a">Closing</h2>
+<div class="outline-text-2" id="text-org08ba82a">
 <p>
 That’s my erlang editing stack in 2025: Erlang mode, Erlang tree-sitter, Flycheck, rebar3 integration, and WhatsApp’s LSP server.
 </p>
@@ -361,6 +358,7 @@ If you hit weird errors:
 <p>
 If you have another editor setup for Erlang post 2024 contact me and , i'll link it here.
 </p>
+</div>
 </div>
 </div>
 </div>

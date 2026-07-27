@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-07-28 Tue 04:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Robust Recovery of Erlang Crashes: Handling failures and Error Reporting</title>
@@ -11,61 +11,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Wade Mealings documentation" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Robust Recovery of Erlang Crashes: Handling failures and Error Reporting</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-orgb481b23" class="outline-2">
-<h2 id="orgb481b23">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
-<div class="outline-text-2" id="text-orgb481b23">
+<div id="outline-container-org2bfc31f" class="outline-2">
+<h2 id="org2bfc31f">Let It Crash? Sure. But Also: Resolve the Failure.</h2>
+<div class="outline-text-2" id="text-org2bfc31f">
 <p>
 Erlang’s “let it crash” mantra is great. Recently, its been reframed as “let it heal.”, I like adding a third concept: <b>propono postea</b> or
 “resolve it later.”
@@ -80,9 +77,9 @@ We’ll do it with standard erlang, message passing, and a little crash theatre.
 </p>
 </div>
 </div>
-<div id="outline-container-org2ebb337" class="outline-2">
-<h2 id="org2ebb337">The Pattern</h2>
-<div class="outline-text-2" id="text-org2ebb337">
+<div id="outline-container-org4e10746" class="outline-2">
+<h2 id="org4e10746">The Pattern</h2>
+<div class="outline-text-2" id="text-org4e10746">
 <p>
 We have three functions:
 </p>
@@ -94,10 +91,10 @@ We have three functions:
 </ol>
 </div>
 </div>
-<div id="outline-container-org5cbcb1d" class="outline-2">
-<h2 id="org5cbcb1d">Process/Information Flow Diagram</h2>
-<div class="outline-text-2" id="text-org5cbcb1d">
-<pre class="example" id="org9531b47">
+<div id="outline-container-org8a21ffe" class="outline-2">
+<h2 id="org8a21ffe">Process/Information Flow Diagram</h2>
+<div class="outline-text-2" id="text-org8a21ffe">
+<pre class="example" id="org238ecef">
           +-------------+
           | run/0       |
           | (Coordinator|
@@ -135,15 +132,15 @@ We have three functions:
 </pre>
 </div>
 </div>
-<div id="outline-container-orge6baac1" class="outline-2">
-<h2 id="orge6baac1">Worker Decision Logic</h2>
-<div class="outline-text-2" id="text-orge6baac1">
+<div id="outline-container-org9c768fc" class="outline-2">
+<h2 id="org9c768fc">Worker Decision Logic</h2>
+<div class="outline-text-2" id="text-org9c768fc">
 <p>
 The worker itself is a basic random choice to crash, The code manually crashes, but this same behavior occurs when erlang
 normally fails.
 </p>
 
-<pre class="example" id="orgb869f49">
+<pre class="example" id="orgd11dcf6">
  [worker/2]
     |
     v
@@ -160,9 +157,9 @@ Crash   Send {ok, Num, Sum}
 </pre>
 </div>
 </div>
-<div id="outline-container-org243e425" class="outline-2">
-<h2 id="org243e425">How It Works</h2>
-<div class="outline-text-2" id="text-org243e425">
+<div id="outline-container-org6f078b1" class="outline-2">
+<h2 id="org6f078b1">How It Works</h2>
+<div class="outline-text-2" id="text-org6f078b1">
 <ul class="org-ul">
 <li>Spawn 30 workers, each with a unique ID.</li>
 <li>Use <code>spawn_monitor</code> so the parent gets a `'DOWN'` message when a worker dies.</li>
@@ -195,11 +192,11 @@ I will get around to that sometime.
 </p>
 </div>
 </div>
-<div id="outline-container-orgaf8134d" class="outline-2">
-<h2 id="orgaf8134d">Example Code</h2>
-<div class="outline-text-2" id="text-orgaf8134d">
+<div id="outline-container-org5c3b8c2" class="outline-2">
+<h2 id="org5c3b8c2">Example Code</h2>
+<div class="outline-text-2" id="text-org5c3b8c2">
 <div class="org-src-container">
-<pre class="src src-erlang">-module(batch_jobs).
+<pre class="src src-erlang"><code>-module(batch_jobs).
 -export([run/0, worker/2]).
 
 run() -&gt;
@@ -250,13 +247,13 @@ worker(Parent, Num) -&gt;
         true -&gt;
             Parent ! {ok, Num, Sum}
     end.
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4605dae" class="outline-2">
-<h2 id="org4605dae">Wrap-Up</h2>
-<div class="outline-text-2" id="text-org4605dae">
+<div id="outline-container-org69ead29" class="outline-2">
+<h2 id="org69ead29">Wrap-Up</h2>
+<div class="outline-text-2" id="text-org69ead29">
 <p>
 Once you’ve captured the failures, you can retry, log, email, file Jira tickets — whatever fits your pipeline.
 </p>
@@ -270,6 +267,7 @@ supervisor pattern, which will be an entry for another day.
 <p>
 Want a “supervisors do this for me” version? That’s a post for another day.
 </p>
+</div>
 </div>
 </div>
 </div>

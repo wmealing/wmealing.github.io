@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:24 -->
+<!-- 2026-07-28 Tue 04:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Abstraction vs Transformation</title>
@@ -11,61 +11,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Why abstractions sucks and trasnformation doesnt" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Abstraction vs Transformation</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-org8e018ea" class="outline-2">
-<h2 id="org8e018ea">Summary:</h2>
-<div class="outline-text-2" id="text-org8e018ea">
+<div id="outline-container-orgddcbeb8" class="outline-2">
+<h2 id="orgddcbeb8">Summary:</h2>
+<div class="outline-text-2" id="text-orgddcbeb8">
 <p>
 Frequently in software development, efficiency and performance concerns weigh heavily on my mind.  As a programmer
 deeply immersed in different languages, I've encountered my fair share of performance challenges when attempting to
@@ -74,9 +71,9 @@ implementation details that massively degrades performance.
 </p>
 </div>
 </div>
-<div id="outline-container-org9967f2c" class="outline-2">
-<h2 id="org9967f2c">One more time, with feeling.</h2>
-<div class="outline-text-2" id="text-org9967f2c">
+<div id="outline-container-org515d83d" class="outline-2">
+<h2 id="org515d83d">One more time, with feeling.</h2>
+<div class="outline-text-2" id="text-org515d83d">
 <p>
 One particularly frustrating experience is fresh in my mind: a seemingly innocuous
 performance issue that eluded resolution for far longer than it should have.
@@ -171,9 +168,9 @@ hardware features, the performant code/features will be abstracted away and the 
 </p>
 </div>
 </div>
-<div id="outline-container-orge227e83" class="outline-2">
-<h2 id="orge227e83">Conclusion</h2>
-<div class="outline-text-2" id="text-orge227e83">
+<div id="outline-container-org5f20cbb" class="outline-2">
+<h2 id="org5f20cbb">Conclusion</h2>
+<div class="outline-text-2" id="text-org5f20cbb">
 <p>
 Software abstractions are designed to optimize for human cognition, not hardware execution. They allow us to reason about
 complex systems without getting bogged down in register management or memory layouts. However, every layer of indirection,
@@ -185,9 +182,9 @@ Sometimes the abstraction tax is almost unmeasureable; other times, it requires 
 really understand.
 </p>
 </div>
-<div id="outline-container-org901a5fc" class="outline-3">
-<h3 id="org901a5fc">Measure Twice, Optimize Once</h3>
-<div class="outline-text-3" id="text-org901a5fc">
+<div id="outline-container-orgc266cd5" class="outline-3">
+<h3 id="orgc266cd5">Measure Twice, Optimize Once</h3>
+<div class="outline-text-3" id="text-orgc266cd5">
 <p>
 The biggest mistake a developer can make is "premature de-abstraction." Tearing down a helpful interface because you
 assume it’s slow is a recipe for messy, unmaintainable code.
@@ -200,9 +197,9 @@ whether the bottleneck is a fundamental algorithmic flaw or if the abstraction l
 </p>
 </div>
 </div>
-<div id="outline-container-org08f2201" class="outline-3">
-<h3 id="org08f2201">Visualizing the Invisible</h3>
-<div class="outline-text-3" id="text-org08f2201">
+<div id="outline-container-org9bb7373" class="outline-3">
+<h3 id="org9bb7373">Visualizing the Invisible</h3>
+<div class="outline-text-3" id="text-org9bb7373">
 <p>
 Thankfully, we no longer have to guess. Modern profiling tools have turned performance analysis
 from a dark art into a visual science. Tools like <a href="https://www.brendangregg.com/flamegraphs.html">flame graphs</a>, eBPF tracers, and <a href="https://max-au.com/2022/10/04/the-power-of-erlang-tracing/">distributed tracing</a> allow us
@@ -220,9 +217,9 @@ multiple levels of abstraction.
 </p>
 </div>
 </div>
-<div id="outline-container-org4e4090b" class="outline-3">
-<h3 id="org4e4090b">The Golden Rule of Optimization</h3>
-<div class="outline-text-3" id="text-org4e4090b">
+<div id="outline-container-org4cb87a3" class="outline-3">
+<h3 id="org4cb87a3">The Golden Rule of Optimization</h3>
+<div class="outline-text-3" id="text-org4cb87a3">
 <p>
 Before you reach for the delete key, looking up sse2 function calls,  or start rewriting in assembly,
 remember: Identify before you optimize. Effective performance analysis requires isolating the impact of
@@ -233,6 +230,7 @@ abstractions. If you can’t see the cost of the wrapper, you can’t justify th
 Long term, this likely doesn't matter anyway, soon this will all be written in AI, and people will just
 vibe code something no matter what the performance impact is.   God help us.
 </p>
+</div>
 </div>
 </div>
 </div>

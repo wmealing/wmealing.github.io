@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:26 -->
+<!-- 2026-07-28 Tue 04:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -57,6 +57,7 @@
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
   pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-c:before { content: 'C'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -71,7 +72,7 @@
   pre.src-haskell:before { content: 'Haskell'; }
   pre.src-hledger:before { content: 'hledger'; }
   pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
+  pre.src-js:before { content: 'JavaScript'; }
   pre.src-latex:before { content: 'LaTeX'; }
   pre.src-ledger:before { content: 'Ledger'; }
   pre.src-lisp:before { content: 'Lisp'; }
@@ -193,77 +194,74 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta http-equiv="Content-Security-Policy"  content="default-src 'self'; img-src https://*; child-src 'none'; 'unsafe-inline'">
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Mirai's Watchdog in rust.</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org47e6080">Disabling the watchdog.</a></li>
-<li><a href="#org7d5a8b2">The magic close feature.</a></li>
-<li><a href="#org61e4b6c">Additional resources</a></li>
+<li><a href="#org75067f8">Disabling the watchdog.</a></li>
+<li><a href="#orgc764354">The magic close feature.</a></li>
+<li><a href="#org2ab3544">Additional resources</a></li>
 </ul>
 </div>
 </div>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-org47e6080" class="outline-2">
-<h2 id="org47e6080">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-org47e6080">
+<div id="outline-container-org75067f8" class="outline-2">
+<h2 id="org75067f8">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-org75067f8">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org90229ac">
+<pre class="example" id="org5141722">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -281,7 +279,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="org93cc25e">
+<pre class="example" id="org75ba2cb">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -293,8 +291,8 @@ It opens the watchdog device read/write (#define O_RDWR 00000002).
 It issues an 'ioctl' with a magic number.
 </p>
 <div class="org-src-container">
-<pre class="src src-nil">ioctl(wfd, 0x80045704, &amp;one);
-</pre>
+<pre class="src src-nil"><code>ioctl(wfd, 0x80045704, &amp;one);
+</code></pre>
 </div>
 
 <p>
@@ -302,19 +300,19 @@ Then closes the opened file descriptor.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil">close(wfd);
-</pre>
+<pre class="src src-nil"><code>close(wfd);
+</code></pre>
 </div>
 
 <p>
 While this does adhere to the spec, its also not the most supported
-method of disabling the watchdog. there is another&#x2026;
+method of disabling the watchdog. there is another&hellip;
 </p>
 </div>
 </div>
-<div id="outline-container-org7d5a8b2" class="outline-2">
-<h2 id="org7d5a8b2">The magic close feature.</h2>
-<div class="outline-text-2" id="text-org7d5a8b2">
+<div id="outline-container-orgc764354" class="outline-2">
+<h2 id="orgc764354">The magic close feature.</h2>
+<div class="outline-text-2" id="text-orgc764354">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
@@ -355,7 +353,7 @@ This would leave us with a simple function :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-rust">use std::fs;
+<pre class="src src-rust"><code>use std::fs;
 
 fn disable_watchodg() -&gt; std::io::Result&lt;()&gt; {
     fs::write("/dev/watchdog", "V")?
@@ -364,7 +362,7 @@ fn disable_watchodg() -&gt; std::io::Result&lt;()&gt; {
 fn main() {
  disable_watchdog();
 }
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -372,9 +370,9 @@ Wild right ?
 </p>
 </div>
 </div>
-<div id="outline-container-org61e4b6c" class="outline-2">
-<h2 id="org61e4b6c">Additional resources</h2>
-<div class="outline-text-2" id="text-org61e4b6c">
+<div id="outline-container-org2ab3544" class="outline-2">
+<h2 id="org2ab3544">Additional resources</h2>
+<div class="outline-text-2" id="text-org2ab3544">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -383,8 +381,9 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2026-04-21 Tue 15:26</p>
+<p class="date">Created: 2026-07-28 Tue 04:10</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
 </div>
 </body>
 </html>

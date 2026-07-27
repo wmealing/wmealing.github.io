@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:26 -->
+<!-- 2026-07-28 Tue 04:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trickbot persistence.</title>
@@ -11,60 +11,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Trickbot persistence.</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-org63ec604" class="outline-2">
-<h2 id="org63ec604">What is persistence ?</h2>
-<div class="outline-text-2" id="text-org63ec604">
+<div id="outline-container-orge2f111f" class="outline-2">
+<h2 id="orge2f111f">What is persistence ?</h2>
+<div class="outline-text-2" id="text-orge2f111f">
 <p>
 A system may be rebooted during regular intervals as part of its
 lifecycle when a new kernel is updated or if it enters an unknown
@@ -77,9 +74,9 @@ task scheduling service to ensure it will continue to execute
 </p>
 </div>
 </div>
-<div id="outline-container-org04bd4db" class="outline-2">
-<h2 id="org04bd4db">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-org04bd4db">
+<div id="outline-container-orgb38e2aa" class="outline-2">
+<h2 id="orgb38e2aa">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-orgb38e2aa">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -88,7 +85,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="org496b181">
+<pre class="example" id="org6444739">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -98,7 +95,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="org4fa2bef">
+<pre class="example" id="orgb3cc005">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -108,7 +105,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="org28363c2">
+<pre class="example" id="org0924854">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -117,14 +114,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-org510f5da" class="outline-2">
-<h2 id="org510f5da">The sample code.</h2>
-<div class="outline-text-2" id="text-org510f5da">
+<div id="outline-container-org46cbee2" class="outline-2">
+<h2 id="org46cbee2">The sample code.</h2>
+<div class="outline-text-2" id="text-org46cbee2">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="org8b4fc7c">
+<pre class="example" id="org778e55b">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -140,9 +137,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-org2dd5203" class="outline-2">
-<h2 id="org2dd5203">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org2dd5203">
+<div id="outline-container-org0ee699d" class="outline-2">
+<h2 id="org0ee699d">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org0ee699d">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -164,7 +161,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="org117d915">
+<pre class="example" id="orgae179fb">
 use std::fs;
 
  fn main() {
@@ -197,12 +194,13 @@ using the same ports and had the same process name.
 </p>
 </div>
 </div>
-<div id="outline-container-org9fa0c19" class="outline-2">
-<h2 id="org9fa0c19">Resources:</h2>
-<div class="outline-text-2" id="text-org9fa0c19">
+<div id="outline-container-org240d195" class="outline-2">
+<h2 id="org240d195">Resources:</h2>
+<div class="outline-text-2" id="text-org240d195">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
+</div>
 </div>
 </div>
 </div>

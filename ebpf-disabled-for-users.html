@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-07-28 Tue 04:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Why eBPF for users is disabled in some distributions</title>
@@ -11,62 +11,59 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
+<link rel="stylesheet" href="amber-theme.css">
+<script src="nav-active.js" defer></script>
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Wade Mealings documentation" />
 <meta http-equiv="Content-Security-Policy" content="style-src-elem; img-src https://*; child-src 'none';" />
 </head>
 <body>
-<div id="content" class="content">
+<div id="content" class="content ac-screen ac-bloom">
+<span class="ac-mesh"></span>
+<div class="ac-screen__body">
 <h1 class="title">Why eBPF for users is disabled in some distributions</h1>
-<nav class="navbar-custom">
-    <div class="navbar-container">
-        <div class="navbar-brand">
-            <a href="index.html">Wade Mealing</a>
-        </div>
+<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
+    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
 
-        <div class="navbar-grid">
-            <div class="navbar-section">
-                <a href="systems.html"><h3>Systems</h3></a>
-                <div class="navbar-tags">
-                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
-                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
-                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
-                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="security.html"><h3>Security</h3></a>
-                <div class="navbar-tags">
-                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
-                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
-                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
-                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
-                </div>
-            </div>
-
-            <div class="navbar-section">
-                <a href="tooling.html"><h3>Tooling</h3></a>
-                <div class="navbar-tags">
-                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
-                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
-                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
-                </div>
+    <div class="ac-nav__links">
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="systems.html">Systems</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="systems-erlang.html">Erlang/OTP</a>
+                <a href="systems-clojure.html">Clojure</a>
+                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
+                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
             </div>
         </div>
 
-        <div class="navbar-utility">
-            <a href="rss.xml" class="rss-link">RSS</a>
-            <div class="navbar-avatar">
-                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="security.html">Security</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="security-kernel.html">Linux Kernel Analysis</a>
+                <a href="security-ebpf.html">eBPF</a>
+                <a href="security-malware.html">Malware Reversing</a>
+                <a href="security-rust.html">Rust</a>
+            </div>
+        </div>
+
+        <div class="ac-nav__dropdown">
+            <a class="ac-nav__link" href="tooling.html">Tooling</a>
+            <div class="ac-nav__dropdown-menu">
+                <a href="tooling-emacs.html">Emacs / Elisp</a>
+                <a href="tooling-cicd.html">CI/CD Pipelines</a>
+                <a href="tooling-openscad.html">OpenSCAD</a>
             </div>
         </div>
     </div>
+
+    <div class="ac-nav__meta">
+        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
+    </div>
 </nav>
-<div id="outline-container-org79f1b52" class="outline-2">
-<h2 id="org79f1b52">Table of Contents</h2>
-<div class="outline-text-2" id="text-org79f1b52">
+<div id="outline-container-org4ac6bcb" class="outline-2">
+<h2 id="org4ac6bcb">Table of Contents</h2>
+<div class="outline-text-2" id="text-org4ac6bcb">
 <ul class="org-ul">
 <li>Why eBPF filter operations are privileged in some distributions?</li>
 <li>Why is this effectively limited to root (CAP_SYS_ADMIN) only?</li>
@@ -75,9 +72,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbd896eb" class="outline-2">
-<h2 id="orgbd896eb">Why eBPF filter operations are privileged in some distributions?</h2>
-<div class="outline-text-2" id="text-orgbd896eb">
+<div id="outline-container-org5b30547" class="outline-2">
+<h2 id="org5b30547">Why eBPF filter operations are privileged in some distributions?</h2>
+<div class="outline-text-2" id="text-org5b30547">
 <p>
 eBPF is a mechanism in which local users can tell the Linux kernel to attach pseudocode to tracepoints, kprobes, and perf events in the kernel. This pseudocode is later translated into native instructions and executed. Because of this it is heavily used in performance tuning and benchmarking. As this instrumentation can be carried out without recompiling the kernel, eBPF is very attractive for systems where this could be prohibitive either due to cost, downtime, or complexity.
 </p>
@@ -103,9 +100,9 @@ It provides such checks as:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf6c479d" class="outline-2">
-<h2 id="orgf6c479d">Why is this effectively limited to root (CAP_SYS_ADMIN) only?</h2>
-<div class="outline-text-2" id="text-orgf6c479d">
+<div id="outline-container-org59cc2c2" class="outline-2">
+<h2 id="org59cc2c2">Why is this effectively limited to root (CAP_SYS_ADMIN) only?</h2>
+<div class="outline-text-2" id="text-org59cc2c2">
 <p>
 The decision to limit this syscall to a user with CAP_SYS_ADMIN in the initial namespace was intended to reduce the attack surface available to potential intruders.
 </p>
@@ -123,9 +120,9 @@ Since pseudocode translation and verification is a complex process, error handli
 </p>
 </div>
 </div>
-<div id="outline-container-orgf6a3786" class="outline-2">
-<h2 id="orgf6a3786">How can I give a user access to use eBPF?</h2>
-<div class="outline-text-2" id="text-orgf6a3786">
+<div id="outline-container-org9392f95" class="outline-2">
+<h2 id="org9392f95">How can I give a user access to use eBPF?</h2>
+<div class="outline-text-2" id="text-org9392f95">
 <p>
 One possible workaround is to use setcap(8) to set the CAP_SYS_ADMIN flag on a trusted binary with minimal attack surface that would call the relevant bpf(2) syscall. For more information on the capabilities feature of the kernel check out capabilities(7).
 </p>
@@ -139,12 +136,13 @@ Red Hat Enterprise Linux does not have /proc/sys/kernel/unprivileged_bpf_disable
 </p>
 </div>
 </div>
-<div id="outline-container-orgc4ceb89" class="outline-2">
-<h2 id="orgc4ceb89">Conclusion</h2>
-<div class="outline-text-2" id="text-orgc4ceb89">
+<div id="outline-container-orgc40de8f" class="outline-2">
+<h2 id="orgc40de8f">Conclusion</h2>
+<div class="outline-text-2" id="text-orgc40de8f">
 <p>
 Some Linux distributions, in the future, may ship with the ability to allow users to insert eBPF rules. At this time RHEL and CENTOS has attempted to reduce the risk of eBPF exploitation by limiting access to root and CAP_SYS_ADMIN enabled processes. This trade-off reduces the attack vector on the system at the cost of limiting which users can take advantage of eBPF functionality.
 </p>
+</div>
 </div>
 </div>
 </div>
