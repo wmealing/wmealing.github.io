@@ -1,40 +1,74 @@
 :root {
-  /* 1980s "Sunset Terminal" Design System — from theme-1.jpeg */
-  --color-cream: #F3EEE4;
-  --color-orange: #F0791A;
-  --color-taupe: #A3876F;
-  --color-rust: #8A3B26;
+  /* High-contrast mono: black on white, one accent for links. */
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #F2F2F2;
+  --color-text: #111111;
+  --color-text-muted: #555555;
+  --color-border: #111111;
+  --color-border-muted: #CCCCCC;
+  --color-accent: #0645AD;
 
-  --color-primary: #8A3B26;      /* rust — headings, borders, structure */
-  --color-secondary: #F0791A;    /* orange — accents, highlights, backgrounds */
-  --color-heading-accent: #C8600D; /* deep orange — AA-contrast on light bg, used for large text */
-  --color-bg-light: #FFFDF9;
-  --color-bg-dark: #241A15;
-  --color-text-main: #2A1E17;
-  --color-text-muted: #7A6250;
-  --color-link: #B34A17;
+  --color-primary: var(--color-text);
+  --color-secondary: var(--color-accent);
+  --color-heading-accent: var(--color-text);
+  --color-bg-light: var(--color-bg);
+  --color-bg-dark: var(--color-text);
+  --color-text-main: var(--color-text);
+  --color-link: var(--color-accent);
 
-  --font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  
-  --font-size-base: 16px;
+
+  --font-size-base: 19px;
   --font-size-sm: 0.875rem;
   --font-size-h1: clamp(1.75rem, 1.1rem + 2.6vw, 2.5rem);
   --font-size-h2: 2.25rem;
   --font-size-h3: 1.75rem;
   --font-size-h4: 1.25rem;
-  
+
   --space-unit: 8px;
   --space-xs: calc(var(--space-unit) * 1);
   --space-sm: calc(var(--space-unit) * 2);
   --space-md: calc(var(--space-unit) * 4);
   --space-lg: calc(var(--space-unit) * 8);
-  
-  --radius-btn: 2px;
-  --radius-card: 2px;
-  --shadow: 4px 4px 0 rgba(138, 59, 38, 0.25);
 
-  --max-width: 1000px;
+  --radius-btn: 0px;
+  --radius-card: 0px;
+  --shadow: none;
+
+  --max-width: 1200px;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/AtkinsonHyperlegible-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/AtkinsonHyperlegible-BoldItalic.woff2") format("woff2");
 }
 
 * {
@@ -43,13 +77,13 @@
 
 html {
   font-size: var(--font-size-base);
-  background-color: var(--color-cream);
+  background-color: var(--color-bg);
 }
 
 body {
   font-family: var(--font-family);
-  line-height: 1.5;
-  color: var(--color-text-main);
+  line-height: 1.6;
+  color: var(--color-text);
   margin: 0;
   padding: var(--space-lg);
   padding-top: calc(70px + var(--space-lg)); /* Space for fixed navbar */
@@ -60,10 +94,9 @@ body {
 #content {
   max-width: var(--max-width);
   margin: 0 auto;
-  background: var(--color-bg-light);
+  background: var(--color-bg);
   padding: var(--space-lg);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--color-border);
 }
 
 /* Headers */
@@ -71,34 +104,18 @@ h1, h2, h3, h4 {
   font-weight: 800;
   margin-top: 0;
   margin-bottom: var(--space-sm);
-  color: var(--color-text-main);
+  color: var(--color-text);
   line-height: 1.2;
 }
 
 h1.title {
   position: relative;
-  z-index: 0;
   font-size: var(--font-size-h1);
   line-height: 1.15;
-  color: var(--color-heading-accent);
-  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-text);
+  border-bottom: 3px solid var(--color-border);
   margin-bottom: var(--space-lg);
   padding: var(--space-md) 0;
-}
-
-/* Retro halftone-dot texture, sitting behind the title text */
-h1.title::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    radial-gradient(rgba(138, 59, 38, 0.32) 1.4px, transparent 1.6px);
-  background-size: 10px 10px;
-  background-position: 0 0;
-  mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
-  pointer-events: none;
 }
 
 .subtitle {
@@ -112,7 +129,7 @@ h1.title::before {
 h2 {
   font-size: var(--font-size-h2);
   margin-top: var(--space-lg);
-  border-bottom: 5px double var(--color-taupe);
+  border-bottom: 1px solid var(--color-border-muted);
   padding-bottom: var(--space-xs);
 }
 
@@ -132,10 +149,9 @@ h2 a:hover {
   left: 0;
   width: 100%;
   height: 60px;
-  background: rgba(255, 253, 249, 0.95);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(8px);
-  border-bottom: 3px solid var(--color-primary);
-  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--color-border);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -159,7 +175,7 @@ h2 a:hover {
   font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-heading-accent);
+  color: var(--color-text);
   flex: 0 0 auto;
 }
 
@@ -191,15 +207,14 @@ h2 a:hover {
   color: var(--color-text-muted);
   text-decoration: none;
   padding: 0.25rem 0.5rem;
-  border: 2px solid var(--color-taupe);
-  border-radius: var(--radius-btn);
+  border: 1px solid var(--color-border-muted);
   transition: all 0.2s;
 }
 
 .rss-link:hover {
-  color: var(--color-secondary);
-  border-color: var(--color-secondary);
-  background: rgba(240, 121, 26, 0.08);
+  color: var(--color-text);
+  border-color: var(--color-text);
+  background: var(--color-bg-alt);
 }
 
 .navbar-avatar {
@@ -211,7 +226,7 @@ h2 a:hover {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid var(--color-primary);
+  border: 1px solid var(--color-border);
   display: block;
   transition: transform 0.2s;
 }
@@ -236,7 +251,7 @@ h2 a:hover {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0;
-  color: var(--color-text-main);
+  color: var(--color-text);
   border: none;
   padding: 0 var(--space-sm);
   cursor: pointer;
@@ -244,7 +259,7 @@ h2 a:hover {
 }
 
 .navbar-section:hover h3 {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 /* Dropdown Logic */
@@ -253,15 +268,13 @@ h2 a:hover {
   position: absolute;
   top: 60px;
   left: 0;
-  background: var(--color-bg-light);
+  background: var(--color-bg);
   min-width: 280px;
-  border: 2px solid var(--color-taupe);
+  border: 1px solid var(--color-border);
   border-top: none;
-  box-shadow: var(--shadow);
   padding: var(--space-xs);
   flex-direction: column;
   gap: 2px;
-  border-radius: 0 0 var(--radius-card) var(--radius-card);
 }
 
 .navbar-section:hover .navbar-tags {
@@ -272,8 +285,7 @@ h2 a:hover {
   font-size: var(--font-size-sm);
   padding: 0.6rem 1rem;
   background: transparent !important;
-  border-radius: var(--radius-btn);
-  color: var(--color-text-main) !important;
+  color: var(--color-text) !important;
   border: none !important;
   display: block;
   width: 100%;
@@ -281,20 +293,19 @@ h2 a:hover {
 }
 
 .navbar-tag:hover {
-  background: rgba(163, 135, 111, 0.15) !important;
-  color: var(--color-primary) !important;
+  background: var(--color-bg-alt) !important;
+  color: var(--color-accent) !important;
 }
 
 /* Links */
 a {
-  color: var(--color-link);
+  color: var(--color-accent);
   text-decoration: underline;
-  text-decoration-color: var(--color-orange);
   text-underline-offset: 2px;
 }
 
 a:hover {
-  color: var(--color-secondary);
+  color: var(--color-text);
 }
 
 /* Keyboard focus */
@@ -302,7 +313,7 @@ a:focus-visible,
 .rss-link:focus-visible,
 .navbar-tag:focus-visible,
 .project-box:focus-visible {
-  outline: 3px solid var(--color-orange);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -310,21 +321,20 @@ a:focus-visible,
 pre, code {
   font-family: var(--font-mono);
   font-size: 0.95rem;
-  background: #F7F1E6;
+  background: var(--color-bg-alt);
 }
 
 code {
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
-  border: 1px solid rgba(163, 135, 111, 0.35);
+  border: 1px solid var(--color-border-muted);
 }
 
 pre {
   padding: 1rem;
-  border: 1px solid var(--color-taupe);
+  border: 1px solid var(--color-border);
   overflow-x: auto;
   margin: 1.5rem 0;
-  border-radius: var(--radius-card);
 }
 
 pre code {
@@ -338,17 +348,9 @@ p {
 
 hr {
   border: none;
-  height: 5px;
-  background: var(--color-rust);
+  height: 1px;
+  background: var(--color-border);
   margin: var(--space-lg) 0;
-}
-
-hr::after {
-  content: "";
-  display: block;
-  height: 3px;
-  margin-top: 4px;
-  background: var(--color-orange);
 }
 
 @media (max-width: 768px) {
@@ -372,20 +374,17 @@ hr::after {
   display: block;
   height: 200px;
   position: relative;
-  border-radius: var(--radius-card);
   overflow: hidden;
   text-decoration: none;
-  border: 1px solid var(--color-taupe);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  background-color: var(--color-taupe);
+  border: 1px solid var(--color-border);
+  transition: transform 0.15s ease;
+  background-color: var(--color-bg-alt);
   background-size: cover;
   background-position: center;
-  box-shadow: var(--shadow);
 }
 
 .project-box:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 rgba(138, 59, 38, 0.35);
 }
 
 .project-overlay {
@@ -393,16 +392,15 @@ hr::after {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(138, 59, 38, 0.92); /* rust, using primary color with opacity */
-  color: var(--color-cream);
+  background: rgba(17, 17, 17, 0.92);
+  color: #FFFFFF;
   padding: 12px 16px;
   transition: background 0.3s ease;
-  border-top: 3px solid var(--color-secondary);
+  border-top: 2px solid var(--color-accent);
 }
 
 .project-box:hover .project-overlay {
-  background: rgba(240, 121, 26, 0.95);
-  color: var(--color-text-main);
+  background: rgba(17, 17, 17, 0.98);
 }
 
 .project-title {
