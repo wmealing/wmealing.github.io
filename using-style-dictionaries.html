@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-28 Tue 04:10 -->
+<!-- 2026-04-21 Tue 15:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -11,58 +11,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
-<link rel="stylesheet" href="amber-theme.css">
-<script src="nav-active.js" defer></script>
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="using design tokens from Clojure" />
 </head>
 <body>
-<div id="content" class="content ac-screen ac-bloom">
-<span class="ac-mesh"></span>
-<div class="ac-screen__body">
+<div id="content" class="content">
 <h1 class="title">Using "style-dictionary" from Clojure.</h1>
-<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
-    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-    <div class="ac-nav__links">
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="systems.html">Systems</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="systems-erlang.html">Erlang/OTP</a>
-                <a href="systems-clojure.html">Clojure</a>
-                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
-                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="security.html">Security</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="security-kernel.html">Linux Kernel Analysis</a>
-                <a href="security-ebpf.html">eBPF</a>
-                <a href="security-malware.html">Malware Reversing</a>
-                <a href="security-rust.html">Rust</a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="tooling.html">Tooling</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="tooling-emacs.html">Emacs / Elisp</a>
-                <a href="tooling-cicd.html">CI/CD Pipelines</a>
-                <a href="tooling-openscad.html">OpenSCAD</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ac-nav__meta">
-        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
-<div id="outline-container-orge978970" class="outline-2">
-<h2 id="orge978970">Summary:</h2>
-<div class="outline-text-2" id="text-orge978970">
+<div id="outline-container-org4d07d72" class="outline-2">
+<h2 id="org4d07d72">Summary:</h2>
+<div class="outline-text-2" id="text-org4d07d72">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -70,9 +73,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </p>
 </div>
 </div>
-<div id="outline-container-org4023414" class="outline-2">
-<h2 id="org4023414">Introduction</h2>
-<div class="outline-text-2" id="text-org4023414">
+<div id="outline-container-orgbefeb43" class="outline-2">
+<h2 id="orgbefeb43">Introduction</h2>
+<div class="outline-text-2" id="text-orgbefeb43">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -87,7 +90,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="org8ac3868">
+<pre class="example" id="orgfa06811">
 
 A style dictionary consists of:
 
@@ -116,16 +119,16 @@ explain what the complexities here easily, please drop me a line.
 </p>
 </div>
 </div>
-<div id="outline-container-org49030bf" class="outline-2">
-<h2 id="org49030bf">Getting the 'design tokens' / 'style dictionary'.</h2>
-<div class="outline-text-2" id="text-org49030bf">
+<div id="outline-container-orgc1d5d78" class="outline-2">
+<h2 id="orgc1d5d78">Getting the 'design tokens' / 'style dictionary'.</h2>
+<div class="outline-text-2" id="text-orgc1d5d78">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>$ git clone https://github.com/RedHat-UX/red-hat-design-tokens.git resources/red-hat-design-tokens
-</code></pre>
+<pre class="src src-shell">$ git clone https://github.com/RedHat-UX/red-hat-design-tokens.git resources/red-hat-design-tokens
+</pre>
 </div>
 
 <p>
@@ -135,10 +138,10 @@ about the css style in this example.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>$ cd resources/red-hat-design-tokens
+<pre class="src src-shell">$ cd resources/red-hat-design-tokens
 $ npm install
 $ npm run build
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -155,24 +158,24 @@ The files it generated were created in the ./json
 
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>$ tree
+<pre class="src src-shell">$ tree
 .
 ├── rhds.tokens.flat.json
 └── rhds.tokens.json
 
 1 directory, 2 files
-</code></pre>
+</pre>
 </div>
 </div>
-<div id="outline-container-org4dabfb3" class="outline-3">
-<h3 id="org4dabfb3">Using the token json files.</h3>
-<div class="outline-text-3" id="text-org4dabfb3">
+<div id="outline-container-orge987157" class="outline-3">
+<h3 id="orge987157">Using the token json files.</h3>
+<div class="outline-text-3" id="text-orge987157">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>(ns simple-web-app.theme
+<pre class="src src-clojure">(ns simple-web-app.theme
   (:require [cheshire.core :as json]
             [clojure.java.io :as io]))
 
@@ -185,7 +188,7 @@ Its so easy, I barely think it worth writing a library for it.  Here is how I di
 
 (defn get-style [l]
   (get-in style-dictionary l))
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -205,7 +208,7 @@ You can investigate the 'top level' keys with clojure commands.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>user&gt;  (keys (simple-web-app.theme/get-style []))
+<pre class="src src-clojure">user&gt;  (keys (simple-web-app.theme/get-style []))
 
 (:line-height
  :space
@@ -221,15 +224,15 @@ You can investigate the 'top level' keys with clojure commands.
  :border
  :media)
 
-</code></pre>
+</pre>
 </div>
 
 <p>
-And then query those &hellip;
+And then query those &#x2026;
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>user&gt; (keys (simple-web-app.theme/get-style [:color]))
+<pre class="src src-clojure">user&gt; (keys (simple-web-app.theme/get-style [:color]))
 (:orange
  :$extensions
  :white-hsl
@@ -255,7 +258,7 @@ And then query those &hellip;
  :surface
  :text
  :black)
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -263,8 +266,8 @@ Then look up the :blue..
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>user&gt; (keys (simple-web-app.theme/get-style [:color :blue]))
-</code></pre>
+<pre class="src src-clojure">user&gt; (keys (simple-web-app.theme/get-style [:color :blue]))
+</pre>
 </div>
 
 <p>
@@ -272,9 +275,9 @@ and the "40" variant until you get to a :$value.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>user&gt; (simple-web-app.theme/get-style [:color :blue :40 :$value])
+<pre class="src src-clojure">user&gt; (simple-web-app.theme/get-style [:color :blue :40 :$value])
       "#4394e5"
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -283,7 +286,7 @@ the expectations of font colors, for example
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>user&gt; (simple-web-app.theme/get-style [:color :text :primary :on-light])
+<pre class="src src-clojure">user&gt; (simple-web-app.theme/get-style [:color :text :primary :on-light])
 {:path ["color" "text" "primary" "on-light"],
  :$type "color",
  :isSource true,
@@ -307,7 +310,7 @@ the expectations of font colors, for example
   :hsv {:h 0, :s 0, :v 0.08235294117647059, :a 1},
   :hex "151515"}}
 
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -315,28 +318,27 @@ Along with its 'dark sibling'
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><code>user&gt;  (simple-web-app.theme/get-style [:color :text :primary :on-dark])
+<pre class="src src-clojure">user&gt;  (simple-web-app.theme/get-style [:color :text :primary :on-dark])
 ....
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org1e0989d" class="outline-2">
-<h2 id="org1e0989d">Conclusion</h2>
-<div class="outline-text-2" id="text-org1e0989d">
+<div id="outline-container-org18ea2f0" class="outline-2">
+<h2 id="org18ea2f0">Conclusion</h2>
+<div class="outline-text-2" id="text-org18ea2f0">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
-<div id="outline-container-org2ab010b" class="outline-2">
-<h2 id="org2ab010b">Resources:</h2>
-<div class="outline-text-2" id="text-org2ab010b">
+<div id="outline-container-org8ad11c9" class="outline-2">
+<h2 id="org8ad11c9">Resources:</h2>
+<div class="outline-text-2" id="text-org8ad11c9">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>
-</div>
 </div>
 </div>
 </div>

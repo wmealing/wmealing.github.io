@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-28 Tue 04:08 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 004 - Apr 2026</title>
@@ -11,58 +11,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
-<link rel="stylesheet" href="amber-theme.css">
-<script src="nav-active.js" defer></script>
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Wade Mealings documentation" />
 </head>
 <body>
-<div id="content" class="content ac-screen ac-bloom">
-<span class="ac-mesh"></span>
-<div class="ac-screen__body">
+<div id="content" class="content">
 <h1 class="title">CELLIUM 004 - Apr 2026</h1>
-<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
-    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-    <div class="ac-nav__links">
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="systems.html">Systems</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="systems-erlang.html">Erlang/OTP</a>
-                <a href="systems-clojure.html">Clojure</a>
-                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
-                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="security.html">Security</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="security-kernel.html">Linux Kernel Analysis</a>
-                <a href="security-ebpf.html">eBPF</a>
-                <a href="security-malware.html">Malware Reversing</a>
-                <a href="security-rust.html">Rust</a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="tooling.html">Tooling</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="tooling-emacs.html">Emacs / Elisp</a>
-                <a href="tooling-cicd.html">CI/CD Pipelines</a>
-                <a href="tooling-openscad.html">OpenSCAD</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ac-nav__meta">
-        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
-<div id="outline-container-org1c35de4" class="outline-2">
-<h2 id="org1c35de4">Summary: Docs published annd conversion to a 'library'.</h2>
-<div class="outline-text-2" id="text-org1c35de4">
+<div id="outline-container-orgb891e22" class="outline-2">
+<h2 id="orgb891e22">Summary: Docs published annd conversion to a 'library'.</h2>
+<div class="outline-text-2" id="text-orgb891e22">
 <p>
 I didn't realise, <a href="https://github.com/therealcarloratm">therealcarloratm</a> had lodged an issue on the <a href="https://github.com/wmealing/cellium">cellium</a> git repo asking
 about how to use this project as library. 
@@ -73,10 +76,10 @@ about how to use this project as library.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc3445af" class="outline-2">
-<h2 id="orgc3445af">Introduction</h2>
-<div class="outline-text-2" id="text-orgc3445af">
-<pre class="example" id="orge138676">
+<div id="outline-container-org33d1d7f" class="outline-2">
+<h2 id="org33d1d7f">Introduction</h2>
+<div class="outline-text-2" id="text-org33d1d7f">
+<pre class="example" id="orgfa996f9">
 ===&gt; Dependency failure: source for cellium does not contain a recognizable project and can not be built
 </pre>
 
@@ -95,24 +98,23 @@ This should allow for applications to use this as a library, as therealcarloratm
 </p>
 </div>
 </div>
-<div id="outline-container-orgaa30a3b" class="outline-2">
-<h2 id="orgaa30a3b">Conclusion</h2>
-<div class="outline-text-2" id="text-orgaa30a3b">
+<div id="outline-container-org3310649" class="outline-2">
+<h2 id="org3310649">Conclusion</h2>
+<div class="outline-text-2" id="text-org3310649">
 <p>
 My big takeaway here is to ensure that i dont use umbrella apps for libraries again.
 </p>
 </div>
 </div>
-<div id="outline-container-orge1f8782" class="outline-2">
-<h2 id="orge1f8782">Resources:</h2>
-<div class="outline-text-2" id="text-orge1f8782">
+<div id="outline-container-org195ea82" class="outline-2">
+<h2 id="org195ea82">Resources:</h2>
+<div class="outline-text-2" id="text-org195ea82">
 </div>
-<div id="outline-container-org3ea8207" class="outline-3">
-<h3 id="org3ea8207">Using <a href="https://rebar3.org/docs/commands/">rebar commands</a></h3>
+<div id="outline-container-org96a616f" class="outline-3">
+<h3 id="org96a616f">Using <a href="https://rebar3.org/docs/commands/">rebar commands</a></h3>
 </div>
-<div id="outline-container-org03b74af" class="outline-3">
-<h3 id="org03b74af">The <a href="https://adoptingerlang.org/docs/development/umbrella_projects/">umbrella project</a></h3>
-</div>
+<div id="outline-container-org1f80bdb" class="outline-3">
+<h3 id="org1f80bdb">The <a href="https://adoptingerlang.org/docs/development/umbrella_projects/">umbrella project</a></h3>
 </div>
 </div>
 </div>

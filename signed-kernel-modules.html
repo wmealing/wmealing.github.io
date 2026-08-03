@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-28 Tue 04:09 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
@@ -11,58 +11,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
-<link rel="stylesheet" href="amber-theme.css">
-<script src="nav-active.js" defer></script>
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Wade Mealings documentation" />
 </head>
 <body>
-<div id="content" class="content ac-screen ac-bloom">
-<span class="ac-mesh"></span>
-<div class="ac-screen__body">
+<div id="content" class="content">
 <h1 class="title">Signed kernel modules</h1>
-<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
-    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-    <div class="ac-nav__links">
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="systems.html">Systems</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="systems-erlang.html">Erlang/OTP</a>
-                <a href="systems-clojure.html">Clojure</a>
-                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
-                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="security.html">Security</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="security-kernel.html">Linux Kernel Analysis</a>
-                <a href="security-ebpf.html">eBPF</a>
-                <a href="security-malware.html">Malware Reversing</a>
-                <a href="security-rust.html">Rust</a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="tooling.html">Tooling</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="tooling-emacs.html">Emacs / Elisp</a>
-                <a href="tooling-cicd.html">CI/CD Pipelines</a>
-                <a href="tooling-openscad.html">OpenSCAD</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ac-nav__meta">
-        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
-<div id="outline-container-orgd9c2fd3" class="outline-2">
-<h2 id="orgd9c2fd3">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-orgd9c2fd3">
+<div id="outline-container-org94c4370" class="outline-2">
+<h2 id="org94c4370">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-org94c4370">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -84,9 +87,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </p>
 </div>
 </div>
-<div id="outline-container-org17fa6f2" class="outline-2">
-<h2 id="org17fa6f2">How is it signed ?</h2>
-<div class="outline-text-2" id="text-org17fa6f2">
+<div id="outline-container-org9d5faac" class="outline-2">
+<h2 id="org9d5faac">How is it signed ?</h2>
+<div class="outline-text-2" id="text-org9d5faac">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -101,9 +104,9 @@ find the above string in an uncompressed kernel module.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>$ strings ecryptfs.ko | tail -n 1
+<pre class="src src-shell">$ strings ecryptfs.ko | tail -n 1
 ~Module signature appended~
-</code></pre>
+</pre>
 </div>
 
 
@@ -121,10 +124,10 @@ options.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>$ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
+<pre class="src src-shell">$ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
 | sort| uniq
 CONFIG_MODULE_SIG_HASH="sha256"
-</code></pre>
+</pre>
 </div>
 
 
@@ -138,13 +141,13 @@ signatures.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfc5d238" class="outline-2">
-<h2 id="orgfc5d238">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-orgfc5d238">
+<div id="outline-container-org37557c8" class="outline-2">
+<h2 id="org37557c8">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org37557c8">
 </div>
-<div id="outline-container-orgf0c3b33" class="outline-3">
-<h3 id="orgf0c3b33">Module location</h3>
-<div class="outline-text-3" id="text-orgf0c3b33">
+<div id="outline-container-orge004899" class="outline-3">
+<h3 id="orge004899">Module location</h3>
+<div class="outline-text-3" id="text-orge004899">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -159,9 +162,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </p>
 </div>
 </div>
-<div id="outline-container-org29f31bb" class="outline-3">
-<h3 id="org29f31bb">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-org29f31bb">
+<div id="outline-container-orgde670a6" class="outline-3">
+<h3 id="orgde670a6">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-orgde670a6">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -181,19 +184,19 @@ depmod to locate the relevant module to meet the kernels request.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb634d4c" class="outline-3">
-<h3 id="orgb634d4c">The signature</h3>
-<div class="outline-text-3" id="text-orgb634d4c">
+<div id="outline-container-orgd91b606" class="outline-3">
+<h3 id="orgd91b606">The signature</h3>
+<div class="outline-text-3" id="text-orgd91b606">
 </div>
-<div id="outline-container-orgea5f76d" class="outline-4">
-<h4 id="orgea5f76d">Signature metadata.</h4>
-<div class="outline-text-4" id="text-orgea5f76d">
+<div id="outline-container-org257ca2f" class="outline-4">
+<h4 id="org257ca2f">Signature metadata.</h4>
+<div class="outline-text-4" id="text-org257ca2f">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code># modinfo mwifiex.ko.xz
+<pre class="src src-shell"># modinfo mwifiex.ko.xz
 filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
 license:        GPL v2
 version:        1.0
@@ -230,7 +233,7 @@ AC:FB:D5:38:A4:E7:38:72:08:4B:1F:7C:5E:47:78:28:C4:FE:DB:70:
 AC:6B:CA:35:FF:E1:A9:65:02:18:15:00:AC:68:8F:96:03:0B:CB:CB:
 A4:5E:FC:24
 parm:           reg_alpha2:charp
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -238,7 +241,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="org3ddeb9d">
+<pre class="example" id="org99f10ae">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -348,9 +351,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 </div>
-<div id="outline-container-org41d109f" class="outline-2">
-<h2 id="org41d109f">Source</h2>
-<div class="outline-text-2" id="text-org41d109f">
+<div id="outline-container-orgcab85c6" class="outline-2">
+<h2 id="orgcab85c6">Source</h2>
+<div class="outline-text-2" id="text-orgcab85c6">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -371,7 +374,7 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="org87d1f5a">
+<pre class="example" id="orgab91887">
 init_module() 
  -&gt; load_module() 
   -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
@@ -387,7 +390,7 @@ seem to match the actual code), this is changed in later versions.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><code>mod_verify_sig() {
+<pre class="src src-C">mod_verify_sig() {
 
         /*
       * Check signature using built-in trusted keys and, if configured,
@@ -413,7 +416,7 @@ seem to match the actual code), this is changed in later versions.
 
 
 }
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -432,8 +435,8 @@ Listing the primary keys:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code># keyctl list %:.builtin_trusted_keys 
-</code></pre>
+<pre class="src src-shell"># keyctl list %:.builtin_trusted_keys 
+</pre>
 </div>
 
 <p>
@@ -452,7 +455,7 @@ This is on the decided in module\_sig\_check:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><code>static int module_sig_check(struct load_info *info, int flags) {
+<pre class="src src-C">static int module_sig_check(struct load_info *info, int flags) {
 
   err = mod_verify_sig(mod, info);
 
@@ -485,7 +488,7 @@ This is on the decided in module\_sig\_check:
 
   }
 }  
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -530,7 +533,7 @@ Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
 </p>
 
-<pre class="example" id="orgb877330">
+<pre class="example" id="org983db3c">
 
 [ req ]
 default_bits = 4096
@@ -560,8 +563,8 @@ be used to sign the kernel module and also enrolled in the systems "MOK" keychai
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><code># openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
-</code></pre>
+<pre class="src src-C"># openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
+</pre>
 </div>
 
 <p>
@@ -570,8 +573,8 @@ private\_key.priv.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><code># mokutil --import public_key.der
-</code></pre>
+<pre class="src src-C"># mokutil --import public_key.der
+</pre>
 </div>
 
 <p>
@@ -600,7 +603,7 @@ For example the "Wades own very special kmod v01" singing key:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code># keyctl list %:.system_keyring
+<pre class="src src-shell"># keyctl list %:.system_keyring
 6 keys in keyring:
 ...asymmetric: Red Hat Enterprise Linux Driver Update Program (key 3): bf57f3e87...
 
@@ -610,7 +613,7 @@ For example the "Wades own very special kmod v01" singing key:
 ...asymmetric: Red Hat Enterprise Linux kernel signing key: 4249689eefc77e95880b...
 ...asymmetric: Red Hat Enterprise Linux kpatch signing key: 4d38fd864ebe18c5f0b7...
 ...asymmetric: Wades own very special kmod v01 signing key: c4ae92e16da94228cd9e...
-</code></pre>
+</pre>
 </div>
 
 
@@ -622,8 +625,8 @@ tree' built kernel modules.  An example of singing my\_module
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
-</code></pre>
+<pre class="src src-shell">perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
+</pre>
 </div>
 
 <p>
@@ -638,9 +641,9 @@ practices for public/private keys.
 </p>
 </div>
 </div>
-<div id="outline-container-org6c20c8d" class="outline-2">
-<h2 id="org6c20c8d">Additional Resources:</h2>
-<div class="outline-text-2" id="text-org6c20c8d">
+<div id="outline-container-orgf712b5a" class="outline-2">
+<h2 id="orgf712b5a">Additional Resources:</h2>
+<div class="outline-text-2" id="text-orgf712b5a">
 <p>
 <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Red Hat Guide for secure boot</a>
 </p>
@@ -656,7 +659,6 @@ practices for public/private keys.
 <p>
 <a href="https://lore.kernel.org/patchwork/patch/665795/">Secondary trusted keyring ( SECONDARY_TRUSTED_KEYRING )</a>
 </p>
-</div>
 </div>
 </div>
 </div>

@@ -67,13 +67,4 @@ for SUB in emacs cicd openscad git janet; do
     generate_index "$SUB" "tooling-${SUB}" "Subcategory: $CAP_SUB"
 done
 
-# 3. Wrap every exported page's #content in the AmberConsole ac-screen frame
-# (bloom-only — no CRT, no afterglow). apply-amber-frame.py is idempotent, so
-# this is safe to run even over pages process.sh also touches.
-echo "Applying AmberConsole frame..."
-for f in *.org; do
-    b="${f%.org}"
-    [ -f "$b.html" ] && echo "$b.html"
-done | xargs python3 scripts/apply-amber-frame.py
-
 echo "Category and subcategory generation complete."

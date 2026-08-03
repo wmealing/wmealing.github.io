@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-28 Tue 04:08 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 002 - focus</title>
@@ -11,73 +11,76 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
-<link rel="stylesheet" href="amber-theme.css">
-<script src="nav-active.js" defer></script>
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Introduction to cellium concepts" />
 </head>
 <body>
-<div id="content" class="content ac-screen ac-bloom">
-<span class="ac-mesh"></span>
-<div class="ac-screen__body">
+<div id="content" class="content">
 <h1 class="title">CELLIUM 002 - focus</h1>
-<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
-    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-    <div class="ac-nav__links">
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="systems.html">Systems</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="systems-erlang.html">Erlang/OTP</a>
-                <a href="systems-clojure.html">Clojure</a>
-                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
-                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="security.html">Security</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="security-kernel.html">Linux Kernel Analysis</a>
-                <a href="security-ebpf.html">eBPF</a>
-                <a href="security-malware.html">Malware Reversing</a>
-                <a href="security-rust.html">Rust</a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="tooling.html">Tooling</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="tooling-emacs.html">Emacs / Elisp</a>
-                <a href="tooling-cicd.html">CI/CD Pipelines</a>
-                <a href="tooling-openscad.html">OpenSCAD</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ac-nav__meta">
-        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
-<div id="outline-container-org3061f6a" class="outline-2">
-<h2 id="org3061f6a">Summary</h2>
-<div class="outline-text-2" id="text-org3061f6a">
+<div id="outline-container-org53e3829" class="outline-2">
+<h2 id="org53e3829">Summary</h2>
+<div class="outline-text-2" id="text-org53e3829">
 <p>
 I started building <a href="https://github.com/wmealing/cellium">Cellium</a>, an Erlang <b><b>Text-User Interface (TUI)</b></b> library, to simplify creating basic user interfaces for my Erlang tooling. This article details the concept and implementation of <b><b>widget focus</b></b> within Cellium.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd3c5189" class="outline-2">
-<h2 id="orgd3c5189">Core Focus Concept</h2>
-<div class="outline-text-2" id="text-orgd3c5189">
+<div id="outline-container-orgd5204e1" class="outline-2">
+<h2 id="orgd5204e1">Core Focus Concept</h2>
+<div class="outline-text-2" id="text-orgd5204e1">
 <p>
 Widget focus is a standard design pattern in TUI and GUI development. It designates the currently active or target interactive <b><b>widget</b></b>, which must be distinguishable via a visual indicator.
 </p>
 </div>
-<div id="outline-container-orgd6ecbf3" class="outline-3">
-<h3 id="orgd6ecbf3">Visual Indication Examples:</h3>
-<div class="outline-text-3" id="text-orgd6ecbf3">
+<div id="outline-container-orgd9cc14b" class="outline-3">
+<h3 id="orgd9cc14b">Visual Indication Examples:</h3>
+<div class="outline-text-3" id="text-orgd9cc14b">
 <p>
 Different widgets will have different ways of displaying they have 'focus'.
 </p>
@@ -91,9 +94,9 @@ Different widgets will have different ways of displaying they have 'focus'.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf57e9de" class="outline-3">
-<h3 id="orgf57e9de">Navigation</h3>
-<div class="outline-text-3" id="text-orgf57e9de">
+<div id="outline-container-org534ecfc" class="outline-3">
+<h3 id="org534ecfc">Navigation</h3>
+<div class="outline-text-3" id="text-org534ecfc">
 <p>
 Users typically navigate between focusable elements using standard key bindings:
 </p>
@@ -109,9 +112,9 @@ A navigation aid is sometimes in the 'footer (or status bar)' of the terminal, b
 </div>
 </div>
 </div>
-<div id="outline-container-orgade3930" class="outline-2">
-<h2 id="orgade3930">Focus Management Implementation</h2>
-<div class="outline-text-2" id="text-orgade3930">
+<div id="outline-container-orgeeb01a9" class="outline-2">
+<h2 id="orgeeb01a9">Focus Management Implementation</h2>
+<div class="outline-text-2" id="text-orgeeb01a9">
 <p>
 Cellium provides an <b><b>optional, built-in default focus handler</b></b> to improve the developer experience (DX).
 </p>
@@ -125,14 +128,14 @@ To disable the automatic focus handler, set `auto_focus` to `false` when startin
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>start() -&gt;
+<pre class="src src-erlang">start() -&gt;
     cellium:start(#{module=&gt;?MODULE, auto_focus =&gt; false }).
-</code></pre>
+</pre>
 </div>
 </div>
-<div id="outline-container-orgbb1ef69" class="outline-3">
-<h3 id="orgbb1ef69">Registering Focusable Widgets</h3>
-<div class="outline-text-3" id="text-orgbb1ef69">
+<div id="outline-container-org855fb3e" class="outline-3">
+<h3 id="org855fb3e">Registering Focusable Widgets</h3>
+<div class="outline-text-3" id="text-org855fb3e">
 <p>
 The <b><b>`focus_manager`</b></b> gen server tracks the list of focusable widgets, the current focus, and handles focus changes.
 </p>
@@ -142,8 +145,8 @@ You must explicitly register a widget to include it in the focus chain using its
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>focus_manager:register_widget(WidgetID).
-</code></pre>
+<pre class="src src-erlang">focus_manager:register_widget(WidgetID).
+</pre>
 </div>
 
 <p>
@@ -151,17 +154,17 @@ You must explicitly register a widget to include it in the focus chain using its
 </p>
 </div>
 </div>
-<div id="outline-container-orgbdaa6ea" class="outline-3">
-<h3 id="orgbdaa6ea">Navigation Functions</h3>
-<div class="outline-text-3" id="text-orgbdaa6ea">
+<div id="outline-container-org7717579" class="outline-3">
+<h3 id="org7717579">Navigation Functions</h3>
+<div class="outline-text-3" id="text-org7717579">
 <p>
 With `auto_focus` enabled, Cellium automatically translates Tab and Shift + Tab key presses into calls to:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>focus_manager:move_focus_forward()
+<pre class="src src-erlang">focus_manager:move_focus_forward()
 focus_manager:move_focus_backward()
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -169,60 +172,60 @@ You can also set focus explicitly:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>ok = focus_manager:set_focused(WidgetID)
-</code></pre>
+<pre class="src src-erlang">ok = focus_manager:set_focused(WidgetID)
+</pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org1eb4fce" class="outline-2">
-<h2 id="org1eb4fce">Widget Rendering and Focus State</h2>
-<div class="outline-text-2" id="text-org1eb4fce">
+<div id="outline-container-org8c59903" class="outline-2">
+<h2 id="org8c59903">Widget Rendering and Focus State</h2>
+<div class="outline-text-2" id="text-org8c59903">
 <p>
 To render a widget based on its focus state, you can query the <code>focus_manager</code> within your <code>render</code> function.
 </p>
 </div>
-<div id="outline-container-orgf71a13a" class="outline-3">
-<h3 id="orgf71a13a">Retrieving the Focused Widget</h3>
-<div class="outline-text-3" id="text-orgf71a13a">
+<div id="outline-container-orgc464f3a" class="outline-3">
+<h3 id="orgc464f3a">Retrieving the Focused Widget</h3>
+<div class="outline-text-3" id="text-orgc464f3a">
 <p>
 Use <code>get_focused/0</code> to find the identifier of the currently focused widget:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>{ok, NewFocused} = focus_manager:get_focused().
-</code></pre>
+<pre class="src src-erlang">{ok, NewFocused} = focus_manager:get_focused().
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org758c39c" class="outline-3">
-<h3 id="org758c39c">Checking Focusability</h3>
-<div class="outline-text-3" id="text-org758c39c">
+<div id="outline-container-orgabbae6a" class="outline-3">
+<h3 id="orgabbae6a">Checking Focusability</h3>
+<div class="outline-text-3" id="text-orgabbae6a">
 <p>
 Use <code>can_focus/1</code> to check if a widget is focusable:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>Focusable = focus_manager:can_focus(WidgetID)
-</code></pre>
+<pre class="src src-erlang">Focusable = focus_manager:can_focus(WidgetID)
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org137aaf5" class="outline-3">
-<h3 id="org137aaf5">Setting the focus visual indication</h3>
-<div class="outline-text-3" id="text-org137aaf5">
+<div id="outline-container-org7f0cd44" class="outline-3">
+<h3 id="org7f0cd44">Setting the focus visual indication</h3>
+<div class="outline-text-3" id="text-org7f0cd44">
 <p>
 Widgets that have 'focus' should appear different. For example boxes typically changes their
 border style (e.g., from single to double lines).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><code>| Not Focused | Focused    |
+<pre class="src src-shell">| Not Focused | Focused    |
 | ┌────────┐  | ╔════════╗ |
 | │        │  | ║        ║ |
 | │        │  | ║        ║ |
 | └────────┘  | ╚════════╝ |
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -234,16 +237,16 @@ The helper function, <b>view:maybe_set_focus(Widget)</b>, automatically checks t
 <code>has_focus</code> attribute if the widget is focused.
 </p>
 </div>
-<div id="outline-container-orgf1b8f85" class="outline-4">
-<h4 id="orgf1b8f85">Using the Focus Helper</h4>
-<div class="outline-text-4" id="text-orgf1b8f85">
+<div id="outline-container-org6edde46" class="outline-4">
+<h4 id="org6edde46">Using the Focus Helper</h4>
+<div class="outline-text-4" id="text-org6edde46">
 <p>
 By wrapping the widget in the <code>view:maybe_set_focus</code> function, it will query the <code>focus_manager</code> and set the has_focus attribute
 value if the widget has focus.  This function returns a widget map with the focus attribute set appropriately.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>render(Model) -&gt;
+<pre class="src src-erlang">render(Model) -&gt;
     #{type =&gt; container,
       id =&gt; main_container,
       orientation =&gt; vertical,
@@ -253,13 +256,13 @@ value if the widget has focus.  This function returns a widget map with the focu
                                   id =&gt; first_name } )
       ]
     }.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb36fd6f" class="outline-4">
-<h4 id="orgb36fd6f">Manual Setting of Focus (Direct Attribute Manipulation)</h4>
-<div class="outline-text-4" id="text-orgb36fd6f">
+<div id="outline-container-org8d6b772" class="outline-4">
+<h4 id="org8d6b772">Manual Setting of Focus (Direct Attribute Manipulation)</h4>
+<div class="outline-text-4" id="text-org8d6b772">
 <p>
 It is still possible to manually set the <code>has_focus</code> attribute of a widget, which will render the widget
 as if it had focused, however setting this value <b><b>does not</b></b> inform the <code>focus_manager</code> that this widget is
@@ -267,7 +270,7 @@ now the active focus.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>render(Model) -&gt;
+<pre class="src src-erlang">render(Model) -&gt;
     #{type =&gt; container,
       id =&gt; main_container,
       orientation =&gt; vertical,
@@ -278,7 +281,7 @@ now the active focus.
             id =&gt; first_name }
       ]
     }.
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -288,17 +291,17 @@ Changes to 'what has focus' should be done in the <code>update/2</code> function
 </div>
 </div>
 </div>
-<div id="outline-container-orga00b864" class="outline-2">
-<h2 id="orga00b864">Demo</h2>
-<div class="outline-text-2" id="text-orga00b864">
+<div id="outline-container-org9c63a0c" class="outline-2">
+<h2 id="org9c63a0c">Demo</h2>
+<div class="outline-text-2" id="text-org9c63a0c">
 <p>
 
 </p>
 </div>
 </div>
-<div id="outline-container-org90cdbae" class="outline-2">
-<h2 id="org90cdbae">Conclusion</h2>
-<div class="outline-text-2" id="text-org90cdbae">
+<div id="outline-container-orge754b2e" class="outline-2">
+<h2 id="orge754b2e">Conclusion</h2>
+<div class="outline-text-2" id="text-orge754b2e">
 <p>
 While not every TUI application will need focus management, having it there should save developers from having
 to write their own.  This same <code>has_focus</code> attribute should be added if you write custom widgets that could accept
@@ -306,9 +309,9 @@ focus.
 </p>
 </div>
 </div>
-<div id="outline-container-org257d084" class="outline-2">
-<h2 id="org257d084">Resources:</h2>
-<div class="outline-text-2" id="text-org257d084">
+<div id="outline-container-org5e4013c" class="outline-2">
+<h2 id="org5e4013c">Resources:</h2>
+<div class="outline-text-2" id="text-org5e4013c">
 <ul class="org-ul">
 <li><p>
 <b><b>TUI/GUI Design Patterns:</b></b>
@@ -325,7 +328,6 @@ The Elm Architecture (TEA).</li>
 <li>Move the cursor on the interface:
 <a href="https://github.com/ndreynolds/ratatouille/issues/34">https://github.com/ndreynolds/ratatouille/issues/34</a></li>
 </ul>
-</div>
 </div>
 </div>
 </div>

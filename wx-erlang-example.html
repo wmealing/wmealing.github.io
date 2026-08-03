@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-28 Tue 04:10 -->
+<!-- 2026-04-21 Tue 15:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WXerlang simple example</title>
@@ -11,53 +11,56 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
-<link rel="stylesheet" href="amber-theme.css">
-<script src="nav-active.js" defer></script>
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Erlang, TUI, Oldschool code" />
 </head>
 <body>
-<div id="content" class="content ac-screen ac-bloom">
-<span class="ac-mesh"></span>
-<div class="ac-screen__body">
+<div id="content" class="content">
 <h1 class="title">WXerlang simple example</h1>
-<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
-    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-    <div class="ac-nav__links">
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="systems.html">Systems</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="systems-erlang.html">Erlang/OTP</a>
-                <a href="systems-clojure.html">Clojure</a>
-                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
-                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="security.html">Security</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="security-kernel.html">Linux Kernel Analysis</a>
-                <a href="security-ebpf.html">eBPF</a>
-                <a href="security-malware.html">Malware Reversing</a>
-                <a href="security-rust.html">Rust</a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="tooling.html">Tooling</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="tooling-emacs.html">Emacs / Elisp</a>
-                <a href="tooling-cicd.html">CI/CD Pipelines</a>
-                <a href="tooling-openscad.html">OpenSCAD</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ac-nav__meta">
-        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
 <p>
@@ -74,19 +77,19 @@ The app we’ll build looks like this:
 </p>
 
 
-<div id="org31be97a" class="figure">
+<div id="orgf54861d" class="figure">
 <p><img src="./images/screenshot-simple-application-1.png" alt="simple-gui-app image" title="Action!" align="centre" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Screenshot from application.</p>
 </div>
-<div id="outline-container-org99d3c22" class="outline-2">
-<h2 id="org99d3c22">Creating a new applications.</h2>
-<div class="outline-text-2" id="text-org99d3c22">
+<div id="outline-container-orgfca45a7" class="outline-2">
+<h2 id="orgfca45a7">Creating a new applications.</h2>
+<div class="outline-text-2" id="text-orgfca45a7">
 <p>
 Let’s create a new application using rebar3, I like rebar and it seems to do things that I expect.  Issue the command:
 </p>
 
-<pre class="example" id="org174c353">
+<pre class="example" id="orgc96c26e">
 $ rebar3 new app name="wx_simple"
 ===&gt; Writing wx_simple/src/wx_simple_app.erl
 ===&gt; Writing wx_simple/src/wx_simple_sup.erl
@@ -102,9 +105,9 @@ This creates the 'app' file and the a basic supervisor, there is nothing wx spec
 is to draw a window. Now that the  "App" is created along with a simple supervisor, lets make the GUI.
 </p>
 </div>
-<div id="outline-container-org9a4efea" class="outline-3">
-<h3 id="org9a4efea">Basics: Drawing a window.</h3>
-<div class="outline-text-3" id="text-org9a4efea">
+<div id="outline-container-orgf790637" class="outline-3">
+<h3 id="orgf790637">Basics: Drawing a window.</h3>
+<div class="outline-text-3" id="text-orgf790637">
 <p>
 I like my apps to fit "nicely" into the OTP style behavior, so lets make a new
 file called wx_server.erl in wx_simple/src directory.
@@ -120,7 +123,7 @@ nothing else.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>-module(wx_server).
+<pre class="src src-erlang">-module(wx_server).
 
 -include_lib("wx/include/wx.hrl").
 
@@ -177,7 +180,7 @@ terminate(_Reason, State) -&gt;
     wx:destroy().
 
 %%%%%%%%%%%%%%%%% Internals %%%%%%%%%%
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -186,13 +189,13 @@ to include the reference to the wx_server and its start function.  See the examp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>
+<pre class="src src-erlang">
 ChildSpecs = [
               #{id =&gt; wx_server,
                 start =&gt; {wx_server, start_link, []},
                 shutdown =&gt; brutal_kill}],
 
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -200,7 +203,7 @@ And finally, start the application in the rebar3 shell repl.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><code>$ rebar3 shell
+<pre class="src src-sh">$ rebar3 shell
 ===&gt; Verifying dependencies...
 ===&gt; Analyzing applications...
 ===&gt; Compiling wx_simple
@@ -208,7 +211,7 @@ Erlang/OTP 24 [erts-12.3.2.1] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-thr
 
 Eshell V12.3.2.1  (abort with ^G)
 1&gt; ===&gt; Booted wx_simple
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -217,9 +220,9 @@ the close button (exactly how depends on which operating system you are running)
 </p>
 </div>
 </div>
-<div id="outline-container-orga1454e6" class="outline-3">
-<h3 id="orga1454e6">Adding a button (wxButton)</h3>
-<div class="outline-text-3" id="text-orga1454e6">
+<div id="outline-container-org83b47bd" class="outline-3">
+<h3 id="org83b47bd">Adding a button (wxButton)</h3>
+<div class="outline-text-3" id="text-org83b47bd">
 <p>
 Our next step is to add a button, because everyone loves buttons.
 </p>
@@ -233,9 +236,9 @@ As explained in the <a href="https://www.erlang.org/doc/man/wxbutton">Docs on wx
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>Button = wxButton:new(Frame, ?wxID_ANY, [{label, "Start"},
+<pre class="src src-erlang">Button = wxButton:new(Frame, ?wxID_ANY, [{label, "Start"},
                                          {size, {150, 50}}]),
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -261,16 +264,16 @@ This button has a label and size tuples in the Options list.
 </p>
 </div>
 </div>
-<div id="outline-container-org0f24c83" class="outline-3">
-<h3 id="org0f24c83">Adding editable text label ( wxTextCtrl )</h3>
-<div class="outline-text-3" id="text-org0f24c83">
+<div id="outline-container-orgf015220" class="outline-3">
+<h3 id="orgf015220">Adding editable text label ( wxTextCtrl )</h3>
+<div class="outline-text-3" id="text-orgf015220">
 <p>
 We’ll add text to our frame using a wxTextCtrl. As per <a href="https://www.erlang.org/doc/man/wxtextctrl">the docs:</a>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>TextCtrl = wxTextCtrl:new(Frame, ?wxID_ANY, [ {value, "I am error."}]).
-</code></pre>
+<pre class="src src-erlang">TextCtrl = wxTextCtrl:new(Frame, ?wxID_ANY, [ {value, "I am error."}]).
+</pre>
 </div>
 
 <p>
@@ -280,8 +283,8 @@ or location, etc.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>wxButton:connect(Button, command_button_clicked, [Options]
-</code></pre>
+<pre class="src src-erlang">wxButton:connect(Button, command_button_clicked, [Options]
+</pre>
 </div>
 
 <p>
@@ -290,14 +293,14 @@ it via an inline callback in the "Options"
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>wxButton:connect(Button,
+<pre class="src src-erlang">wxButton:connect(Button,
                  command_button_clicked,
                  [{callback,
                    fun(Evt, Obj) -&gt;
                            wxButton:setLabel(Button, "clicked.."),
                            wxButton:disable(Button)
                    end}]),
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -306,9 +309,9 @@ effectively disable its use.
 </p>
 </div>
 </div>
-<div id="outline-container-org1991750" class="outline-3">
-<h3 id="org1991750">Improvement.</h3>
-<div class="outline-text-3" id="text-org1991750">
+<div id="outline-container-org0c0c6b1" class="outline-3">
+<h3 id="org0c0c6b1">Improvement.</h3>
+<div class="outline-text-3" id="text-org0c0c6b1">
 <p>
 Not being happy with just laying out buttons, lets take it up a notch.  We're going to
 use a "sizer", specifically the wxBoxSizer, which is a container ainer that organizes child widgets into a single row
@@ -316,8 +319,8 @@ or column, depending on its configured orientation.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>MainSizer = wxBoxSizer:new(?wxVERTICAL),
-</code></pre>
+<pre class="src src-erlang">MainSizer = wxBoxSizer:new(?wxVERTICAL),
+</pre>
 </div>
 
 <p>
@@ -330,9 +333,9 @@ configure additional layout properties of the widgets themselves.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>wxBoxSizer:add(MainSizer, TextCtrl,  [{flag, ?wxALL}, {border, 5}]),
+<pre class="src src-erlang">wxBoxSizer:add(MainSizer, TextCtrl,  [{flag, ?wxALL}, {border, 5}]),
 wxBoxSizer:add(MainSizer, Button,    [{flag, ?wxALL}, {border, 5}]),
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -345,8 +348,8 @@ The function signature from wxSizer, looks a bit odd.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>wxSizer:add(This, Window, [Option])
-</code></pre>
+<pre class="src src-erlang">wxSizer:add(This, Window, [Option])
+</pre>
 </div>
 
 <p>
@@ -358,10 +361,10 @@ the <a href="https://www.erlang.org/doc/man/wxsizer#add-3">docs of add/3.</a>
 This = wxSizer()<br />
 Window = wxWindow:wxWindow() | wxSizer:wxSizer()<br />
 Option =<br />
-&nbsp;&nbsp;&nbsp;&nbsp;{proportion, integer()} |<br />
-&nbsp;&nbsp;&nbsp;&nbsp;{flag, integer()} |<br />
-&nbsp;&nbsp;&nbsp;&nbsp;{border, integer()} |<br />
-&nbsp;&nbsp;&nbsp;&nbsp;{userData, wx:wx_object()}<br />
+&#xa0;&#xa0;&#xa0;&#xa0;{proportion, integer()} |<br />
+&#xa0;&#xa0;&#xa0;&#xa0;{flag, integer()} |<br />
+&#xa0;&#xa0;&#xa0;&#xa0;{border, integer()} |<br />
+&#xa0;&#xa0;&#xa0;&#xa0;{userData, wx:wx_object()}<br />
 </p>
 
 <p>
@@ -384,8 +387,8 @@ After that, now we can configure the main "Frame" to use this newly created Size
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang"><code>wxWindow:setSizer(Frame, MainSizer),
-</code></pre>
+<pre class="src src-erlang">wxWindow:setSizer(Frame, MainSizer),
+</pre>
 </div>
 
 <p>
@@ -403,15 +406,14 @@ I don't always "whoop", but when I do, there it is.
 </div>
 </div>
 </div>
-<div id="outline-container-orga52c83d" class="outline-2">
-<h2 id="orga52c83d">Resources:</h2>
-<div class="outline-text-2" id="text-orga52c83d">
+<div id="outline-container-orgef944b2" class="outline-2">
+<h2 id="orgef944b2">Resources:</h2>
+<div class="outline-text-2" id="text-orgef944b2">
 <ul class="org-ul">
 <li>Idea blatently taken from <a href="https://hidnasio.github.io//elixir/wxerlang/2022/06/29/advance-wx-erlang-hello-world.html">Hello world in elixir.</a></li>
 <li><a href="https://www.erlang.org/doc/man/wx.html">wx erlang man/docs</a></li>
 <li>TODO: provide a link to github for this.</li>
 </ul>
-</div>
 </div>
 </div>
 </div>

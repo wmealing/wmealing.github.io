@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-28 Tue 04:09 -->
+<!-- 2026-04-21 Tue 15:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Getting firmware from teenage engineering.</title>
@@ -11,66 +11,69 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
-<link rel="stylesheet" href="amber-console/dist/amber-console.site.min.css">
-<link rel="stylesheet" href="amber-theme.css">
-<script src="nav-active.js" defer></script>
+<link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="EP-133 teenage engineering firmware " />
 </head>
 <body>
-<div id="content" class="content ac-screen ac-bloom">
-<span class="ac-mesh"></span>
-<div class="ac-screen__body">
+<div id="content" class="content">
 <h1 class="title">Getting firmware from teenage engineering.</h1>
-<nav class="ac-nav ac-nav--sticky" aria-label="Primary">
-    <a class="ac-nav__mark" href="index.html">Wade Mealing</a>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
 
-    <div class="ac-nav__links">
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="systems.html">Systems</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="systems-erlang.html">Erlang/OTP</a>
-                <a href="systems-clojure.html">Clojure</a>
-                <a href="systems-lfe.html">Lisp Flavored Erlang</a>
-                <a href="systems-cellium.html">Cellium (TUI Framework)</a>
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
             </div>
         </div>
 
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="security.html">Security</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="security-kernel.html">Linux Kernel Analysis</a>
-                <a href="security-ebpf.html">eBPF</a>
-                <a href="security-malware.html">Malware Reversing</a>
-                <a href="security-rust.html">Rust</a>
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
             </div>
         </div>
-
-        <div class="ac-nav__dropdown">
-            <a class="ac-nav__link" href="tooling.html">Tooling</a>
-            <div class="ac-nav__dropdown-menu">
-                <a href="tooling-emacs.html">Emacs / Elisp</a>
-                <a href="tooling-cicd.html">CI/CD Pipelines</a>
-                <a href="tooling-openscad.html">OpenSCAD</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ac-nav__meta">
-        <a class="ac-nav__link" href="rss.xml">RSS ▤</a>
     </div>
 </nav>
-<div id="outline-container-orgeadf6a2" class="outline-2">
-<h2 id="orgeadf6a2">Summary:</h2>
-<div class="outline-text-2" id="text-orgeadf6a2">
+<div id="outline-container-org03cf253" class="outline-2">
+<h2 id="org03cf253">Summary:</h2>
+<div class="outline-text-2" id="text-org03cf253">
 <p>
 A nobody like me, getting firmware from teenage engineerings website.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdc415b4" class="outline-2">
-<h2 id="orgdc415b4">Introduction</h2>
-<div class="outline-text-2" id="text-orgdc415b4">
+<div id="outline-container-orgbcf4d6a" class="outline-2">
+<h2 id="orgbcf4d6a">Introduction</h2>
+<div class="outline-text-2" id="text-orgbcf4d6a">
 <p>
 Teenage engineering direct people to their website updater <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a>
 which can update a number of Teenage Engineering devices.
@@ -82,7 +85,7 @@ I fire up developer tools and go to the network table, while loading the page:
 </p>
 
 
-<div id="org953b389" class="figure">
+<div id="orgfcee1e8" class="figure">
 <p><img src="images/te-download-1.png" alt="te-download-1.png" width="800px" />
 </p>
 </div>
@@ -103,7 +106,7 @@ of twisted obfustication process to minimise the js.
 If i download the js, its not the entire file:
 </p>
 
-<pre class="example" id="org401fd48">
+<pre class="example" id="org347d760">
 ()=&gt;{var Mp=Object.create;var Uo=Object.defineProperty;var Np=Object.getOwnPropertyDescriptor;var
 Op=Object.getOwnPropertyNames;var Lp=Object.getPrototypeOf,zp=Object.prototype.hasOwnProperty;var
 pr=(e,t)=&gt;()=&gt;(t||e((t={exports:{}}).exports,t),t.exports),Tu=(e,t)=&gt;{for(var r in t)Uo(e,r,
@@ -123,9 +126,9 @@ Unfortunately, its a mess of react and minification has stripped useful names fr
 and variables, so I'm going to have to take another direction. Great.
 </p>
 </div>
-<div id="outline-container-orgebcd01a" class="outline-3">
-<h3 id="orgebcd01a">The midi diversion.</h3>
-<div class="outline-text-3" id="text-orgebcd01a">
+<div id="outline-container-org1c3ba44" class="outline-3">
+<h3 id="org1c3ba44">The midi diversion.</h3>
+<div class="outline-text-3" id="text-org1c3ba44">
 <p>
 So, I noticed that when I visit the page, a prompt appears in chrome asking for permission
 to access a midi device.  So I assume that this means the browser needed to support
@@ -142,9 +145,9 @@ I see 97 mentions of "MIDI" in the javascript, so i'll try another idea.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd0795af" class="outline-3">
-<h3 id="orgd0795af">Tracking the download.</h3>
-<div class="outline-text-3" id="text-orgd0795af">
+<div id="outline-container-orgef5c604" class="outline-3">
+<h3 id="orgef5c604">Tracking the download.</h3>
+<div class="outline-text-3" id="text-orgef5c604">
 <p>
 I found there were, many, many uses of the word, "url" so checking that was going to be painful.
 </p>
@@ -159,11 +162,11 @@ The first use is here:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil"><code>static async fetchFirmware(e) {
+<pre class="src src-nil">static async fetchFirmware(e) {
     let t = await fetch(e);
     return new Uint8Array(await t.arrayBuffer())
 }
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -176,7 +179,7 @@ beginning the update.
 So I look for another fetch
 </p>
 
-<pre class="example" id="org613393f">
+<pre class="example" id="org72949fa">
 let r = (await fetch("/_software/releases.json").then(i=&gt;i.json()).then(i=&gt;i).catch(i=&gt;i)).devices;
 </pre>
 
@@ -195,7 +198,7 @@ Which looks something like this
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json"><code>{
+<pre class="src src-json">{
   "devices": [
     {
       "sku": "TE028AS",
@@ -234,7 +237,7 @@ Which looks something like this
     }
   ]
 }
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -246,10 +249,10 @@ We know from the Teenage engienering page that there is alsov ersion 1.1.0 and v
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><code>wget https://teenage.engineering/_software/ep-133/ep-133_firmware_1_1_2.tfw
+<pre class="src src-sh">wget https://teenage.engineering/_software/ep-133/ep-133_firmware_1_1_2.tfw
 wget https://teenage.engineering/_software/ep-133/ep-133_firmware_1_1_0.tfw
 wget https://teenage.engineering/_software/ep-133/ep-133_firmware_1_1_1.tfw
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -273,7 +276,7 @@ I wont upload all three.
 </p>
 
 
-<div id="org53f535a" class="figure">
+<div id="org15ed412" class="figure">
 <p><img src="images/133-randomness.png" alt="133-randomness.png" width="800px" />
 </p>
 </div>
@@ -284,7 +287,7 @@ The first chunk of data up to 0x480 do not contain randomness.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil"><code>00000000: babe cafe 003b 5200 0100 0100 0200 0000  .....;R.........
+<pre class="src src-nil">00000000: babe cafe 003b 5200 0100 0100 0200 0000  .....;R.........
 00000010: 0800 0100 0000 0000 0000 0000 0000 0000  ................
 00000020: 0000 0000 0000 0000 0000 0000 0000 0000  ................
 00000030: 0000 0000 0000 0000 0000 0000 0000 0000  ................
@@ -302,7 +305,7 @@ The first chunk of data up to 0x480 do not contain randomness.
 00000460: 0000 0000 0000 0000 0000 0000 0000 0000  ................
 00000470: 0000 0000 0000 0000 0000 0000 0000 0000  ................
 
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -318,9 +321,9 @@ need to buy hardware to to do it.
 </div>
 </div>
 </div>
-<div id="outline-container-orga4bb34b" class="outline-2">
-<h2 id="orga4bb34b">Conclusion</h2>
-<div class="outline-text-2" id="text-orga4bb34b">
+<div id="outline-container-orgbd9fbe0" class="outline-2">
+<h2 id="orgbd9fbe0">Conclusion</h2>
+<div class="outline-text-2" id="text-orgbd9fbe0">
 <p>
 Sadly, Teenage Engineering ships encrypted firmware, which I have shown that you
 can get a copy of.  None of the verisons have unencrypted data, so the key to
@@ -337,14 +340,13 @@ and code, that'd be nice, please contact me.
 </p>
 </div>
 </div>
-<div id="outline-container-org5a5b244" class="outline-2">
-<h2 id="org5a5b244">Resources:</h2>
-<div class="outline-text-2" id="text-org5a5b244">
+<div id="outline-container-org5cae40e" class="outline-2">
+<h2 id="org5cae40e">Resources:</h2>
+<div class="outline-text-2" id="text-org5cae40e">
 <ul class="org-ul">
 <li>Teenage engineering update utility  - <a href="https://teenage.engineering/apps/update">https://teenage.engineering/apps/update</a></li>
 <li>Binwalk (firwmare analysis tool) - <a href="https://github.com/ReFirmLabs/binwalk">https://github.com/ReFirmLabs/binwalk</a></li>
 </ul>
-</div>
 </div>
 </div>
 </div>

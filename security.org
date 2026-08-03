@@ -2,7 +2,7 @@
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
 
-* Posts tagged with security
+* Posts in Security
 
 - [[file:ebpf-disabled-for-users.html][Why eBPF for users is disabled in some distributions]]
 - [[file:mirai-delete-yourself.html][Mirai Delete yourself]]
