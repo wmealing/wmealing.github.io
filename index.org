@@ -9,6 +9,20 @@
 
 * Recent Blog Posts
 
+* [[./concrete-counter.html][Concrete 002: Hello, Counter - Aug 2026]]
+
+Second post in the Concrete series. I actually build the counter component this time and trace what happens
+on a click, all the way down to the compiled Erlang running in the browser instead of on my server. Also
+threw in some prior art at the end, turns out I'm not the first person to think "one language, two runtimes"
+is a good idea. Ur/Web beat me to it by about twenty years.
+
+* [[./concrete-intro.html][Concrete 001: An Introduction - Aug 2026]]
+
+Every project I write in Erlang eventually needs a UI, and every time that means bolting on a whole separate
+JavaScript stack just to draw some buttons. Concrete is my attempt to make that stop: it compiles Erlang
+components straight to JS at build time, no Elixir, no frontend framework. This is the first post in the
+series, covering why it exists and what a component looks like.
+
 * [[./row-level-security.html][Headless IoT Auth with Postgres RLS - May 2026]]
 
 I got tired of writing the same device-authentication middleware for every IoT project. This post walks
