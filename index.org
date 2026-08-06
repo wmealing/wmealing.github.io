@@ -9,7 +9,38 @@
 
 * Recent Blog Posts
 
+* [[./concrete-callgraph.html][Concrete 005: Call Graphs and Dead Code - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-227f5e95
+:END:
+
+Fifth post, skipped straight past the compiler-internals posts I'd planned because dead-code elimination is
+more useful to know about than IR records. Also found two real gaps while reading the actual walker code:
+it doesn't look inside =if=/=try=/=receive=, and =apply/3= just vanishes with no warning, despite the project
+notes promising one. Wrote it up honestly instead of glossing over it.
+
+* [[./concrete-templates.html][Concrete 004: Inside the .slab Parser - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-9f3a1c7d
+:END:
+
+Fourth post in the series, and this one's about the =.slab= parser. Turns out it's a hand-rolled recursive-descent
+parser over a plain charlist, no separate lexer pass, which amused me given how much I've been telling you to use
+binaries everywhere else. Also covers the ={@name}= rewrite trick and its one documented footgun.
+
+* [[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-2b6e4f81
+:END:
+
+Third post. This one traces a request from a URL all the way to rendered HTML, through the router and the page
+handler. I also had to own up to something here: the plan document promises page layouts, and the code just...
+doesn't have them yet. So I said so, instead of pretending otherwise.
+
 * [[./concrete-counter.html][Concrete 002: Hello, Counter - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-954f1c87
+:END:
 
 Second post in the Concrete series. I actually build the counter component this time and trace what happens
 on a click, all the way down to the compiled Erlang running in the browser instead of on my server. Also
@@ -17,6 +48,9 @@ threw in some prior art at the end, turns out I'm not the first person to think 
 is a good idea. Ur/Web beat me to it by about twenty years.
 
 * [[./concrete-intro.html][Concrete 001: An Introduction - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-f8e7df30
+:END:
 
 Every project I write in Erlang eventually needs a UI, and every time that means bolting on a whole separate
 JavaScript stack just to draw some buttons. Concrete is my attempt to make that stop: it compiles Erlang
