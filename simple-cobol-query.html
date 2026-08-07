@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GNUCOBOL "SCREEN" and keyboard input.</title>
@@ -79,8 +79,8 @@ Below is the complete program that can be compiled at the shell with the command
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cobc -xF simple-question.cob -o simple-question
-</pre>
+<pre class="src src-sh"><code>cobc -xF simple-question.cob -o simple-question
+</code></pre>
 </div>
 
 <p>
@@ -88,7 +88,7 @@ And the cobol code:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-cobol"><span class="linenr"> 1: </span>IDENTIFICATION DIVISION.
+<pre class="src src-cobol"><code><span class="linenr"> 1: </span>IDENTIFICATION DIVISION.
 <span class="linenr"> 2: </span>PROGRAM-ID. SAMPLE.
 <span class="linenr"> 3: </span>
 <span class="linenr"> 4: </span>ENVIRONMENT DIVISION.
@@ -117,7 +117,7 @@ And the cobol code:
 <span class="linenr">27: </span>   ACCEPT SIMPLE-QUESTION-SCREEN.
 <span class="linenr">28: </span>   STOP RUN.
 <span class="linenr">29: </span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -125,13 +125,13 @@ Starting at the "meat" of the demonstration, the "SCREEN SECTION".
 </p>
 
 <div class="org-src-container">
-<pre class="src src-cobol"><span class="linenr">18: </span>SCREEN SECTION.
+<pre class="src src-cobol"><code><span class="linenr">18: </span>SCREEN SECTION.
 <span class="linenr">19: </span>01 SIMPLE-QUESTION-SCREEN.
 <span class="linenr">20: </span>   05  VALUE "SIMPLE QUESTION SCREEN" BLANK SCREEN       LINE 1 COL 35.
 <span class="linenr">21: </span>   05  VALUE "ANSWER YES OR NO!  Y/N: "                  LINE 2 COL 1.
 <span class="linenr">22: </span>   05  RESPONSE-INPUT                                    LINE 2 COL 25
 <span class="linenr">23: </span>       PIC X TO RESPONSE-IN-WS.
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -139,10 +139,10 @@ The "SCREEN SECTION" is instructions for the "DISPLAY" function to layout and ha
 </p>
 
 <div class="org-src-container">
-<pre class="src src-COBOL"><span class="linenr">25: </span>PROCEDURE DIVISION.
+<pre class="src src-COBOL"><code><span class="linenr">25: </span>PROCEDURE DIVISION.
 <span class="linenr">26: </span>   DISPLAY SIMPLE-QUESTION-SCREEN.
 <span class="linenr">27: </span>   ACCEPT SIMPLE-QUESTION-SCREEN
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -166,13 +166,13 @@ And the final running example:
 </p>
 
 
-<div id="orgbd8cf4b" class="figure">
+<div id="org930cee7" class="figure">
 <p><img src="https://imgur.com/QceI3Rvl.png" alt="QceI3Rvl.png" />
 </p>
 </div>
-<div id="outline-container-org2691196" class="outline-2">
-<h2 id="org2691196">Resources:</h2>
-<div class="outline-text-2" id="text-org2691196">
+<div id="outline-container-org32441fd" class="outline-2">
+<h2 id="org32441fd">Resources:</h2>
+<div class="outline-text-2" id="text-org32441fd">
 <ul class="org-ul">
 <li><a href="https://gnucobol.sourceforge.io/HTML/gnucobpg.html#SCREEN-SECTION">gnuCOBOL SCREEN section</a></li>
 <li><a href="http://savannah.gnu.org/forum/forum.php?forum_id=9910">Changelog showing 'initial mouse support' in gnuCobol screen io.</a></li>

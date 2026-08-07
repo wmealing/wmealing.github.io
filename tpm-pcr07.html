@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:26 -->
+<!-- 2026-08-07 Fri 03:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PCRS on Red Hat Enterprise Linux.</title>
@@ -74,9 +74,9 @@ TPM status is communicated with the operating system through “Trusted Platform
 <p>
 Some attacks may modify the boot process to gain additional privileges while the system is running.
 </p>
-<div id="outline-container-org0316191" class="outline-2">
-<h2 id="org0316191">Option 1 : LUKS decryption on PCRS validation.</h2>
-<div class="outline-text-2" id="text-org0316191">
+<div id="outline-container-org9a4221c" class="outline-2">
+<h2 id="org9a4221c">Option 1 : LUKS decryption on PCRS validation.</h2>
+<div class="outline-text-2" id="text-org9a4221c">
 <p>
 As the TPM is hardware it doesn’t have the ability to make intelligent decisions to interfere with the boot process.  If the system has booted in a modified state ( such as modified boot code), the PCR values will be different but the boot will proceed.  The TPM device can be configured to refuse to hand over internal secrets unless the values are accepted as correct.
 </p>
@@ -91,8 +91,8 @@ For example, if /dev/sda3 was required to validate against PCR 7 with the comman
 
 
 <div class="org-src-container">
-<pre class="src src-shell"># clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'
-</pre>
+<pre class="src src-shell"><code># clevis luks bind -d /dev/sda3 tpm2 '{"pcr_ids":"7"}'
+</code></pre>
 </div>
 
 <p>
@@ -100,9 +100,9 @@ The device will fail to decrypt at boot time if the PCR has changed between the 
 </p>
 </div>
 </div>
-<div id="outline-container-org889a333" class="outline-2">
-<h2 id="org889a333">Option 2: Integrity Measurement Architecture (IMA).</h2>
-<div class="outline-text-2" id="text-org889a333">
+<div id="outline-container-org00d2ca8" class="outline-2">
+<h2 id="org00d2ca8">Option 2: Integrity Measurement Architecture (IMA).</h2>
+<div class="outline-text-2" id="text-org00d2ca8">
 <p>
 The Linux Integrity Measurement Architecture (IMA) subsystem capable of attestation of modification of files by calculating checksums and comparing them against known good/trusted states.
 </p>
@@ -120,9 +120,9 @@ The boot_aggregate entry format depends on the template chosen, being the defaul
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ cat /sys/kernel/security/ima/ascii_runtime_measurements | grep boot_aggregate
+<pre class="src src-shell"><code>$ cat /sys/kernel/security/ima/ascii_runtime_measurements | grep boot_aggregate
 10 ef2be9c304d9bbbd8ecb40f0d296176d2b5d3078 ima-ng sha1:4663ed64e5dbbb9755a0914b1a15fa76a1797806 boot_aggregate
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -134,9 +134,9 @@ There may be a method to fail the boot on this aggregate being different but I d
 </p>
 </div>
 </div>
-<div id="outline-container-orgbd20978" class="outline-2">
-<h2 id="orgbd20978">Additional Information:</h2>
-<div class="outline-text-2" id="text-orgbd20978">
+<div id="outline-container-org7bb9728" class="outline-2">
+<h2 id="org7bb9728">Additional Information:</h2>
+<div class="outline-text-2" id="text-org7bb9728">
 <p>
 [Wikipedia on TPM](<a href="https://en.wikipedia.org/wiki/Trusted_Platform_Module">https://en.wikipedia.org/wiki/Trusted_Platform_Module</a>)
 </p>

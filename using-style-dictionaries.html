@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:26 -->
+<!-- 2026-08-07 Fri 03:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Using "style-dictionary" from Clojure.</title>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org4d07d72" class="outline-2">
-<h2 id="org4d07d72">Summary:</h2>
-<div class="outline-text-2" id="text-org4d07d72">
+<div id="outline-container-org17df1a9" class="outline-2">
+<h2 id="org17df1a9">Summary:</h2>
+<div class="outline-text-2" id="text-org17df1a9">
 <p>
 A Style Dictionary is a system that allows you to define styles once, in a way for any platform or language to consume.
 A single place to create and edit your styles, and a single command exports these rules to all the places you need them - iOS,
@@ -73,9 +73,9 @@ Android, CSS, JS, HTML, sketch files, style documentation, etc.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbefeb43" class="outline-2">
-<h2 id="orgbefeb43">Introduction</h2>
-<div class="outline-text-2" id="text-orgbefeb43">
+<div id="outline-container-org8d23142" class="outline-2">
+<h2 id="org8d23142">Introduction</h2>
+<div class="outline-text-2" id="text-org8d23142">
 <p>
 I'm working on a tool to update slack with details from the goings on from jira.  I am
 the interest of theming things along with the corporate style, I found out that 'style-dictionaries'
@@ -90,7 +90,7 @@ I don't write clojurescript, I render my html serverside, so I'm documenting wha
 According to the official <a href="https://amzn.github.io/style-dictionary/#/README">style dictionary site</a>:
 </p>
 
-<pre class="example" id="orgfa06811">
+<pre class="example" id="orgfe5885d">
 
 A style dictionary consists of:
 
@@ -119,16 +119,16 @@ explain what the complexities here easily, please drop me a line.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc1d5d78" class="outline-2">
-<h2 id="orgc1d5d78">Getting the 'design tokens' / 'style dictionary'.</h2>
-<div class="outline-text-2" id="text-orgc1d5d78">
+<div id="outline-container-org6178d34" class="outline-2">
+<h2 id="org6178d34">Getting the 'design tokens' / 'style dictionary'.</h2>
+<div class="outline-text-2" id="text-org6178d34">
 <p>
 Git clone the repository into your 'resources' folder.  This is the location where we expect to see all non clojure / resources in a clojure project.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ git clone https://github.com/RedHat-UX/red-hat-design-tokens.git resources/red-hat-design-tokens
-</pre>
+<pre class="src src-shell"><code>$ git clone https://github.com/RedHat-UX/red-hat-design-tokens.git resources/red-hat-design-tokens
+</code></pre>
 </div>
 
 <p>
@@ -138,10 +138,10 @@ about the css style in this example.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ cd resources/red-hat-design-tokens
+<pre class="src src-shell"><code>$ cd resources/red-hat-design-tokens
 $ npm install
 $ npm run build
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -158,24 +158,24 @@ The files it generated were created in the ./json
 
 
 <div class="org-src-container">
-<pre class="src src-shell">$ tree
+<pre class="src src-shell"><code>$ tree
 .
 ├── rhds.tokens.flat.json
 └── rhds.tokens.json
 
 1 directory, 2 files
-</pre>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-orge987157" class="outline-3">
-<h3 id="orge987157">Using the token json files.</h3>
-<div class="outline-text-3" id="text-orge987157">
+<div id="outline-container-org8892c58" class="outline-3">
+<h3 id="org8892c58">Using the token json files.</h3>
+<div class="outline-text-3" id="text-org8892c58">
 <p>
 Its so easy, I barely think it worth writing a library for it.  Here is how I did it:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">(ns simple-web-app.theme
+<pre class="src src-clojure"><code>(ns simple-web-app.theme
   (:require [cheshire.core :as json]
             [clojure.java.io :as io]))
 
@@ -188,7 +188,7 @@ Its so easy, I barely think it worth writing a library for it.  Here is how I di
 
 (defn get-style [l]
   (get-in style-dictionary l))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -208,7 +208,7 @@ You can investigate the 'top level' keys with clojure commands.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt;  (keys (simple-web-app.theme/get-style []))
+<pre class="src src-clojure"><code>user&gt;  (keys (simple-web-app.theme/get-style []))
 
 (:line-height
  :space
@@ -224,15 +224,15 @@ You can investigate the 'top level' keys with clojure commands.
  :border
  :media)
 
-</pre>
+</code></pre>
 </div>
 
 <p>
-And then query those &#x2026;
+And then query those &hellip;
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; (keys (simple-web-app.theme/get-style [:color]))
+<pre class="src src-clojure"><code>user&gt; (keys (simple-web-app.theme/get-style [:color]))
 (:orange
  :$extensions
  :white-hsl
@@ -258,7 +258,7 @@ And then query those &#x2026;
  :surface
  :text
  :black)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -266,8 +266,8 @@ Then look up the :blue..
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; (keys (simple-web-app.theme/get-style [:color :blue]))
-</pre>
+<pre class="src src-clojure"><code>user&gt; (keys (simple-web-app.theme/get-style [:color :blue]))
+</code></pre>
 </div>
 
 <p>
@@ -275,9 +275,9 @@ and the "40" variant until you get to a :$value.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; (simple-web-app.theme/get-style [:color :blue :40 :$value])
+<pre class="src src-clojure"><code>user&gt; (simple-web-app.theme/get-style [:color :blue :40 :$value])
       "#4394e5"
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -286,7 +286,7 @@ the expectations of font colors, for example
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt; (simple-web-app.theme/get-style [:color :text :primary :on-light])
+<pre class="src src-clojure"><code>user&gt; (simple-web-app.theme/get-style [:color :text :primary :on-light])
 {:path ["color" "text" "primary" "on-light"],
  :$type "color",
  :isSource true,
@@ -310,7 +310,7 @@ the expectations of font colors, for example
   :hsv {:h 0, :s 0, :v 0.08235294117647059, :a 1},
   :hex "151515"}}
 
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -318,24 +318,24 @@ Along with its 'dark sibling'
 </p>
 
 <div class="org-src-container">
-<pre class="src src-clojure">user&gt;  (simple-web-app.theme/get-style [:color :text :primary :on-dark])
+<pre class="src src-clojure"><code>user&gt;  (simple-web-app.theme/get-style [:color :text :primary :on-dark])
 ....
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org18ea2f0" class="outline-2">
-<h2 id="org18ea2f0">Conclusion</h2>
-<div class="outline-text-2" id="text-org18ea2f0">
+<div id="outline-container-orga8a067a" class="outline-2">
+<h2 id="orga8a067a">Conclusion</h2>
+<div class="outline-text-2" id="text-orga8a067a">
 <p>
 Its not hard to use these themes in clojure for your server side rendering.
 </p>
 </div>
 </div>
-<div id="outline-container-org8ad11c9" class="outline-2">
-<h2 id="org8ad11c9">Resources:</h2>
-<div class="outline-text-2" id="text-org8ad11c9">
+<div id="outline-container-orgc4b3b44" class="outline-2">
+<h2 id="orgc4b3b44">Resources:</h2>
+<div class="outline-text-2" id="text-orgc4b3b44">
 <p>
 <a href="https://amzn.github.io/style-dictionary/#/README">https://amzn.github.io/style-dictionary/#/README</a>
 </p>

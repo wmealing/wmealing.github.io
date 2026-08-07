@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Configuring gemini for erlang-mcp.</title>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org68f0859" class="outline-2">
-<h2 id="org68f0859">Summary:</h2>
-<div class="outline-text-2" id="text-org68f0859">
+<div id="outline-container-org6873e90" class="outline-2">
+<h2 id="org6873e90">Summary:</h2>
+<div class="outline-text-2" id="text-org6873e90">
 <p>
 Gemini CLI supports project-specific Model Context Protocol (MCP) server protocol,
 I've recently setup erlang-mcp.  This document explains how to use erlmcp to aid in the
@@ -73,9 +73,9 @@ development of your erlang code, not as an mcp tool for other mean.
 </p>
 </div>
 </div>
-<div id="outline-container-org83c2ab4" class="outline-2">
-<h2 id="org83c2ab4">Introduction</h2>
-<div class="outline-text-2" id="text-org83c2ab4">
+<div id="outline-container-org5c0adbf" class="outline-2">
+<h2 id="org5c0adbf">Introduction</h2>
+<div class="outline-text-2" id="text-org5c0adbf">
 <p>
 MCP's are the new hot thing for AI to interoperate with tooling running on either local or remote systems.
 </p>
@@ -86,39 +86,39 @@ MCP's which allow the AI to verify its beliefs, executing with a real system imm
 and hallucionations earlier in the progress, saving time and money.
 </p>
 </div>
-<div id="outline-container-org97709e4" class="outline-3">
-<h3 id="org97709e4">Projects and System wide.</h3>
-<div class="outline-text-3" id="text-org97709e4">
+<div id="outline-container-org95ed26c" class="outline-3">
+<h3 id="org95ed26c">Projects and System wide.</h3>
+<div class="outline-text-3" id="text-org95ed26c">
 <p>
 Gemini allows for MCP's to exist ia a 'per project' or 'system wide', This entry focuses on the 'per project'
 option,
 </p>
 </div>
-<div id="outline-container-orgbd42208" class="outline-4">
-<h4 id="orgbd42208">Project setup:</h4>
-<div class="outline-text-4" id="text-orgbd42208">
+<div id="outline-container-org954f91d" class="outline-4">
+<h4 id="org954f91d">Project setup:</h4>
+<div class="outline-text-4" id="text-org954f91d">
 <p>
 As you would want to use MCP to write your erlang.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">{deps, [
+<pre class="src src-sh"><code>{deps, [
     {erlmcp, {git, "https://github.com/erlsci/erlmcp.git", {branch, "main"}}}
 ]}.
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdbe6d61" class="outline-4">
-<h4 id="orgdbe6d61">Per Project</h4>
-<div class="outline-text-4" id="text-orgdbe6d61">
+<div id="outline-container-org9b3b7ba" class="outline-4">
+<h4 id="org9b3b7ba">Per Project</h4>
+<div class="outline-text-4" id="text-org9b3b7ba">
 <p>
 Create the .gemini directory: In the root directory of your project.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">mkdir -p .gemini
-</pre>
+<pre class="src src-sh"><code>mkdir -p .gemini
+</code></pre>
 </div>
 
 <p>
@@ -136,7 +136,7 @@ The "mcpServers" key for this json is a top level element in settings.json
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json">{
+<pre class="src src-json"><code>{
     "mcpServers": {
         "erlang-mcp": {
             "cwd": "/home/wmealing/Projects/erlmcp"
@@ -154,7 +154,7 @@ The "mcpServers" key for this json is a top level element in settings.json
         }
     }
   }
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -172,9 +172,9 @@ up your requirements within the erlang code itself.
 </div>
 </div>
 </div>
-<div id="outline-container-org7a6d8a2" class="outline-3">
-<h3 id="org7a6d8a2">Wrapping MCP in shell script.</h3>
-<div class="outline-text-3" id="text-org7a6d8a2">
+<div id="outline-container-orgb598413" class="outline-3">
+<h3 id="orgb598413">Wrapping MCP in shell script.</h3>
+<div class="outline-text-3" id="text-orgb598413">
 <p>
 If you have a lot of setup to do around your project, it might be worthwhile wrapping your MCP in a shell script.
 </p>
@@ -185,17 +185,17 @@ want to use rebar as your erlang environment configuration.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">#!env bash
+<pre class="src src-bash"><code>#!env bash
 export ERL_FLAGS="-sname mynode -setcookie mycookie -noshell"
 rebar3 as simple shell --eval 'code:load_file(simple_server_stdio), simple_server_stdio:start()'
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf9beb19" class="outline-2">
-<h2 id="orgf9beb19">Conclusion</h2>
-<div class="outline-text-2" id="text-orgf9beb19">
+<div id="outline-container-orgeac8e14" class="outline-2">
+<h2 id="orgeac8e14">Conclusion</h2>
+<div class="outline-text-2" id="text-orgeac8e14">
 <p>
 You likely already have  of it or you wouldn't have come to this blog, I've given up trying to figure
 out why google wont index this, maybe it'll do it after I've already passed away.  At the time of writing
@@ -203,9 +203,9 @@ I can't find anything I've written on google.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd4115a6" class="outline-2">
-<h2 id="orgd4115a6">Resources:</h2>
-<div class="outline-text-2" id="text-orgd4115a6">
+<div id="outline-container-org2328790" class="outline-2">
+<h2 id="org2328790">Resources:</h2>
+<div class="outline-text-2" id="text-org2328790">
 </div>
 </div>
 </div>

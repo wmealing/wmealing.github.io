@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rebar3 not connecting to github.</title>
@@ -74,7 +74,7 @@ Here is the top of the rebar.config file:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">{erl_opts, [debug_info]}.
+<pre class="src src-erlang"><code>{erl_opts, [debug_info]}.
 
 {deps, [
     {lfe, "2.1.1"},
@@ -82,14 +82,14 @@ Here is the top of the rebar.config file:
     {lhc,  ".*", {git,"https://github.com/lfex/lhc.git", {branch, "master"}}}
 ]}.
 
-</pre>
+</code></pre>
 </div>
 
 <p>
 Whenever I'd ask rebar to get dependancies "rebar3 get-deps", i'd have rebar3 fail
 </p>
 
-<pre class="example" id="orgfe3686b">
+<pre class="example" id="org2b04ed5">
 ✗ rebar3 get-deps
 ===&gt; Verifying dependencies...
 ===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git",{tag,"0.4.0"}})
@@ -102,9 +102,9 @@ Oddly, ssh works
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">✗  ssh -T git@github.com
+<pre class="src src-sh"><code>✗  ssh -T git@github.com
 Hi wmealing! You\'ve successfully authenticated, but GitHub does not provide shell access.
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -112,11 +112,11 @@ When trying to debug the issue, I tried to use git directly to clone the same pr
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">✗ git clone git://github.com/lfex/ljson.git
+<pre class="src src-sh"><code>✗ git clone git://github.com/lfex/ljson.git
 Cloning into 'ljson'...
 fatal: unable to connect to github.com:
 github.com[0: 20.248.137.48]: errno=Operation timed out
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -140,8 +140,8 @@ To solve our little dilemma, we can issue the following command:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ git config --global url."https://".insteadOf git:// 
-</pre>
+<pre class="src src-sh"><code>$ git config --global url."https://".insteadOf git:// 
+</code></pre>
 </div>
 
 <p>
@@ -150,10 +150,10 @@ rebar attempts to fetch dependancies:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">✗ rebar3 get-deps
+<pre class="src src-sh"><code>✗ rebar3 get-deps
 ===&gt; Fetching rebar3_lfe v0.4.4
 ===&gt; Fetching ljson (from {git,"git://github.com/lfex/ljson.git", {branch, "master"}})
-</pre>
+</code></pre>
 </div>
 
 <p>

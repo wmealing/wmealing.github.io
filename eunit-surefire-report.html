@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Consuming eunit surefire xml reports.</title>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org411aaf0" class="outline-2">
-<h2 id="org411aaf0">Introduction</h2>
-<div class="outline-text-2" id="text-org411aaf0">
+<div id="outline-container-org615b16a" class="outline-2">
+<h2 id="org615b16a">Introduction</h2>
+<div class="outline-text-2" id="text-org615b16a">
 <p>
 Eunit outputs test results on the command line, there is an eunit plugin to
 generate 'surefire' style xml output.  This can be consumed by the 'surefire-reports'
@@ -74,15 +74,15 @@ some people.
 </p>
 </div>
 </div>
-<div id="outline-container-org5f94a35" class="outline-2">
-<h2 id="org5f94a35">Basic configuration:</h2>
-<div class="outline-text-2" id="text-org5f94a35">
+<div id="outline-container-org4fcb9ae" class="outline-2">
+<h2 id="org4fcb9ae">Basic configuration:</h2>
+<div class="outline-text-2" id="text-org4fcb9ae">
 <p>
 Edit rebar.config in your projects rebar.config and add the "eunit_opts" option as shown below.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">{erl_opts, [debug_info]}.
+<pre class="src src-erlang"><code>{erl_opts, [debug_info]}.
 {deps, []}.
 
 %% add this line
@@ -92,7 +92,7 @@ Edit rebar.config in your projects rebar.config and add the "eunit_opts" option 
     %% {config, "config/sys.config"},
     {apps, [surefire_demo]}
 ]}.
-</pre>
+</code></pre>
 </div>
 
 
@@ -116,7 +116,7 @@ You should modify the ProjectName, url and version to match your tooling:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;project&gt;
+<pre class="src src-xml"><code>&lt;project&gt;
         &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
         &lt;groupId&gt; 1 &lt;/groupId&gt;
         &lt;artifactId&gt;ProjectName&lt;/artifactId&gt;
@@ -167,7 +167,7 @@ You should modify the ProjectName, url and version to match your tooling:
         &lt;/build&gt;
 &lt;/project&gt;
 
-</pre>
+</code></pre>
 </div>
 
 
@@ -187,8 +187,8 @@ From within the directory containing pom.xml you should run:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">mvn surefire-report:report-only
-</pre>
+<pre class="src src-bash"><code>mvn surefire-report:report-only
+</code></pre>
 </div>
 
 <p>
@@ -196,7 +196,7 @@ This should generate a more complicated data structure.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">$ surefire_demo tree target 
+<pre class="src src-bash"><code>$ surefire_demo tree target 
 target
 ├── reports
 │   ├── css
@@ -249,7 +249,7 @@ target
     └── TEST-some_test.xml
 
 10 directories, 40 files
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -259,17 +259,17 @@ html records,  If historical raw data is required, you could version the XML fil
 </p>
 </div>
 </div>
-<div id="outline-container-org05ca4c3" class="outline-2">
-<h2 id="org05ca4c3">Conclusion</h2>
-<div class="outline-text-2" id="text-org05ca4c3">
+<div id="outline-container-org0126c24" class="outline-2">
+<h2 id="org0126c24">Conclusion</h2>
+<div class="outline-text-2" id="text-org0126c24">
 <p>
 The maven surefire reports tool is a simple way to generate html from eunit reports.
 </p>
 </div>
 </div>
-<div id="outline-container-org2ec9952" class="outline-2">
-<h2 id="org2ec9952">Resources:</h2>
-<div class="outline-text-2" id="text-org2ec9952">
+<div id="outline-container-org3eba393" class="outline-2">
+<h2 id="org3eba393">Resources:</h2>
+<div class="outline-text-2" id="text-org3eba393">
 <p>
 <a href="https://www.erlang.org/doc/apps/eunit/chapter.html">https://www.erlang.org/doc/apps/eunit/chapter.html</a>
 </p>

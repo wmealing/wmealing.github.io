@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:24 -->
+<!-- 2026-08-07 Fri 03:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CAVEMAN 2 - peer programming with claude.ai in common lisp.</title>
@@ -63,18 +63,18 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgdea75a8" class="outline-2">
-<h2 id="orgdea75a8">Summary:</h2>
-<div class="outline-text-2" id="text-orgdea75a8">
+<div id="outline-container-org9a06321" class="outline-2">
+<h2 id="org9a06321">Summary:</h2>
+<div class="outline-text-2" id="text-org9a06321">
 <p>
 Everyone says AI is going to take programmers jobs, I'm going to take claudes job and find all the
 mistakes that the "revolutionary" software is supposed to do, that'll show em!
 </p>
 </div>
 </div>
-<div id="outline-container-orgf1dc16c" class="outline-2">
-<h2 id="orgf1dc16c">Introduction</h2>
-<div class="outline-text-2" id="text-orgf1dc16c">
+<div id="outline-container-orgad6ab04" class="outline-2">
+<h2 id="orgad6ab04">Introduction</h2>
+<div class="outline-text-2" id="text-orgad6ab04">
 <p>
 I keep hearing that there are people who haven't written software since 2020, and that all the work that
 code they have written is written by AI.  Usually whenever I ask any of the AI questions the lack of quality
@@ -92,7 +92,7 @@ idea works by walking through the answer to ensure its sanity.  My omments inlin
 The prompt:
 </p>
 
-<pre class="example" id="org1aeb179">
+<pre class="example" id="org835acef">
 You are a common lisp expert, who will be helping me with a
 front end and back end of the site.  We will be pair programming together.
 I will provide prompts for you and you can assist me by providing code.  I want to start with how to make a
@@ -128,9 +128,9 @@ First, let's create a new Caveman2 project:
 
 
 <div class="org-src-container">
-<pre class="src src-lisp">(ql:quickload :caveman2)
+<pre class="src src-lisp"><code>(ql:quickload :caveman2)
 (caveman2:make-project #P"~/quicklisp/local-projects/unicorn/")
-</pre>
+</code></pre>
 </div>
 
 
@@ -152,7 +152,7 @@ First, let's create a new Caveman2 project:
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">CL-USER&gt;   (ql:quickload :caveman2)
+<pre class="src src-lisp"><code>CL-USER&gt;   (ql:quickload :caveman2)
 To load "caveman2":
   Load 1 ASDF system:
     caveman2
@@ -176,7 +176,7 @@ writing ~/quicklisp/local-projects/unicorn/templates/index.html
 writing ~/quicklisp/local-projects/unicorn/templates/_errors/404.html
 writing ~/quicklisp/local-projects/unicorn/templates/layouts/default.html
 writing ~/quicklisp/local-projects/unicorn/tests/unicorn.lispn&gt; 
-</pre>
+</code></pre>
 </div>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -196,7 +196,7 @@ writing ~/quicklisp/local-projects/unicorn/tests/unicorn.lispn&gt;
 
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defsystem "unicorn"
+<pre class="src src-lisp"><code>(defsystem "unicorn"
   :version "0.1.0"
   :author "Your Name"
   :license "LLGPL"
@@ -218,7 +218,7 @@ writing ~/quicklisp/local-projects/unicorn/tests/unicorn.lispn&gt;
                  (:file "config"))))
   :description "Unicorn - Color-based Image Search"
   :in-order-to ((test-op (test-op "unicorn-test"))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -226,7 +226,7 @@ Create a new file src/db.lisp:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(in-package :cl-user)
+<pre class="src src-lisp"><code>(in-package :cl-user)
 (defpackage unicorn.db
   (:use :cl)
   (:import-from :unicorn.config
@@ -255,7 +255,7 @@ Create a new file src/db.lisp:
      db
      "SELECT * FROM images WHERE main_color LIKE ?"
      (list (format nil "%~A%" color)))))
-</pre>
+</code></pre>
 </div>
 
 
@@ -265,7 +265,7 @@ Now, let's modify the main application file. Open ~/projects/unicorn/src/web.lis
 
 
 <div class="org-src-container">
-<pre class="src src-lisp">  (in-package :cl-user)
+<pre class="src src-lisp"><code>  (in-package :cl-user)
 (defpackage unicorn.web
   (:use :cl
         :caveman2
@@ -286,7 +286,7 @@ Now, let's modify the main application file. Open ~/projects/unicorn/src/web.lis
   (if (string= _method "post")
       (render-json (query-images-by-color |color|))
       (render #P"search.html")))
-</pre>
+</code></pre>
 </div>
 
 <ol class="org-ol">
@@ -298,7 +298,7 @@ Now, let's modify the main application file. Open ~/projects/unicorn/src/web.lis
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;!DOCTYPE html&gt;
+<pre class="src src-html"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Unicorn - Color-based Image Search&lt;/title&gt;
@@ -310,7 +310,7 @@ Now, let's modify the main application file. Open ~/projects/unicorn/src/web.lis
     {% block content %}{% endblock %}
   &lt;/body&gt;
 &lt;/html&gt;
-</pre>
+</code></pre>
 </div>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -336,7 +336,7 @@ And the template templates/index.html:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-HTML">{% extends "layouts/default.html" %}
+<pre class="src src-HTML"><code>{% extends "layouts/default.html" %}
 {% block content %}
 &lt;h2&gt;Welcome to Unicorn&lt;/h2&gt;
 &lt;p&gt;Search for images by color:&lt;/p&gt;
@@ -347,12 +347,12 @@ And the template templates/index.html:
 &lt;div id="results"&gt;&lt;/div&gt;
 {% endblock %}
 
-</pre>
+</code></pre>
 </div>
 
 
 <div class="org-src-container">
-<pre class="src src-html">{% extends "layouts/default.html" %}
+<pre class="src src-html"><code>{% extends "layouts/default.html" %}
 {% block content %}
 &lt;h2&gt;Search Results&lt;/h2&gt;
 {% if results %}
@@ -369,21 +369,21 @@ And the template templates/index.html:
 {% endif %}
 {% endblock %}
 
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgba19755" class="outline-2">
-<h2 id="orgba19755">Conclusion</h2>
-<div class="outline-text-2" id="text-orgba19755">
+<div id="outline-container-org8916a9d" class="outline-2">
+<h2 id="org8916a9d">Conclusion</h2>
+<div class="outline-text-2" id="text-org8916a9d">
 <p>
 Wrap it up here.
 </p>
 </div>
 </div>
-<div id="outline-container-org817f2ca" class="outline-2">
-<h2 id="org817f2ca">Resources:</h2>
-<div class="outline-text-2" id="text-org817f2ca">
+<div id="outline-container-org44cac28" class="outline-2">
+<h2 id="org44cac28">Resources:</h2>
+<div class="outline-text-2" id="text-org44cac28">
 </div>
 </div>
 </div>

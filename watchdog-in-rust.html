@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:26 -->
+<!-- 2026-08-07 Fri 03:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai's Watchdog in rust.</title>
@@ -57,6 +57,7 @@
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
   pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-c:before { content: 'C'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -71,7 +72,7 @@
   pre.src-haskell:before { content: 'Haskell'; }
   pre.src-hledger:before { content: 'hledger'; }
   pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
+  pre.src-js:before { content: 'JavaScript'; }
   pre.src-latex:before { content: 'LaTeX'; }
   pre.src-ledger:before { content: 'Ledger'; }
   pre.src-lisp:before { content: 'Lisp'; }
@@ -203,9 +204,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org47e6080">Disabling the watchdog.</a></li>
-<li><a href="#org7d5a8b2">The magic close feature.</a></li>
-<li><a href="#org61e4b6c">Additional resources</a></li>
+<li><a href="#org3316479">Disabling the watchdog.</a></li>
+<li><a href="#org55187f8">The magic close feature.</a></li>
+<li><a href="#org804e0b3">Additional resources</a></li>
 </ul>
 </div>
 </div>
@@ -254,16 +255,16 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org47e6080" class="outline-2">
-<h2 id="org47e6080">Disabling the watchdog.</h2>
-<div class="outline-text-2" id="text-org47e6080">
+<div id="outline-container-org3316479" class="outline-2">
+<h2 id="org3316479">Disabling the watchdog.</h2>
+<div class="outline-text-2" id="text-org3316479">
 <p>
 One of the first things that mirai does is disable the watchdog of the
 host to ensure that it didnt reboot if the system begins to take too
 long.
 </p>
 
-<pre class="example" id="org90229ac">
+<pre class="example" id="orgb872f88">
 
 // Prevent watchdog from rebooting device
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
@@ -281,7 +282,7 @@ if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 Lets break that down,
 </p>
 
-<pre class="example" id="org93cc25e">
+<pre class="example" id="org7392d4e">
 if ((wfd = open("/dev/watchdog", 2)) != -1 ||
 </pre>
 
@@ -293,8 +294,8 @@ It opens the watchdog device read/write (#define O_RDWR 00000002).
 It issues an 'ioctl' with a magic number.
 </p>
 <div class="org-src-container">
-<pre class="src src-nil">ioctl(wfd, 0x80045704, &amp;one);
-</pre>
+<pre class="src src-nil"><code>ioctl(wfd, 0x80045704, &amp;one);
+</code></pre>
 </div>
 
 <p>
@@ -302,19 +303,19 @@ Then closes the opened file descriptor.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil">close(wfd);
-</pre>
+<pre class="src src-nil"><code>close(wfd);
+</code></pre>
 </div>
 
 <p>
 While this does adhere to the spec, its also not the most supported
-method of disabling the watchdog. there is another&#x2026;
+method of disabling the watchdog. there is another&hellip;
 </p>
 </div>
 </div>
-<div id="outline-container-org7d5a8b2" class="outline-2">
-<h2 id="org7d5a8b2">The magic close feature.</h2>
-<div class="outline-text-2" id="text-org7d5a8b2">
+<div id="outline-container-org55187f8" class="outline-2">
+<h2 id="org55187f8">The magic close feature.</h2>
+<div class="outline-text-2" id="text-org55187f8">
 <p>
 The aptly named "magic close feature" (<a href="https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt">https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt</a>))
 </p>
@@ -355,7 +356,7 @@ This would leave us with a simple function :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-rust">use std::fs;
+<pre class="src src-rust"><code>use std::fs;
 
 fn disable_watchodg() -&gt; std::io::Result&lt;()&gt; {
     fs::write("/dev/watchdog", "V")?
@@ -364,7 +365,7 @@ fn disable_watchodg() -&gt; std::io::Result&lt;()&gt; {
 fn main() {
  disable_watchdog();
 }
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -372,9 +373,9 @@ Wild right ?
 </p>
 </div>
 </div>
-<div id="outline-container-org61e4b6c" class="outline-2">
-<h2 id="org61e4b6c">Additional resources</h2>
-<div class="outline-text-2" id="text-org61e4b6c">
+<div id="outline-container-org804e0b3" class="outline-2">
+<h2 id="org804e0b3">Additional resources</h2>
+<div class="outline-text-2" id="text-org804e0b3">
 <p>
 <a href="https://github.com/jgamblin/Mirai-Source-Code">Mirai Source code</a>
 </p>
@@ -383,7 +384,7 @@ Wild right ?
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Wade Mealing</p>
-<p class="date">Created: 2026-04-21 Tue 15:26</p>
+<p class="date">Created: 2026-08-07 Fri 03:44</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

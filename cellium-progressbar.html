@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 003: progress bar</title>
@@ -76,8 +76,8 @@ The new <code>progress_bar</code> widget is pretty straightforward. You give it 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">&gt; progressbar:new(someid, 20)
-</pre>
+<pre class="src src-erlang"><code>&gt; progressbar:new(someid, 20)
+</code></pre>
 </div>
 
 <p>
@@ -93,8 +93,8 @@ Any percentage passed to the widget is clamped to ensure it stays in the valid r
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">clamp(V) when V &lt; 0 -&gt; 0; clamp(V) when V &gt; 100 -&gt; 100; clamp(V) -&gt; V. 
-</pre>
+<pre class="src src-erlang"><code>clamp(V) when V &lt; 0 -&gt; 0; clamp(V) when V &gt; 100 -&gt; 100; clamp(V) -&gt; V. 
+</code></pre>
 </div>
 
 <p>
@@ -118,8 +118,8 @@ This is implemented as:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">calculate_filled(Percentage) -&gt; round((Percentage / 100) * 20). 
-</pre>
+<pre class="src src-erlang"><code>calculate_filled(Percentage) -&gt; round((Percentage / 100) * 20). 
+</code></pre>
 </div>
 
 <p>
@@ -131,13 +131,13 @@ At some point, maybe I should allow 'styling' similar to box_styles, but thats f
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">build_bar(Percentage) -&gt;
+<pre class="src src-erlang"><code>build_bar(Percentage) -&gt;
     Filled = calculate_filled(Percentage),
     Empty = 20 - Filled, FilledChars = lists:duplicate(Filled, 9608),
     EmptyChars = lists:duplicate(Empty, 9617),
     AllChars = FilledChars ++ EmptyChars,
     unicode:characters_to_binary(AllChars).
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -145,7 +145,7 @@ The image below shows the bar at 60% completion.
 </p>
 
 
-<div id="org571f572" class="figure">
+<div id="org017792b" class="figure">
 <p><img src="./images/progressbar.png" alt="progressbar.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>A progress bar in a terminal at 60%.</p>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lfe Flavored Erlang Gen Server</title>
@@ -78,9 +78,9 @@ from erlang named <a href="https://www.erlang.org/doc/man/gen_server.html">gen_s
 Think of it like a 'program skeleton'.  There are other "x-server" relatives in erlang, but gen_server is the
 mac daddy of them all.
 </p>
-<div id="outline-container-org4c89520" class="outline-3">
-<h3 id="org4c89520">What is a gen server ?</h3>
-<div class="outline-text-3" id="text-org4c89520">
+<div id="outline-container-org4d41ec8" class="outline-3">
+<h3 id="org4d41ec8">What is a gen server ?</h3>
+<div class="outline-text-3" id="text-org4d41ec8">
 <p>
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 </p>
@@ -104,7 +104,7 @@ This assumes you have rebar3 installed and ready to rock.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ rebar3 new lfe-app name="pseudobank"
+<pre class="src src-sh"><code>$ rebar3 new lfe-app name="pseudobank"
 ===&gt; Writing pseudobank/README.md
 ===&gt; Writing pseudobank/LICENSE
 ===&gt; Writing pseudobank/rebar.config
@@ -113,7 +113,7 @@ This assumes you have rebar3 installed and ready to rock.
 ===&gt; Writing pseudobank/src/pseudobank-app.lfe
 ===&gt; Writing pseudobank/src/pseudobank-sup.lfe
 ===&gt; Writing pseudobank/src/pseudobank.app.src
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -122,7 +122,7 @@ your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fix
 that you read this, you can find the bugreport <a href="https://github.com/lfe/rebar3_lfe/issues/72">here</a>.
 </p>
 
-<pre class="example" id="org14cc453">
+<pre class="example" id="orgce9bc15">
 {deps, [
     {lfe, "2.0.1"},
     {ltest, "0.13.0"}
@@ -145,8 +145,8 @@ but doesn't have the directory or templates to work from so, lets make that now.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ mkdir pseudobank/test/
-</pre>
+<pre class="src src-sh"><code>$ mkdir pseudobank/test/
+</code></pre>
 </div>
 
 <p>
@@ -159,7 +159,7 @@ Using your editor create a file <code>pseudobank/tests/pseudobank-tests.lfe</cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defmodule pseudobank-tests
+<pre class="src src-lisp"><code>(defmodule pseudobank-tests
    (behaviour ltest-unit))
 
 (include-lib "ltest/include/ltest-macros.lfe")
@@ -170,7 +170,7 @@ Using your editor create a file <code>pseudobank/tests/pseudobank-tests.lfe</cod
 (deftest account-server-starts
     (let (((tuple 'ok pid) (account:start)))
       (is (is_pid pid))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -194,7 +194,7 @@ From the shell within the 'pseudobank' directory:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ rebar3 lfe ltest
+<pre class="src src-sh"><code>$ rebar3 lfe ltest
     ===&gt; Verifying dependencies...
     ===&gt; Compiling pseudobank
     ================================ ltest =================================
@@ -215,7 +215,7 @@ From the shell within the 'pseudobank' directory:
 
 
     ========================================================================
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -233,7 +233,7 @@ Lets make one in <code>src/account.lfe</code>
 
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defmodule account
+<pre class="src src-lisp"><code>(defmodule account
                 (behaviour gen_server)
                 (export all))
 
@@ -251,7 +251,7 @@ Lets make one in <code>src/account.lfe</code>
                     (callback-module)
                     (initial-state)
                     (genserver-opts)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -263,7 +263,7 @@ startup code used for any gen_server.
 Now when you run the test, we can see the test fails.
 </p>
 
-<pre class="example" id="org0398e0d">
+<pre class="example" id="org55c6a67">
 module: pseudobank-tests
   module 'pseudobank-tests' ....................................... [fail]
 
@@ -295,9 +295,9 @@ Lets add the init callback by appending the following to the <code>account.lfe</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun init (initial-state)
+<pre class="src src-lisp"><code>(defun init (initial-state)
   `#(ok ,initial-state))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -313,7 +313,7 @@ If it returns #(error anything), thats a good sign that the initialization proce
 Now when we run the test again:
 </p>
 
-<pre class="example" id="org967adce">
+<pre class="example" id="org92a1c7e">
 module: pseudobank-tests
   module 'pseudobank-tests' ......................................... [ok]
 </pre>
@@ -323,9 +323,9 @@ We can see the test passes.
 </p>
 </div>
 </div>
-<div id="outline-container-org6927219" class="outline-3">
-<h3 id="org6927219">Getting the balance</h3>
-<div class="outline-text-3" id="text-org6927219">
+<div id="outline-container-org3710a94" class="outline-3">
+<h3 id="org3710a94">Getting the balance</h3>
+<div class="outline-text-3" id="text-org3710a94">
 <p>
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 </p>
@@ -335,10 +335,10 @@ Start by writing the test, I add a new test in the <code>pseudobank-test.lfe</co
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(deftest account-server-starts-with-zero-balance
+<pre class="src src-lisp"><code>(deftest account-server-starts-with-zero-balance
   (account:start)
   (is-equal 0.00 (account:get-balance)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -346,11 +346,11 @@ When running the test, you'll see it returns 'undef' again.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">account_server_starts_with_zero_balance ......................... [fail]
+<pre class="src src-sh"><code>account_server_starts_with_zero_balance ......................... [fail]
 
 Assertion failure:
   undef
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -365,9 +365,9 @@ goodies, but its something to work from.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun get-balance ()
+<pre class="src src-lisp"><code>(defun get-balance ()
   0)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -376,14 +376,14 @@ is running we can access the current account value.
 </p>
 
 <p>
-We'll modfy 'init' to return a map.  In LFE the map is represented as #M( key value &#x2026; &#x2026;),
+We'll modfy 'init' to return a map.  In LFE the map is represented as #M( key value &hellip; &hellip;),
 Below is the modified init, to use a monetary value for the amount in the account.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun init (initial-state)
+<pre class="src src-lisp"><code>(defun init (initial-state)
   `#(ok ,#M(balance 0.00)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -401,9 +401,9 @@ Lets fix up get-balance as we talked about earlier:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun get-balance ()
+<pre class="src src-lisp"><code>(defun get-balance ()
   (gen_server:call (server-name) 'get-balance))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -423,7 +423,7 @@ We can see the <code>CRASH REPORT</code> in the <code>undefined function account
 when the code is looking for handle_call, which we have not created.
 </p>
 
-<pre class="example" id="orgd7f223d">
+<pre class="example" id="org621b937">
 =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
 crasher:
   initial call: account:init/1
@@ -439,10 +439,10 @@ Lets make that now, the simplest possible implementation
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(handle_call
+<pre class="src src-lisp"><code>(handle_call
  ((_message _caller state)
   `#(reply 0.00 ,state)))
-</pre>
+</code></pre>
 </div>
 
 
@@ -462,7 +462,7 @@ Words that start with an underscore, means 'we dont care about it' so in this ca
 Now when we run the tests, we can see what it is returning.
 </p>
 
-<pre class="example" id="org14d7715">
+<pre class="example" id="org1b67771">
 account_server_starts_with_zero_balance ......................... [fail]
 
     Assertion failure:
@@ -480,10 +480,10 @@ the current balance (0.00) now.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp"><code>(defun handle_call
 ((_message  _caller state)
  `#(reply ,(map-get state 'balance),state)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -497,8 +497,8 @@ we know the key is an atom called 'balance so this would transform into after al
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">#(reply 0 #M(balance 0.00))
-</pre>
+<pre class="src src-lisp"><code>#(reply 0 #M(balance 0.00))
+</code></pre>
 </div>
 
 <p>
@@ -507,21 +507,21 @@ test to deposit money into the account.
 </p>
 </div>
 </div>
-<div id="outline-container-org73d51c5" class="outline-3">
-<h3 id="org73d51c5">Making a deposit.</h3>
-<div class="outline-text-3" id="text-org73d51c5">
+<div id="outline-container-orgcad5190" class="outline-3">
+<h3 id="orgcad5190">Making a deposit.</h3>
+<div class="outline-text-3" id="text-orgcad5190">
 <p>
 Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositing money.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(deftest account-server-deposit-works
+<pre class="src src-lisp"><code>(deftest account-server-deposit-works
   (account:start)
   (let ((starting-balance (account:get-balance))
         (deposit-amount 1.23))
     (account:deposit deposit-amount)
     (is-equal (+ starting-balance deposit-amount) (account:get-balance))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -538,9 +538,9 @@ This is the 'helper' function which can be called, which in turn calls gen-serve
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun deposit (amount)
+<pre class="src src-lisp"><code>(defun deposit (amount)
   (gen_server:call (server-name) ('deposit amount)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -553,12 +553,12 @@ Lets fix up <code>handle_call/3</code> to match this new callback request.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp"><code>(defun handle_call
 (('get-balance _caller state)
  `#(reply ,(map-get state 'balance) ,state))
 (((tuple 'deposit amount) _caller state)
  `#(reply 'ok, ,(map-update state 'balance 1.23))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -576,7 +576,7 @@ The return value from this match is the same format, we're not going to tell the
 we need to update the state in the most naive method.  Lets check the test run output:
 </p>
 
-<pre class="example" id="org8781771">
+<pre class="example" id="org19e0523">
 module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
@@ -594,14 +594,14 @@ Back to the <code>account.lfe</code> file, to fix this oversight:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp"><code>(defun handle_call
   (('get-balance _caller state)
    `#(reply ,(map-get state 'balance) ,state))
   (((tuple 'deposit amount) _caller state)
    `#(reply 'ok
             ,(map-update state 'balance
                          (+ (map-get state 'balance) amount)))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -614,9 +614,9 @@ I'd say we had desposits nailed.
 </p>
 </div>
 </div>
-<div id="outline-container-org0e0074f" class="outline-3">
-<h3 id="org0e0074f">Making a withdrawal</h3>
-<div class="outline-text-3" id="text-org0e0074f">
+<div id="outline-container-org6081134" class="outline-3">
+<h3 id="org6081134">Making a withdrawal</h3>
+<div class="outline-text-3" id="text-org6081134">
 <p>
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -624,7 +624,7 @@ money to go to YOU!)  Lets start by writing a test to ensure we can take money f
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(deftest account-server-withdrawal-works
+<pre class="src src-lisp"><code>(deftest account-server-withdrawal-works
 (account:start)
 (let ((starting-balance (account:get-balance))
       (deposit-amount 10.00)
@@ -632,7 +632,7 @@ money to go to YOU!)  Lets start by writing a test to ensure we can take money f
   (account:deposit deposit-amount)
   (account:withdraw withdraw-amount)
   (is-equal (- deposit-amount withdraw-amount) (account:get-balance))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -646,9 +646,9 @@ Back in <code>account.lfe</code>, we'll make the helper function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun withdraw ( amount )
+<pre class="src src-lisp"><code>(defun withdraw ( amount )
   (gen_server:call (server-name) (tuple 'withdraw amount)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -656,7 +656,7 @@ The callback doesn't handle the (tuple 'withdraw amount), make it happen.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun handle_call
+<pre class="src src-lisp"><code>(defun handle_call
 
   ;; get balance functionality
   (('get-balance _caller state)
@@ -673,7 +673,7 @@ The callback doesn't handle the (tuple 'withdraw amount), make it happen.
    `#(reply 'ok
             ,(map-update state 'balance
                          (- (map-get state 'balance) amount)))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -686,7 +686,7 @@ And now the test..
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">account_server_withdrawal_works ................................. [fail]
+<pre class="src src-lisp"><code>account_server_withdrawal_works ................................. [fail]
 
   Assertion failure:
   #(assertEqual
@@ -695,7 +695,7 @@ And now the test..
             #(expression "(account:get-balance)")
             #(expected 9.0)
             #(value 10.23)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -705,9 +705,9 @@ we can run after the test finishes to reset the state.
 </p>
 </div>
 </div>
-<div id="outline-container-org7951b63" class="outline-3">
-<h3 id="org7951b63">Withraw Interlude: gen_server shutdown.</h3>
-<div class="outline-text-3" id="text-org7951b63">
+<div id="outline-container-org4c77325" class="outline-3">
+<h3 id="org4c77325">Withraw Interlude: gen_server shutdown.</h3>
+<div class="outline-text-3" id="text-org4c77325">
 <p>
 As the LFE gen-server piggy backs on the <code>erlang</code> implementation of gen_server the
 <a href="https://www.erlang.org/doc/man/gen_server.html">stdlib reference manual</a> includes a method to shut down the server.
@@ -718,7 +718,7 @@ The manual goes into return values for <a href="https://www.erlang.org/doc/man/g
 can be terminated if handle_call returns the right tuple.
 </p>
 
-<pre class="example" id="org64d9caf">
+<pre class="example" id="orga026e0f">
 {stop,Reason,NewState}
 </pre>
 
@@ -737,9 +737,9 @@ Here is the helper function, which triggers handle_call with the argument <code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun stop ()
+<pre class="src src-lisp"><code>(defun stop ()
   (gen_server:call (server-name) 'stop))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -748,9 +748,9 @@ And now lets add this to handle_call, i'll only include the match part of handle
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(('stop _caller state-data)
+<pre class="src src-lisp"><code>(('stop _caller state-data)
    `#(stop shutdown ok state-data))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -758,9 +758,9 @@ And the matching expected terminate function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(defun terminate ( _reason _newstate )
+<pre class="src src-lisp"><code>(defun terminate ( _reason _newstate )
     'ok)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -773,14 +773,14 @@ Here is our test:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(deftest account-server-starts-and-stops
+<pre class="src src-lisp"><code>(deftest account-server-starts-and-stops
   (let ((stop-val (account:stop))
         (start-val-pid (tref (account:start) 2))
         (stop-again-val (account:stop)))
     (is-equal stop-val 'ok)
     (is-equal (is_pid start-val-pid) 'true)
     (is-equal stop-again-val 'ok)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -788,13 +788,13 @@ Now lets run the test.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">module: pseudobank-tests
+<pre class="src src-sh"><code>module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
   account_server_deposit_works ...................................... [ok]
   account_server_withdrawal_works ................................... [ok]
   account_server_starts_and_stops ................................... [ok]
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -803,23 +803,23 @@ withdraw and its rules
 </p>
 </div>
 </div>
-<div id="outline-container-org52d5940" class="outline-3">
-<h3 id="org52d5940">Withdraw resumed:</h3>
-<div class="outline-text-3" id="text-org52d5940">
+<div id="outline-container-org1076108" class="outline-3">
+<h3 id="org1076108">Withdraw resumed:</h3>
+<div class="outline-text-3" id="text-org1076108">
 <p>
 Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
 you cant withdraw can not put it the account balance into negative value. Here's the test.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(deftest account-server-withdraw-negative-test
+<pre class="src src-lisp"><code>(deftest account-server-withdraw-negative-test
   (account:start)
     (let* ((starting-balance (account:get-balance))
           (deposit-amount 1.00)
           (withdraw-amount 200.00))
       (account:deposit deposit-amount)
       (is (=:= (account:withdraw withdraw-amount) 'insufficient-funds))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -833,7 +833,7 @@ on if the amount is greater than the balance.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">;; withdraw
+<pre class="src src-lisp"><code>;; withdraw
 (((tuple 'withdraw amount) _caller state)
 
  ;; first step, check that amount is less than the current balance.
@@ -842,7 +842,7 @@ on if the amount is greater than the balance.
    `#(reply ,'insufficient-funds ,state)
    ;; false condition
    `#(reply ,'ok ,(map-update state 'balance (- (map-get state 'balance) amount)))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -850,7 +850,7 @@ All tests should now pass.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ rebar3 as test lfe ltest
+<pre class="src src-sh"><code>$ rebar3 as test lfe ltest
 ===&gt; Verifying dependencies...
 ===&gt; Compiling pseudobank
 ================================ ltest =================================
@@ -869,7 +869,7 @@ module: pseudobank-tests
 summary:
   Tests: 6  Passed: 6  Skipped: 0  Failed: 0 Erred: 0
   Total time: 43ms
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -879,9 +879,9 @@ link right here soon.
 </p>
 </div>
 </div>
-<div id="outline-container-org6ea8026" class="outline-2">
-<h2 id="org6ea8026">Resources:</h2>
-<div class="outline-text-2" id="text-org6ea8026">
+<div id="outline-container-org971405d" class="outline-2">
+<h2 id="org971405d">Resources:</h2>
+<div class="outline-text-2" id="text-org971405d">
 <ul class="org-ul">
 <li><a href="https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3</a></li>
 <li><a href="https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf">https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf</a></li>

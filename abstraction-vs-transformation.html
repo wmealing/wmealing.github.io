@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:24 -->
+<!-- 2026-08-07 Fri 03:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Abstraction vs Transformation</title>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org8e018ea" class="outline-2">
-<h2 id="org8e018ea">Summary:</h2>
-<div class="outline-text-2" id="text-org8e018ea">
+<div id="outline-container-orga35d593" class="outline-2">
+<h2 id="orga35d593">Summary:</h2>
+<div class="outline-text-2" id="text-orga35d593">
 <p>
 Frequently in software development, efficiency and performance concerns weigh heavily on my mind.  As a programmer
 deeply immersed in different languages, I've encountered my fair share of performance challenges when attempting to
@@ -74,9 +74,9 @@ implementation details that massively degrades performance.
 </p>
 </div>
 </div>
-<div id="outline-container-org9967f2c" class="outline-2">
-<h2 id="org9967f2c">One more time, with feeling.</h2>
-<div class="outline-text-2" id="text-org9967f2c">
+<div id="outline-container-org2a59fa3" class="outline-2">
+<h2 id="org2a59fa3">One more time, with feeling.</h2>
+<div class="outline-text-2" id="text-org2a59fa3">
 <p>
 One particularly frustrating experience is fresh in my mind: a seemingly innocuous
 performance issue that eluded resolution for far longer than it should have.
@@ -171,9 +171,9 @@ hardware features, the performant code/features will be abstracted away and the 
 </p>
 </div>
 </div>
-<div id="outline-container-orge227e83" class="outline-2">
-<h2 id="orge227e83">Conclusion</h2>
-<div class="outline-text-2" id="text-orge227e83">
+<div id="outline-container-org649468f" class="outline-2">
+<h2 id="org649468f">Conclusion</h2>
+<div class="outline-text-2" id="text-org649468f">
 <p>
 Software abstractions are designed to optimize for human cognition, not hardware execution. They allow us to reason about
 complex systems without getting bogged down in register management or memory layouts. However, every layer of indirection,
@@ -185,9 +185,9 @@ Sometimes the abstraction tax is almost unmeasureable; other times, it requires 
 really understand.
 </p>
 </div>
-<div id="outline-container-org901a5fc" class="outline-3">
-<h3 id="org901a5fc">Measure Twice, Optimize Once</h3>
-<div class="outline-text-3" id="text-org901a5fc">
+<div id="outline-container-orge354d85" class="outline-3">
+<h3 id="orge354d85">Measure Twice, Optimize Once</h3>
+<div class="outline-text-3" id="text-orge354d85">
 <p>
 The biggest mistake a developer can make is "premature de-abstraction." Tearing down a helpful interface because you
 assume it’s slow is a recipe for messy, unmaintainable code.
@@ -200,9 +200,9 @@ whether the bottleneck is a fundamental algorithmic flaw or if the abstraction l
 </p>
 </div>
 </div>
-<div id="outline-container-org08f2201" class="outline-3">
-<h3 id="org08f2201">Visualizing the Invisible</h3>
-<div class="outline-text-3" id="text-org08f2201">
+<div id="outline-container-org0fafe93" class="outline-3">
+<h3 id="org0fafe93">Visualizing the Invisible</h3>
+<div class="outline-text-3" id="text-org0fafe93">
 <p>
 Thankfully, we no longer have to guess. Modern profiling tools have turned performance analysis
 from a dark art into a visual science. Tools like <a href="https://www.brendangregg.com/flamegraphs.html">flame graphs</a>, eBPF tracers, and <a href="https://max-au.com/2022/10/04/the-power-of-erlang-tracing/">distributed tracing</a> allow us
@@ -220,9 +220,9 @@ multiple levels of abstraction.
 </p>
 </div>
 </div>
-<div id="outline-container-org4e4090b" class="outline-3">
-<h3 id="org4e4090b">The Golden Rule of Optimization</h3>
-<div class="outline-text-3" id="text-org4e4090b">
+<div id="outline-container-orgeca8345" class="outline-3">
+<h3 id="orgeca8345">The Golden Rule of Optimization</h3>
+<div class="outline-text-3" id="text-orgeca8345">
 <p>
 Before you reach for the delete key, looking up sse2 function calls,  or start rewriting in assembly,
 remember: Identify before you optimize. Effective performance analysis requires isolating the impact of

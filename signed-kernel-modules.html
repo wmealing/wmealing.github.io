@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-21 Tue 15:25 -->
+<!-- 2026-08-07 Fri 03:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Signed kernel modules</title>
@@ -63,9 +63,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org94c4370" class="outline-2">
-<h2 id="org94c4370">What is a “signed” kernel module?</h2>
-<div class="outline-text-2" id="text-org94c4370">
+<div id="outline-container-orgdd4e1ee" class="outline-2">
+<h2 id="orgdd4e1ee">What is a “signed” kernel module?</h2>
+<div class="outline-text-2" id="text-orgdd4e1ee">
 <p>
 A digital signature is a method of verifying the authenticity of
 digital data.   A valid digital signature can be used to reason that
@@ -87,9 +87,9 @@ signature belongs to a trusted party in the systems ‘key chain’.
 </p>
 </div>
 </div>
-<div id="outline-container-org9d5faac" class="outline-2">
-<h2 id="org9d5faac">How is it signed ?</h2>
-<div class="outline-text-2" id="text-org9d5faac">
+<div id="outline-container-org7ab42a4" class="outline-2">
+<h2 id="org7ab42a4">How is it signed ?</h2>
+<div class="outline-text-2" id="text-org7ab42a4">
 <p>
 Each kernel module is signed with a industry standard PKCS#7 standard
 (<a href="https://tools.ietf.org/html/rfc5652">https://tools.ietf.org/html/rfc5652</a>).   Modules that are built when
@@ -104,9 +104,9 @@ find the above string in an uncompressed kernel module.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ strings ecryptfs.ko | tail -n 1
+<pre class="src src-shell"><code>$ strings ecryptfs.ko | tail -n 1
 ~Module signature appended~
-</pre>
+</code></pre>
 </div>
 
 
@@ -124,10 +124,10 @@ options.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
+<pre class="src src-shell"><code>$ grep CONFIG_MODULE_SIG_HASH  ~/rhel-8-kernel/redhat/configs/*config
 | sort| uniq
 CONFIG_MODULE_SIG_HASH="sha256"
-</pre>
+</code></pre>
 </div>
 
 
@@ -141,13 +141,13 @@ signatures.
 </p>
 </div>
 </div>
-<div id="outline-container-org37557c8" class="outline-2">
-<h2 id="org37557c8">Kernel modules information.</h2>
-<div class="outline-text-2" id="text-org37557c8">
+<div id="outline-container-org5aac1d5" class="outline-2">
+<h2 id="org5aac1d5">Kernel modules information.</h2>
+<div class="outline-text-2" id="text-org5aac1d5">
 </div>
-<div id="outline-container-orge004899" class="outline-3">
-<h3 id="orge004899">Module location</h3>
-<div class="outline-text-3" id="text-orge004899">
+<div id="outline-container-orgb2443d4" class="outline-3">
+<h3 id="orgb2443d4">Module location</h3>
+<div class="outline-text-3" id="text-orgb2443d4">
 <p>
 Kernel modules provided by the operating system vendors are located in the
 root or subdirectory of the default search path (of /lib/modules/(\`uname -a\`)
@@ -162,9 +162,9 @@ searching and priority is documented in the depmod and depmod.d man pages.
 </p>
 </div>
 </div>
-<div id="outline-container-orgde670a6" class="outline-3">
-<h3 id="orgde670a6">Loading kernel modules.</h3>
-<div class="outline-text-3" id="text-orgde670a6">
+<div id="outline-container-org446e64f" class="outline-3">
+<h3 id="org446e64f">Loading kernel modules.</h3>
+<div class="outline-text-3" id="text-org446e64f">
 <p>
 Modules can be loaded manually using the insmod/modprobe but also the kernel
 can load modules on demand to meet attached hardware requirements or
@@ -184,19 +184,19 @@ depmod to locate the relevant module to meet the kernels request.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd91b606" class="outline-3">
-<h3 id="orgd91b606">The signature</h3>
-<div class="outline-text-3" id="text-orgd91b606">
+<div id="outline-container-org108b30e" class="outline-3">
+<h3 id="org108b30e">The signature</h3>
+<div class="outline-text-3" id="text-org108b30e">
 </div>
-<div id="outline-container-org257ca2f" class="outline-4">
-<h4 id="org257ca2f">Signature metadata.</h4>
-<div class="outline-text-4" id="text-org257ca2f">
+<div id="outline-container-orgc82a86f" class="outline-4">
+<h4 id="orgc82a86f">Signature metadata.</h4>
+<div class="outline-text-4" id="text-orgc82a86f">
 <p>
 The /sbin/modinfo program can inspect details about the kernel module.  The  
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"># modinfo mwifiex.ko.xz
+<pre class="src src-shell"><code># modinfo mwifiex.ko.xz
 filename: /lib/modules/4.18.0-193.el8.x86_64/kernel/drivers/net/wireless/marvell/mwifiex/mwifiex.ko.xz
 license:        GPL v2
 version:        1.0
@@ -233,7 +233,7 @@ AC:FB:D5:38:A4:E7:38:72:08:4B:1F:7C:5E:47:78:28:C4:FE:DB:70:
 AC:6B:CA:35:FF:E1:A9:65:02:18:15:00:AC:68:8F:96:03:0B:CB:CB:
 A4:5E:FC:24
 parm:           reg_alpha2:charp
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -241,7 +241,7 @@ The signature itself is at the tail end of the file, using the hex editor xxd
 you can see it.
 </p>
 
-<pre class="example" id="org99f10ae">
+<pre class="example" id="org9b597fe">
 0008d650: 0101 0500 0482 0180 7ba1 373d 4486 1a99  ........{.7=D... &lt;-- STARTS HERE ON 7BA1
 0008d660: 1964 b21c 96a7 5e8f 4d47 52f9 de1f 6f81  .d....^.MGR...o.
 0008d670: 6ece fbdb f9d6 6c97 ac58 59bb d67e d1f5  n.....l..XY..~..
@@ -351,9 +351,9 @@ When IMA is enabled, kernel module signing support is enforced.
 </div>
 </div>
 </div>
-<div id="outline-container-orgcab85c6" class="outline-2">
-<h2 id="orgcab85c6">Source</h2>
-<div class="outline-text-2" id="text-orgcab85c6">
+<div id="outline-container-org8b05d72" class="outline-2">
+<h2 id="org8b05d72">Source</h2>
+<div class="outline-text-2" id="text-org8b05d72">
 <p>
 The kernel has two entry paths of loading a module.  The init\_module()
 function was the traditional path 
@@ -374,7 +374,7 @@ modules that are labeled ?]
 An overview of the function calls in the 'useful' codepath.
 </p>
 
-<pre class="example" id="orgab91887">
+<pre class="example" id="org98dd6aa">
 init_module() 
  -&gt; load_module() 
   -&gt; module_sig_check()  &lt;-- checks to see if it has a sig
@@ -390,7 +390,7 @@ seem to match the actual code), this is changed in later versions.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C">mod_verify_sig() {
+<pre class="src src-C"><code>mod_verify_sig() {
 
         /*
       * Check signature using built-in trusted keys and, if configured,
@@ -416,7 +416,7 @@ seem to match the actual code), this is changed in later versions.
 
 
 }
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -435,8 +435,8 @@ Listing the primary keys:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"># keyctl list %:.builtin_trusted_keys 
-</pre>
+<pre class="src src-shell"><code># keyctl list %:.builtin_trusted_keys 
+</code></pre>
 </div>
 
 <p>
@@ -455,7 +455,7 @@ This is on the decided in module\_sig\_check:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C">static int module_sig_check(struct load_info *info, int flags) {
+<pre class="src src-C"><code>static int module_sig_check(struct load_info *info, int flags) {
 
   err = mod_verify_sig(mod, info);
 
@@ -488,7 +488,7 @@ This is on the decided in module\_sig\_check:
 
   }
 }  
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -533,7 +533,7 @@ Create a file configuration\_file.config  with the following contents,
 modifying O and CN options.
 </p>
 
-<pre class="example" id="org983db3c">
+<pre class="example" id="org20be879">
 
 [ req ]
 default_bits = 4096
@@ -563,8 +563,8 @@ be used to sign the kernel module and also enrolled in the systems "MOK" keychai
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"># openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
-</pre>
+<pre class="src src-C"><code># openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 -batch -config configuration_file.config -outform DER  -out public_key.der \ &gt; -keyout  private_key.priv
+</code></pre>
 </div>
 
 <p>
@@ -573,8 +573,8 @@ private\_key.priv.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"># mokutil --import public_key.der
-</pre>
+<pre class="src src-C"><code># mokutil --import public_key.der
+</code></pre>
 </div>
 
 <p>
@@ -603,7 +603,7 @@ For example the "Wades own very special kmod v01" singing key:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"># keyctl list %:.system_keyring
+<pre class="src src-shell"><code># keyctl list %:.system_keyring
 6 keys in keyring:
 ...asymmetric: Red Hat Enterprise Linux Driver Update Program (key 3): bf57f3e87...
 
@@ -613,7 +613,7 @@ For example the "Wades own very special kmod v01" singing key:
 ...asymmetric: Red Hat Enterprise Linux kernel signing key: 4249689eefc77e95880b...
 ...asymmetric: Red Hat Enterprise Linux kpatch signing key: 4d38fd864ebe18c5f0b7...
 ...asymmetric: Wades own very special kmod v01 signing key: c4ae92e16da94228cd9e...
-</pre>
+</code></pre>
 </div>
 
 
@@ -625,8 +625,8 @@ tree' built kernel modules.  An example of singing my\_module
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
-</pre>
+<pre class="src src-shell"><code>perl /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der my_module.ko
+</code></pre>
 </div>
 
 <p>
@@ -641,9 +641,9 @@ practices for public/private keys.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf712b5a" class="outline-2">
-<h2 id="orgf712b5a">Additional Resources:</h2>
-<div class="outline-text-2" id="text-orgf712b5a">
+<div id="outline-container-org8c2865b" class="outline-2">
+<h2 id="org8c2865b">Additional Resources:</h2>
+<div class="outline-text-2" id="text-org8c2865b">
 <p>
 <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/chap-documentation-kernel_administration_guide-working_with_kernel_modules#sect-signing-kernel-modules-for-secure-boot">Red Hat Guide for secure boot</a>
 </p>
