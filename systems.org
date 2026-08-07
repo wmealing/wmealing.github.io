@@ -2,7 +2,7 @@
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
 
-* Posts in Systems
+* Posts tagged with systems
 
 - [[file:abstraction-vs-transformation.html][Abstraction vs Transformation]]
 - [[file:atomic-operations-in-common-lisp.html][Atomic operations in common lisp]]

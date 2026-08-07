@@ -5,6 +5,11 @@
 * Posts tagged with erlang
 
 - [[file:cellium-remote-shell.html][Using erlangs remote shell during devel.]]
+- [[file:concrete-callgraph.html][CONCRETE 005: Call Graphs and Dead Code.]]
+- [[file:concrete-counter.html][CONCRETE 002: Hello, Counter.]]
+- [[file:concrete-intro.html][CONCRETE 001: An introduction.]]
+- [[file:concrete-pages.html][CONCRETE 003: Pages, Routing, and Layouts.]]
+- [[file:concrete-templates.html][CONCRETE 004: Inside the .slab Parser.]]
 - [[file:erlang-emacs-2025.html][Setting up Emacs for Erlang in 2025]]
 - [[file:eunit-parallel.html][Parallel EUnit Testing]]
 - [[file:eunit-surefire-report.html][Consuming eunit surefire xml reports.]]
