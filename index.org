@@ -9,15 +9,15 @@
 
 * Recent Blog Posts
 
-* [[./concrete-callgraph.html][Concrete 005: Call Graphs and Dead Code - Aug 2026]]
+* [[./concrete-js-interop.html][Concrete 005: JavaScript Interop - Aug 2026]]
 :PROPERTIES:
-:CUSTOM_ID: post-227f5e95
+:CUSTOM_ID: post-ac9b997f
 :END:
 
-Fifth post, skipped straight past the compiler-internals posts I'd planned because dead-code elimination is
-more useful to know about than IR records. Also found two real gaps while reading the actual walker code:
-it doesn't look inside =if=/=try=/=receive=, and =apply/3= just vanishes with no warning, despite the project
-notes promising one. Wrote it up honestly instead of glossing over it.
+Fifth post, and a pivot from the compiler-internals plan: built =concrete_js=, a way to call any already-loaded
+JavaScript library (three.js was the actual itch) from compiled Erlang. Expected to need transformer and encoder
+changes for this. Needed neither, once I actually looked at how a remote call already compiles - so the whole
+post ended up being about why that's true, not just how to use the thing.
 
 * [[./concrete-templates.html][Concrete 004: Inside the .slab Parser - Aug 2026]]
 :PROPERTIES:

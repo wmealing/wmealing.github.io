@@ -174,3 +174,9 @@ https://github.com/wmealing/concrete
 [[./concrete-intro.html][Concrete 001: An Introduction]]
 
 [[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
+
+[[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]

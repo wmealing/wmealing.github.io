@@ -218,9 +218,8 @@ its output into JavaScript, are their own posts, coming later in this series.
 :END:
 
 This post covered how a =.slab= file becomes a tree, and how that tree becomes HTML on the server.
-The next post steps away from templates and toward the build side: how a page module actually becomes
-the JavaScript bundle that [[./concrete-pages.html][Concrete 003]] already showed being served, and what
-Concrete leaves out of that bundle on purpose.
+The next post steps away from templates entirely: how compiled Erlang calls into an already-loaded
+JavaScript library, like three.js, with almost no help from the compiler at all.
 
 * Resources:
 :PROPERTIES:
@@ -235,3 +234,7 @@ https://github.com/wmealing/concrete
 [[./concrete-counter.html][Concrete 002: Hello, Counter]]
 
 [[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
+
+[[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]

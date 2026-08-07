@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-07 Fri 03:43 -->
+<!-- 2026-08-07 Fri 23:29 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 001: An introduction.</title>
@@ -64,17 +64,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgbd76d40" class="outline-2">
-<h2 id="orgbd76d40">Summary:</h2>
-<div class="outline-text-2" id="text-orgbd76d40">
+<div id="outline-container-org230d5f0" class="outline-2">
+<h2 id="org230d5f0">Summary:</h2>
+<div class="outline-text-2" id="text-org230d5f0">
 <p>
 I am building <a href="https://github.com/wmealing/concrete">Concrete</a>, a full-stack web framework for Erlang. Concrete compiles Erlang code to a JavaScript bundle at build time. A browser runtime then runs that bundle. Concrete does not use Elixir. Concrete does not use a JavaScript framework. This post explains the goal of Concrete and shows the basic shape of a component.
 </p>
 </div>
 </div>
-<div id="outline-container-org6141509" class="outline-2">
-<h2 id="org6141509">Why I Started This Project</h2>
-<div class="outline-text-2" id="text-org6141509">
+<div id="outline-container-orgf0c3846" class="outline-2">
+<h2 id="orgf0c3846">Why I Started This Project</h2>
+<div class="outline-text-2" id="text-orgf0c3846">
 <p>
 I write Erlang for most of my work. I like Erlang for its process model and its fault tolerance. I do not like the standard split between a backend language and a frontend language. That split forces mee to write business logic twice: once on the server, once in JavaScript.
 </p>
@@ -97,9 +97,9 @@ only Erlang and a rebar3 build plugin.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbdc1b95" class="outline-2">
-<h2 id="orgbdc1b95">The Basic Idea</h2>
-<div class="outline-text-2" id="text-orgbdc1b95">
+<div id="outline-container-orgaad4db7" class="outline-2">
+<h2 id="orgaad4db7">The Basic Idea</h2>
+<div class="outline-text-2" id="text-orgaad4db7">
 <p>
 Concrete works in two stages.
 </p>
@@ -144,9 +144,9 @@ Encoder      Call graph / dead-code removal
 </div>
 </div>
 </div>
-<div id="outline-container-org6b00c97" class="outline-2">
-<h2 id="org6b00c97">A Component in Concrete</h2>
-<div class="outline-text-2" id="text-org6b00c97">
+<div id="outline-container-orgb70430a" class="outline-2">
+<h2 id="orgb70430a">A Component in Concrete</h2>
+<div class="outline-text-2" id="text-orgb70430a">
 <p>
 A Concrete component is an Erlang module. The module implements the <code>concrete_component</code> <a href="https://metajack.im/2008/10/29/custom-behaviors-in-erlang/">behavior</a>. The behavior ensures each component defines three functions: <code>init/2</code> sets the starting state, <code>action/3</code> handles an event from the browser, and <code>template/0</code> names the <code>.slab</code> template file for the component.
 </p>
@@ -195,9 +195,9 @@ The build plugin compiles <code>counter.erl</code> to JavaScript. A user opens t
 </p>
 </div>
 </div>
-<div id="outline-container-orgb569e00" class="outline-2">
-<h2 id="orgb569e00">One Rule to Remember Now</h2>
-<div class="outline-text-2" id="text-orgb569e00">
+<div id="outline-container-org978f3f4" class="outline-2">
+<h2 id="org978f3f4">One Rule to Remember Now</h2>
+<div class="outline-text-2" id="text-org978f3f4">
 <p>
 Write binaries for text in component code. Do not write plain strings.
 </p>
@@ -215,9 +215,9 @@ I will explain the reason for this rule in a later post about the wire format be
 </p>
 </div>
 </div>
-<div id="outline-container-org36cc295" class="outline-2">
-<h2 id="org36cc295">What Comes Next</h2>
-<div class="outline-text-2" id="text-org36cc295">
+<div id="outline-container-orgbdef3a9" class="outline-2">
+<h2 id="orgbdef3a9">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgbdef3a9">
 <p>
 This post gave a short view of Concrete. Later posts will cover each part in more detail:
 </p>
@@ -240,15 +240,35 @@ built yet. I will note the current state of each part as I write about it.
 </p>
 </div>
 </div>
-<div id="outline-container-org2f9ffd7" class="outline-2">
-<h2 id="org2f9ffd7">Resources:</h2>
-<div class="outline-text-2" id="text-org2f9ffd7">
+<div id="outline-container-orgfff5943" class="outline-2">
+<h2 id="orgfff5943">Resources:</h2>
+<div class="outline-text-2" id="text-orgfff5943">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>
 
 <p>
 <a href="https://github.com/bartblast/hologram">https://github.com/bartblast/hologram</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
 </p>
 </div>
 </div>

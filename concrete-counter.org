@@ -136,6 +136,14 @@ https://github.com/wmealing/concrete
 
 [[./concrete-intro.html][Concrete 001: An Introduction]]
 
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
+
+[[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
+
 Other projects that compile one language to run on both the server and the browser:
 
 - [[http://plv.csail.mit.edu/ur/][Ur/Web]] — a typed language from MIT that compiles one source file to JavaScript for the browser, C for the server, and SQL for the database. The closest match to the Concrete idea, outside the BEAM world.

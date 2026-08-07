@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-07 Fri 03:43 -->
+<!-- 2026-08-07 Fri 23:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Wade Mealing</title>
@@ -112,18 +112,18 @@
         </a>
     </div>
 </div>
-<div id="outline-container-org70fdbb9" class="outline-2">
-<h2 id="org70fdbb9">Recent Blog Posts</h2>
+<div id="outline-container-org42f08e7" class="outline-2">
+<h2 id="org42f08e7">Recent Blog Posts</h2>
 </div>
 
-<div id="outline-container-post-227f5e95" class="outline-2">
-<h2 id="post-227f5e95"><a href="./concrete-callgraph.html">Concrete 005: Call Graphs and Dead Code - Aug 2026</a></h2>
-<div class="outline-text-2" id="text-post-227f5e95">
+<div id="outline-container-post-ac9b997f" class="outline-2">
+<h2 id="post-ac9b997f"><a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop - Aug 2026</a></h2>
+<div class="outline-text-2" id="text-post-ac9b997f">
 <p>
-Fifth post, skipped straight past the compiler-internals posts I'd planned because dead-code elimination is
-more useful to know about than IR records. Also found two real gaps while reading the actual walker code:
-it doesn't look inside <code>if=/=try=/=receive</code>, and <code>apply/3</code> just vanishes with no warning, despite the project
-notes promising one. Wrote it up honestly instead of glossing over it.
+Fifth post, and a pivot from the compiler-internals plan: built <code>concrete_js</code>, a way to call any already-loaded
+JavaScript library (three.js was the actual itch) from compiled Erlang. Expected to need transformer and encoder
+changes for this. Needed neither, once I actually looked at how a remote call already compiles - so the whole
+post ended up being about why that's true, not just how to use the thing.
 </p>
 </div>
 </div>
@@ -169,9 +169,9 @@ series, covering why it exists and what a component looks like.
 </p>
 </div>
 </div>
-<div id="outline-container-org9af6121" class="outline-2">
-<h2 id="org9af6121"><a href="./row-level-security.html">Headless IoT Auth with Postgres RLS - May 2026</a></h2>
-<div class="outline-text-2" id="text-org9af6121">
+<div id="outline-container-org055348a" class="outline-2">
+<h2 id="org055348a"><a href="./row-level-security.html">Headless IoT Auth with Postgres RLS - May 2026</a></h2>
+<div class="outline-text-2" id="text-org055348a">
 <p>
 I got tired of writing the same device-authentication middleware for every IoT project. This post walks
 through how Postgres Row Level Security and PostgREST let each device authenticate directly at the
@@ -179,17 +179,17 @@ database layer using a per-device secret, with no auth server in the middle to b
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5cbc96" class="outline-2">
-<h2 id="orgf5cbc96"><a href="./cellium-stateless-render.html">Cellium 007 - State Injection</a> - Apr 2026</h2>
-<div class="outline-text-2" id="text-orgf5cbc96">
+<div id="outline-container-org2e1202e" class="outline-2">
+<h2 id="org2e1202e"><a href="./cellium-stateless-render.html">Cellium 007 - State Injection</a> - Apr 2026</h2>
+<div class="outline-text-2" id="text-org2e1202e">
 <p>
 I've been working on a way to simplify working with widgets in Cellium. Instead of passing every UI detail down through a massive chain of functions, I’m keeping a set of computed values in the model. When it’s time to draw the widget, the draw code looks up the state and grafts it back on right before the draw.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc90adb3" class="outline-2">
-<h2 id="orgc90adb3"><a href="./cellium-css.html">Cellium 006 - CSS Support</a> - Apr 2026</h2>
-<div class="outline-text-2" id="text-orgc90adb3">
+<div id="outline-container-org4b49c91" class="outline-2">
+<h2 id="org4b49c91"><a href="./cellium-css.html">Cellium 006 - CSS Support</a> - Apr 2026</h2>
+<div class="outline-text-2" id="text-org4b49c91">
 <p>
 I haven't talked abotu this yet, but there is basic "styling" support of text widgets in cellium, it makes theming it
 a little easier.  Its 'somewhat' working right now.. i'll need to have support for multiple style sheets, i'll address
@@ -197,339 +197,339 @@ that in the future.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbbfda52" class="outline-2">
-<h2 id="orgbbfda52"><a href="./cellium-widget-gallery.html">Cellium 005 - Aint nobody Reading this - Apr 2026</a></h2>
-<div class="outline-text-2" id="text-orgbbfda52">
+<div id="outline-container-org082ee92" class="outline-2">
+<h2 id="org082ee92"><a href="./cellium-widget-gallery.html">Cellium 005 - Aint nobody Reading this - Apr 2026</a></h2>
+<div class="outline-text-2" id="text-org082ee92">
 <p>
 I've updated the widget gallery to demonstrate two new widgets.. There are screenshots in here of cellium of the current state.
 All screenshots were taken using any other terminal than apples terminal, because it cant render more than 16 colors well.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf16e68b" class="outline-2">
-<h2 id="orgf16e68b"><a href="./cellium-updates.html">Cellium 004 - A non Umbrella Project - Apr 2026</a></h2>
-<div class="outline-text-2" id="text-orgf16e68b">
+<div id="outline-container-org3935b5c" class="outline-2">
+<h2 id="org3935b5c"><a href="./cellium-updates.html">Cellium 004 - A non Umbrella Project - Apr 2026</a></h2>
+<div class="outline-text-2" id="text-org3935b5c">
 <p>
 A user of my library suggested they couldn't use the cellium application in a project as a dependency in rebar, I've had to
 migrate the project from an umbrella to a standard application to make it happen, now it works, thats a win.
 </p>
 </div>
 </div>
-<div id="outline-container-orgacca344" class="outline-2">
-<h2 id="orgacca344"><a href="./abstraction-vs-transformation.html">Abstraction vs Transformation - Mar 2026</a></h2>
-<div class="outline-text-2" id="text-orgacca344">
+<div id="outline-container-org3b0debd" class="outline-2">
+<h2 id="org3b0debd"><a href="./abstraction-vs-transformation.html">Abstraction vs Transformation - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-org3b0debd">
 <p>
 Performance and efficiency weigh heavy on my mind lately. I've spent enough time in the world of Lisp to see how abstractions can mask the implementation details that actually matter for speed. This is a bit of a rant on why transformation is often a better path than building layers that just get in the way.
 </p>
 </div>
 </div>
-<div id="outline-container-org1d68059" class="outline-2">
-<h2 id="org1d68059"><a href="./gemini-erlmcp-guide.html">Configuring Gemini for Erlang-MCP - Mar 2026</a></h2>
-<div class="outline-text-2" id="text-org1d68059">
+<div id="outline-container-org303de20" class="outline-2">
+<h2 id="org303de20"><a href="./gemini-erlmcp-guide.html">Configuring Gemini for Erlang-MCP - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-org303de20">
 <p>
 I've been setting up the Gemini CLI with the Model Context Protocol (MCP) server. Specifically, I've got erlang-mcp working to help out with development. This guide walks through the setup and how it can actually be useful when you're working on Erlang code.
 </p>
 </div>
 </div>
-<div id="outline-container-org73888b4" class="outline-2">
-<h2 id="org73888b4"><a href="./KO2-EP-133-midi-sysex-messages.html">Decoding the KO2 EP-133 SYSEX messages - Mar 2026</a></h2>
-<div class="outline-text-2" id="text-org73888b4">
+<div id="outline-container-orgfb1595b" class="outline-2">
+<h2 id="orgfb1595b"><a href="./KO2-EP-133-midi-sysex-messages.html">Decoding the KO2 EP-133 SYSEX messages - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-orgfb1595b">
 <p>
 Teenage Engineering released the EP-133, and I've been digging into the USB MIDI stream to see what's actually going on. This is a massive dump of the SYSEX messages I've managed to decode so far. If you're into MIDI hacking or just want to see how this hardware talks, check it out.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb48268f" class="outline-2">
-<h2 id="orgb48268f"><a href="./raft-webserver.html">Highly Durable execution in Erlang - Mar 2026</a></h2>
-<div class="outline-text-2" id="text-orgb48268f">
+<div id="outline-container-org264a9a4" class="outline-2">
+<h2 id="org264a9a4"><a href="./raft-webserver.html">Highly Durable execution in Erlang - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-org264a9a4">
 <p>
 Have you ever wonder what happens after an Erlang supervisor tries to "let it crash" but realizes it can't magically restore the data lost in the process? This post investigates the practice of building a 3-node cluster using the ra library to handle the Raft consensus protocol.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd76a359" class="outline-2">
-<h2 id="orgd76a359"><a href="./caveman2-with-ai.html">Caveman2 and AI Peer Programming - Mar 2026</a></h2>
-<div class="outline-text-2" id="text-orgd76a359">
+<div id="outline-container-orgf1918ed" class="outline-2">
+<h2 id="orgf1918ed"><a href="./caveman2-with-ai.html">Caveman2 and AI Peer Programming - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-orgf1918ed">
 <p>
 Everyone keeps saying AI is going to take our jobs. I decided to take the opposite approach and try to take Claude's job by finding all the mistakes it makes when trying to write Common Lisp. Peer programming with an LLM is a weird experience.
 </p>
 </div>
 </div>
-<div id="outline-container-org9670608" class="outline-2">
-<h2 id="org9670608"><a href="./trickbot-persistence.html">Trickbot Persistence and Evasion - Mar 2026</a></h2>
-<div class="outline-text-2" id="text-org9670608">
+<div id="outline-container-org1c59007" class="outline-2">
+<h2 id="org1c59007"><a href="./trickbot-persistence.html">Trickbot Persistence and Evasion - Mar 2026</a></h2>
+<div class="outline-text-2" id="text-org1c59007">
 <p>
 A system reboot usually clears things out, but malware like Trickbot has plenty of tricks to stay around. I've looked into the persistence mechanisms it uses to survive reboots and kernel updates. It's an interesting dive into how these things hide in plain sight.
 </p>
 </div>
 </div>
-<div id="outline-container-org8a988b8" class="outline-2">
-<h2 id="org8a988b8"><a href="https://wmealing.github.io/cellium-remote-shell.html">Erlang Remote Shell for Rapid Development - Nov 2025</a></h2>
-<div class="outline-text-2" id="text-org8a988b8">
+<div id="outline-container-orge1b28a3" class="outline-2">
+<h2 id="orge1b28a3"><a href="https://wmealing.github.io/cellium-remote-shell.html">Erlang Remote Shell for Rapid Development - Nov 2025</a></h2>
+<div class="outline-text-2" id="text-orge1b28a3">
 <p>
 Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the core advantage of OTP: continuous introspection. Using the remote shell workflow is the answer, transforming your text editor into a dynamic window directly into your running Erlang system.
 </p>
 </div>
 </div>
-<div id="outline-container-org9c92544" class="outline-2">
-<h2 id="org9c92544"><a href="./feed-llm-janet.html">Care and Feeding of your LLM for Janet - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-org9c92544">
+<div id="outline-container-orge8834a2" class="outline-2">
+<h2 id="orge8834a2"><a href="./feed-llm-janet.html">Care and Feeding of your LLM for Janet - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-orge8834a2">
 <p>
 It's unlikely that LLMs will ever spend much time parsing my blog, but I figured I'd write down some notes on how to help them understand Janet. It's a great language that deserves better representation in the training sets.
 </p>
 </div>
 </div>
-<div id="outline-container-org68c8f40" class="outline-2">
-<h2 id="org68c8f40"><a href="./eunit-parallel.html">Running Eunit Tests in Parallel - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-org68c8f40">
+<div id="outline-container-orge057188" class="outline-2">
+<h2 id="orge057188"><a href="./eunit-parallel.html">Running Eunit Tests in Parallel - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-orge057188">
 <p>
 Waiting for tests is a waste of time. I've been looking into how to get Eunit tests running in parallel to speed up the feedback loop. It's not always straightforward, but the time saved is worth the effort.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf9f3a62" class="outline-2">
-<h2 id="orgf9f3a62"><a href="./grokking-simplicty.html">Grokking Simplicity - Notes and Rants - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-orgf9f3a62">
+<div id="outline-container-orgc59f6db" class="outline-2">
+<h2 id="orgc59f6db"><a href="./grokking-simplicty.html">Grokking Simplicity - Notes and Rants - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-orgc59f6db">
 <p>
 I'm trying to keep better notes on the books I'm reading. Grokking Simplicity is a good one, and I've compiled my thoughts and some useful bits from the text. Hopefully it ends up being useful to someone else too.
 </p>
 </div>
 </div>
-<div id="outline-container-org2f47a00" class="outline-2">
-<h2 id="org2f47a00"><a href="./going-pro.html">Going Pro with Handy and Bryant - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-org2f47a00">
+<div id="outline-container-org9ede372" class="outline-2">
+<h2 id="org9ede372"><a href="./going-pro.html">Going Pro with Handy and Bryant - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-org9ede372">
 <p>
 Just some notes and reflections on professional development, specifically looking at some advice from Handy and Bryant. It's good to step back from the code sometimes and think about the bigger picture of how we work.
 </p>
 </div>
 </div>
-<div id="outline-container-org0176596" class="outline-2">
-<h2 id="org0176596"><a href="./cellium-progressbar.html">Cellium 003 - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-org0176596">
+<div id="outline-container-org19281e8" class="outline-2">
+<h2 id="org19281e8"><a href="./cellium-progressbar.html">Cellium 003 - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-org19281e8">
 <p>
 Sometimes a simple text percentage isn't enough, you need bars. The progress bar provides a clean, terminal-friendly bar that you can update dynamically. We'll dive into the Erlang source and look at how the percentage is clamped to a valid range.
 </p>
 </div>
 </div>
-<div id="outline-container-orge81f09e" class="outline-2">
-<h2 id="orge81f09e"><a href="./cellium-focus.html">Cellium 002 - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-orge81f09e">
+<div id="outline-container-orgedd6377" class="outline-2">
+<h2 id="orgedd6377"><a href="./cellium-focus.html">Cellium 002 - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-orgedd6377">
 <p>
 I have wanted some helpers built into my TUI libraries that help differentiate when a widget has focus. I've made a rudimentary attempt at adding focus to the 'cellium' behavior, which you can use to your advantage.
 </p>
 </div>
 </div>
-<div id="outline-container-orge043f33" class="outline-2">
-<h2 id="orge043f33"><a href="./cellium-first.html">Cellium 001 - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-orge043f33">
+<div id="outline-container-orgce535f0" class="outline-2">
+<h2 id="orgce535f0"><a href="./cellium-first.html">Cellium 001 - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-orgce535f0">
 <p>
 In an attempt to make my erlang code a little less complex, I've been convinced that I must drop the web and all the complexity that entails. I've written a TUI library called cellium which uses the popular TEA architecture.
 </p>
 </div>
 </div>
-<div id="outline-container-org6640523" class="outline-2">
-<h2 id="org6640523"><a href="https://wmealing.github.io/github-not-connecting.html">Rebar3 / git not connecting to github - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-org6640523">
+<div id="outline-container-orgc549c2e" class="outline-2">
+<h2 id="orgc549c2e"><a href="https://wmealing.github.io/github-not-connecting.html">Rebar3 / git not connecting to github - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-orgc549c2e">
 <p>
 Rebar3 was failing to fetch dependencies from github when I was setting up a new LFE project. I found a simple fix using git's url rewriting feature. One config command later and rebar3 can fetch dependencies without complaint.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfa40517" class="outline-2">
-<h2 id="orgfa40517"><a href="https://wmealing.github.io/eunit-surefire-report.html">Consuming eunit surefire xml reports - Oct 2025</a></h2>
-<div class="outline-text-2" id="text-orgfa40517">
+<div id="outline-container-org1081622" class="outline-2">
+<h2 id="org1081622"><a href="https://wmealing.github.io/eunit-surefire-report.html">Consuming eunit surefire xml reports - Oct 2025</a></h2>
+<div class="outline-text-2" id="text-org1081622">
 <p>
 Eunit spits out test results to the console, but sometimes you want something a bit more presentable. I'll show you how to wire up rebar.config and create a basic pom.xml to get surefire style XML output turned into HTML.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf8f7d83" class="outline-2">
-<h2 id="orgf8f7d83"><a href="https://wmealing.github.io/erlang-emacs-2025.html">Setting up Emacs and Erlang - Sep 2025</a></h2>
-<div class="outline-text-2" id="text-orgf8f7d83">
+<div id="outline-container-org9392ff8" class="outline-2">
+<h2 id="org9392ff8"><a href="https://wmealing.github.io/erlang-emacs-2025.html">Setting up Emacs and Erlang - Sep 2025</a></h2>
+<div class="outline-text-2" id="text-org9392ff8">
 <p>
 Using Erlang in Emacs, I'll show you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into a usable setup in 2025. It's simpler than you think.
 </p>
 </div>
 </div>
-<div id="outline-container-org0613a41" class="outline-2">
-<h2 id="org0613a41"><a href="./robust-recovery.html">Robust Recovery in Erlang - Aug 2025</a></h2>
-<div class="outline-text-2" id="text-org0613a41">
+<div id="outline-container-org9236360" class="outline-2">
+<h2 id="org9236360"><a href="./robust-recovery.html">Robust Recovery in Erlang - Aug 2025</a></h2>
+<div class="outline-text-2" id="text-org9236360">
 <p>
 Managing failure is a common challenge. This post dives into a practical example of how to orchestrate jobs, monitor each one for success or failure, and compile a report on the outcomes using Erlang's unique approach to fault tolerance.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdc1077d" class="outline-2">
-<h2 id="orgdc1077d"><a href="./lfe-gen-server.html">Lisp Flavored Erlang Gen Server - 2024</a></h2>
-<div class="outline-text-2" id="text-orgdc1077d">
+<div id="outline-container-org060418a" class="outline-2">
+<h2 id="org060418a"><a href="./lfe-gen-server.html">Lisp Flavored Erlang Gen Server - 2024</a></h2>
+<div class="outline-text-2" id="text-org060418a">
 <p>
 I decided to collapse two of my interests, lisp and erlang. Lisp flavored erlang isn't going to win any popularity contests, but it's something I don't entirely hate working on. Here's a quick tutorial on gen_server.
 </p>
 </div>
 </div>
-<div id="outline-container-org6a41826" class="outline-2">
-<h2 id="org6a41826"><a href="https://wmealing.github.io/using-style-dictionaries.html">Using Style Dictionaries from Clojure - Oct 2024</a></h2>
-<div class="outline-text-2" id="text-org6a41826">
+<div id="outline-container-orgf0b6f3b" class="outline-2">
+<h2 id="orgf0b6f3b"><a href="https://wmealing.github.io/using-style-dictionaries.html">Using Style Dictionaries from Clojure - Oct 2024</a></h2>
+<div class="outline-text-2" id="text-orgf0b6f3b">
 <p>
 Unify your design system and codebase the functional way. In this post, I'll show you how to harness the power of Style Dictionary from Clojure, turning token files for use in your clojure code with minimal fuss.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbe42209" class="outline-2">
-<h2 id="orgbe42209"><a href="http://wmealing.github.io/sending-email-in-common-lisp.html">Sending email in Common Lisp - Sep 2024</a></h2>
-<div class="outline-text-2" id="text-orgbe42209">
+<div id="outline-container-org92004c9" class="outline-2">
+<h2 id="org92004c9"><a href="http://wmealing.github.io/sending-email-in-common-lisp.html">Sending email in Common Lisp - Sep 2024</a></h2>
+<div class="outline-text-2" id="text-org92004c9">
 <p>
 Want to integrate email functionality into your Common Lisp applications? The cl-smtp library can help. We'll walk through the process of using cl-smtp to send emails via Google's mail servers.
 </p>
 </div>
 </div>
-<div id="outline-container-org9e81f3f" class="outline-2">
-<h2 id="org9e81f3f"><a href="https://wmealing.github.io/custom-software-errors.html">The best error messages I've ever seen - Sep 2024</a></h2>
-<div class="outline-text-2" id="text-org9e81f3f">
+<div id="outline-container-org62194a3" class="outline-2">
+<h2 id="org62194a3"><a href="https://wmealing.github.io/custom-software-errors.html">The best error messages I've ever seen - Sep 2024</a></h2>
+<div class="outline-text-2" id="text-org62194a3">
 <p>
 Writing clear and effective error messages is a crucial skill. A good error message not only informs the user about what went wrong but also suggests potential solutions. I've expanded on the principles of user-friendly errors here.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc71fd79" class="outline-2">
-<h2 id="orgc71fd79"><a href="http://wmealing.github.io/mac-os-midi-router-broken.html">Apple Mac OS Midi routing is broken</a></h2>
-<div class="outline-text-2" id="text-orgc71fd79">
+<div id="outline-container-org5ee0818" class="outline-2">
+<h2 id="org5ee0818"><a href="http://wmealing.github.io/mac-os-midi-router-broken.html">Apple Mac OS Midi routing is broken</a></h2>
+<div class="outline-text-2" id="text-org5ee0818">
 <p>
 I have some new music making hardware and wanted to try to get them to talk together. Mac OS Midi routing is definitely not as seamless as people say, but I did find a workaround for routing USB MIDI hosts.
 </p>
 </div>
 </div>
-<div id="outline-container-org68145e1" class="outline-2">
-<h2 id="org68145e1"><a href="http://wmealing.github.io/minimise.html">Minimise</a></h2>
-<div class="outline-text-2" id="text-org68145e1">
+<div id="outline-container-orgb2797fb" class="outline-2">
+<h2 id="orgb2797fb"><a href="http://wmealing.github.io/minimise.html">Minimise</a></h2>
+<div class="outline-text-2" id="text-orgb2797fb">
 <p>
 In the interest of not polluting the internet with my ill-informed opinion, I've deleted a bunch of social media and messenger accounts. Less of me on the internet can only be a net win for society.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd362d64" class="outline-2">
-<h2 id="orgd362d64"><a href="./reverse-engineering-teenage-engineering.html">Downloading the EP133 firmware from Teenage Engineering</a></h2>
-<div class="outline-text-2" id="text-orgd362d64">
+<div id="outline-container-orgb788e17" class="outline-2">
+<h2 id="orgb788e17"><a href="./reverse-engineering-teenage-engineering.html">Downloading the EP133 firmware from Teenage Engineering</a></h2>
+<div class="outline-text-2" id="text-orgb788e17">
 <p>
 Teenage Engineering released the EP-133, a mid range sampler/synth. I looked into the updater to find out as much as I can. The firmware is encrypted, but I've documented what I've found so far.
 </p>
 </div>
 </div>
-<div id="outline-container-org6348326" class="outline-2">
-<h2 id="org6348326"><a href="https://wmealing.github.io/atomic-operations-in-common-lisp.html">Atom(ic) Operations in Common Lisp - 2023</a></h2>
-<div class="outline-text-2" id="text-org6348326">
+<div id="outline-container-org44662d7" class="outline-2">
+<h2 id="org44662d7"><a href="https://wmealing.github.io/atomic-operations-in-common-lisp.html">Atom(ic) Operations in Common Lisp - 2023</a></h2>
+<div class="outline-text-2" id="text-org44662d7">
 <p>
 This entry talks about using Clojure like "atoms" to simplify management of shared, synchronous, independent state in Common Lisp. It turns out it is easier than I thought.
 </p>
 </div>
 </div>
-<div id="outline-container-orga1770de" class="outline-2">
-<h2 id="orga1770de"><a href="https://wmealing.github.io/lfe-github-actions.html">Setting up GitHub Actions for LFE CI/CD - 2023</a></h2>
-<div class="outline-text-2" id="text-orga1770de">
+<div id="outline-container-orgf06bcd5" class="outline-2">
+<h2 id="orgf06bcd5"><a href="https://wmealing.github.io/lfe-github-actions.html">Setting up GitHub Actions for LFE CI/CD - 2023</a></h2>
+<div class="outline-text-2" id="text-orgf06bcd5">
 <p>
 I'm involved in competing with spawnfest this weekend, so I figured it's time to setup LFE for CI/CD with GitHub Actions. It's a simple setup that runs tests and handles containers.
 </p>
 </div>
 </div>
-<div id="outline-container-org32fe528" class="outline-2">
-<h2 id="org32fe528"><a href="https://wmealing.github.io/htmx-common-lisp.html">Common Lisp and HTMX - 2023</a></h2>
-<div class="outline-text-2" id="text-org32fe528">
+<div id="outline-container-org89e1c0e" class="outline-2">
+<h2 id="org89e1c0e"><a href="https://wmealing.github.io/htmx-common-lisp.html">Common Lisp and HTMX - 2023</a></h2>
+<div class="outline-text-2" id="text-org89e1c0e">
 <p>
 Common Lisp and HTMX provide a sane platform to develop basic applications. I outline the reasons that I have chosen them and the new voice I plan to use while blogging.
 </p>
 </div>
 </div>
-<div id="outline-container-org9d9fdae" class="outline-2">
-<h2 id="org9d9fdae"><a href="./emacs-org-babel-analysis.html">Supercharge your workflow with Emacs and org-babel</a></h2>
-<div class="outline-text-2" id="text-org9d9fdae">
+<div id="outline-container-org84461bb" class="outline-2">
+<h2 id="org84461bb"><a href="./emacs-org-babel-analysis.html">Supercharge your workflow with Emacs and org-babel</a></h2>
+<div class="outline-text-2" id="text-org84461bb">
 <p>
 I do kernel flaw analysis for a living, and someone asked me for a write up on how I use org-babel to do my work. I've documented the whole workflow in this rant.
 </p>
 </div>
 </div>
-<div id="outline-container-orgca24bb2" class="outline-2">
-<h2 id="orgca24bb2"><a href="./less-than-optimistic.html">Choosing the wrong roads</a></h2>
-<div class="outline-text-2" id="text-orgca24bb2">
+<div id="outline-container-org9350224" class="outline-2">
+<h2 id="org9350224"><a href="./less-than-optimistic.html">Choosing the wrong roads</a></h2>
+<div class="outline-text-2" id="text-org9350224">
 <p>
 I've spent the last week reflecting on some poor programming life choices I've made. If you disagree with the majority, perhaps you are wrong. I've written about it to clear my mind.
 </p>
 </div>
 </div>
-<div id="outline-container-org21f89c7" class="outline-2">
-<h2 id="org21f89c7"><a href="./simple-cobol-query.html">COBOL - Simple screen for keyboard input</a></h2>
-<div class="outline-text-2" id="text-org21f89c7">
+<div id="outline-container-orge7d5a0f" class="outline-2">
+<h2 id="orge7d5a0f"><a href="./simple-cobol-query.html">COBOL - Simple screen for keyboard input</a></h2>
+<div class="outline-text-2" id="text-orge7d5a0f">
 <p>
 One of the effectively powerful things that gnuCOBOL can do is a TUI. It's not fancy but it gets the job done much quicker than most webapps. Here is a simple example for Linux and Mac OS X.
 </p>
 </div>
 </div>
-<div id="outline-container-org7dffcaf" class="outline-2">
-<h2 id="org7dffcaf"><a href="http://wmealing.github.io/lisp-range.html">Python Range function in Lisp - Aug 2022</a></h2>
-<div class="outline-text-2" id="text-org7dffcaf">
+<div id="outline-container-org6af0264" class="outline-2">
+<h2 id="org6af0264"><a href="http://wmealing.github.io/lisp-range.html">Python Range function in Lisp - Aug 2022</a></h2>
+<div class="outline-text-2" id="text-org6af0264">
 <p>
 I have wanted a quick way to do something similar to the python range function in Common Lisp. Sometimes I just want immediate list creation without the boilerplate.
 </p>
 </div>
 </div>
-<div id="outline-container-org754c19f" class="outline-2">
-<h2 id="org754c19f"><a href="http://wmealing.github.io/wx-erlang-example.html">Simple WX example in Erlang - July 2022</a></h2>
-<div class="outline-text-2" id="text-org754c19f">
+<div id="outline-container-org446f05b" class="outline-2">
+<h2 id="org446f05b"><a href="http://wmealing.github.io/wx-erlang-example.html">Simple WX example in Erlang - July 2022</a></h2>
+<div class="outline-text-2" id="text-org446f05b">
 <p>
 I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry. This is what works for me.
 </p>
 </div>
 </div>
-<div id="outline-container-orga074c75" class="outline-2">
-<h2 id="orga074c75"><a href="https://wmealing.github.io/mirai-delete-yourself.html">MIRAI analysis - evasion by deleting code - Nov 2020</a></h2>
-<div class="outline-text-2" id="text-orga074c75">
+<div id="outline-container-org9d25e0c" class="outline-2">
+<h2 id="org9d25e0c"><a href="https://wmealing.github.io/mirai-delete-yourself.html">MIRAI analysis - evasion by deleting code - Nov 2020</a></h2>
+<div class="outline-text-2" id="text-org9d25e0c">
 <p>
 The MIRAI malware deletes itself from disk to make it harder to analyse. This post goes into detail on how it works, a rust implementation, and a few improvements.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb55aef9" class="outline-2">
-<h2 id="orgb55aef9"><a href="https://wmealing.github.io/watchdog-in-rust.html">MIRAI analysis - watchdog access in Rust - Nov 2020</a></h2>
-<div class="outline-text-2" id="text-orgb55aef9">
+<div id="outline-container-org581b448" class="outline-2">
+<h2 id="org581b448"><a href="https://wmealing.github.io/watchdog-in-rust.html">MIRAI analysis - watchdog access in Rust - Nov 2020</a></h2>
+<div class="outline-text-2" id="text-org581b448">
 <p>
 The MIRAI malware uses a technique to prevent the systems watchdog from rebooting the machine. I share what I learned about this and ported the logic to Rust.
 </p>
 </div>
 </div>
-<div id="outline-container-org74decb0" class="outline-2">
-<h2 id="org74decb0"><a href="./ebpf-disabled-for-users.html">Userspace eBPF - Sep 2020</a></h2>
-<div class="outline-text-2" id="text-org74decb0">
+<div id="outline-container-org13c3a79" class="outline-2">
+<h2 id="org13c3a79"><a href="./ebpf-disabled-for-users.html">Userspace eBPF - Sep 2020</a></h2>
+<div class="outline-text-2" id="text-org13c3a79">
 <p>
 A few distros have users allowed to insert eBPF programs, but it's disabled in others. I've documented my findings after talking to the decision holders who made these choices.
 </p>
 </div>
 </div>
-<div id="outline-container-orgef61692" class="outline-2">
-<h2 id="orgef61692"><a href="./signed-kernel-modules.html">Anatomy of kernel module signing - Aug 2020</a></h2>
-<div class="outline-text-2" id="text-orgef61692">
+<div id="outline-container-org9251028" class="outline-2">
+<h2 id="org9251028"><a href="./signed-kernel-modules.html">Anatomy of kernel module signing - Aug 2020</a></h2>
+<div class="outline-text-2" id="text-org9251028">
 <p>
 I decided to take a look at the Linux kernel modules signing process, specifically regarding its implementations on Red Hat Enterprise Linux and the misinformation in recent malware.
 </p>
 </div>
 </div>
-<div id="outline-container-orgaaf7be1" class="outline-2">
-<h2 id="orgaaf7be1"><a href="./tpm-pcr07.html">Encrypting a disk for specific system boot - Aug 2020</a></h2>
-<div class="outline-text-2" id="text-orgaaf7be1">
+<div id="outline-container-org3da8cfc" class="outline-2">
+<h2 id="org3da8cfc"><a href="./tpm-pcr07.html">Encrypting a disk for specific system boot - Aug 2020</a></h2>
+<div class="outline-text-2" id="text-org3da8cfc">
 <p>
 Recent research into flaws in thunderbolt and secureboot piqued my interest. I've written about what can be done to prevent a compromised system from being abused using TPM PCRs.
 </p>
 </div>
 </div>
-<div id="outline-container-org0567a08" class="outline-2">
-<h2 id="org0567a08"><a href="./toshiba-toughpad-fz-g1-3.html">Toshiba Toughpad FZ-G1-3 - Jul 2020</a></h2>
-<div class="outline-text-2" id="text-org0567a08">
+<div id="outline-container-org3c4d51a" class="outline-2">
+<h2 id="org3c4d51a"><a href="./toshiba-toughpad-fz-g1-3.html">Toshiba Toughpad FZ-G1-3 - Jul 2020</a></h2>
+<div class="outline-text-2" id="text-org3c4d51a">
 <p>
 I recently purchased one of these machines in an auction and I am very impressed with its build quality. Here are the customizations I've done to make it work for me.
 </p>
 </div>
 </div>
-<div id="outline-container-org06c1ac4" class="outline-2">
-<h2 id="org06c1ac4">Kernel SecuriTea</h2>
-<div class="outline-text-2" id="text-org06c1ac4">
+<div id="outline-container-org3fc7187" class="outline-2">
+<h2 id="org3fc7187">Kernel SecuriTea</h2>
+<div class="outline-text-2" id="text-org3fc7187">
 <p>
 I work on a small youtube channel where I talk about kernel security issues that interest me. I work on quite a lot of these in my work so i'm limited to what I can cover.
 </p>
