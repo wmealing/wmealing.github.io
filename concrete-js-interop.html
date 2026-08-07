@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-07 Fri 23:29 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 005: JavaScript Interop.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Calling an already-loaded JavaScript library, like three.js, from compiled Erlang" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Calling an already-loaded JavaScript library, like three.js, from compiled Erlang" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 005: JavaScript Interop.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-org3b927ea" class="outline-2">
+<h2 id="org3b927ea">Summary:</h2>
+<div class="outline-text-2" id="text-org3b927ea">
+<p>
+Every demo so far talks to the browser through a fixed set of hand-written BIFs: <code>dom:*</code>, <code>canvas:*</code>, <code>sse:*</code>, <code>http:*</code>. Each BIF wraps one native call. <code>canvas:arc/6</code> wraps <code>CanvasRenderingContext2D.arc</code>. This does not work for a real JavaScript library. This post covers <code>concrete_js</code>, a new module that calls into any code already loaded in the page. That code can come from three.js, from Chart.js, or from any other library loaded with a plain <code>&lt;script&gt;</code> tag. Concrete does not need to know about the library in advance.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcfd0c94" class="outline-2">
+<h2 id="orgcfd0c94">Why This Needs No Compiler Support</h2>
+<div class="outline-text-2" id="text-orgcfd0c94">
+<p>
+I expected this feature to need changes in the transformer and the encoder. It did not need either one. The reason is worth understanding before the module itself.
+</p>
+
+<p>
+<code>concrete_encoder</code> compiles every remote call the same way, no matter which module the call names:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>encode_ir(#ir_remote_call{module = #ir_atom{value = M}, function = #ir_atom{value = F},
+                           arity = A, args = Args}) -&gt;
+    ...
+    io_lib:format("Erlang[~s](~s)",
+        [encode_string(io_lib:format("~s:~s/~w", [M, F, A])),
+         join([encode_ir(Arg) || Arg &lt;- Args], ", ")])
+</code></pre>
+</div>
+
+<p>
+<code>dom:append_html(Id, Html)</code> and <code>concrete_js:call(Receiver, Method, Args)</code> compile to the same shape: a string lookup into a flat JavaScript object, <code>Erlang["dom:append_html/2"]</code> or <code>Erlang["concrete_js:call/3"]</code>. There is no Erlang module named <code>dom</code>. The encoder does not need one named <code>concrete_js</code> either. It only needs the runtime's <code>Erlang</code> table to hold an entry with that exact key.
+</p>
+
+<p>
+The call graph already treats a module with no BEAM abstract code as a dead end, not an error. A lookup into the PLT for <code>concrete_js:call/3</code> returns <code>not_found</code>. The walker adds the vertex, finds no further edges, and moves on. <code>concrete_encoder:encode_bundle/2</code> then skips encoding anything with no matching PLT entry. <code>concrete_js:*</code> calls get the same free ride <code>dom:*</code> and <code>canvas:*</code> already get. The only real module is <code>concrete_js.erl</code> itself. Its only job is to exist, so the functions have something to type-check against, and something safe to run if they ever run on the server. More on that below.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcbf1af5" class="outline-2">
+<h2 id="orgcbf1af5">The concrete_js Module</h2>
+<div class="outline-text-2" id="text-orgcbf1af5">
+<p>
+<code>concrete_js</code> exports seven functions: <code>call/2</code>, <code>call/3</code>, <code>new/2</code>, <code>get/2</code>, <code>set/3</code>, <code>delete/2</code>, <code>instanceof/2</code>, and <code>typeof/1</code>. A small three.js scene, built up piece by piece, uses most of them:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>Scene = concrete_js:new('THREE.Scene', []),
+Geo   = concrete_js:new('THREE.BoxGeometry', [1, 1, 1]),
+Mat   = concrete_js:new('THREE.MeshBasicMaterial', [#{color =&gt; 16711680}]),
+Mesh  = concrete_js:new('THREE.Mesh', [Geo, Mat]),
+concrete_js:call(Scene, add, [Mesh]).
+</code></pre>
+</div>
+
+<p>
+<code>new/2</code> constructs a class. It returns a value you can pass into later calls. <code>call/3</code> calls a method on a value you already have. <code>call/2</code> does the same thing without a receiver, for a bare global function. <code>get/2</code>, <code>set/3</code>, and <code>delete/2</code> read, write, and remove a property. <code>instanceof/2</code> and <code>typeof/1</code> answer the same questions the matching JavaScript operators answer.
+</p>
+
+<p>
+The example above takes more typing than the plain JavaScript it maps to: <code>scene.add(mesh)</code> against <code>concrete_js:call(Scene, add, [Mesh])</code>. I considered shortening the module name to <code>js</code>. I decided against it. Erlang has one flat, global module namespace, shared across every dependency an application pulls in. <code>js</code> is a short, common name. A project is likely to already use it for something of its own. A library should not claim a name that generic for everyone who depends on it. Upstream Hologram made the same choice: the module is <code>Hologram.JS</code>, not bare <code>JS</code>.
+</p>
+
+<p>
+The real fix for the typing is project-local, not library-wide. <code>include/concrete_js.hrl</code> defines one macro: <code>-define(js, concrete_js).</code>. Include it, and the same scene reads closer to the JavaScript it calls:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-include_lib("concrete/include/concrete_js.hrl").
+
+Scene = ?js:new('THREE.Scene', []),
+?js:call(Scene, add, [Mesh]).
+</code></pre>
+</div>
+
+<p>
+A project opts into that <code>-include_lib</code> on its own. <code>concrete_js</code> does not force it on anyone. The rest of this post keeps using <code>?js</code> in examples, and the full <code>concrete_js</code> name when it means the module itself.
+</p>
+</div>
+</div>
+<div id="outline-container-org81406b3" class="outline-2">
+<h2 id="org81406b3">Reaching a Library Already on the Page</h2>
+<div class="outline-text-2" id="text-org81406b3">
+<p>
+<code>'THREE.Scene'</code> above is not special syntax that Concrete parses. It is an ordinary Erlang atom, quoted because it is not a valid bare atom on its own. A <code>Receiver</code> or <code>ClassPath</code> argument is one of two things. It is a native handle, returned by an earlier <code>new/2</code>, <code>call/2</code>, <code>call/3</code>, or <code>get/2</code>. Or it is a dotted path, resolved against the browser's global scope, one segment at a time, starting from <code>globalThis</code>. That path can be a binary, <code>&lt;&lt;"THREE.Scene"&gt;&gt;</code>, or an atom, <code>'THREE.Scene'</code>. <code>Method</code> and <code>Prop</code> arguments take the same choice. A plain lowercase atom, like <code>add</code>, needs no quoting at all.
+</p>
+
+<p>
+Atoms read better for a name that is fixed at compile time. That is the normal case, so the examples in this post use atoms throughout. A binary works just as well. Both term shapes carry the same string, so the runtime does not care which one you send.
+</p>
+
+<p>
+There is no import step. <code>concrete_js</code> does not fetch a package, resolve a version, or bundle anything. It assumes THREE is already a global, because a plain <code>&lt;script&gt;</code> tag, pointing at a CDN build of three.js, put it there before your compiled bundle ran. Pulling in an actual JavaScript module as a real dependency, the way Hologram's <code>js_import</code> does upstream, needs an ES-module loader. Concrete's build pipeline does not have one yet. That is future work, not this post.
+</p>
+</div>
+</div>
+<div id="outline-container-orge913fca" class="outline-2">
+<h2 id="orge913fca">Handles: Values That Are Not Terms</h2>
+<div class="outline-text-2" id="text-orge913fca">
+<p>
+<code>Scene</code> and <code>Mesh</code> above are not Erlang terms in the normal sense. A <code>THREE.Scene</code> instance cannot become an integer, a binary, or a map. There is nothing to convert it into. The runtime boxes it as an opaque handle instead: a tagged 3-tuple, <code>{js_native, TypeAtom, Ref}</code>. <code>Ref</code> indexes a plain JavaScript <code>Map</code> the runtime keeps, from an integer to the real object. Passing the handle into a later call, <code>?js:call(Scene, add, [Mesh])</code>, looks the ref up and hands the real <code>THREE.Scene</code> back to the native call, unwrapped.
+</p>
+
+<p>
+Primitive values box the way you would expect. Numbers become integers or floats. Strings become bitstrings. Booleans become the <code>true</code> and <code>false</code> atoms every other guard BIF already uses. Arrays become lists. Plain objects become maps with binary keys. The same conversion runs in reverse on the way into a call. A Concrete list argument becomes a real JavaScript array before the native function sees it. It does not arrive as a boxed term with a <code>.data</code> field. A function like one of three.js's own array-taking constructors gets exactly the argument shape it expects.
+</p>
+
+<p>
+Handles never cross the wire. Compiled browser code is the only place they get created. <code>concrete_serializer</code> and <code>concrete_deserializer</code> never need to know they exist.
+</p>
+</div>
+</div>
+<div id="outline-container-org5682cab" class="outline-2">
+<h2 id="org5682cab">Errors, and Running on the Server by Accident</h2>
+<div class="outline-text-2" id="text-org5682cab">
+<p>
+A native call that throws surfaces as <code>{js_error, Reason}</code>, an ordinary Erlang error. You can catch it with a plain <code>try</code> and <code>catch</code>. This is not a new error shape built for this feature. It is the same tuple the compiled <code>try</code> and <code>catch</code> runtime already raises for any uncaught native exception. Reusing it means you learn one error shape, not two.
+</p>
+
+<p>
+<code>concrete_js.erl</code>'s seven functions all have real bodies, not just specs. Every body is a harmless stub. <code>call/3</code> returns <code>undefined</code>. <code>set/3</code> returns its receiver unchanged. And so on. This matters because an <code>action/3</code> clause can run on the real BEAM, not only compiled and run in the browser. <code>concrete_ws_handler</code> dispatches an action over a WebSocket message straight to <code>concrete_runtime:dispatch_action/4</code>, which calls the real Erlang function. If that action calls <code>?js:call(...)</code>, the stub keeps the server process from crashing. <code>init/2</code> never re-runs client-side. Hydration only deserializes the state the server already sent. So this stub protects <code>action/3</code> specifically. That is the one place browser-only code and real server dispatch can meet.
+</p>
+</div>
+</div>
+<div id="outline-container-org33b1c8d" class="outline-2">
+<h2 id="org33b1c8d">A Real Demo: A Spirograph in three.js</h2>
+<div class="outline-text-2" id="text-org33b1c8d">
+<p>
+The <code>Scene</code> and <code>Mesh</code> example earlier in this post is illustrative, not code you can run. <code>example/spirograph_app.erl</code> is real code, compiled through the actual pipeline, running in a real browser. It draws an animated, color-cycling spirograph: a ring of loops traced by three.js, loaded from a CDN <code>&lt;script&gt;</code> tag, entirely through <code>?js</code> calls.
+</p>
+
+<p>
+The shape comes from a hypotrochoid: a small circle rolling inside a fixed one, tracing a point offset from its own center. A real Spirograph toy describes the same shape with gear teeth. A ring with 36 teeth and a wheel with 35 teeth, one tooth apart, draws a ring made of 36 thin overlapping loops around a hollow center, instead of a handful of fat petals. <code>spirograph_app.erl</code> uses that exact ratio.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>build_spirograph_line() -&gt;
+    Points = [?js:new('THREE.Vector3', [X, Y, 0.0]) || {X, Y} &lt;- spirograph_points()],
+    Geometry = ?js:new('THREE.BufferGeometry', []),
+    ?js:call(Geometry, &lt;&lt;"setFromPoints"&gt;&gt;, [Points]),
+    Material = ?js:new('THREE.LineBasicMaterial', [#{color =&gt; 16#9CCCFF}]),
+    Line = ?js:new('THREE.Line', [Geometry, Material]),
+    {Line, Material}.
+</code></pre>
+</div>
+
+<p>
+Each point is a real <code>THREE.Vector3</code>, a native handle, built by an ordinary Erlang list comprehension, then handed to <code>setFromPoints</code> as one Concrete list. The list unboxes to a real JavaScript array on the way in. Each handle inside it unboxes back to its own <code>THREE.Vector3</code>. three.js never sees a boxed term.
+</p>
+
+<p>
+The first version of this demo did not close the curve correctly. It swept far enough around to draw the ring twice over, which reads exactly like drawing it once &ndash; the second half just retraces the first. Getting the loop count and the total sweep to actually agree, not just look plausible, turned out to matter more than picking bigger numbers.
+</p>
+
+<p>
+Each animation frame rotates the whole ring a little further, and shifts its color around the wheel:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>tick(World, Angle) -&gt;
+    #{line := Line, scene := Scene, camera := Camera,
+      renderer := Renderer, material := Material} = World,
+    Rotation = ?js:get(Line, &lt;&lt;"rotation"&gt;&gt;),
+    ?js:set(Rotation, &lt;&lt;"z"&gt;&gt;, Angle),
+    Color = ?js:get(Material, &lt;&lt;"color"&gt;&gt;),
+    ?js:call(Color, &lt;&lt;"setHSL"&gt;&gt;, [hue(Angle), 0.8, 0.65]),
+    ?js:call(Renderer, &lt;&lt;"render"&gt;&gt;, [Scene, Camera]),
+    dom:set_timeout(16, spirograph_app, tick, [World, Angle + 0.006]).
+</code></pre>
+</div>
+
+<p>
+Same self-rescheduling shape the canvas flower demo already uses, just driving three.js instead of Canvas2D.
+</p>
+</div>
+</div>
+<div id="outline-container-org7c2c09d" class="outline-2">
+<h2 id="org7c2c09d">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org7c2c09d">
+<p>
+<code>test/js_exec_SUITE.erl</code> has the whole feature under test, run for real in Node, not just traced by hand. Each test case mocks a global the plain way a real page would get one: a bare <code>globalThis.Counter = class { ... }</code> assignment, injected before the compiled snippet runs. The test then calls <code>concrete_js:new/2</code>, <code>call/3</code>, <code>get/2</code>, and <code>set/3</code> against it, and checks the result. Two cases exist to prove argument unboxing works. One passes a Concrete list to a function that calls the native <code>.reduce</code> array method on it. One passes a map to a function that reads a plain object property off it. Both would throw at once if the argument still arrived boxed.
+</p>
+
+<p>
+For the real thing, running in a real browser: start <code>rebar3 as example shell</code>, call <code>spirograph_demo:serve()</code>, and open <code>http://localhost:8773</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org2b596ca" class="outline-2">
+<h2 id="org2b596ca">What Comes Next</h2>
+<div class="outline-text-2" id="text-org2b596ca">
+<p>
+This post covered how compiled Erlang reaches an already-loaded JavaScript library, and why that needed almost no changes to the compiler. Two things are still missing. One is pulling in a JavaScript package as a real dependency, instead of assuming it is already global. The other is a client-side re-render loop that stays reactive across a whole layout, not just one page's own mount point.
+</p>
+</div>
+</div>
+<div id="outline-container-org7943e25" class="outline-2">
+<h2 id="org7943e25">Resources:</h2>
+<div class="outline-text-2" id="text-org7943e25">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
