@@ -1,0 +1,237 @@
+#+TITLE: CONCRETE 004: Inside the .slab Parser.
+#+HTML_HEAD: <meta name="description" content="How a .slab template becomes HTML" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="How a .slab template becomes HTML" />
+
+* Summary:
+:PROPERTIES:
+:ID:       AF975281-1FCF-4E46-8FE1-154268715716
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+[[./concrete-pages.html][Concrete 003]] traced a request from a URL to =concrete_renderer:render_page/2=. This post opens up the piece that
+call leans on: =concrete_template_parser=, the module that turns a =.slab= file into a tree of nodes, and
+=concrete_renderer=, the module that walks that tree and produces HTML.
+
+* Four Kinds of Nodes
+:PROPERTIES:
+:ID:       935DBC8D-3AB3-4B89-A3AF-784221BA3F13
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+The parser turns a template into a list of four node shapes.
+
+- ={text, Binary}= — plain text, copied to the output as-is.
+- ={element, Tag, Attrs, Children}= — an HTML tag, its attributes, and its child nodes.
+- ={expr, AST}= — an Erlang expression, already parsed, not yet run.
+- ={component, Module, Props}= — a child component, embedded with =<:component>=.
+
+Every =.slab= file becomes a list built out of these four shapes. Nothing else exists in this tree. A
+=case= that dispatches on node type only ever needs four clauses.
+
+* A Parser Without a Separate Lexer
+:PROPERTIES:
+:ID:       627A5536-11B9-432E-A2C2-14D0009CFCF5
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+=The concrete_template_parser= does not build a token list first and walk it later. It reads the input character
+by character, in one pass, as a plain Erlang string.
+
+#+BEGIN_SRC erlang
+parse_nodes("</" ++ _ = Cs, Acc) ->
+    {lists:reverse(Acc), Cs};
+parse_nodes("<:component" ++ Cs, Acc) ->
+    {Node, Rest} = parse_component(Cs),
+    parse_nodes(Rest, [Node | Acc]);
+parse_nodes("<" ++ Cs, Acc) ->
+    {Node, Rest} = parse_element(Cs),
+    parse_nodes(Rest, [Node | Acc]);
+parse_nodes("{" ++ Cs, Acc) ->
+    {AST, Rest} = take_expr(Cs),
+    parse_nodes(Rest, [{expr, AST} | Acc]);
+parse_nodes(Cs, Acc) ->
+    {Text, Rest} = take_text(Cs, []),
+    parse_nodes(Rest, [{text, unicode:characters_to_binary(Text)} | Acc]).
+#+END_SRC
+
+Each clause looks at the next few characters and decides what kind of node comes next. A closing
+tag stops the current list of nodes and hands the rest back to the caller. A =<:component= prefix starts
+a component. Any other =<= starts a plain element. A ={= starts an expression. Anything else is plain text,
+consumed up to the next =<= or ={=.
+
+This is worth noticing: the parser itself works on a charlist, the very thing the rest of this series
+tells you to avoid in component code. That rule is about values that reach the browser or a =.slab= file.
+A charlist inside the compiler, consumed and discarded before any output exists, is not that. The rule
+and the parser do not conflict.
+
+I might address this later, but this is how it works right now.
+
+* Attributes: Three Shapes
+:PROPERTIES:
+:ID:       AA0F9A59-446C-4A68-9EA6-4EC7B2AC331A
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+An attribute inside a tag takes one of three shapes.
+
+#+BEGIN_SRC html
+<button class="primary" concrete-click={action_name} disabled>
+#+END_SRC
+
+=class="primary"= is a static attribute. Its value is a plain binary, copied through
+unchanged. =concrete-click={action_name}= is an expression attribute. Its value is an
+={expr, AST}= tuple, evaluated later. =disabled= is a bare attribute, with no value at all.
+The parser stores it as an empty binary. All three shapes can appear on the same tag,
+in any order.
+
+* The @name Trick
+:PROPERTIES:
+:ID:       BB34EBA0-D01A-4DD2-959A-1FC7B7E6CF78
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+={@count}= is not special syntax on its own. Before the text inside the braces reaches the
+Erlang parser, one line of code rewrites it.
+
+#+BEGIN_SRC erlang
+  rewrite_state_refs(Str) ->
+    re:replace(Str, "@([a-z][a-zA-Z0-9_]*)", "maps:get(\\1, CONCRETE_STATE)",
+               [global, {return, list}]).
+#+END_SRC
+
+=@count= becomes =maps:get(count, CONCRETE_STATE)=. The result is ordinary Erlang source text.
+=erl_scan= and =erl_parse= turn that text into a real abstract syntax tree, the same kind of tree =
+erl_parse= would produce for a =.erl= file. ={@count}= and ={maps:get(count, CONCRETE_STATE)}= parse
+to the exact same tree. The first is only shorter to type.
+
+This rewrite runs on the raw text inside the braces, before parsing, with a regular expression.
+It does not know about string literals. The parser comment names this directly as a known
+limitation: an =@word= sequence inside a string literal, written inside an expression, gets
+rewritten too. Write ={<<"@count">>}= carefully, or avoid the pattern, until this is fixed.
+
+* Expressions Keep Their Brace Depth
+:PROPERTIES:
+:ID:       3EA278B8-434E-4415-AE94-98191CAD56E6
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+An expression inside ={...}= can itself contain braces, for a map or a nested call. =
+{maps:get(count, #{a => 1})}= is valid. The parser tracks brace depth while it reads, and
+it also knows about quote characters, so a =}= inside a string literal does not end the expression early.
+
+#+BEGIN_SRC erlang
+
+  take_balanced([$} | Cs], Acc, 0) -> {lists:reverse(Acc), Cs};
+  take_balanced([$} | Cs], Acc, D) -> take_balanced(Cs, [$} | Acc], D - 1);
+  take_balanced([${ | Cs], Acc, D) -> take_balanced(Cs, [${ | Acc], D + 1);
+  take_balanced([$" | Cs], Acc, D) ->
+      {Acc1, Rest} = take_literal(Cs, [$" | Acc], $"),
+      take_balanced(Rest, Acc1, D);
+
+#+END_SRC
+
+A =}= only closes the expression at depth =0=. Every ={= before it raises the depth by one,
+and every =}= after it lowers the depth back down, until the matching one is found.
+
+* Components Must Be Self-Closing
+:PROPERTIES:
+:ID:       6B044785-8F7F-49E5-987D-4AAF87D83F07
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+#+BEGIN_SRC html
+  <:component module={counter_page} initial_value={5} />
+#+END_SRC
+
+=<:component>= reads its attributes exactly like an element does. Two things differ.
+First, it must end in =/>=; a =<:component>= with a matching closing tag is a parse error.
+Second, one attribute, =module=, is not stored as a normal attribute. The parser pulls it
+out and uses it to name the child module directly, so the result is ={component, counter_page, Props}=,
+not an element with a =module= attribute.
+
+* From Nodes to HTML
+:PROPERTIES:
+:ID:       37AC4DFA-EBA4-4A53-AAE1-2BA35886359A
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+Parsing only builds the tree. =concrete_renderer= walks it.
+
+An ={expr, AST}= node is run with =erl_eval=, the standard library's expression evaluator, with one
+binding set up first: =CONCRETE_STATE= bound to the component's state map. This is the same =CONCRETE_STATE=
+name the =@name= rewrite refers to.
+
+#+BEGIN_SRC erlang
+  eval_expr(AST, Component) ->
+    State = maps:get(state, Component, #{}),
+    Bindings = erl_eval:add_binding('CONCRETE_STATE', State, erl_eval:new_bindings()),
+    {value, Val, _} = erl_eval:expr(AST, Bindings),
+    Val.
+#+END_SRC
+
+The result then passes through =escape/1= before it reaches the page. =escape/1= replaces four
+characters: =&=, =<=, =>=, and ="=. This is enough to stop a state value from breaking out of the
+surrounding HTML and injecting a new tag. A component node runs its own module's =init/2= with resolved
+props, then renders that module's own template in the same way, recursively.
+
+An ={element, ...}= node writes its own opening tag, renders its children, and writes a closing
+tag, unless it is a void element such as =<br>= or =<img>=, which has no children and no closing
+tag at all.
+
+* Try It Yourself
+:PROPERTIES:
+:ID:       B916130A-5D32-4391-BB89-319CC9BDB617
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+The project's test suite for this parser is =template_parser_SUITE=. A fixture template close to
+this post's examples already exists in the repository:
+
+#+BEGIN_SRC html
+  <div class="page"><h1>Hello {@name}</h1><:component module={fixture_badge} score={@n} /></div>
+#+END_SRC
+
+Run =concrete_template_parser:parse_string/1= on a string like this one, in a shell, and look
+at the tuples it returns. Seeing the four node shapes once, on real input, will make the parser's
+structure stick better than reading about it does.
+
+* One Thing This Post Did Not Cover
+:PROPERTIES:
+:ID:       D5CBFD2B-30AF-4EAC-80B5-731AFC37A770
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+The same parsed tree also feeds a second path: =compile_render_fun/1= turns it into IR, for a
+=render/1= function that runs in the browser instead of on the server. That path calls into
+=concrete_transformer= for every expression node. The transformer, and the encoder that turns
+its output into JavaScript, are their own posts, coming later in this series.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       81ABEAAC-60BB-4234-B798-8AFBD999C864
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+This post covered how a =.slab= file becomes a tree, and how that tree becomes HTML on the server.
+The next post steps away from templates and toward the build side: how a page module actually becomes
+the JavaScript bundle that [[./concrete-pages.html][Concrete 003]] already showed being served, and what
+Concrete leaves out of that bundle on purpose.
+
+* Resources:
+:PROPERTIES:
+:ID:       52DF0CF0-AC24-40D1-9177-C0F10E1B836C
+:PUBDATE:  2026-08-05 Wed 02:14
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]

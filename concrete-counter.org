@@ -1,0 +1,146 @@
+#+TITLE: CONCRETE 002: Hello, Counter.
+#+HTML_HEAD: <meta name="description" content="Build and run your first Concrete component" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Build and run your first Concrete component" />
+
+* Summary:
+:PROPERTIES:
+:ID:       D3CFF53E-D2B2-4729-8912-E5BC22D465DB
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+[[./concrete-intro.html][Concrete 001]] showed the shape of a component. This post builds one and runs it. The example is a counter with two buttons. By the end of this post, the counter runs in a real browser, and the =+= button runs compiled Erlang, not a server request.
+
+* The Files You Need
+:PROPERTIES:
+:ID:       2F33565A-E4AD-4B66-81D4-6F77E327D6B5
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+A minimal Concrete component needs two files: a module and a template.
+
+The module holds the state and the click logic. The template holds the HTML. The build plugin joins the two at build time.
+
+* The Module
+:PROPERTIES:
+:ID:       6F1F55D4-B3F0-4207-A65A-A332765D6D60
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+Here is =counter_page.erl=.
+
+#+BEGIN_SRC erlang
+-module(counter_page).
+-export([init/2, template/0, action/3]).
+
+init(_Params, Server) ->
+    State = #{count => 0},
+    {#{state => State}, Server}.
+
+template() ->
+    "counter.slab".
+
+action(increment, _Params, #{state := #{count := N} = S} = C) ->
+    C#{state => S#{count := N + 1}};
+action(decrement, _Params, #{state := #{count := N} = S} = C) ->
+    C#{state => S#{count := N - 1}}.
+#+END_SRC
+
+=init/2= receives two arguments: =Params= and =Server=. =Params= holds values from the request, such as query parameters. =Server= holds server-side state that is not sent to the browser. This example does not use either value. =init/2= returns a component map. The component map holds a =state= key. =count= starts at =0=.
+
+=action/3= receives the action name as an atom, a params map, and the current component map. Each clause matches one action name. The =increment= clause reads =N= from the state and returns a new component map with =count= set to =N + 1=. The =decrement= clause does the same in the other direction.
+
+=action/3= does not run on the server. The build plugin compiles it to JavaScript. The browser runs the compiled clause when a user clicks a button. The server never sees this call.
+
+Note that ~S#{count := N + 1}~ is a *map update*, not a *map merge*. The key =count= must already exist in the map for this line to work. It does, because =init/2= put it there.
+
+* The Template
+:PROPERTIES:
+:ID:       948821B7-9B40-4362-A048-3A8AC4B00BB4
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+Here is =counter.slab=.
+
+#+BEGIN_SRC html
+<div class="counter">
+  <p>Count: {@count}</p>
+  <button concrete-click="increment">+</button>
+  <button concrete-click="decrement">-</button>
+</div>
+#+END_SRC
+
+={@count}= reads =count= from the component state. The =concrete-click= attribute names an action. A click on the =+= button runs the =increment= clause of =action/3=. A click on the =-= button runs the =decrement= clause.
+
+Place this file in your =priv/templates= directory. The =template/0= function returns its file name, not its full path. Concrete looks for the file in the templates directory for you.
+
+* What Happens on the First Request
+:PROPERTIES:
+:ID:       C152DE15-82A6-4B66-9DD8-AC7A604BA12C
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+A browser sends a request for the page. The server calls =concrete_renderer:render_page(counter_page, Params)=. This function calls =counter_page:init/2=, parses =counter.slab=, and evaluates each ={@...}= expression against the state. The result is plain HTML. The server sends this HTML to the browser. The count shows as =0= before any JavaScript runs.
+
+The server also sends the starting state as JSON, next to the HTML. The browser needs this state later, to run actions without asking the server first.
+
+* What Happens on a Click
+:PROPERTIES:
+:ID:       E76B4702-63DA-4652-BE27-83DF549A7368
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+The build plugin also compiles =counter_page.erl= to JavaScript, ahead of time. This compiled file is the JavaScript bundle. The server sends this bundle to the browser, next to the HTML page.
+
+A small runtime script, =client.js=, loads in the browser. =client.js= reads the starting state from the JSON sent earlier. =client.js= then attaches one click listener for the whole page. This one listener watches for clicks on any element with a =concrete-click= attribute.
+
+A user clicks the =+= button. =client.js= reads the action name, =increment=, from the attribute. =client.js= calls the compiled =action/3= function inside the browser. The compiled function runs the same clause you wrote in Erlang. The component state changes. The runtime re-renders the ={@count}= part of the page with the new value.
+
+No network request happens for this click. The whole cycle runs inside the browser tab.
+
+* Try It Yourself
+:PROPERTIES:
+:ID:       A76791A1-76D1-4B02-879F-72CCF76287F7
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+The =concrete= repository ships a working demo close to this example, under =example/=. Start it from a =rebar3 shell= session and point a browser at the printed port. Open the page, then open your browser's network tab. Click =+= a few times. No new request appears for the click. Reload the page. The count returns to =0=, because the server-side state does not persist between full page loads yet. A later post will cover server-side state and live updates through the SSE stream.
+
+* One Rule, Repeated
+:PROPERTIES:
+:ID:       72D2CDE3-F563-41D1-862F-C1801DD8A695
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+This example does not send any text to the browser, only a number. So the binary rule from Concrete 001 does not come up here. It will come up the moment you add a label or a title to a template. Write =<<"Score">>=, not ="Score"=, in every value that reaches a =.slab= file.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       72D2CDE3-F563-41D1-862F-C1801DD8A696
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+This post built one component and traced one click through the system. The next post covers pages and routing: how a URL maps to a page module, how layouts wrap a page, and how a page embeds child components with =<:component>=.
+
+* Resources:
+:PROPERTIES:
+:ID:       72D2CDE3-F563-41D1-862F-C1801DD8A697
+:PUBDATE:  2026-08-04 Tue 19:28
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+Other projects that compile one language to run on both the server and the browser:
+
+- [[http://plv.csail.mit.edu/ur/][Ur/Web]] — a typed language from MIT that compiles one source file to JavaScript for the browser, C for the server, and SQL for the database. The closest match to the Concrete idea, outside the BEAM world.
+- [[https://www.gwtproject.org/][GWT (Google Web Toolkit)]] — an older Java-to-JavaScript compiler. Client-only, no server half, but it proved the "write one language, compile the browser half" approach at scale, years before this was fashionable.
+- [[https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor][Blazor]] — C# components that run unchanged on the server (Blazor Server) or compiled to WebAssembly in the browser (Blazor WebAssembly). Same component, two hosting models, picked at deploy time.
+- [[https://hexdocs.pm/lustre/lustre/server_component.html][Lustre server components]] — Gleam, also a BEAM language. Lustre compiles to JavaScript for client apps, and separately ships "server components" that keep state on the BEAM and patch the DOM over a small JS runtime.
+- [[https://hexdocs.pm/phoenix_live_view/][Phoenix LiveView]] — a different design point worth knowing about. LiveView does not compile Elixir to JavaScript at all. It renders HTML diffs on the server and pushes them down a socket. No client-side Erlang or Elixir code ever runs. Useful to contrast against Concrete's approach of shipping compiled code to the browser.
+- [[https://nitrogenproject.com/][Nitrogen]] and [[https://github.com/synrc/n2o][N2O]] — older, Erlang-native web frameworks. Neither compiles Erlang to JavaScript; both build pages from Erlang records and push updates over WebSockets. Worth a look as prior art from the same language family.

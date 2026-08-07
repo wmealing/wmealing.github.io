@@ -1,0 +1,176 @@
+#+TITLE: CONCRETE 003: Pages, Routing, and Layouts.
+#+HTML_HEAD: <meta name="description" content="How a URL becomes a running Concrete page" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="How a URL becomes a running Concrete page" />
+
+* Summary:
+:PROPERTIES:
+:ID:       CEA49548-25AA-47A8-9417-8458E730070A
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+[[./concrete-counter.html][Concrete 002]] built one component and traced one click. This post explains how a browser reaches that component in the first place: the =concrete_page= behaviour, the =-concrete= module attribute, and the path a request takes from the router to rendered HTML. It also covers layouts: how one page wraps its output inside a shared shell.
+
+* Pages Are Not Components
+:PROPERTIES:
+:ID:       D71F010C-6CB6-4501-A1F2-08529215C07C
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+A component and a page look alike. Both define =init/2= and =template/0=. Both may define =action/3= for browser-side clicks. The difference is the behaviour each one declares, and the extra attribute a page carries.
+
+A component declares =-behaviour(concrete_component)=. A page declares =-behaviour(concrete_page)=. Only a page can answer a browser request directly. A component only renders inside a page, or inside another component.
+
+* The -concrete Attribute
+:PROPERTIES:
+:ID:       5CA13A0C-A251-45C9-9956-F76E2163222B
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+A page needs one more thing: a route. A route is a URL path, attached to the module with a custom attribute.
+
+#+BEGIN_SRC erlang
+-module(home_page).
+-behaviour(concrete_page).
+-concrete([{route, "/"}]).
+-export([init/2, template/0, action/3]).
+
+init(_Params, Server) ->
+    {#{state => #{count => 0}}, Server}.
+
+template() ->
+    "page.slab".
+
+action(increment, _Params, #{state := #{count := N} = S} = C) ->
+    C#{state => S#{count := N + 1}};
+action(decrement, _Params, #{state := #{count := N} = S} = C) ->
+    C#{state => S#{count := N - 1}}.
+#+END_SRC
+
+=-concrete([{route, "/"}])= is one attribute holding a proplist. The router reads the =route= key out of that list. This example answers requests to =/=. A second page module with =-concrete([{route, "/about"}])= answers requests to =/about=. Each page is its own module, and each module owns one route.
+
+* How the Router Finds Your Pages
+:PROPERTIES:
+:ID:       45568CD4-FD78-4D08-B50E-09D2D22205F2
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+You do not register pages by hand. Concrete finds them for you, at boot.
+
+=concrete_app:start/2= scans every =.beam= file on the code path. For each module found, it checks the module's =-behaviour= attribute for =concrete_page=. Every match goes into a list of page modules. This list is passed to =concrete_router:start/1=.
+
+=concrete_router= then builds one cowboy dispatch table. For each page module, it reads the =route= key from the =-concrete= attribute and adds one entry: the route, paired with =concrete_page_handler= and the module name. A module with no =-concrete= attribute, or no =route= key inside it, gets no entry at all. It stays a page module, but the router will never send it a request.
+
+The router also adds four fixed routes of its own, not tied to any page: =/concrete/command= for command requests, =/concrete/sse/:id= for the live-update stream, scoped to one component by the =id= in the path, =/concrete/ws= for a WebSocket connection, and =/concrete/assets/[...]= for the compiled JavaScript bundles.
+
+* What Happens on a Request
+:PROPERTIES:
+:ID:       CC29782D-4D38-41C1-9196-E649E4729F5A
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+A browser requests =/=. Cowboy matches the route and calls =concrete_page_handler:init/2= with the matching module, =home_page=, in its state.
+
+The handler does four things, in order.
+
+1. It parses the query string into a params map.
+2. It calls =concrete_renderer:render_page(home_page, Params)=. This runs =home_page:init/2= as native Erlang, on the server, and returns rendered HTML plus the starting state as JSON.
+3. It asks =concrete_assets:bundle_url/1= for the URL of the compiled JavaScript bundle for =home_page=. This URL comes from a manifest file written by the build plugin, not computed on the spot.
+4. It wraps the HTML, the state JSON, and the bundle URL into one HTML page, with =<script>= tags for the runtime, the client, and the bundle, and a final line that calls =Client.init/3= to hydrate the page.
+
+The browser receives one HTML document. The document already shows real content. The =<script>= tags at the bottom of that document are what make the buttons work afterward.
+
+* Embedding a Component in a Page
+:PROPERTIES:
+:ID:       39D060C6-388A-45B0-81D8-FC07A833ED82
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+A page can place a component inside its template.
+
+#+BEGIN_SRC html
+<div class="page">
+  <h1>Dashboard</h1>
+  <:component module={counter_page} initial_value={5} />
+</div>
+#+END_SRC
+
+The renderer calls the named module's =init/2= with the given props, then renders that module's own template in place, as a child of the page. This works for both the server-side render and the compiled browser version: the build plugin follows every =<:component>= reference in a page's template, and bundles each embedded module's own code and its own client-side =render/1= alongside the page's. A page can hold many components. A component cannot hold a page.
+
+* Layouts
+:PROPERTIES:
+:ID:       400A8143-98CF-4D25-A3F6-FAC9039EF281
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+A layout wraps every page's output in one shared shell: a header, a footer, a navigation bar. Without a layout, a project must repeat that markup in every page template. Concrete now has layout support.
+
+A page names its layout inside the same =-concrete= attribute that holds its route:
+
+#+BEGIN_SRC erlang
+-module(dashboard_page).
+-behaviour(concrete_page).
+-concrete([{route, "/dashboard"}, {layout, main_layout}]).
+-export([init/2, template/0]).
+
+init(_Params, Server) ->
+    {#{state => #{}}, Server}.
+
+template() ->
+    "dashboard.slab".
+#+END_SRC
+
+A layout is a plain component. It defines =init/2= and =template/0=, the same as any other component. Its template holds one new tag: =<slot />=. This tag marks the spot where the page's own rendered content goes.
+
+#+BEGIN_SRC erlang
+-module(main_layout).
+-export([init/2, template/0]).
+
+init(Props, Server) ->
+    {#{state => #{title => maps:get(title, Props, <<"Concrete App">>)}}, Server}.
+
+template() ->
+    {inline, concrete_template_parser:parse_string(
+        "<html><head><title>{@title}</title></head>"
+        "<body><slot /></body></html>")}.
+#+END_SRC
+
+To pass props to a layout, add a third element to the =layout= tuple, a map of prop names to values. A page with no =layout= key in its =-concrete= attribute renders as before, with no wrapping shell.
+
+The wrap happens after the page renders, not before. =concrete_page_handler= first builds the page's own mount block: the rendered HTML, wrapped in a div with id =concrete-root=, with the runtime, client, and bundle =<script>= tags already attached. It then hands that block to =concrete_renderer:wrap_in_layout/2=, which renders the layout's template and drops the mount block in at the =<slot />= tag. The mount div still sits where the client script expects it, inside whatever shell the layout builds around it.
+
+A =<slot />= tag has one rule: it must sit inside a layout's own render pass. Any other template that reaches a =<slot />= tag on its own, with no layout wrapping it, raises an error at render time. A layout also does not read a page's state directly. If a layout needs page data, the page must pass that data as layout props.
+
+The browser never needs to re-render a layout on its own. An action click only ever replaces the page's own content, inside the mount div — the layout shell around that div is static HTML from the first server render, and stays untouched. =client.js= does carry a real, working =Client.renderWithLayout= function, the browser-side match for =concrete_renderer:wrap_in_layout/2=: it renders a layout module's own template with already-rendered page HTML dropped in at =<slot />=. Nothing in the default action flow calls it. It exists for code that wants to render a whole layout-plus-page tree client-side, on its own terms.
+
+* Try It Yourself
+:PROPERTIES:
+:ID:       B0AA41A9-426D-4E9E-A063-881224CA53AE
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+Add a second page module to a project next to the counter page from the last post. Give it its own =-concrete([{route, "/about"}])= attribute and its own =.slab= template. Start the application. Both routes answer, with no dispatch table to edit by hand. Remove the =-behaviour(concrete_page)= line from either module, and its route disappears at the next boot, because the scan in =concrete_app:page_modules/0= no longer finds it.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       BEB0C0AF-97BE-4DC6-B86A-74527D4091BE
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+This post traced a request from a URL to rendered HTML, and showed how a page wraps its output in a layout. The next post opens up =.slab= files properly: how the parser turns a template into a tree of nodes, and how the renderer walks that tree with =erl_eval= to produce HTML.
+
+* Resources:
+:PROPERTIES:
+:ID:       E0504640-7BF1-4D0C-87CE-39C4E6D0CF97
+:PUBDATE:  2026-08-05 Wed 02:01
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-07 Fri 03:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 001: An introduction.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Introduction to Concrete, a pure-Erlang port of Hologram" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Introduction to Concrete, a pure-Erlang port of Hologram" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 001: An introduction.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-orgbd76d40" class="outline-2">
+<h2 id="orgbd76d40">Summary:</h2>
+<div class="outline-text-2" id="text-orgbd76d40">
+<p>
+I am building <a href="https://github.com/wmealing/concrete">Concrete</a>, a full-stack web framework for Erlang. Concrete compiles Erlang code to a JavaScript bundle at build time. A browser runtime then runs that bundle. Concrete does not use Elixir. Concrete does not use a JavaScript framework. This post explains the goal of Concrete and shows the basic shape of a component.
+</p>
+</div>
+</div>
+<div id="outline-container-org6141509" class="outline-2">
+<h2 id="org6141509">Why I Started This Project</h2>
+<div class="outline-text-2" id="text-org6141509">
+<p>
+I write Erlang for most of my work. I like Erlang for its process model and its fault tolerance. I do not like the standard split between a backend language and a frontend language. That split forces mee to write business logic twice: once on the server, once in JavaScript.
+</p>
+
+<p>
+<a href="https://github.com/bartblast/hologram">Hologram</a> solves this problem for Elixir. Hologram compiles Elixir components to JavaScript.
+A developer writes one component in Elixir. The component runs on the server for the first page load.
+The same component then runs in the browser for later interactions. The developer does not write separate
+frontend code.
+</p>
+
+<p>
+Elixir is a great language.  This project existing should not deter you from using Hologram or Elixir.
+</p>
+
+<p>
+I wanted this model in plain Erlang. Concrete is the result. Concrete takes the same core idea
+as Hologram, but Concrete does not depend on Elixir or the Elixir compiler. A Concrete project uses
+only Erlang and a rebar3 build plugin.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbdc1b95" class="outline-2">
+<h2 id="orgbdc1b95">The Basic Idea</h2>
+<div class="outline-text-2" id="text-orgbdc1b95">
+<p>
+Concrete works in two stages.
+</p>
+
+<p>
+The first stage runs at build time. A rebar3 plugin reads each Erlang component module. The plugin parses the module into an Erlang abstract syntax tree. A transformer converts this tree into a Concrete intermediate representation, or IR. An encoder converts the IR into a JavaScript bundle. A call-graph step removes unused code from the bundle.
+</p>
+
+<p>
+The second stage runs in the browser. A small JavaScript runtime loads the bundle. The runtime executes the compiled Erlang functions directly. The runtime does not use a separate template engine. The runtime does not use a virtual DOM library from an outside project.  The intent is to keep all usage logically consistent.
+</p>
+
+<p>
+A cowboy web server handles the parts that stay on the server: the first page render, command requests from the browser, and a server-sent-events stream for live updates.
+</p>
+
+<p>
+There is no requirement to use erlang or cowboy on the server.  I have made my examples use cowboy out of convenience.
+</p>
+
+<p>
+This picture shows the full path from source file to running page.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"><code>.erl source
+    │
+    ▼
+Erlang AST  (erl_parse)
+    │
+    ▼
+Concrete IR  (transformer)
+    │
+    ├──────────────┐
+    ▼              ▼
+Encoder      Call graph / dead-code removal
+    │              │
+    └──────┬───────┘
+           ▼
+   page_bundle.mjs  (javascript bundle to be sent to the browser)
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6b00c97" class="outline-2">
+<h2 id="org6b00c97">A Component in Concrete</h2>
+<div class="outline-text-2" id="text-org6b00c97">
+<p>
+A Concrete component is an Erlang module. The module implements the <code>concrete_component</code> <a href="https://metajack.im/2008/10/29/custom-behaviors-in-erlang/">behavior</a>. The behavior ensures each component defines three functions: <code>init/2</code> sets the starting state, <code>action/3</code> handles an event from the browser, and <code>template/0</code> names the <code>.slab</code> template file for the component.
+</p>
+
+<p>
+Here is a counter component.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(counter).
+-behaviour(concrete_component).
+-export([init/2, action/3, template/0]).
+
+init(Props, Server) -&gt;
+    Count = maps:get(initial_value, Props, 0),
+    {#{state =&gt; #{count =&gt; Count}}, Server}.
+
+action(increment, _Params, #{state := #{count := N} = S} = C) -&gt;
+    C#{state =&gt; S#{count =&gt; N + 1}};
+action(decrement, _Params, #{state := #{count := N} = S} = C) -&gt;
+    C#{state =&gt; S#{count =&gt; N - 1}}.
+
+template() -&gt; "counter.slab".
+</code></pre>
+</div>
+
+<p>
+The template file holds the HTML for the component.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;div class="counter"&gt;
+  &lt;p&gt;Count: {@count}&lt;/p&gt;
+  &lt;button concrete-click="increment"&gt;+&lt;/button&gt;
+  &lt;button concrete-click="decrement"&gt;-&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+
+<p>
+The <code>concrete-click</code> attribute names the action to run when a user clicks the button. The <code>{@count}</code> placeholder reads the <code>count</code> value from the component state.
+</p>
+
+<p>
+The build plugin compiles <code>counter.erl</code> to JavaScript. A user opens the page. The server renders the initial HTML. The user clicks a button. The browser runs the compiled <code>action/3</code> function. The component state changes. The runtime re-renders the component. No round trip to the server is needed for this step.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb569e00" class="outline-2">
+<h2 id="orgb569e00">One Rule to Remember Now</h2>
+<div class="outline-text-2" id="text-orgb569e00">
+<p>
+Write binaries for text in component code. Do not write plain strings.
+</p>
+
+<p>
+An Erlang string, such as <code>"hello"</code>, is a list of integers. This list does not convert to the browser correctly. A binary, such as <code>&lt;&lt;"hello"&gt;&gt;</code>, converts correctly.
+</p>
+
+<p>
+Use <code>&lt;&lt;"hello"&gt;&gt;</code>. Do not use <code>"hello"</code>.
+</p>
+
+<p>
+I will explain the reason for this rule in a later post about the wire format between the server and the browser.
+</p>
+</div>
+</div>
+<div id="outline-container-org36cc295" class="outline-2">
+<h2 id="org36cc295">What Comes Next</h2>
+<div class="outline-text-2" id="text-org36cc295">
+<p>
+This post gave a short view of Concrete. Later posts will cover each part in more detail:
+</p>
+<ul class="org-ul">
+<li>The <code>.slab</code> template parser</li>
+<li>The transformer</li>
+<li>The encoder</li>
+<li>The call graph</li>
+<li>The browser runtime</li>
+<li>The wire format between the server and the browser.</li>
+</ul>
+
+<p>
+A later post will also walk through a full example app, built piece by piece.
+</p>
+
+<p>
+Concrete is under active development. Parts are subject to change , some parts of the roject repository are not
+built yet. I will note the current state of each part as I write about it.
+</p>
+</div>
+</div>
+<div id="outline-container-org2f9ffd7" class="outline-2">
+<h2 id="org2f9ffd7">Resources:</h2>
+<div class="outline-text-2" id="text-org2f9ffd7">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="https://github.com/bartblast/hologram">https://github.com/bartblast/hologram</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

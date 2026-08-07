@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-07 Fri 03:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 003: Pages, Routing, and Layouts.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="How a URL becomes a running Concrete page" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="How a URL becomes a running Concrete page" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 003: Pages, Routing, and Layouts.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-org1e2e343" class="outline-2">
+<h2 id="org1e2e343">Summary:</h2>
+<div class="outline-text-2" id="text-org1e2e343">
+<p>
+<a href="./concrete-counter.html">Concrete 002</a> built one component and traced one click. This post explains how a browser reaches that component in the first place: the <code>concrete_page</code> behaviour, the <code>-concrete</code> module attribute, and the path a request takes from the router to rendered HTML. It also covers layouts: how one page wraps its output inside a shared shell.
+</p>
+</div>
+</div>
+<div id="outline-container-org49563b1" class="outline-2">
+<h2 id="org49563b1">Pages Are Not Components</h2>
+<div class="outline-text-2" id="text-org49563b1">
+<p>
+A component and a page look alike. Both define <code>init/2</code> and <code>template/0</code>. Both may define <code>action/3</code> for browser-side clicks. The difference is the behaviour each one declares, and the extra attribute a page carries.
+</p>
+
+<p>
+A component declares <code>-behaviour(concrete_component)</code>. A page declares <code>-behaviour(concrete_page)</code>. Only a page can answer a browser request directly. A component only renders inside a page, or inside another component.
+</p>
+</div>
+</div>
+<div id="outline-container-orgeb62b4e" class="outline-2">
+<h2 id="orgeb62b4e">The -concrete Attribute</h2>
+<div class="outline-text-2" id="text-orgeb62b4e">
+<p>
+A page needs one more thing: a route. A route is a URL path, attached to the module with a custom attribute.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(home_page).
+-behaviour(concrete_page).
+-concrete([{route, "/"}]).
+-export([init/2, template/0, action/3]).
+
+init(_Params, Server) -&gt;
+    {#{state =&gt; #{count =&gt; 0}}, Server}.
+
+template() -&gt;
+    "page.slab".
+
+action(increment, _Params, #{state := #{count := N} = S} = C) -&gt;
+    C#{state =&gt; S#{count := N + 1}};
+action(decrement, _Params, #{state := #{count := N} = S} = C) -&gt;
+    C#{state =&gt; S#{count := N - 1}}.
+</code></pre>
+</div>
+
+<p>
+<code>-concrete([{route, "/"}])</code> is one attribute holding a proplist. The router reads the <code>route</code> key out of that list. This example answers requests to <code>/</code>. A second page module with <code>-concrete([{route, "/about"}])</code> answers requests to <code>/about</code>. Each page is its own module, and each module owns one route.
+</p>
+</div>
+</div>
+<div id="outline-container-org93a691e" class="outline-2">
+<h2 id="org93a691e">How the Router Finds Your Pages</h2>
+<div class="outline-text-2" id="text-org93a691e">
+<p>
+You do not register pages by hand. Concrete finds them for you, at boot.
+</p>
+
+<p>
+<code>concrete_app:start/2</code> scans every <code>.beam</code> file on the code path. For each module found, it checks the module's <code>-behaviour</code> attribute for <code>concrete_page</code>. Every match goes into a list of page modules. This list is passed to <code>concrete_router:start/1</code>.
+</p>
+
+<p>
+<code>concrete_router</code> then builds one cowboy dispatch table. For each page module, it reads the <code>route</code> key from the <code>-concrete</code> attribute and adds one entry: the route, paired with <code>concrete_page_handler</code> and the module name. A module with no <code>-concrete</code> attribute, or no <code>route</code> key inside it, gets no entry at all. It stays a page module, but the router will never send it a request.
+</p>
+
+<p>
+The router also adds four fixed routes of its own, not tied to any page: <code>/concrete/command</code> for command requests, <code>/concrete/sse/:id</code> for the live-update stream, scoped to one component by the <code>id</code> in the path, <code>/concrete/ws</code> for a WebSocket connection, and <code>/concrete/assets/[...]</code> for the compiled JavaScript bundles.
+</p>
+</div>
+</div>
+<div id="outline-container-org3e82fc6" class="outline-2">
+<h2 id="org3e82fc6">What Happens on a Request</h2>
+<div class="outline-text-2" id="text-org3e82fc6">
+<p>
+A browser requests <code>/</code>. Cowboy matches the route and calls <code>concrete_page_handler:init/2</code> with the matching module, <code>home_page</code>, in its state.
+</p>
+
+<p>
+The handler does four things, in order.
+</p>
+
+<ol class="org-ol">
+<li>It parses the query string into a params map.</li>
+<li>It calls <code>concrete_renderer:render_page(home_page, Params)</code>. This runs <code>home_page:init/2</code> as native Erlang, on the server, and returns rendered HTML plus the starting state as JSON.</li>
+<li>It asks <code>concrete_assets:bundle_url/1</code> for the URL of the compiled JavaScript bundle for <code>home_page</code>. This URL comes from a manifest file written by the build plugin, not computed on the spot.</li>
+<li>It wraps the HTML, the state JSON, and the bundle URL into one HTML page, with <code>&lt;script&gt;</code> tags for the runtime, the client, and the bundle, and a final line that calls <code>Client.init/3</code> to hydrate the page.</li>
+</ol>
+
+<p>
+The browser receives one HTML document. The document already shows real content. The <code>&lt;script&gt;</code> tags at the bottom of that document are what make the buttons work afterward.
+</p>
+</div>
+</div>
+<div id="outline-container-org57386ff" class="outline-2">
+<h2 id="org57386ff">Embedding a Component in a Page</h2>
+<div class="outline-text-2" id="text-org57386ff">
+<p>
+A page can place a component inside its template.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;div class="page"&gt;
+  &lt;h1&gt;Dashboard&lt;/h1&gt;
+  &lt;:component module={counter_page} initial_value={5} /&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+
+<p>
+The renderer calls the named module's <code>init/2</code> with the given props, then renders that module's own template in place, as a child of the page. This works for both the server-side render and the compiled browser version: the build plugin follows every <code>&lt;:component&gt;</code> reference in a page's template, and bundles each embedded module's own code and its own client-side <code>render/1</code> alongside the page's. A page can hold many components. A component cannot hold a page.
+</p>
+</div>
+</div>
+<div id="outline-container-org9aeccde" class="outline-2">
+<h2 id="org9aeccde">Layouts</h2>
+<div class="outline-text-2" id="text-org9aeccde">
+<p>
+A layout wraps every page's output in one shared shell: a header, a footer, a navigation bar. Without a layout, a project must repeat that markup in every page template. Concrete now has layout support.
+</p>
+
+<p>
+A page names its layout inside the same <code>-concrete</code> attribute that holds its route:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(dashboard_page).
+-behaviour(concrete_page).
+-concrete([{route, "/dashboard"}, {layout, main_layout}]).
+-export([init/2, template/0]).
+
+init(_Params, Server) -&gt;
+    {#{state =&gt; #{}}, Server}.
+
+template() -&gt;
+    "dashboard.slab".
+</code></pre>
+</div>
+
+<p>
+A layout is a plain component. It defines <code>init/2</code> and <code>template/0</code>, the same as any other component. Its template holds one new tag: <code>&lt;slot /&gt;</code>. This tag marks the spot where the page's own rendered content goes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(main_layout).
+-export([init/2, template/0]).
+
+init(Props, Server) -&gt;
+    {#{state =&gt; #{title =&gt; maps:get(title, Props, &lt;&lt;"Concrete App"&gt;&gt;)}}, Server}.
+
+template() -&gt;
+    {inline, concrete_template_parser:parse_string(
+        "&lt;html&gt;&lt;head&gt;&lt;title&gt;{@title}&lt;/title&gt;&lt;/head&gt;"
+        "&lt;body&gt;&lt;slot /&gt;&lt;/body&gt;&lt;/html&gt;")}.
+</code></pre>
+</div>
+
+<p>
+To pass props to a layout, add a third element to the <code>layout</code> tuple, a map of prop names to values. A page with no <code>layout</code> key in its <code>-concrete</code> attribute renders as before, with no wrapping shell.
+</p>
+
+<p>
+The wrap happens after the page renders, not before. <code>concrete_page_handler</code> first builds the page's own mount block: the rendered HTML, wrapped in a div with id <code>concrete-root</code>, with the runtime, client, and bundle <code>&lt;script&gt;</code> tags already attached. It then hands that block to <code>concrete_renderer:wrap_in_layout/2</code>, which renders the layout's template and drops the mount block in at the <code>&lt;slot /&gt;</code> tag. The mount div still sits where the client script expects it, inside whatever shell the layout builds around it.
+</p>
+
+<p>
+A <code>&lt;slot /&gt;</code> tag has one rule: it must sit inside a layout's own render pass. Any other template that reaches a <code>&lt;slot /&gt;</code> tag on its own, with no layout wrapping it, raises an error at render time. A layout also does not read a page's state directly. If a layout needs page data, the page must pass that data as layout props.
+</p>
+
+<p>
+The browser never needs to re-render a layout on its own. An action click only ever replaces the page's own content, inside the mount div — the layout shell around that div is static HTML from the first server render, and stays untouched. <code>client.js</code> does carry a real, working <code>Client.renderWithLayout</code> function, the browser-side match for <code>concrete_renderer:wrap_in_layout/2</code>: it renders a layout module's own template with already-rendered page HTML dropped in at <code>&lt;slot /&gt;</code>. Nothing in the default action flow calls it. It exists for code that wants to render a whole layout-plus-page tree client-side, on its own terms.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb32f43a" class="outline-2">
+<h2 id="orgb32f43a">Try It Yourself</h2>
+<div class="outline-text-2" id="text-orgb32f43a">
+<p>
+Add a second page module to a project next to the counter page from the last post. Give it its own <code>-concrete([{route, "/about"}])</code> attribute and its own <code>.slab</code> template. Start the application. Both routes answer, with no dispatch table to edit by hand. Remove the <code>-behaviour(concrete_page)</code> line from either module, and its route disappears at the next boot, because the scan in <code>concrete_app:page_modules/0</code> no longer finds it.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb49786f" class="outline-2">
+<h2 id="orgb49786f">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgb49786f">
+<p>
+This post traced a request from a URL to rendered HTML, and showed how a page wraps its output in a layout. The next post opens up <code>.slab</code> files properly: how the parser turns a template into a tree of nodes, and how the renderer walks that tree with <code>erl_eval</code> to produce HTML.
+</p>
+</div>
+</div>
+<div id="outline-container-org958fa56" class="outline-2">
+<h2 id="org958fa56">Resources:</h2>
+<div class="outline-text-2" id="text-org958fa56">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-07 Fri 03:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 004: Inside the .slab Parser.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="How a .slab template becomes HTML" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="How a .slab template becomes HTML" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 004: Inside the .slab Parser.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-orgb9ca26e" class="outline-2">
+<h2 id="orgb9ca26e">Summary:</h2>
+<div class="outline-text-2" id="text-orgb9ca26e">
+<p>
+<a href="./concrete-pages.html">Concrete 003</a> traced a request from a URL to <code>concrete_renderer:render_page/2</code>. This post opens up the piece that
+call leans on: <code>concrete_template_parser</code>, the module that turns a <code>.slab</code> file into a tree of nodes, and
+<code>concrete_renderer</code>, the module that walks that tree and produces HTML.
+</p>
+</div>
+</div>
+<div id="outline-container-org84daf1f" class="outline-2">
+<h2 id="org84daf1f">Four Kinds of Nodes</h2>
+<div class="outline-text-2" id="text-org84daf1f">
+<p>
+The parser turns a template into a list of four node shapes.
+</p>
+
+<ul class="org-ul">
+<li><code>{text, Binary}</code> — plain text, copied to the output as-is.</li>
+<li><code>{element, Tag, Attrs, Children}</code> — an HTML tag, its attributes, and its child nodes.</li>
+<li><code>{expr, AST}</code> — an Erlang expression, already parsed, not yet run.</li>
+<li><code>{component, Module, Props}</code> — a child component, embedded with <code>&lt;:component&gt;</code>.</li>
+</ul>
+
+<p>
+Every <code>.slab</code> file becomes a list built out of these four shapes. Nothing else exists in this tree. A
+<code>case</code> that dispatches on node type only ever needs four clauses.
+</p>
+</div>
+</div>
+<div id="outline-container-org1598066" class="outline-2">
+<h2 id="org1598066">A Parser Without a Separate Lexer</h2>
+<div class="outline-text-2" id="text-org1598066">
+<p>
+<code>The concrete_template_parser</code> does not build a token list first and walk it later. It reads the input character
+by character, in one pass, as a plain Erlang string.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>parse_nodes("&lt;/" ++ _ = Cs, Acc) -&gt;
+    {lists:reverse(Acc), Cs};
+parse_nodes("&lt;:component" ++ Cs, Acc) -&gt;
+    {Node, Rest} = parse_component(Cs),
+    parse_nodes(Rest, [Node | Acc]);
+parse_nodes("&lt;" ++ Cs, Acc) -&gt;
+    {Node, Rest} = parse_element(Cs),
+    parse_nodes(Rest, [Node | Acc]);
+parse_nodes("{" ++ Cs, Acc) -&gt;
+    {AST, Rest} = take_expr(Cs),
+    parse_nodes(Rest, [{expr, AST} | Acc]);
+parse_nodes(Cs, Acc) -&gt;
+    {Text, Rest} = take_text(Cs, []),
+    parse_nodes(Rest, [{text, unicode:characters_to_binary(Text)} | Acc]).
+</code></pre>
+</div>
+
+<p>
+Each clause looks at the next few characters and decides what kind of node comes next. A closing
+tag stops the current list of nodes and hands the rest back to the caller. A <code>&lt;:component</code> prefix starts
+a component. Any other <code>&lt;</code> starts a plain element. A <code>{</code> starts an expression. Anything else is plain text,
+consumed up to the next <code>&lt;</code> or <code>{</code>.
+</p>
+
+<p>
+This is worth noticing: the parser itself works on a charlist, the very thing the rest of this series
+tells you to avoid in component code. That rule is about values that reach the browser or a <code>.slab</code> file.
+A charlist inside the compiler, consumed and discarded before any output exists, is not that. The rule
+and the parser do not conflict.
+</p>
+
+<p>
+I might address this later, but this is how it works right now.
+</p>
+</div>
+</div>
+<div id="outline-container-org87336b7" class="outline-2">
+<h2 id="org87336b7">Attributes: Three Shapes</h2>
+<div class="outline-text-2" id="text-org87336b7">
+<p>
+An attribute inside a tag takes one of three shapes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;button class="primary" concrete-click={action_name} disabled&gt;
+</code></pre>
+</div>
+
+<p>
+<code>class</code>"primary"= is a static attribute. Its value is a plain binary, copied through
+unchanged. <code>concrete-click={action_name}</code> is an expression attribute. Its value is an
+<code>{expr, AST}</code> tuple, evaluated later. <code>disabled</code> is a bare attribute, with no value at all.
+The parser stores it as an empty binary. All three shapes can appear on the same tag,
+in any order.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb68a0d0" class="outline-2">
+<h2 id="orgb68a0d0">The @name Trick</h2>
+<div class="outline-text-2" id="text-orgb68a0d0">
+<p>
+<code>{@count}</code> is not special syntax on its own. Before the text inside the braces reaches the
+Erlang parser, one line of code rewrites it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>rewrite_state_refs(Str) -&gt;
+  re:replace(Str, "@([a-z][a-zA-Z0-9_]*)", "maps:get(\\1, CONCRETE_STATE)",
+             [global, {return, list}]).
+</code></pre>
+</div>
+
+<p>
+<code>@count</code> becomes <code>maps:get(count, CONCRETE_STATE)</code>. The result is ordinary Erlang source text.
+<code>erl_scan</code> and <code>erl_parse</code> turn that text into a real abstract syntax tree, the same kind of tree =
+erl_parse= would produce for a <code>.erl</code> file. <code>{@count}</code> and <code>{maps:get(count, CONCRETE_STATE)}</code> parse
+to the exact same tree. The first is only shorter to type.
+</p>
+
+<p>
+This rewrite runs on the raw text inside the braces, before parsing, with a regular expression.
+It does not know about string literals. The parser comment names this directly as a known
+limitation: an <code>@word</code> sequence inside a string literal, written inside an expression, gets
+rewritten too. Write <code>{&lt;&lt;"@count"&gt;&gt;}</code> carefully, or avoid the pattern, until this is fixed.
+</p>
+</div>
+</div>
+<div id="outline-container-org7d103d0" class="outline-2">
+<h2 id="org7d103d0">Expressions Keep Their Brace Depth</h2>
+<div class="outline-text-2" id="text-org7d103d0">
+<p>
+An expression inside <code>{...}</code> can itself contain braces, for a map or a nested call. =
+{maps:get(count, #{a <code>&gt; 1})}</code> is valid. The parser tracks brace depth while it reads, and
+it also knows about quote characters, so a <code>}</code> inside a string literal does not end the expression early.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>
+take_balanced([$} | Cs], Acc, 0) -&gt; {lists:reverse(Acc), Cs};
+take_balanced([$} | Cs], Acc, D) -&gt; take_balanced(Cs, [$} | Acc], D - 1);
+take_balanced([${ | Cs], Acc, D) -&gt; take_balanced(Cs, [${ | Acc], D + 1);
+take_balanced([$" | Cs], Acc, D) -&gt;
+    {Acc1, Rest} = take_literal(Cs, [$" | Acc], $"),
+    take_balanced(Rest, Acc1, D);
+
+</code></pre>
+</div>
+
+<p>
+A <code>}</code> only closes the expression at depth <code>0</code>. Every <code>{</code> before it raises the depth by one,
+and every <code>}</code> after it lowers the depth back down, until the matching one is found.
+</p>
+</div>
+</div>
+<div id="outline-container-org5bd687a" class="outline-2">
+<h2 id="org5bd687a">Components Must Be Self-Closing</h2>
+<div class="outline-text-2" id="text-org5bd687a">
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;:component module={counter_page} initial_value={5} /&gt;
+</code></pre>
+</div>
+
+<p>
+<code>&lt;:component&gt;</code> reads its attributes exactly like an element does. Two things differ.
+First, it must end in <code>/&gt;</code>; a <code>&lt;:component&gt;</code> with a matching closing tag is a parse error.
+Second, one attribute, <code>module</code>, is not stored as a normal attribute. The parser pulls it
+out and uses it to name the child module directly, so the result is <code>{component, counter_page, Props}</code>,
+not an element with a <code>module</code> attribute.
+</p>
+</div>
+</div>
+<div id="outline-container-org69352db" class="outline-2">
+<h2 id="org69352db">From Nodes to HTML</h2>
+<div class="outline-text-2" id="text-org69352db">
+<p>
+Parsing only builds the tree. <code>concrete_renderer</code> walks it.
+</p>
+
+<p>
+An <code>{expr, AST}</code> node is run with <code>erl_eval</code>, the standard library's expression evaluator, with one
+binding set up first: <code>CONCRETE_STATE</code> bound to the component's state map. This is the same <code>CONCRETE_STATE</code>
+name the <code>@name</code> rewrite refers to.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>eval_expr(AST, Component) -&gt;
+  State = maps:get(state, Component, #{}),
+  Bindings = erl_eval:add_binding('CONCRETE_STATE', State, erl_eval:new_bindings()),
+  {value, Val, _} = erl_eval:expr(AST, Bindings),
+  Val.
+</code></pre>
+</div>
+
+<p>
+The result then passes through <code>escape/1</code> before it reaches the page. <code>escape/1</code> replaces four
+characters: <code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>, and <code>"</code>. This is enough to stop a state value from breaking out of the
+surrounding HTML and injecting a new tag. A component node runs its own module's <code>init/2</code> with resolved
+props, then renders that module's own template in the same way, recursively.
+</p>
+
+<p>
+An <code>{element, ...}</code> node writes its own opening tag, renders its children, and writes a closing
+tag, unless it is a void element such as <code>&lt;br&gt;</code> or <code>&lt;img&gt;</code>, which has no children and no closing
+tag at all.
+</p>
+</div>
+</div>
+<div id="outline-container-org96405cb" class="outline-2">
+<h2 id="org96405cb">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org96405cb">
+<p>
+The project's test suite for this parser is <code>template_parser_SUITE</code>. A fixture template close to
+this post's examples already exists in the repository:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;div class="page"&gt;&lt;h1&gt;Hello {@name}&lt;/h1&gt;&lt;:component module={fixture_badge} score={@n} /&gt;&lt;/div&gt;
+</code></pre>
+</div>
+
+<p>
+Run <code>concrete_template_parser:parse_string/1</code> on a string like this one, in a shell, and look
+at the tuples it returns. Seeing the four node shapes once, on real input, will make the parser's
+structure stick better than reading about it does.
+</p>
+</div>
+</div>
+<div id="outline-container-org56adc0a" class="outline-2">
+<h2 id="org56adc0a">One Thing This Post Did Not Cover</h2>
+<div class="outline-text-2" id="text-org56adc0a">
+<p>
+The same parsed tree also feeds a second path: <code>compile_render_fun/1</code> turns it into IR, for a
+<code>render/1</code> function that runs in the browser instead of on the server. That path calls into
+<code>concrete_transformer</code> for every expression node. The transformer, and the encoder that turns
+its output into JavaScript, are their own posts, coming later in this series.
+</p>
+</div>
+</div>
+<div id="outline-container-org7cf318d" class="outline-2">
+<h2 id="org7cf318d">What Comes Next</h2>
+<div class="outline-text-2" id="text-org7cf318d">
+<p>
+This post covered how a <code>.slab</code> file becomes a tree, and how that tree becomes HTML on the server.
+The next post steps away from templates and toward the build side: how a page module actually becomes
+the JavaScript bundle that <a href="./concrete-pages.html">Concrete 003</a> already showed being served, and what
+Concrete leaves out of that bundle on purpose.
+</p>
+</div>
+</div>
+<div id="outline-container-org476edc3" class="outline-2">
+<h2 id="org476edc3">Resources:</h2>
+<div class="outline-text-2" id="text-org476edc3">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

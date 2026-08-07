@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-07 Fri 03:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 005: Call Graphs and Dead Code.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="How Concrete decides what to leave out of the bundle" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="How Concrete decides what to leave out of the bundle" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 005: Call Graphs and Dead Code.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-org05e7597" class="outline-2">
+<h2 id="org05e7597">Summary:</h2>
+<div class="outline-text-2" id="text-org05e7597">
+<p>
+<a href="./concrete-pages.html">Concrete 003</a> showed <code>concrete_assets:bundle_url/1</code> handing back a URL for a page's compiled bundle, without explaining how that bundle gets built or why it isn't just every function in the module. This post covers that: the call graph, the PLT that backs it, and two real gaps in today's dead-code elimination that are worth knowing about before you rely on it.
+</p>
+</div>
+</div>
+<div id="outline-container-org340ae6d" class="outline-2">
+<h2 id="org340ae6d">Two Ways to Get a Bundle</h2>
+<div class="outline-text-2" id="text-org340ae6d">
+<p>
+Concrete ships two different paths from Erlang to a JavaScript bundle, and they do not behave the same way.
+</p>
+
+<p>
+The simple path is <code>concrete:compile_module/1</code>. It reads one module's BEAM, transforms every function it finds, and encodes all of it to JavaScript. Nothing is left out. The demo apps in this project's <code>example/</code> directory use this path, because a demo has no unused code to trim in the first place.
+</p>
+
+<p>
+The real path is the rebar3 compiler plugin, <code>rebar_compiler_concrete</code>. It builds a call graph rooted at one page module, walks outward from there, and only encodes the functions the walk actually reaches. This is the path that runs when you build a real project with Concrete, and it is the one this post is about.
+</p>
+</div>
+</div>
+<div id="outline-container-org12b6e72" class="outline-2">
+<h2 id="org12b6e72">The PLT: a Cache Keyed by Function</h2>
+<div class="outline-text-2" id="text-org12b6e72">
+<p>
+Before any graph can be built, Concrete needs the IR for every function that might be reachable, not just the page module's own. <code>concrete_plt</code> holds this: an ETS table, keyed by <code>{Module, Function, Arity}</code>, holding each function's IR.
+</p>
+
+<p>
+The table is filled by <code>concrete_beam_reader:extract_ir/1</code>, which reads a module's BEAM file, pulls out its abstract code, and runs it through the same transformer this series will eventually cover on its own. The table is saved to disk after a build and reloaded on the next one, so a project with many pages does not re-read and re-transform an unchanged helper module for every single page.
+</p>
+
+<p>
+A lookup that misses returns <code>not_found</code>, not an error. This matters for the next section.
+</p>
+</div>
+</div>
+<div id="outline-container-org5ae4c1b" class="outline-2">
+<h2 id="org5ae4c1b">Roots: Where the Walk Starts</h2>
+<div class="outline-text-2" id="text-org5ae4c1b">
+<p>
+<code>concrete_call_graph:build/2</code> does not start from an arbitrary place. It starts from a fixed set of entry points, and the choice of entry points is deliberate, not incidental.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>build(PageModule, PLT) -&gt;
+    BaseEntries = [{PageModule, init, 2}, {PageModule, template, 0}],
+    ExtraEntries = [E || E &lt;- [{PageModule, action, 3}, {PageModule, command, 3}],
+                          concrete_plt:get(PLT, E) =/= not_found],
+    build_from_entries(BaseEntries ++ ExtraEntries, PLT).
+</code></pre>
+</div>
+
+<p>
+<code>init/2</code> and <code>template/0</code> are always roots. Something outside of Erlang calls them directly: the page handler calls <code>init/2</code>, and the render step calls <code>template/0</code>, but nothing in the module's own IR calls either one. A plain call graph, rooted only at what the code itself calls, would never find them, and they would vanish.
+</p>
+
+<p>
+<code>action/3</code> and <code>command/3</code> are roots too, but only when the module actually defines them. The browser calls <code>action/3</code> directly, from a <code>concrete-click</code> handler, never through a traceable Erlang call anywhere in the source. Leaving it out of the roots would mark a real, load-bearing function as dead code.
+</p>
+</div>
+</div>
+<div id="outline-container-org524c4fd" class="outline-2">
+<h2 id="org524c4fd">Walking the Graph</h2>
+<div class="outline-text-2" id="text-org524c4fd">
+<p>
+From each root, the walker looks inside the function's IR for calls to other functions, adds those as new vertices and edges, and repeats, until nothing new turns up.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>calls_in_ir(_Mod, #ir_remote_call{module = #ir_atom{value = M},
+                                  function = #ir_atom{value = F},
+                                  arity = A}) -&gt;
+    [{M, F, A}];
+calls_in_ir(Mod, #ir_local_call{name = F, arity = A}) -&gt;
+    [{Mod, F, A}];
+calls_in_ir(Mod, #ir_case{expr = E, clauses = Cls}) -&gt;
+    calls_in_ir(Mod, E) ++ lists:flatmap(fun(C) -&gt; calls_in_clause(Mod, C) end, Cls);
+calls_in_ir(Mod, #ir_block{exprs = Es}) -&gt;
+    lists:flatmap(fun(E) -&gt; calls_in_ir(Mod, E) end, Es);
+calls_in_ir(_Mod, _Node) -&gt;
+    [].
+</code></pre>
+</div>
+
+<p>
+A call inside a <code>case</code>, inside a plain block, inside a binary or unary operator, inside a tuple, or inside a map, is found. The final clause is a catch-all: any IR node shape not named above simply contributes no calls at all, and the walk moves on as if that part of the function called nothing.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbd329e7" class="outline-2">
+<h2 id="orgbd329e7">A Real Gap: What the Walker Does Not Look Inside</h2>
+<div class="outline-text-2" id="text-orgbd329e7">
+<p>
+Read that catch-all clause again, next to the full list of IR node types in <code>concrete_ir.hrl</code>. The walker names eight shapes: remote call, local call, case, block, binop, unop, tuple, map. It does not name <code>ir_if</code>, <code>ir_try</code>, <code>ir_receive</code>, <code>ir_list</code>, <code>ir_cons</code>, <code>ir_map_update</code>, <code>ir_match</code>, or an anonymous function's body.
+</p>
+
+<p>
+A call written inside an <code>if</code>, a <code>try</code> block, a list literal, or an anonymous function is invisible to this walk. Nothing in the code path treats that as an error. The function goes unrecorded, silently, exactly like a function that really is unreachable.
+</p>
+
+<p>
+I checked the test suite for this module, <code>call_graph_SUITE</code>, to see whether this gap is covered or just undocumented. It is not covered. Every test builds its call chain through a <code>local_call</code> or a <code>remote_call</code> sitting directly in a function's body, never through an <code>if</code>, a <code>try</code>, or a list. This is a real, present gap, not a hypothetical one, and not something this post is inventing to sound thorough.
+</p>
+
+<p>
+The practical risk: if a function is only ever called from inside a <code>try...catch</code>, and never anywhere else, the dead-code pass can drop it from the bundle. The browser then encounters a call to a function that Concrete never shipped. That fails at runtime, in the browser, not at build time on your machine.
+</p>
+</div>
+</div>
+<div id="outline-container-org48709f4" class="outline-2">
+<h2 id="org48709f4">A Second Gap: apply/3 and Dynamic Dispatch</h2>
+<div class="outline-text-2" id="text-org48709f4">
+<p>
+Concrete's own project notes describe a plan for this exact problem: "Log a warning and fall back to bundling the full module, or require explicit annotation of reachable targets." I looked for that warning, or that fallback, in the source. Neither exists yet.
+</p>
+
+<p>
+Here is what actually happens today. A call of the shape <code>Module:Function(Args)</code>, where <code>Module</code> or <code>Function</code> is a variable rather than a literal atom, transforms to an <code>ir_dynamic_call</code> node, not a plain remote call. This is the shape a <code>gen_server</code>-style callback dispatch takes: the calling code does not know which callback module it will run until the value shows up at runtime.
+</p>
+
+<p>
+The browser runtime handles this fine. <code>ir_dynamic_call</code> encodes to <code>Interpreter.callDynamic(...)</code>, which resolves the target at run time in JavaScript, the same way the Erlang call would have resolved it on the BEAM. The problem sits earlier, at build time: <code>calls_in_ir/2</code> has no clause for <code>ir_dynamic_call</code> at all. It falls through to the catch-all, the same one covered above, and contributes no edge to the graph. A callback module reached only through dynamic dispatch is invisible to the walk that decides what to keep.
+</p>
+
+<p>
+<code>erlang:apply/3</code> itself fares no better. It compiles to an ordinary remote call to <code>{erlang, apply, 3}</code>. That MFA is not in the PLT, since <code>erlang</code> is a BIF module with no Erlang abstract code to read, so the lookup returns <code>not_found</code> and the walker just moves on, the same as it does for any other miss. No warning is logged anywhere in this path. I checked.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf1ac5bc" class="outline-2">
+<h2 id="orgf1ac5bc">Protecting Yourself Today</h2>
+<div class="outline-text-2" id="text-orgf1ac5bc">
+<p>
+The annotation mechanism described in the project notes does not exist yet, so it cannot help you today. One real lever does exist: <code>concrete_call_graph:build_from_entries/2</code> takes an explicit list of root MFAs, not just a single page module. If a module is only reachable through dynamic dispatch or <code>apply/3</code>, add its functions to that root list by hand, the same way the build plugin already roots embedded <code>&lt;:component&gt;</code> modules, and a page's layout module, neither of which Erlang's own call graph would ever find on its own.
+</p>
+
+<p>
+Short of that, the honest advice is caution: prefer <code>local_call</code> and plain <code>remote_call</code> wherever you can, and treat dynamic dispatch inside a page or component module as a spot that needs a manual check before you ship, not a pattern to reach for by default.
+</p>
+</div>
+</div>
+<div id="outline-container-orged10992" class="outline-2">
+<h2 id="orged10992">From Graph to File</h2>
+<div class="outline-text-2" id="text-orged10992">
+<p>
+Once the walk finishes, <code>concrete_call_graph:reachable/1</code> returns the surviving MFAs in topological order. <code>concrete_encoder:encode_bundle/2</code> turns that list, plus the PLT, into one JavaScript string. The build plugin hashes that string with SHA-256, names the output file after the hash, and writes an entry into the manifest file. That manifest is exactly what <code>concrete_assets:bundle_url/1</code> reads back in <a href="./concrete-pages.html">Concrete 003</a>, to answer the question "which file holds this page's JavaScript."
+</p>
+
+<p>
+Every module the bundle needs also gets its own client-side <code>render/1</code> function, compiled from its own <code>.slab</code> template, riding along in the same file, added after the call-graph output. That is not just the page's own module. The build plugin walks the page's template for <code>&lt;:component&gt;</code> references first, and follows a declared layout module too, before it ever builds the call graph &ndash; so a page that embeds three components and wraps its output in a layout ships one file holding five separate <code>render/1</code> functions, one per module, plus the call-graph output for all of them. The browser ends up with both the logic and the render step for the whole tree in one script tag.
+</p>
+</div>
+</div>
+<div id="outline-container-org344c959" class="outline-2">
+<h2 id="org344c959">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org344c959">
+<p>
+<code>test/call_graph_SUITE.erl</code> builds a small in-memory PLT by hand, with a <code>helper/0</code> function reachable from <code>init/2</code> and an <code>unused/0</code> function that is not, and asserts that only the reachable one survives. Read it before you read the module it tests. It is short, and it makes the shape of "reachable" concrete before you look at the code that computes it.
+</p>
+</div>
+</div>
+<div id="outline-container-org6f8b568" class="outline-2">
+<h2 id="org6f8b568">What Comes Next</h2>
+<div class="outline-text-2" id="text-org6f8b568">
+<p>
+This post covered how a page turns into a trimmed bundle, and named two gaps in that process worth knowing about before you lean on it. The next post moves away from the build side entirely, and toward what happens after the page has loaded: keeping state alive across requests, and the live-update stream that lets the server push changes down to an open page.
+</p>
+</div>
+</div>
+<div id="outline-container-org1643c73" class="outline-2">
+<h2 id="org1643c73">Resources:</h2>
+<div class="outline-text-2" id="text-org1643c73">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

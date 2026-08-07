@@ -1,0 +1,157 @@
+#+TITLE: CONCRETE 001: An introduction.
+#+HTML_HEAD: <meta name="description" content="Introduction to Concrete, a pure-Erlang port of Hologram" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Introduction to Concrete, a pure-Erlang port of Hologram" />
+
+* Summary:
+:PROPERTIES:
+:ID:       BB1053BE-C2D6-428C-8232-F7A67836296C
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+I am building [[https://github.com/wmealing/concrete][Concrete]], a full-stack web framework for Erlang. Concrete compiles Erlang code to a JavaScript bundle at build time. A browser runtime then runs that bundle. Concrete does not use Elixir. Concrete does not use a JavaScript framework. This post explains the goal of Concrete and shows the basic shape of a component.
+
+* Why I Started This Project
+:PROPERTIES:
+:ID:       6EAC6BE8-00FD-46A2-B904-4FDBEB4E5417
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+I write Erlang for most of my work. I like Erlang for its process model and its fault tolerance. I do not like the standard split between a backend language and a frontend language. That split forces mee to write business logic twice: once on the server, once in JavaScript.
+
+[[https://github.com/bartblast/hologram][Hologram]] solves this problem for Elixir. Hologram compiles Elixir components to JavaScript.
+A developer writes one component in Elixir. The component runs on the server for the first page load.
+The same component then runs in the browser for later interactions. The developer does not write separate
+frontend code.
+
+Elixir is a great language.  This project existing should not deter you from using Hologram or Elixir.
+
+I wanted this model in plain Erlang. Concrete is the result. Concrete takes the same core idea
+as Hologram, but Concrete does not depend on Elixir or the Elixir compiler. A Concrete project uses
+only Erlang and a rebar3 build plugin.
+
+
+
+* The Basic Idea
+:PROPERTIES:
+:ID:       2112DA9E-F932-4D11-81E2-F0AA3A61CD57
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+Concrete works in two stages.
+
+The first stage runs at build time. A rebar3 plugin reads each Erlang component module. The plugin parses the module into an Erlang abstract syntax tree. A transformer converts this tree into a Concrete intermediate representation, or IR. An encoder converts the IR into a JavaScript bundle. A call-graph step removes unused code from the bundle.
+
+The second stage runs in the browser. A small JavaScript runtime loads the bundle. The runtime executes the compiled Erlang functions directly. The runtime does not use a separate template engine. The runtime does not use a virtual DOM library from an outside project.  The intent is to keep all usage logically consistent.
+
+A cowboy web server handles the parts that stay on the server: the first page render, command requests from the browser, and a server-sent-events stream for live updates.
+
+There is no requirement to use erlang or cowboy on the server.  I have made my examples use cowboy out of convenience.
+
+This picture shows the full path from source file to running page.
+
+#+BEGIN_SRC text
+.erl source
+    │
+    ▼
+Erlang AST  (erl_parse)
+    │
+    ▼
+Concrete IR  (transformer)
+    │
+    ├──────────────┐
+    ▼              ▼
+Encoder      Call graph / dead-code removal
+    │              │
+    └──────┬───────┘
+           ▼
+   page_bundle.mjs  (javascript bundle to be sent to the browser)
+#+END_SRC
+
+* A Component in Concrete
+:PROPERTIES:
+:ID:       6CBED5CA-C9CF-4407-B7C1-B0823C3E4BAF
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+A Concrete component is an Erlang module. The module implements the =concrete_component= [[https://metajack.im/2008/10/29/custom-behaviors-in-erlang/][behavior]]. The behavior ensures each component defines three functions: =init/2= sets the starting state, =action/3= handles an event from the browser, and =template/0= names the =.slab= template file for the component.
+
+Here is a counter component.
+
+#+BEGIN_SRC erlang
+  -module(counter).
+  -behaviour(concrete_component).
+  -export([init/2, action/3, template/0]).
+
+  init(Props, Server) ->
+      Count = maps:get(initial_value, Props, 0),
+      {#{state => #{count => Count}}, Server}.
+
+  action(increment, _Params, #{state := #{count := N} = S} = C) ->
+      C#{state => S#{count => N + 1}};
+  action(decrement, _Params, #{state := #{count := N} = S} = C) ->
+      C#{state => S#{count => N - 1}}.
+
+  template() -> "counter.slab".
+#+END_SRC
+
+The template file holds the HTML for the component.
+
+#+BEGIN_SRC html
+<div class="counter">
+  <p>Count: {@count}</p>
+  <button concrete-click="increment">+</button>
+  <button concrete-click="decrement">-</button>
+</div>
+#+END_SRC
+
+The =concrete-click= attribute names the action to run when a user clicks the button. The ={@count}= placeholder reads the =count= value from the component state.
+
+The build plugin compiles =counter.erl= to JavaScript. A user opens the page. The server renders the initial HTML. The user clicks a button. The browser runs the compiled =action/3= function. The component state changes. The runtime re-renders the component. No round trip to the server is needed for this step.
+
+* One Rule to Remember Now
+:PROPERTIES:
+:ID:       EC6A7404-367E-4CB3-B2D6-CBE152CAC576
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+Write binaries for text in component code. Do not write plain strings.
+
+An Erlang string, such as ="hello"=, is a list of integers. This list does not convert to the browser correctly. A binary, such as =<<"hello">>=, converts correctly.
+
+Use =<<"hello">>=. Do not use ="hello"=.
+
+I will explain the reason for this rule in a later post about the wire format between the server and the browser.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       CD34B17D-C11E-4BC9-86CC-A53184952510
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+This post gave a short view of Concrete. Later posts will cover each part in more detail:
+ - The =.slab= template parser
+ - The transformer
+ - The encoder
+ - The call graph
+ - The browser runtime
+ - The wire format between the server and the browser.
+
+A later post will also walk through a full example app, built piece by piece.
+
+Concrete is under active development. Parts are subject to change , some parts of the roject repository are not
+built yet. I will note the current state of each part as I write about it.
+
+* Resources:
+:PROPERTIES:
+:ID:       B68C211C-B250-4643-821B-ADC57047BD18
+:PUBDATE:  2026-08-04 Tue 18:54
+:END:
+
+https://github.com/wmealing/concrete
+
+https://github.com/bartblast/hologram

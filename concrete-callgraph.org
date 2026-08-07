@@ -1,0 +1,165 @@
+#+TITLE: CONCRETE 005: Call Graphs and Dead Code.
+#+HTML_HEAD: <meta name="description" content="How Concrete decides what to leave out of the bundle" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="How Concrete decides what to leave out of the bundle" />
+
+* Summary:
+:PROPERTIES:
+:ID:       7499286D-3969-45BD-A4A4-F90D0E0059DE
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+[[./concrete-pages.html][Concrete 003]] showed =concrete_assets:bundle_url/1= handing back a URL for a page's compiled bundle, without explaining how that bundle gets built or why it isn't just every function in the module. This post covers that: the call graph, the PLT that backs it, and two real gaps in today's dead-code elimination that are worth knowing about before you rely on it.
+
+* Two Ways to Get a Bundle
+:PROPERTIES:
+:ID:       77983DCA-1FFB-4CB7-9D4A-F3D6A0809324
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+Concrete ships two different paths from Erlang to a JavaScript bundle, and they do not behave the same way.
+
+The simple path is =concrete:compile_module/1=. It reads one module's BEAM, transforms every function it finds, and encodes all of it to JavaScript. Nothing is left out. The demo apps in this project's =example/= directory use this path, because a demo has no unused code to trim in the first place.
+
+The real path is the rebar3 compiler plugin, =rebar_compiler_concrete=. It builds a call graph rooted at one page module, walks outward from there, and only encodes the functions the walk actually reaches. This is the path that runs when you build a real project with Concrete, and it is the one this post is about.
+
+* The PLT: a Cache Keyed by Function
+:PROPERTIES:
+:ID:       82A2FB7B-962B-4E9C-8506-15212CA85F35
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+Before any graph can be built, Concrete needs the IR for every function that might be reachable, not just the page module's own. =concrete_plt= holds this: an ETS table, keyed by ={Module, Function, Arity}=, holding each function's IR.
+
+The table is filled by =concrete_beam_reader:extract_ir/1=, which reads a module's BEAM file, pulls out its abstract code, and runs it through the same transformer this series will eventually cover on its own. The table is saved to disk after a build and reloaded on the next one, so a project with many pages does not re-read and re-transform an unchanged helper module for every single page.
+
+A lookup that misses returns =not_found=, not an error. This matters for the next section.
+
+* Roots: Where the Walk Starts
+:PROPERTIES:
+:ID:       BDDA0A4A-4ADB-49C4-A1C9-8819A98DF835
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+=concrete_call_graph:build/2= does not start from an arbitrary place. It starts from a fixed set of entry points, and the choice of entry points is deliberate, not incidental.
+
+#+BEGIN_SRC erlang
+build(PageModule, PLT) ->
+    BaseEntries = [{PageModule, init, 2}, {PageModule, template, 0}],
+    ExtraEntries = [E || E <- [{PageModule, action, 3}, {PageModule, command, 3}],
+                          concrete_plt:get(PLT, E) =/= not_found],
+    build_from_entries(BaseEntries ++ ExtraEntries, PLT).
+#+END_SRC
+
+=init/2= and =template/0= are always roots. Something outside of Erlang calls them directly: the page handler calls =init/2=, and the render step calls =template/0=, but nothing in the module's own IR calls either one. A plain call graph, rooted only at what the code itself calls, would never find them, and they would vanish.
+
+=action/3= and =command/3= are roots too, but only when the module actually defines them. The browser calls =action/3= directly, from a =concrete-click= handler, never through a traceable Erlang call anywhere in the source. Leaving it out of the roots would mark a real, load-bearing function as dead code.
+
+* Walking the Graph
+:PROPERTIES:
+:ID:       6991278B-2B3F-4FE8-92AE-9FEF592F8A7A
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+From each root, the walker looks inside the function's IR for calls to other functions, adds those as new vertices and edges, and repeats, until nothing new turns up.
+
+#+BEGIN_SRC erlang
+calls_in_ir(_Mod, #ir_remote_call{module = #ir_atom{value = M},
+                                  function = #ir_atom{value = F},
+                                  arity = A}) ->
+    [{M, F, A}];
+calls_in_ir(Mod, #ir_local_call{name = F, arity = A}) ->
+    [{Mod, F, A}];
+calls_in_ir(Mod, #ir_case{expr = E, clauses = Cls}) ->
+    calls_in_ir(Mod, E) ++ lists:flatmap(fun(C) -> calls_in_clause(Mod, C) end, Cls);
+calls_in_ir(Mod, #ir_block{exprs = Es}) ->
+    lists:flatmap(fun(E) -> calls_in_ir(Mod, E) end, Es);
+calls_in_ir(_Mod, _Node) ->
+    [].
+#+END_SRC
+
+A call inside a =case=, inside a plain block, inside a binary or unary operator, inside a tuple, or inside a map, is found. The final clause is a catch-all: any IR node shape not named above simply contributes no calls at all, and the walk moves on as if that part of the function called nothing.
+
+* A Real Gap: What the Walker Does Not Look Inside
+:PROPERTIES:
+:ID:       AD2162F8-C051-4373-8C8B-CF7256351D65
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+Read that catch-all clause again, next to the full list of IR node types in =concrete_ir.hrl=. The walker names eight shapes: remote call, local call, case, block, binop, unop, tuple, map. It does not name =ir_if=, =ir_try=, =ir_receive=, =ir_list=, =ir_cons=, =ir_map_update=, =ir_match=, or an anonymous function's body.
+
+A call written inside an =if=, a =try= block, a list literal, or an anonymous function is invisible to this walk. Nothing in the code path treats that as an error. The function goes unrecorded, silently, exactly like a function that really is unreachable.
+
+I checked the test suite for this module, =call_graph_SUITE=, to see whether this gap is covered or just undocumented. It is not covered. Every test builds its call chain through a =local_call= or a =remote_call= sitting directly in a function's body, never through an =if=, a =try=, or a list. This is a real, present gap, not a hypothetical one, and not something this post is inventing to sound thorough.
+
+The practical risk: if a function is only ever called from inside a =try...catch=, and never anywhere else, the dead-code pass can drop it from the bundle. The browser then encounters a call to a function that Concrete never shipped. That fails at runtime, in the browser, not at build time on your machine.
+
+* A Second Gap: apply/3 and Dynamic Dispatch
+:PROPERTIES:
+:ID:       9E75DD3C-4B2B-4927-9E5A-00051A72D4AD
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+Concrete's own project notes describe a plan for this exact problem: "Log a warning and fall back to bundling the full module, or require explicit annotation of reachable targets." I looked for that warning, or that fallback, in the source. Neither exists yet.
+
+Here is what actually happens today. A call of the shape =Module:Function(Args)=, where =Module= or =Function= is a variable rather than a literal atom, transforms to an =ir_dynamic_call= node, not a plain remote call. This is the shape a =gen_server=-style callback dispatch takes: the calling code does not know which callback module it will run until the value shows up at runtime.
+
+The browser runtime handles this fine. =ir_dynamic_call= encodes to =Interpreter.callDynamic(...)=, which resolves the target at run time in JavaScript, the same way the Erlang call would have resolved it on the BEAM. The problem sits earlier, at build time: =calls_in_ir/2= has no clause for =ir_dynamic_call= at all. It falls through to the catch-all, the same one covered above, and contributes no edge to the graph. A callback module reached only through dynamic dispatch is invisible to the walk that decides what to keep.
+
+=erlang:apply/3= itself fares no better. It compiles to an ordinary remote call to ={erlang, apply, 3}=. That MFA is not in the PLT, since =erlang= is a BIF module with no Erlang abstract code to read, so the lookup returns =not_found= and the walker just moves on, the same as it does for any other miss. No warning is logged anywhere in this path. I checked.
+
+* Protecting Yourself Today
+:PROPERTIES:
+:ID:       396FF452-D9AC-43D6-8B2E-4ABAF5D157B4
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+The annotation mechanism described in the project notes does not exist yet, so it cannot help you today. One real lever does exist: =concrete_call_graph:build_from_entries/2= takes an explicit list of root MFAs, not just a single page module. If a module is only reachable through dynamic dispatch or =apply/3=, add its functions to that root list by hand, the same way the build plugin already roots embedded =<:component>= modules, and a page's layout module, neither of which Erlang's own call graph would ever find on its own.
+
+Short of that, the honest advice is caution: prefer =local_call= and plain =remote_call= wherever you can, and treat dynamic dispatch inside a page or component module as a spot that needs a manual check before you ship, not a pattern to reach for by default.
+
+* From Graph to File
+:PROPERTIES:
+:ID:       F5AF305D-74C5-4933-8DE1-7EFD36EEC808
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+Once the walk finishes, =concrete_call_graph:reachable/1= returns the surviving MFAs in topological order. =concrete_encoder:encode_bundle/2= turns that list, plus the PLT, into one JavaScript string. The build plugin hashes that string with SHA-256, names the output file after the hash, and writes an entry into the manifest file. That manifest is exactly what =concrete_assets:bundle_url/1= reads back in [[./concrete-pages.html][Concrete 003]], to answer the question "which file holds this page's JavaScript."
+
+Every module the bundle needs also gets its own client-side =render/1= function, compiled from its own =.slab= template, riding along in the same file, added after the call-graph output. That is not just the page's own module. The build plugin walks the page's template for =<:component>= references first, and follows a declared layout module too, before it ever builds the call graph -- so a page that embeds three components and wraps its output in a layout ships one file holding five separate =render/1= functions, one per module, plus the call-graph output for all of them. The browser ends up with both the logic and the render step for the whole tree in one script tag.
+
+* Try It Yourself
+:PROPERTIES:
+:ID:       ABACB570-E4F0-4D76-A809-7AC7F1E0E78C
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+=test/call_graph_SUITE.erl= builds a small in-memory PLT by hand, with a =helper/0= function reachable from =init/2= and an =unused/0= function that is not, and asserts that only the reachable one survives. Read it before you read the module it tests. It is short, and it makes the shape of "reachable" concrete before you look at the code that computes it.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       62A1C456-B8EE-4B64-9498-E5BD984218C8
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+This post covered how a page turns into a trimmed bundle, and named two gaps in that process worth knowing about before you lean on it. The next post moves away from the build side entirely, and toward what happens after the page has loaded: keeping state alive across requests, and the live-update stream that lets the server push changes down to an open page.
+
+* Resources:
+:PROPERTIES:
+:ID:       26EC34AB-C39D-4AA6-A860-2637DD8A464F
+:PUBDATE:  2026-08-05 Wed 03:15
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]

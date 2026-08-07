@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-07 Fri 03:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 002: Hello, Counter.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Build and run your first Concrete component" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Build and run your first Concrete component" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 002: Hello, Counter.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-orgd74ae7f" class="outline-2">
+<h2 id="orgd74ae7f">Summary:</h2>
+<div class="outline-text-2" id="text-orgd74ae7f">
+<p>
+<a href="./concrete-intro.html">Concrete 001</a> showed the shape of a component. This post builds one and runs it. The example is a counter with two buttons. By the end of this post, the counter runs in a real browser, and the <code>+</code> button runs compiled Erlang, not a server request.
+</p>
+</div>
+</div>
+<div id="outline-container-org5d67de8" class="outline-2">
+<h2 id="org5d67de8">The Files You Need</h2>
+<div class="outline-text-2" id="text-org5d67de8">
+<p>
+A minimal Concrete component needs two files: a module and a template.
+</p>
+
+<p>
+The module holds the state and the click logic. The template holds the HTML. The build plugin joins the two at build time.
+</p>
+</div>
+</div>
+<div id="outline-container-org59914ba" class="outline-2">
+<h2 id="org59914ba">The Module</h2>
+<div class="outline-text-2" id="text-org59914ba">
+<p>
+Here is <code>counter_page.erl</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(counter_page).
+-export([init/2, template/0, action/3]).
+
+init(_Params, Server) -&gt;
+    State = #{count =&gt; 0},
+    {#{state =&gt; State}, Server}.
+
+template() -&gt;
+    "counter.slab".
+
+action(increment, _Params, #{state := #{count := N} = S} = C) -&gt;
+    C#{state =&gt; S#{count := N + 1}};
+action(decrement, _Params, #{state := #{count := N} = S} = C) -&gt;
+    C#{state =&gt; S#{count := N - 1}}.
+</code></pre>
+</div>
+
+<p>
+<code>init/2</code> receives two arguments: <code>Params</code> and <code>Server</code>. <code>Params</code> holds values from the request, such as query parameters. <code>Server</code> holds server-side state that is not sent to the browser. This example does not use either value. <code>init/2</code> returns a component map. The component map holds a <code>state</code> key. <code>count</code> starts at <code>0</code>.
+</p>
+
+<p>
+<code>action/3</code> receives the action name as an atom, a params map, and the current component map. Each clause matches one action name. The <code>increment</code> clause reads <code>N</code> from the state and returns a new component map with <code>count</code> set to <code>N + 1</code>. The <code>decrement</code> clause does the same in the other direction.
+</p>
+
+<p>
+<code>action/3</code> does not run on the server. The build plugin compiles it to JavaScript. The browser runs the compiled clause when a user clicks a button. The server never sees this call.
+</p>
+
+<p>
+Note that <code>S#{count := N + 1}</code> is a <b>map update</b>, not a <b>map merge</b>. The key <code>count</code> must already exist in the map for this line to work. It does, because <code>init/2</code> put it there.
+</p>
+</div>
+</div>
+<div id="outline-container-org5683192" class="outline-2">
+<h2 id="org5683192">The Template</h2>
+<div class="outline-text-2" id="text-org5683192">
+<p>
+Here is <code>counter.slab</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;div class="counter"&gt;
+  &lt;p&gt;Count: {@count}&lt;/p&gt;
+  &lt;button concrete-click="increment"&gt;+&lt;/button&gt;
+  &lt;button concrete-click="decrement"&gt;-&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+
+<p>
+<code>{@count}</code> reads <code>count</code> from the component state. The <code>concrete-click</code> attribute names an action. A click on the <code>+</code> button runs the <code>increment</code> clause of <code>action/3</code>. A click on the <code>-</code> button runs the <code>decrement</code> clause.
+</p>
+
+<p>
+Place this file in your <code>priv/templates</code> directory. The <code>template/0</code> function returns its file name, not its full path. Concrete looks for the file in the templates directory for you.
+</p>
+</div>
+</div>
+<div id="outline-container-orgabc103e" class="outline-2">
+<h2 id="orgabc103e">What Happens on the First Request</h2>
+<div class="outline-text-2" id="text-orgabc103e">
+<p>
+A browser sends a request for the page. The server calls <code>concrete_renderer:render_page(counter_page, Params)</code>. This function calls <code>counter_page:init/2</code>, parses <code>counter.slab</code>, and evaluates each <code>{@...}</code> expression against the state. The result is plain HTML. The server sends this HTML to the browser. The count shows as <code>0</code> before any JavaScript runs.
+</p>
+
+<p>
+The server also sends the starting state as JSON, next to the HTML. The browser needs this state later, to run actions without asking the server first.
+</p>
+</div>
+</div>
+<div id="outline-container-org414d92f" class="outline-2">
+<h2 id="org414d92f">What Happens on a Click</h2>
+<div class="outline-text-2" id="text-org414d92f">
+<p>
+The build plugin also compiles <code>counter_page.erl</code> to JavaScript, ahead of time. This compiled file is the JavaScript bundle. The server sends this bundle to the browser, next to the HTML page.
+</p>
+
+<p>
+A small runtime script, <code>client.js</code>, loads in the browser. <code>client.js</code> reads the starting state from the JSON sent earlier. <code>client.js</code> then attaches one click listener for the whole page. This one listener watches for clicks on any element with a <code>concrete-click</code> attribute.
+</p>
+
+<p>
+A user clicks the <code>+</code> button. <code>client.js</code> reads the action name, <code>increment</code>, from the attribute. <code>client.js</code> calls the compiled <code>action/3</code> function inside the browser. The compiled function runs the same clause you wrote in Erlang. The component state changes. The runtime re-renders the <code>{@count}</code> part of the page with the new value.
+</p>
+
+<p>
+No network request happens for this click. The whole cycle runs inside the browser tab.
+</p>
+</div>
+</div>
+<div id="outline-container-org1e09c60" class="outline-2">
+<h2 id="org1e09c60">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org1e09c60">
+<p>
+The <code>concrete</code> repository ships a working demo close to this example, under <code>example/</code>. Start it from a <code>rebar3 shell</code> session and point a browser at the printed port. Open the page, then open your browser's network tab. Click <code>+</code> a few times. No new request appears for the click. Reload the page. The count returns to <code>0</code>, because the server-side state does not persist between full page loads yet. A later post will cover server-side state and live updates through the SSE stream.
+</p>
+</div>
+</div>
+<div id="outline-container-org230e8ab" class="outline-2">
+<h2 id="org230e8ab">One Rule, Repeated</h2>
+<div class="outline-text-2" id="text-org230e8ab">
+<p>
+This example does not send any text to the browser, only a number. So the binary rule from Concrete 001 does not come up here. It will come up the moment you add a label or a title to a template. Write <code>&lt;&lt;"Score"&gt;&gt;</code>, not <code>"Score"</code>, in every value that reaches a <code>.slab</code> file.
+</p>
+</div>
+</div>
+<div id="outline-container-orgea86cbc" class="outline-2">
+<h2 id="orgea86cbc">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgea86cbc">
+<p>
+This post built one component and traced one click through the system. The next post covers pages and routing: how a URL maps to a page module, how layouts wrap a page, and how a page embeds child components with <code>&lt;:component&gt;</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org3d38d6e" class="outline-2">
+<h2 id="org3d38d6e">Resources:</h2>
+<div class="outline-text-2" id="text-org3d38d6e">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+Other projects that compile one language to run on both the server and the browser:
+</p>
+
+<ul class="org-ul">
+<li><a href="http://plv.csail.mit.edu/ur/">Ur/Web</a> — a typed language from MIT that compiles one source file to JavaScript for the browser, C for the server, and SQL for the database. The closest match to the Concrete idea, outside the BEAM world.</li>
+<li><a href="https://www.gwtproject.org/">GWT (Google Web Toolkit)</a> — an older Java-to-JavaScript compiler. Client-only, no server half, but it proved the "write one language, compile the browser half" approach at scale, years before this was fashionable.</li>
+<li><a href="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor">Blazor</a> — C# components that run unchanged on the server (Blazor Server) or compiled to WebAssembly in the browser (Blazor WebAssembly). Same component, two hosting models, picked at deploy time.</li>
+<li><a href="https://hexdocs.pm/lustre/lustre/server_component.html">Lustre server components</a> — Gleam, also a BEAM language. Lustre compiles to JavaScript for client apps, and separately ships "server components" that keep state on the BEAM and patch the DOM over a small JS runtime.</li>
+<li><a href="https://hexdocs.pm/phoenix_live_view/">Phoenix LiveView</a> — a different design point worth knowing about. LiveView does not compile Elixir to JavaScript at all. It renders HTML diffs on the server and pushes them down a socket. No client-side Erlang or Elixir code ever runs. Useful to contrast against Concrete's approach of shipping compiled code to the browser.</li>
+<li><a href="https://nitrogenproject.com/">Nitrogen</a> and <a href="https://github.com/synrc/n2o">N2O</a> — older, Erlang-native web frameworks. Neither compiles Erlang to JavaScript; both build pages from Erlang records and push updates over WebSockets. Worth a look as prior art from the same language family.</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
