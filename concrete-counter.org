@@ -144,6 +144,8 @@ https://github.com/wmealing/concrete
 
 [[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
 
+[[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]
+
 Other projects that compile one language to run on both the server and the browser:
 
 - [[http://plv.csail.mit.edu/ur/][Ur/Web]] — a typed language from MIT that compiles one source file to JavaScript for the browser, C for the server, and SQL for the database. The closest match to the Concrete idea, outside the BEAM world.

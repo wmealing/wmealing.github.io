@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-08 Sat 00:52 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 006: Catching JavaScript Promises.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Awaiting a JavaScript Promise from Erlang, through a real process" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Awaiting a JavaScript Promise from Erlang, through a real process" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 006: Catching JavaScript Promises.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+            <div class="navbar-avatar">
+                <a href="index.html"><img src="apple-touch-icon.png" alt="Avatar"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-orgc61fbed" class="outline-2">
+<h2 id="orgc61fbed">Summary:</h2>
+<div class="outline-text-2" id="text-orgc61fbed">
+<p>
+Someone asked me a fair question about <a href="./concrete-js-interop.html">Concrete 005</a>: Hologram, upstream, maps a JavaScript Promise onto an Elixir <code>Task</code>, and <code>Task.await/1</code> blocks until it resolves. Can Concrete do the same thing? The short answer is yes. The honest answer took a look at how Concrete's own blocking calls actually work before I could say how.
+</p>
+</div>
+</div>
+<div id="outline-container-org9153adb" class="outline-2">
+<h2 id="org9153adb">Two Kinds of Blocking Calls</h2>
+<div class="outline-text-2" id="text-org9153adb">
+<p>
+A <code>receive</code> already compiles to a real blocking generator. That much was already true before this post, and needed no changes. What I had not looked at closely enough before is that Concrete's runtime has two different ways to run a generator, and only one of them can survive a wait that finishes later.
+</p>
+
+<p>
+<code>Interpreter.spawnProcess</code> (what compiled <code>spawn/1</code> calls) puts the process into a table with <code>done: false</code> and leaves it there. Later, whenever anything sends it a message &ndash; another process, or a callback firing an arbitrary time afterward &ndash; the generator resumes correctly. This is the only path built to survive a real wait.
+</p>
+
+<p>
+<code>Interpreter.callTopLevel</code> is different. It runs a "cold" entry point &ndash; a <code>dom:on_click</code> handler, or any bare top-level call &ndash; by stepping its generator exactly once. If the generator is not done after that one step, <code>callTopLevel</code> throws:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"><code>process blocked waiting for a message that never arrived
+(unsupported outside a running process in v1)
+</code></pre>
+</div>
+
+<p>
+A Promise, by definition, never settles inside that one step. So a plain top-level call can never wait on one.
+</p>
+
+<p>
+It gets worse for the browser's own click handling. <code>Client.dispatch</code>, the function a <code>concrete-click</code> button actually runs through, does not even call <code>callTopLevel</code>. It calls <code>Interpreter.call</code> directly and assigns the result straight into the component's state. If an <code>action/3</code> clause somehow became blocking, <code>Interpreter.call</code> would hand back the unfinished generator object itself, and dispatch would silently store that broken object as if it were real state. No error. Just a page that stops updating.
+</p>
+
+<p>
+So: waiting on a Promise is only safe inside a real <code>spawn</code>'ed process. Not a design choice made for its own sake &ndash; the only place in the runtime actually built to survive it.
+</p>
+</div>
+</div>
+<div id="outline-container-org2a1d471" class="outline-2">
+<h2 id="org2a1d471">concrete_js:await/1</h2>
+<div class="outline-text-2" id="text-org2a1d471">
+<p>
+<code>concrete_js:await/1</code> does not block by itself. It registers interest in a Promise's settlement and returns a real Erlang reference right away. An ordinary <code>receive</code>, inside a spawned process, does the actual waiting:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>Pid = spawn(fun() -&gt;
+    Promise = ?js:call(&lt;&lt;"fetch"&gt;&gt;, [Url]),
+    Ref = concrete_js:await(Promise),
+    receive
+        {Ref, ok, Response}  -&gt; ...;
+        {Ref, error, Reason} -&gt; ...
+    end
+end).
+</code></pre>
+</div>
+
+<p>
+Nothing about this needed new machinery. <a href="./concrete-js-interop.html">Concrete 005</a> already covered how the runtime turns a JavaScript value with no Erlang-term equivalent &ndash; a class instance, a function, anything that is not a plain number, string, boolean, list, or object &ndash; into an opaque handle. A Promise falls into that same case automatically, no Promise-specific code needed, the same way a <code>THREE.Scene</code> instance became a handle in the last post. The reference <code>await/1</code> hands back is a real Erlang reference, the exact kind <code>make_ref/0</code> already returns, so a plain <code>receive</code> pattern-matches it the same way it would match any other reference. Sending a message to a process already works the same way whether it happens on the same tick or from a callback arriving much later. <code>await/1</code> only had to connect three pieces that already existed.
+</p>
+
+<p>
+Calling it outside a spawned process raises <code>{js_error, _}</code> right away, instead of sending a reply to a process nothing is listening on.
+</p>
+</div>
+</div>
+<div id="outline-container-org9426df5" class="outline-2">
+<h2 id="org9426df5">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org9426df5">
+<p>
+<code>test/js_exec_SUITE.erl</code> covers a resolved Promise, a rejected one, and one that resolves through a real <code>setTimeout</code> rather than immediately &ndash; that last case is the one that actually proves a message arriving later, not just on the same tick, wakes the waiting process correctly. Read <code>js_await_deferred_promise</code> first; it is the shortest path to seeing the whole mechanism work end to end.
+</p>
+</div>
+</div>
+<div id="outline-container-orgdfa29ac" class="outline-2">
+<h2 id="orgdfa29ac">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgdfa29ac">
+<p>
+This post covered waiting on one JavaScript Promise from one Erlang process. It did not cover getting the result back into a rendered component afterward &ndash; that still means calling <code>dom:*</code> BIFs directly from the worker, the same way the canvas demo already updates the page from a self-rescheduling loop. Wiring an awaited result into the normal render/vdom-diff path stays open.
+</p>
+</div>
+</div>
+<div id="outline-container-org96d2ea0" class="outline-2">
+<h2 id="org96d2ea0">Resources:</h2>
+<div class="outline-text-2" id="text-org96d2ea0">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+
+<p>
+<a href="./concrete-js-promises.html">Concrete 006: Catching JavaScript Promises</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

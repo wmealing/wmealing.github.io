@@ -1,0 +1,98 @@
+#+TITLE: CONCRETE 006: Catching JavaScript Promises.
+#+HTML_HEAD: <meta name="description" content="Awaiting a JavaScript Promise from Erlang, through a real process" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Awaiting a JavaScript Promise from Erlang, through a real process" />
+
+* Summary:
+:PROPERTIES:
+:ID:       7F27A0DC-AC15-4CEC-96A1-D484E7DA6AB5
+:PUBDATE:  2026-08-08 Sat 00:00
+:END:
+
+Someone asked me a fair question about [[./concrete-js-interop.html][Concrete 005]]: Hologram, upstream, maps a JavaScript Promise onto an Elixir =Task=, and =Task.await/1= blocks until it resolves. Can Concrete do the same thing? The short answer is yes. The honest answer took a look at how Concrete's own blocking calls actually work before I could say how.
+
+* Two Kinds of Blocking Calls
+:PROPERTIES:
+:ID:       561542B7-08C4-46DB-A8BC-ADC648A02B71
+:PUBDATE:  2026-08-08 Sat 00:00
+:END:
+
+A =receive= already compiles to a real blocking generator. That much was already true before this post, and needed no changes. What I had not looked at closely enough before is that Concrete's runtime has two different ways to run a generator, and only one of them can survive a wait that finishes later.
+
+=Interpreter.spawnProcess= (what compiled =spawn/1= calls) puts the process into a table with =done: false= and leaves it there. Later, whenever anything sends it a message -- another process, or a callback firing an arbitrary time afterward -- the generator resumes correctly. This is the only path built to survive a real wait.
+
+=Interpreter.callTopLevel= is different. It runs a "cold" entry point -- a =dom:on_click= handler, or any bare top-level call -- by stepping its generator exactly once. If the generator is not done after that one step, =callTopLevel= throws:
+
+#+BEGIN_SRC text
+process blocked waiting for a message that never arrived
+(unsupported outside a running process in v1)
+#+END_SRC
+
+A Promise, by definition, never settles inside that one step. So a plain top-level call can never wait on one.
+
+It gets worse for the browser's own click handling. =Client.dispatch=, the function a =concrete-click= button actually runs through, does not even call =callTopLevel=. It calls =Interpreter.call= directly and assigns the result straight into the component's state. If an =action/3= clause somehow became blocking, =Interpreter.call= would hand back the unfinished generator object itself, and dispatch would silently store that broken object as if it were real state. No error. Just a page that stops updating.
+
+So: waiting on a Promise is only safe inside a real =spawn='ed process. Not a design choice made for its own sake -- the only place in the runtime actually built to survive it.
+
+* concrete_js:await/1
+:PROPERTIES:
+:ID:       1481D5B9-3A50-4B79-B936-150701E2693A
+:PUBDATE:  2026-08-08 Sat 00:00
+:END:
+
+=concrete_js:await/1= does not block by itself. It registers interest in a Promise's settlement and returns a real Erlang reference right away. An ordinary =receive=, inside a spawned process, does the actual waiting:
+
+#+BEGIN_SRC erlang
+Pid = spawn(fun() ->
+    Promise = ?js:call(<<"fetch">>, [Url]),
+    Ref = concrete_js:await(Promise),
+    receive
+        {Ref, ok, Response}  -> ...;
+        {Ref, error, Reason} -> ...
+    end
+end).
+#+END_SRC
+
+Nothing about this needed new machinery. [[./concrete-js-interop.html][Concrete 005]] already covered how the runtime turns a JavaScript value with no Erlang-term equivalent -- a class instance, a function, anything that is not a plain number, string, boolean, list, or object -- into an opaque handle. A Promise falls into that same case automatically, no Promise-specific code needed, the same way a =THREE.Scene= instance became a handle in the last post. The reference =await/1= hands back is a real Erlang reference, the exact kind =make_ref/0= already returns, so a plain =receive= pattern-matches it the same way it would match any other reference. Sending a message to a process already works the same way whether it happens on the same tick or from a callback arriving much later. =await/1= only had to connect three pieces that already existed.
+
+Calling it outside a spawned process raises ={js_error, _}= right away, instead of sending a reply to a process nothing is listening on.
+
+* Try It Yourself
+:PROPERTIES:
+:ID:       B12D9459-A226-40D6-A385-E3C14AB283F9
+:PUBDATE:  2026-08-08 Sat 00:00
+:END:
+
+=test/js_exec_SUITE.erl= covers a resolved Promise, a rejected one, and one that resolves through a real =setTimeout= rather than immediately -- that last case is the one that actually proves a message arriving later, not just on the same tick, wakes the waiting process correctly. Read =js_await_deferred_promise= first; it is the shortest path to seeing the whole mechanism work end to end.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       E1E7AA2D-F6F6-48D6-B303-DB183B524C50
+:PUBDATE:  2026-08-08 Sat 00:00
+:END:
+
+This post covered waiting on one JavaScript Promise from one Erlang process. It did not cover getting the result back into a rendered component afterward -- that still means calling =dom:*= BIFs directly from the worker, the same way the canvas demo already updates the page from a self-rescheduling loop. Wiring an awaited result into the normal render/vdom-diff path stays open.
+
+* Resources:
+:PROPERTIES:
+:ID:       953D2BAC-EF4F-416C-BF12-20E292780421
+:PUBDATE:  2026-08-08 Sat 00:00
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
+
+[[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
+
+[[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]

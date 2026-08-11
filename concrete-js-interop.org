@@ -125,7 +125,7 @@ build_spirograph_line() ->
 
 Each point is a real =THREE.Vector3=, a native handle, built by an ordinary Erlang list comprehension, then handed to =setFromPoints= as one Concrete list. The list unboxes to a real JavaScript array on the way in. Each handle inside it unboxes back to its own =THREE.Vector3=. three.js never sees a boxed term.
 
-The first version of this demo did not close the curve correctly. It swept far enough around to draw the ring twice over, which reads exactly like drawing it once -- the second half just retraces the first. Getting the loop count and the total sweep to actually agree, not just look plausible, turned out to matter more than picking bigger numbers.
+The loop count and the total sweep agree exactly: the curve closes after =?LOOPS= full turns, and =?T_MAX= sweeps through precisely that many turns, no more. Every one of the =?POINTS= points is a distinct part of the ring, not a second pass over ground already covered.
 
 Each animation frame rotates the whole ring a little further, and shifts its color around the wheel:
 
@@ -149,9 +149,12 @@ Same self-rescheduling shape the canvas flower demo already uses, just driving t
 :PUBDATE:  2026-08-07 Fri 00:00
 :END:
 
-=test/js_exec_SUITE.erl= has the whole feature under test, run for real in Node, not just traced by hand. Each test case mocks a global the plain way a real page would get one: a bare =globalThis.Counter = class { ... }= assignment, injected before the compiled snippet runs. The test then calls =concrete_js:new/2=, =call/3=, =get/2=, and =set/3= against it, and checks the result. Two cases exist to prove argument unboxing works. One passes a Concrete list to a function that calls the native =.reduce= array method on it. One passes a map to a function that reads a plain object property off it. Both would throw at once if the argument still arrived boxed.
+Start =rebar3 as example shell=, call =spirograph_demo:serve()=, and open =http://localhost:8773= in a browser. The ring spins in place and cycles color as it turns:
 
-For the real thing, running in a real browser: start =rebar3 as example shell=, call =spirograph_demo:serve()=, and open =http://localhost:8773=.
+#+ATTR_HTML: :width 600px :style "display:block;margin:0 auto;"
+[[./images/spirograph.png]]
+
+Every line in that image came from a compiled Erlang call to three.js, not from any JavaScript written by hand.
 
 * What Comes Next
 :PROPERTIES:
@@ -159,7 +162,7 @@ For the real thing, running in a real browser: start =rebar3 as example shell=, 
 :PUBDATE:  2026-08-07 Fri 00:00
 :END:
 
-This post covered how compiled Erlang reaches an already-loaded JavaScript library, and why that needed almost no changes to the compiler. Two things are still missing. One is pulling in a JavaScript package as a real dependency, instead of assuming it is already global. The other is a client-side re-render loop that stays reactive across a whole layout, not just one page's own mount point.
+This post covered how compiled Erlang reaches an already-loaded JavaScript library, and why that needed almost no changes to the compiler. The next post covers a direct follow-up question: can Concrete catch a JavaScript Promise, the way Hologram's =Task.await/1= does upstream. Two other things are still missing. One is pulling in a JavaScript package as a real dependency, instead of assuming it is already global. The other is a client-side re-render loop that stays reactive across a whole layout, not just one page's own mount point.
 
 * Resources:
 :PROPERTIES:
@@ -178,3 +181,5 @@ https://github.com/wmealing/concrete
 [[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
 
 [[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
+
+[[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]

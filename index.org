@@ -9,6 +9,15 @@
 
 * Recent Blog Posts
 
+* [[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-5144276d
+:END:
+
+Sixth post, a direct follow-up: someone asked if Concrete can do what Hologram's Task.await/1 does upstream --
+block on a JavaScript Promise. Yes, but only from inside a real spawned process, not from just anywhere. Covers
+concrete_js:await/1, and why a cold top-level call can never survive a wait that only finishes later.
+
 * [[./concrete-js-interop.html][Concrete 005: JavaScript Interop - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-ac9b997f
