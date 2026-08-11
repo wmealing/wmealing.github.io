@@ -75,6 +75,15 @@
   box-sizing: border-box;
 }
 
+/* Several posts pin an explicit pixel width via org's ATTR_HTML
+   (e.g. :width 600px) for a desktop-sized figure. Without a cap those
+   overflow the content column on any screen narrower than the pinned
+   width — cap at the container instead of the attribute. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 html {
   font-size: var(--font-size-base);
   background-color: var(--color-bg);
@@ -87,6 +96,11 @@ body {
   margin: 0;
   padding: var(--space-lg);
   padding-top: calc(70px + var(--space-lg)); /* Space for fixed navbar */
+  /* Headings and paragraphs regularly carry one long unbroken token —
+     a bare URL, or a =module:function/arity= code span — with no space
+     to wrap at. Inherited so it covers every element, not just the
+     ones already special-cased (code, pre). */
+  overflow-wrap: anywhere;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -354,12 +368,6 @@ hr {
   margin: var(--space-lg) 0;
 }
 
-@media (max-width: 768px) {
-  body { padding: var(--space-md); }
-  h1.title { font-size: 2.25rem; }
-  .navbar-grid { flex-direction: column; gap: var(--space-sm); }
-}
-
 /* Projects Grid */
 .projects-container {
   margin: var(--space-lg) 0;
@@ -402,6 +410,102 @@ hr {
 
 .project-box:hover .project-overlay {
   background: rgba(17, 17, 17, 0.98);
+}
+
+/*
+   Breakpoint covers phones AND the effective viewport of larger phones
+   under browser zoom: most mobile visitors read this site at ~125% page
+   zoom, which shrinks the CSS/layout viewport by the same factor (e.g. a
+   390px-wide phone reports ~312px, a 428px phone ~342px). Design the
+   fluid rules below to hold up down to ~300px, not just the raw 390-428px
+   device width, or the zoomed-in majority still gets the broken layout.
+   Placed last in the file so it wins the cascade against same-specificity
+   rules declared earlier (e.g. .project-grid, .navbar-custom).
+*/
+@media (max-width: 900px) {
+  html { font-size: 17px; }
+
+  body {
+    padding: var(--space-sm);
+    padding-top: var(--space-sm);
+  }
+
+  #content {
+    padding: var(--space-sm);
+  }
+
+  h1.title {
+    padding: var(--space-sm) 0;
+    margin-bottom: var(--space-md);
+  }
+
+  /* The floating/fixed navbar assumes a fixed height and a single
+     nowrap row wide enough for brand + 3 dropdown sections + RSS +
+     avatar (~900px min-content). Below that it forces horizontal
+     scrolling of the bar itself. Drop the fixed positioning in favor
+     of a normal-flow sticky bar that can wrap and grow. */
+  .navbar-custom {
+    position: sticky;
+    height: auto;
+    min-height: 56px;
+  }
+
+  .navbar-container {
+    flex-wrap: wrap;
+    row-gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .navbar-grid {
+    order: 3;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    gap: var(--space-xs) var(--space-sm);
+  }
+
+  .navbar-section {
+    height: auto;
+  }
+
+  .navbar-section h3 {
+    padding: var(--space-xs) 0;
+  }
+
+  /* The submenu only ever opens on :hover, which touch screens don't
+     have — it's unreachable here, so stop reserving space/affordance
+     for it. Tapping a section heading still navigates to that
+     section's own page, which lists the same links as real content. */
+  .navbar-section:hover .navbar-tags,
+  .navbar-tags {
+    display: none !important;
+  }
+
+  .navbar-utility {
+    order: 2;
+  }
+
+  .navbar-avatar img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* auto-fit/minmax(280px,1fr) can't produce even a single column once
+     the effective width drops below ~280px + padding, which happens on
+     ordinary phones at 125% zoom. Force one column outright instead of
+     relying on the grid to infer it. */
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-box {
+    height: 160px;
+  }
 }
 
 .project-title {
