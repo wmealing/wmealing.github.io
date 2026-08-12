@@ -9,6 +9,13 @@
 
 * Recent Blog Posts
 
+* [[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server, and Two Call-Graph Bugs - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-7c2e91ab
+:END:
+
+Seventh post, and this one's two bugs for the price of one, both found chasing the same feature: a client-side action that reports what happened back to the server, still written entirely in Erlang. First, =?js:call= compiled clean, ran clean, and silently did nothing -- =concrete_js= had real, traceable code that the call graph was tracing into and compiling over its own native BIF. Second, once that was fixed, =command/3= turned out to have a restriction that never should have existed: it was being treated as a compile root for no reason, since nothing ever runs it as compiled JS. Both are fixed now. =command/3= can use whatever Erlang it wants.
+
 * [[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-5144276d
