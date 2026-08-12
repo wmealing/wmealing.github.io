@@ -1,0 +1,137 @@
+#+TITLE: CONCRETE 007: Reporting to the Server, and Two Call-Graph Bugs.
+#+HTML_HEAD: <meta name="description" content="How a client-side action can send data to the server in pure Erlang, and two call-graph bugs that got in the way" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="How a client-side action can send data to the server in pure Erlang, and two call-graph bugs that got in the way" />
+
+* Summary:
+:PROPERTIES:
+:ID:       A3D9E1F2-6B4C-4A88-9D3E-1F5C7B2A0E41
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+[[./concrete-counter.html][Concrete 002]]'s counter runs entirely client-side. The =+= button never talks to the server at all. This post covers the pattern for the obvious next step: keep the click instant, but also tell the server what just happened, still written entirely in Erlang. Getting there took two fixes to Concrete's call graph, both covered below, both landed since this post was first drafted. If you pulled =concrete= before today, update it — this post now describes the current, working behavior, not a workaround.
+
+* The Pattern
+:PROPERTIES:
+:ID:       B4E0F203-7C5D-4B99-AE4F-2A6D8C3B1F52
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+=action/3= is compiled to JavaScript and runs in the browser. =command/3= is different: =concrete_command_handler= runs it for real, server-side, on the real BEAM, in response to a =POST= to =/concrete/command= (=concrete_ws_handler= reaches it the same way over a WebSocket). Wiring one to the other from inside a compiled action needs =?js:call= to reach =Client.dispatchCommand=, the same function a declarative =concrete-command= button attribute would call, but with real arguments instead of an always-empty params map:
+
+#+BEGIN_SRC erlang
+-include_lib("concrete/include/concrete_js.hrl").
+
+%% Compiled to JS, runs in the browser. The count update itself never
+%% waits on the network -- dispatchCommand fires and the render happens
+%% either way.
+action(increment, _Params, #{state := #{count := N} = S} = C) ->
+    NewCount = N + 1,
+    ?js:call(<<"Client">>, dispatchCommand,
+             [<<"report_count">>, #{count => NewCount}]),
+    C#{state => S#{count := NewCount}}.
+
+%% Runs server-side, dispatched by concrete_command_handler. Params
+%% arrives as a plain map, not wire-tagged -- the handler passes it
+%% straight through with no decode step.
+command(report_count, Params, Server) ->
+    io:format("counter is now: ~p~n", [Params]),
+    Server.
+#+END_SRC
+
+Click =+=, and =command/3= runs on the server with =Params = #{<<"count">> => 1}=. =io:format/2= there is not a typo or a lucky exception — see [[#the-rules-for-command-3][The Rules For command/3]] below for why that matters.
+
+* The First Bug: ?js:call Silently Doing Nothing
+:PROPERTIES:
+:ID:       C5F1A314-8D6E-4CAA-BF50-3B7E9D4C2063
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+The version of this pattern I first tried compiled cleanly, ran without error, and did nothing. The build succeeded, the page loaded, the =+= button worked — the count went up in the DOM exactly as before — but nothing showed up in the server log, and no exception appeared in the browser console either.
+
+Tracking it down meant instrumenting the live page. Wrapping =Erlang["concrete_js:call/3"]= before clicking showed it *was* being called, with the right receiver, method, and arguments, and still returning =undefined= without ever reaching =fetch=. Dumping its =.toString()= in the live tab settled it: the running function's source did not match =concrete_js:call/3= in =runtime.js= at all. It matched the generic wrapper =Interpreter.defineErlangFunction= builds for a *compiled* module.
+
+[[./concrete-js-interop.html][Concrete 005]] claimed the call graph treats =concrete_js= as a dead end the same way it treats =dom= — no BEAM abstract code, PLT lookup returns =not_found=, walker stops. That claim was wrong, and wrong in a way that only shows up once =debug_info= is on, which is the rebar3 default. =dom= has no =.erl= source at all, so there is genuinely nothing to find. =concrete_js= is different: every one of its seven functions has a real body, on purpose, so an action that happens to run for real on the server (over a WebSocket dispatch, say) doesn't crash. A real body compiled with =debug_info= means real, traceable abstract code — exactly what a PLT lookup needs to succeed.
+
+Left unguarded, the call graph walker traced into =concrete_js:call/3=, compiled its real (harmless-stub) body, and registered the result under =Erlang["concrete_js:call/3"]= — the exact key the hand-written native BIF already used. The compiled version's whole body is =undefined=. That's why the call returned =undefined= and never threw.
+
+The fix is a tag, not a rewrite. =concrete_js.erl= now carries =-concrete([{bif_module, true}])=, and =concrete_beam_reader:extract_ir/1= refuses outright to trace any module carrying it — the same dead end =dom= reaches for free by having no source at all. =runtime.js='s =defineErlangFunction= also got a defense-in-depth check: a snapshot of every native BIF key taken before any compiled bundle runs, checked on every registration, so a future native-BIF-fronting module that forgets the tag fails loudly instead of silently losing its own implementation.
+
+* The Second Bug: command/3 Didn't Need To Be Compiled At All
+:PROPERTIES:
+:ID:       F824D647-B091-4DDE-E283-6A0F7C2D5396
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+Fixing the first bug got =?js:call= working, but =command/3= itself still had a real restriction: it compiled as a JS-bundle entry point exactly like =action/3=, which meant its body had to stick to calls the encoder could actually handle. =io:format/2= and =logger:info/1,2= broke the build outright — they pull in enough of stdlib's own IR that =concrete_encoder= chokes trying to compile it. =error_logger:info_msg/2= happened to dodge whatever specifically breaks, so the first working version of this post used that instead, as a workaround.
+
+That restriction never made sense, and looking at the actual dispatch code shows why. Both =concrete_command_handler= (HTTP) and =concrete_ws_handler= (WebSocket) call =Module:command(Command, Params, Server)= — or, for the WS path, =concrete_runtime:dispatch_command/4=, which does the same thing — as an ordinary Erlang function call on the real BEAM. Neither =client.js= nor =runtime.js= contains a single reference to "command" anywhere; =Client.dispatchCommand= only ever does a =fetch= POST or sends one WebSocket message. There is no code path, anywhere, where =command/3= executes as compiled JavaScript.
+
+=concrete_call_graph:page_entries/2= didn't know that. It treated =command/3= as a root for the same reason =action/3= is one — "the browser dispatches to it directly" — but that reasoning is only true for =action/3=. =command/3= being included as a root was cargo-culted from =action/3=, not derived from anything =command/3= actually needs.
+
+#+BEGIN_SRC erlang
+%% action/3 is a root because the browser really does call it, via
+%% Client.dispatch. command/3 is not: every dispatch path that reaches
+%% it calls Module:command/3 as an ordinary Erlang function on the real
+%% BEAM, never through compiled JS.
+page_entries(PageModule, PLT) ->
+    BaseEntries = [{PageModule, init, 2}, {PageModule, template, 0}],
+    ExtraEntries = [E || E <- [{PageModule, action, 3}],
+                          concrete_plt:get(PLT, E) =/= not_found],
+    BaseEntries ++ ExtraEntries.
+#+END_SRC
+
+=command/3= is no longer a root. It will still get traced and compiled if something in the actually browser-reachable graph calls it directly as a plain in-process function — unusual, and it defeats the point of =command/3= being server-only, but it's legal Erlang, so the call graph still has to follow it there. Outside that edge case, =command/3= is ordinary server-side Erlang with no restrictions at all: =io:format=, =gen_server:call=, spawning processes, whatever the task needs.
+
+* The Rules For command/3
+:PROPERTIES:
+:ID:       09354758-C1A2-4EEF-9394-8B1D3E4C6427
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+:CUSTOM_ID: the-rules-for-command-3
+
+With both fixes in place, the rule is short: there are no special rules for =command/3= anymore. Write whatever Erlang the task needs. The one thing worth remembering, not because it's a restriction but because it's easy to forget: =command/3= only ever runs when something actually POSTs to =/concrete/command= or sends the equivalent WebSocket message. Calling it directly, in-process, from =action/3= would pull it back into the JS-bundle call graph — not a bug, just a reminder that the point of =command/3= is to be the one place a client action can hand something back to the server without becoming browser code itself.
+
+* Try It Yourself
+:PROPERTIES:
+:ID:       1A465869-D2B3-4FF0-A5A5-9C2E4F5D7538
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+=test/beam_reader_SUITE.erl= has =bif_module_is_refused= and =concrete_js_is_refused= — direct proof =extract_ir/1= stops at the =bif_module= tag. =test/rebar_compiler_concrete_SUITE.erl='s =populate_plt_never_traces_concrete_js= runs the real pipeline against a fixture page whose =action/3= genuinely calls =concrete_js:call/2=, and confirms neither of =concrete_js='s MFAs ever makes it into the reachable set.
+
+For the second fix: =test/call_graph_SUITE.erl='s =page_entries_includes_action_excludes_command= checks =page_entries/2= directly. =test/rebar_compiler_concrete_SUITE.erl='s =bundle_with_io_format_in_command_compiles= is the real proof — it builds an actual bundle for a page whose =command/3= calls =io:format/2=, the exact thing that used to break the build, and confirms it compiles clean.
+
+* What Comes Next
+:PROPERTIES:
+:ID:       1A465869-D2B3-4FF0-A5A5-9C2E4F5D7539
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+This post covered one direction: a client-side action telling the server what happened. =concrete-command= button attributes cover the simpler, fully declarative case, but only ever send an empty params map — there is no template syntax yet for attaching dynamic, current-state params to one directly. That gap, and the WebSocket path (=concrete_ws_handler=, which dispatches both =action= and =command= entirely server-side over one live connection) are still open.
+
+* Resources:
+:PROPERTIES:
+:ID:       2B576970-E3C4-40A1-B6B6-AD3F5A6E8649
+:PUBDATE:  2026-08-13 Thu 00:00
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
+
+[[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
+
+[[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]
+
+[[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server, and Two Call-Graph Bugs]]

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-13 Thu 02:49 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 007: Send Data From A Browser Action To The Server.</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="How to send data from a browser action to the server, and a bug that stopped this from working" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="How to send data from a browser action to the server, and a bug that stopped this from working" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 007: Send Data From A Browser Action To The Server.</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-org97156df" class="outline-2">
+<h2 id="org97156df">Summary:</h2>
+<div class="outline-text-2" id="text-org97156df">
+<p>
+The counter in <a href="./concrete-counter.html">Concrete 002</a> runs only in the browser. The <code>+</code> button does not send data to the server.
+</p>
+
+<p>
+This article adds a new function to that counter. The click still updates the screen at once. But the button also sends the new count to the server. The server writes the count to the log.
+</p>
+
+<p>
+The first method did not work. The code was correct. The build had no errors. The code ran with no errors. But the code sent no data.
+</p>
+
+<p>
+This article shows the correct method. It also shows the error and the fix for the error. It also corrects a wrong statement in <a href="./concrete-js-interop.html">Concrete 005</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org96e06d6" class="outline-2">
+<h2 id="org96e06d6">Send Data To The Server</h2>
+<div class="outline-text-2" id="text-org96e06d6">
+<p>
+<code>action/3</code> runs in the browser. The compiler makes JavaScript code from this function.
+</p>
+
+<p>
+<code>command/3</code> is different. <code>concrete_command_handler</code> runs this function on the server. The browser sends a <code>POST</code> request to <code>/concrete/command</code>. This request starts the function.
+</p>
+
+<p>
+Use <code>?js:call</code> to start <code>Client.dispatchCommand</code> from an action. This method is similar to the <code>concrete-command</code> button attribute. But this method can send real data. The button attribute can only send an empty map.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-include_lib("concrete/include/concrete_js.hrl").
+
+%% This code runs in the browser.
+%% The click updates the count at once.
+%% The call to dispatchCommand does not stop the update.
+action(increment, _Params, #{state := #{count := N} = S} = C) -&gt;
+    NewCount = N + 1,
+    ?js:call(&lt;&lt;"Client"&gt;&gt;, dispatchCommand,
+             [&lt;&lt;"report_count"&gt;&gt;, #{count =&gt; NewCount}]),
+    C#{state =&gt; S#{count := NewCount}}.
+
+%% This code runs on the server.
+%% concrete_command_handler starts this function.
+%% Params is a normal map. It is not in wire format.
+command(report_count, Params, Server) -&gt;
+    error_logger:info_msg("counter is now: ~p~n", [Params]),
+    Server.
+</code></pre>
+</div>
+
+<p>
+Click the <code>+</code> button. <code>command/3</code> must run on the server. <code>Params</code> must equal <code>#{&lt;&lt;"count"&gt;&gt; =&gt; 1}</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org365de2f" class="outline-2">
+<h2 id="org365de2f">No Error, But No Result</h2>
+<div class="outline-text-2" id="text-org365de2f">
+<p>
+The build was successful. The page loaded correctly. The button worked. The count went up on the screen.
+</p>
+
+<p>
+No message appeared in the server log. No error appeared in the browser console.
+</p>
+
+<p>
+I checked each step in order. The click handler started correctly. The compiled function ran correctly. <code>Erlang["concrete_js:call/3"]</code> ran with the correct arguments.
+</p>
+
+<p>
+I added a test function to the live page. This function replaced <code>Erlang["concrete_js:call/3"]</code> with a new function. The new function recorded its arguments. Then it called the original function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><code>const oc = Erlang["concrete_js:call/3"];
+Erlang["concrete_js:call/3"] = function (...a) {
+  console.log("called with", a);
+  return oc.apply(this, a);
+};
+</code></pre>
+</div>
+
+<p>
+The test showed that the function started correctly. It received the correct receiver, method, and arguments. But the function still returned <code>undefined</code>. The function did not call <code>fetch</code>.
+</p>
+
+<p>
+The problem was inside the function. The problem was not at the call location.
+</p>
+
+<p>
+I checked the function code with <code>Erlang["concrete_js:call/3"].toString()</code>. The code did not match the real function in <code>runtime.js</code>. The code matched a different function. <code>Interpreter.defineErlangFunction</code> creates this different function for compiled modules:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><code>(...args) =&gt; {
+  const result = impl(args);
+  if (result &amp;&amp; typeof result.next === "function") {
+    return Interpreter.runEphemeral(result);
+  }
+  return result;
+}
+</code></pre>
+</div>
+
+<p>
+A compiled version of <code>concrete_js:call/3</code> existed. This version used the same name as the real function. The build tool replaced the real function with the compiled version. The compiled version has one simple body: <code>call(_Receiver, _Method, _Args) -&gt; undefined.</code>. This is why the function returned <code>undefined</code>. This is why the function raised no error.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb8c0c66" class="outline-2">
+<h2 id="orgb8c0c66">The Cause Of The Error</h2>
+<div class="outline-text-2" id="text-orgb8c0c66">
+<p>
+<a href="./concrete-js-interop.html">Concrete 005</a> made an incorrect statement. It said the call graph treats <code>concrete_js</code> like <code>dom</code>. It said the call graph finds no code for <code>concrete_js</code>. This statement is wrong.
+</p>
+
+<p>
+The <code>debug_info</code> compiler flag causes this error. This flag is a default setting in rebar3.
+</p>
+
+<p>
+<code>dom</code> has no source file. The build tool cannot find any code for <code>dom</code>.
+</p>
+
+<p>
+<code>concrete_js</code> is different. Each function in <code>concrete_js</code> has real code. This code lets an action run correctly on the server, not only in the browser. With the <code>debug_info</code> flag on, this code is available to the build tool.
+</p>
+
+<p>
+Without a fix, <code>rebar_compiler_concrete:populate_mfa/2</code> reads this code. The call graph then treats <code>concrete_js:call/3</code> as normal project code. <code>concrete_encoder</code> compiles the real function body. The build tool saves this new function under the name <code>Erlang["concrete_js:call/3"]</code>. This action replaces the correct native function. Every <code>?js:call</code> in the bundle still compiles. Every <code>?js:call</code> still runs. But no <code>?js:call</code> sends any data.
+</p>
+</div>
+</div>
+<div id="outline-container-org47f77f1" class="outline-2">
+<h2 id="org47f77f1">The Fix</h2>
+<div class="outline-text-2" id="text-org47f77f1">
+<p>
+<code>concrete_js.erl</code> now has a new module attribute:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-concrete([{bif_module, true}]).
+</code></pre>
+</div>
+
+<p>
+<code>concrete_beam_reader:extract_ir/1</code> checks for this attribute. If the module has this attribute, the function stops. The function returns the same result as it does for <code>dom</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>is_bif_module(Forms) -&gt;
+    lists:any(
+        fun({attribute, _, concrete, Opts}) -&gt; proplists:get_value(bif_module, Opts) =:= true;
+           (_) -&gt; false
+        end,
+        Forms
+    ).
+</code></pre>
+</div>
+
+<p>
+This fix solves the problem for <code>concrete_js</code>. It does not solve the problem for a new module that forgets this attribute. <code>runtime.js</code> has a second check for this reason.
+</p>
+
+<p>
+<code>defineErlangFunction</code> now checks a list of native BIF names. The system creates this list before it runs any compiled code. If new code tries to use an existing name, the system stops. The system shows an error message:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><code>const nativeBifKeys = new Set(Object.keys(Erlang));
+
+defineErlangFunction(moduleName, funcName, arity, clauses) {
+  const fullKey = `${moduleName}:${funcName}/${arity}`;
+  if (nativeBifKeys.has(fullKey)) {
+    throw new Error(
+      `Refusing to overwrite native BIF Erlang["${fullKey}"] with a compiled definition. ` +
+      `${moduleName} should be tagged -concrete([{bif_module, true}]) so ` +
+      `concrete_beam_reader:extract_ir/1 never traces into it.`
+    );
+  }
+  ...
+}
+</code></pre>
+</div>
+
+<p>
+If a developer forgets the attribute, the build shows an error at once. The bundle will not fail without a warning.
+</p>
+</div>
+</div>
+<div id="outline-container-org7e04fd4" class="outline-2">
+<h2 id="org7e04fd4">The Rules For command/3</h2>
+<div class="outline-text-2" id="text-org7e04fd4">
+<p>
+<code>command/3</code> is also a compile target. The build tool treats <code>command/3</code> the same as <code>action/3</code>. A browser can call <code>command/3</code> directly, through an HTTP request or through a WebSocket connection.
+</p>
+
+<p>
+The build tool tries to translate all the code inside <code>command/3</code>. This rule applies even when the function only runs on the server. Because of this rule, <code>command/3</code> cannot use every Erlang function.
+</p>
+
+<p>
+<code>io:format/2</code> and <code>logger:info/1,2</code> do not work here. These functions load too much code from the standard library. The build tool cannot translate this code.
+</p>
+
+<p>
+<code>error_logger:info_msg/2</code> works correctly. This function sends output to the shell or to the log file. The example in this article uses this function for that reason.
+</p>
+</div>
+</div>
+<div id="outline-container-org646d713" class="outline-2">
+<h2 id="org646d713">Test The Fix</h2>
+<div class="outline-text-2" id="text-org646d713">
+<p>
+<code>test/beam_reader_SUITE.erl</code> has two tests: <code>bif_module_is_refused</code> and <code>concrete_js_is_refused</code>. These tests confirm that <code>extract_ir/1</code> stops at the new attribute.
+</p>
+
+<p>
+<code>test/rebar_compiler_concrete_SUITE.erl</code> has a test named <code>populate_plt_never_traces_concrete_js</code>. This test runs the real build process against a test page. The <code>action/3</code> function in that page calls <code>concrete_js:call/2</code>. The test confirms that the build tool saves no <code>concrete_js</code> functions.
+</p>
+
+<p>
+<code>test/js_exec_SUITE.erl</code> has a test named <code>defining_over_native_bif_throws</code>. This test runs <code>runtime.js</code> with Node.js. It confirms that the new check works correctly.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc9ccd81" class="outline-2">
+<h2 id="orgc9ccd81">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgc9ccd81">
+<p>
+This article showed one method. A client action can send data to the server.
+</p>
+
+<p>
+The <code>concrete-command</code> button attribute is a simpler method. But this attribute always sends an empty map. There is no way to add real data to this attribute yet.
+</p>
+
+<p>
+The WebSocket connection is a different method. <code>concrete_ws_handler</code> can run <code>action</code> and <code>command</code> functions on the server through one connection. This method still needs more documentation.
+</p>
+</div>
+</div>
+<div id="outline-container-org7498126" class="outline-2">
+<h2 id="org7498126">Resources:</h2>
+<div class="outline-text-2" id="text-org7498126">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+
+<p>
+<a href="./concrete-js-promises.html">Concrete 006: Catching JavaScript Promises</a>
+</p>
+
+<p>
+<a href="./concrete-command-dispatch.html">Concrete 007: Reporting to the Server, and a Shadowing Bug</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
