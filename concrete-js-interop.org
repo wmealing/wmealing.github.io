@@ -34,9 +34,11 @@ encode_ir(#ir_remote_call{module = #ir_atom{value = M}, function = #ir_atom{valu
          join([encode_ir(Arg) || Arg <- Args], ", ")])
 #+END_SRC
 
-=dom:append_html(Id, Html)= and =concrete_js:call(Receiver, Method, Args)= compile to the same shape: a string lookup into a flat JavaScript object, =Erlang["dom:append_html/2"]= or =Erlang["concrete_js:call/3"]=. There is no Erlang module named =dom=. The encoder does not need one named =concrete_js= either. It only needs the runtime's =Erlang= table to hold an entry with that exact key.
+=dom:append_html(Id, Html)= and =concrete_js:call(Receiver, Method, Args)= compile to the same shape: a string lookup into a flat JavaScript object, =Erlang["dom:append_html/2"]= or =Erlang["concrete_js:call/3"]=. There is no Erlang module named =dom=. It has no =.erl= file at all, so a lookup into the PLT for anything under =dom:*= returns =not_found=. The walker adds the vertex, finds no further edges, and moves on. =concrete_encoder:encode_bundle/2= then skips encoding anything with no matching PLT entry.
 
-The call graph already treats a module with no BEAM abstract code as a dead end, not an error. A lookup into the PLT for =concrete_js:call/3= returns =not_found=. The walker adds the vertex, finds no further edges, and moves on. =concrete_encoder:encode_bundle/2= then skips encoding anything with no matching PLT entry. =concrete_js:*= calls get the same free ride =dom:*= and =canvas:*= already get. The only real module is =concrete_js.erl= itself. Its only job is to exist, so the functions have something to type-check against, and something safe to run if they ever run on the server. More on that below.
+=concrete_js= cannot get that same free ride by accident, because it is not in the same position as =dom=. Every one of its seven functions has a real Erlang body, kept for a reason covered below: a harmless stub, callable safely if an action ever runs for real on the server instead of compiled. A real body means real, traceable BEAM abstract code, which is exactly what the PLT lookup needs to find something. Left alone, the walker does not stop at =concrete_js:call/3=. It finds a real definition, extracts it, and compiles it into the bundle like any other reachable function — and registers the result under =Erlang["concrete_js:call/3"]=, the exact key the hand-written native version already uses in =runtime.js=. The compiled version, whose whole body is =undefined=, wins. Every =?js:call= in the bundle still compiles clean and runs without error. It just silently does nothing.
+
+The fix is a tag, not a rewrite: =concrete_js.erl= carries =-concrete([{bif_module, true}])=, and =concrete_beam_reader:extract_ir/1= refuses outright to trace any module carrying it, the same dead end =dom= reaches for free. That is what actually gives =concrete_js:*= calls the free ride this section originally described — not something that fell out of having no source, but an explicit opt-out for a module that very much does have one. =runtime.js='s =defineErlangFunction= now also refuses, loudly, to register a compiled definition over an existing native BIF key, so a future module that forgets the tag fails at the point of the mistake instead of silently losing its own implementation.
 
 * The concrete_js Module
 :PROPERTIES:
@@ -183,3 +185,5 @@ https://github.com/wmealing/concrete
 [[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
 
 [[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]
+
+[[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server, and a Shadowing Bug]]

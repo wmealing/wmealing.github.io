@@ -96,3 +96,5 @@ https://github.com/wmealing/concrete
 [[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
 
 [[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]
+
+[[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server, and a Shadowing Bug]]
