@@ -9,19 +9,23 @@
 
 * Recent Blog Posts
 
-* [[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server, and Two Call-Graph Bugs - Aug 2026]]
+* [[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server from a Client Action - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-7c2e91ab
 :END:
 
-Seventh post, and this one's two bugs for the price of one, both found chasing the same feature: a client-side action that reports what happened back to the server, still written entirely in Erlang. First, =?js:call= compiled clean, ran clean, and silently did nothing -- =concrete_js= had real, traceable code that the call graph was tracing into and compiling over its own native BIF. Second, once that was fixed, =command/3= turned out to have a restriction that never should have existed: it was being treated as a compile root for no reason, since nothing ever runs it as compiled JS. Both are fixed now. =command/3= can use whatever Erlang it wants.
+This post how to send data from a compiled =action/3= back to the server, still written entirely in Erlang,
+with =?js:call= reaching =Client.dispatchCommand= and =command/3= picking it up server-side. It covers matching
+multiple commands, the binary-keyed =Params= map that trips people up, and the part I hadn't noticed until now
+-- whatever =command/3= returns gets merged straight back into what the browser renders, so the server can
+correct or extend the client's own state, not just observe it.
 
 * [[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-5144276d
 :END:
 
-Sixth post, a direct follow-up: someone asked if Concrete can do what Hologram's Task.await/1 does upstream --
+This is a direct follow-up: someone asked if Concrete can do what Hologram's Task.await/1 does upstream --
 block on a JavaScript Promise. Yes, but only from inside a real spawned process, not from just anywhere. Covers
 concrete_js:await/1, and why a cold top-level call can never survive a wait that only finishes later.
 
@@ -49,7 +53,7 @@ binaries everywhere else. Also covers the ={@name}= rewrite trick and its one do
 :CUSTOM_ID: post-2b6e4f81
 :END:
 
-Third post. This one traces a request from a URL all the way to rendered HTML, through the router and the page
+This post traces a request from a URL all the way to rendered HTML, through the router and the page
 handler. I also had to own up to something here: the plan document promises page layouts, and the code just...
 doesn't have them yet. So I said so, instead of pretending otherwise.
 

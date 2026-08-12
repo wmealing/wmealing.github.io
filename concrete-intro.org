@@ -168,4 +168,4 @@ https://github.com/bartblast/hologram
 
 [[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]
 
-[[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server, and Two Call-Graph Bugs]]
+[[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server from a Client Action]]
