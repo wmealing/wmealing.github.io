@@ -41,7 +41,7 @@ command(report_count, Params, Server) ->
     Server.
 #+END_SRC
 
-Click =+=, and =command/3= runs on the server with =Params = #{<<"count">> => 1}=.
+Click =+=, and =command/3= runs on the server with ~Params = #{<<"count">> => 1}~.
 
 * Multiple Commands, and Binary Params
 :PROPERTIES:
@@ -68,7 +68,7 @@ command(log_reset, _Params, Server) ->
     Server.
 #+END_SRC
 
-The =#{<<"count">> := Count}= pattern is worth pausing on: =Params= arrives straight from =thoas:decode/1=, the JSON decoder, with no wire-tagging and no atom conversion step. Keys are binaries, not atoms — =#{count := Count}= will never match. This is a JSON map, not a Concrete term.
+The ~#{<<"count">> := Count}~ pattern is worth pausing on: =Params= arrives straight from =thoas:decode/1=, the JSON decoder, with no wire-tagging and no atom conversion step. Keys are binaries, not atoms — ~#{count := Count}~ will never match. This is a JSON map, not a Concrete term.
 
 * command/3 Runs Ordinary, Unrestricted Erlang
 :PROPERTIES:

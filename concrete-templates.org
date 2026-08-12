@@ -120,8 +120,8 @@ rewritten too. Write ={<<"@count">>}= carefully, or avoid the pattern, until thi
 :PUBDATE:  2026-08-05 Wed 02:14
 :END:
 
-An expression inside ={...}= can itself contain braces, for a map or a nested call. =
-{maps:get(count, #{a => 1})}= is valid. The parser tracks brace depth while it reads, and
+An expression inside ={...}= can itself contain braces, for a map or a nested call.
+~{maps:get(count, #{a => 1})}~ is valid. The parser tracks brace depth while it reads, and
 it also knows about quote characters, so a =}= inside a string literal does not end the expression early.
 
 #+BEGIN_SRC erlang
