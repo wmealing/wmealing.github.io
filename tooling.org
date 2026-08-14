@@ -2,7 +2,7 @@
 #+SETUPFILE: "./setupfile.org"
 #+INCLUDE: "navbar.html" export html
 
-* Posts tagged with tooling
+* Posts in Tooling
 
 - [[file:custom-software-errors.html][Higher quality errors for custom software.]]
 - [[file:emacs-org-babel-analysis.html][ Emacs and Org-babel for flaw analysis.]]

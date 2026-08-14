@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-07 Fri 23:29 -->
+<!-- 2026-08-15 Sat 00:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CELLIUM 007 - State Injection 007</title>
@@ -60,9 +60,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org767d9ca" class="outline-2">
-<h2 id="org767d9ca">Summary:</h2>
-<div class="outline-text-2" id="text-org767d9ca">
+<div id="outline-container-orgf1cdea8" class="outline-2">
+<h2 id="orgf1cdea8">Summary:</h2>
+<div class="outline-text-2" id="text-orgf1cdea8">
 <p>
 <a href="https://github.com/wmealing/cellium">Cellium</a> implements the <a href="https://guide.elm-lang.org/architecture/">Elm Architecture</a>, I've been working on some minor changes to make working with it in erlang as simply as I can.
 </p>
@@ -78,9 +78,9 @@ Maybe its a bad idea to have 'widget data' in the Model, fortunately its optiona
 </p>
 </div>
 </div>
-<div id="outline-container-org4a5207c" class="outline-2">
-<h2 id="org4a5207c">Introduction</h2>
-<div class="outline-text-2" id="text-org4a5207c">
+<div id="outline-container-org72bf6f9" class="outline-2">
+<h2 id="org72bf6f9">Introduction</h2>
+<div class="outline-text-2" id="text-org72bf6f9">
 <p>
 While writing applications using my Cellium application, I found myself writing the same pattern of code over and over again.  This can not stand.
 </p>
@@ -153,9 +153,9 @@ and merge the values for that widget id, into the dsl automatically.
 This magic is optional magic though, you dont need to put or have a widget_states in your mode, I'm not your mum.
 </p>
 </div>
-<div id="outline-container-org854e4bb" class="outline-4">
-<h4 id="org854e4bb">Example:</h4>
-<div class="outline-text-4" id="text-org854e4bb">
+<div id="outline-container-org66b01e9" class="outline-4">
+<h4 id="org66b01e9">Example:</h4>
+<div class="outline-text-4" id="text-org66b01e9">
 <p>
 In the example below, notice how `text_input` and `list` are defined with only an `id`.
 The framework "fills in" the text and scroll position automatically from the Model.
@@ -171,9 +171,9 @@ The framework "fills in" the text and scroll position automatically from the Mod
 </div>
 </div>
 </div>
-<div id="outline-container-orge2f612b" class="outline-4">
-<h4 id="orge2f612b">Initializing State</h4>
-<div class="outline-text-4" id="text-orge2f612b">
+<div id="outline-container-orge4ae7b3" class="outline-4">
+<h4 id="orge4ae7b3">Initializing State</h4>
+<div class="outline-text-4" id="text-orge4ae7b3">
 <p>
 You can provide initial values for components in your <code>init/1</code> function:
 </p>
@@ -252,9 +252,9 @@ other parts of your system.  If you had multiple values to merge, just save it f
 </p>
 </div>
 </div>
-<div id="outline-container-orgeb2db31" class="outline-4">
-<h4 id="orgeb2db31">What does this look like ?</h4>
-<div class="outline-text-4" id="text-orgeb2db31">
+<div id="outline-container-org9e5f76f" class="outline-4">
+<h4 id="org9e5f76f">What does this look like ?</h4>
+<div class="outline-text-4" id="text-org9e5f76f">
 <p>
 This means that updating the widget_states of the model, eventually will affect the rendered widget, so that
 modification in <code>update/2</code> above would turn:
@@ -282,17 +282,17 @@ This means you can update the widgets in the modules <code>update/2</code> funct
 </div>
 </div>
 </div>
-<div id="outline-container-org62bca98" class="outline-2">
-<h2 id="org62bca98">Conclusion</h2>
-<div class="outline-text-2" id="text-org62bca98">
+<div id="outline-container-orge8d9976" class="outline-2">
+<h2 id="orge8d9976">Conclusion</h2>
+<div class="outline-text-2" id="text-orge8d9976">
 <p>
 Just do things, this is my thing.
 </p>
 </div>
 </div>
-<div id="outline-container-org8af1f95" class="outline-2">
-<h2 id="org8af1f95">Resources:</h2>
-<div class="outline-text-2" id="text-org8af1f95">
+<div id="outline-container-org20dd42b" class="outline-2">
+<h2 id="org20dd42b">Resources:</h2>
+<div class="outline-text-2" id="text-org20dd42b">
 <ul class="org-ul">
 <li><a href="https://erlang.org/documentation/doc-6.0/doc/reference_manual/maps.html">Erlang maps docs</a></li>
 </ul>

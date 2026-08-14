@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-07 Fri 23:29 -->
+<!-- 2026-08-15 Sat 00:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 002: Hello, Counter.</title>
@@ -61,17 +61,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org069961c" class="outline-2">
-<h2 id="org069961c">Summary:</h2>
-<div class="outline-text-2" id="text-org069961c">
+<div id="outline-container-org21011c4" class="outline-2">
+<h2 id="org21011c4">Summary:</h2>
+<div class="outline-text-2" id="text-org21011c4">
 <p>
 <a href="./concrete-intro.html">Concrete 001</a> showed the shape of a component. This post builds one and runs it. The example is a counter with two buttons. By the end of this post, the counter runs in a real browser, and the <code>+</code> button runs compiled Erlang, not a server request.
 </p>
 </div>
 </div>
-<div id="outline-container-orgaf716b2" class="outline-2">
-<h2 id="orgaf716b2">The Files You Need</h2>
-<div class="outline-text-2" id="text-orgaf716b2">
+<div id="outline-container-orge5ecadd" class="outline-2">
+<h2 id="orge5ecadd">The Files You Need</h2>
+<div class="outline-text-2" id="text-orge5ecadd">
 <p>
 A minimal Concrete component needs two files: a module and a template.
 </p>
@@ -81,9 +81,9 @@ The module holds the state and the click logic. The template holds the HTML. The
 </p>
 </div>
 </div>
-<div id="outline-container-org0c434c1" class="outline-2">
-<h2 id="org0c434c1">The Module</h2>
-<div class="outline-text-2" id="text-org0c434c1">
+<div id="outline-container-org7070364" class="outline-2">
+<h2 id="org7070364">The Module</h2>
+<div class="outline-text-2" id="text-org7070364">
 <p>
 Here is <code>counter_page.erl</code>.
 </p>
@@ -123,9 +123,9 @@ Note that <code>S#{count := N + 1}</code> is a <b>map update</b>, not a <b>map m
 </p>
 </div>
 </div>
-<div id="outline-container-orgf9a1c02" class="outline-2">
-<h2 id="orgf9a1c02">The Template</h2>
-<div class="outline-text-2" id="text-orgf9a1c02">
+<div id="outline-container-org71de0b6" class="outline-2">
+<h2 id="org71de0b6">The Template</h2>
+<div class="outline-text-2" id="text-org71de0b6">
 <p>
 Here is <code>counter.slab</code>.
 </p>
@@ -148,9 +148,9 @@ Place this file in your <code>priv/templates</code> directory. The <code>templat
 </p>
 </div>
 </div>
-<div id="outline-container-orgba1560f" class="outline-2">
-<h2 id="orgba1560f">What Happens on the First Request</h2>
-<div class="outline-text-2" id="text-orgba1560f">
+<div id="outline-container-orgeff8780" class="outline-2">
+<h2 id="orgeff8780">What Happens on the First Request</h2>
+<div class="outline-text-2" id="text-orgeff8780">
 <p>
 A browser sends a request for the page. The server calls <code>concrete_renderer:render_page(counter_page, Params)</code>. This function calls <code>counter_page:init/2</code>, parses <code>counter.slab</code>, and evaluates each <code>{@...}</code> expression against the state. The result is plain HTML. The server sends this HTML to the browser. The count shows as <code>0</code> before any JavaScript runs.
 </p>
@@ -160,9 +160,9 @@ The server also sends the starting state as JSON, next to the HTML. The browser 
 </p>
 </div>
 </div>
-<div id="outline-container-org96bd807" class="outline-2">
-<h2 id="org96bd807">What Happens on a Click</h2>
-<div class="outline-text-2" id="text-org96bd807">
+<div id="outline-container-org30e9da7" class="outline-2">
+<h2 id="org30e9da7">What Happens on a Click</h2>
+<div class="outline-text-2" id="text-org30e9da7">
 <p>
 The build plugin also compiles <code>counter_page.erl</code> to JavaScript, ahead of time. This compiled file is the JavaScript bundle. The server sends this bundle to the browser, next to the HTML page.
 </p>
@@ -180,33 +180,33 @@ No network request happens for this click. The whole cycle runs inside the brows
 </p>
 </div>
 </div>
-<div id="outline-container-org5d66b2c" class="outline-2">
-<h2 id="org5d66b2c">Try It Yourself</h2>
-<div class="outline-text-2" id="text-org5d66b2c">
+<div id="outline-container-org6f8ef10" class="outline-2">
+<h2 id="org6f8ef10">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org6f8ef10">
 <p>
 The <code>concrete</code> repository ships a working demo close to this example, under <code>example/</code>. Start it from a <code>rebar3 shell</code> session and point a browser at the printed port. Open the page, then open your browser's network tab. Click <code>+</code> a few times. No new request appears for the click. Reload the page. The count returns to <code>0</code>, because the server-side state does not persist between full page loads yet. A later post will cover server-side state and live updates through the SSE stream.
 </p>
 </div>
 </div>
-<div id="outline-container-org5072383" class="outline-2">
-<h2 id="org5072383">One Rule, Repeated</h2>
-<div class="outline-text-2" id="text-org5072383">
+<div id="outline-container-org1da5e41" class="outline-2">
+<h2 id="org1da5e41">One Rule, Repeated</h2>
+<div class="outline-text-2" id="text-org1da5e41">
 <p>
 This example does not send any text to the browser, only a number. So the binary rule from Concrete 001 does not come up here. It will come up the moment you add a label or a title to a template. Write <code>&lt;&lt;"Score"&gt;&gt;</code>, not <code>"Score"</code>, in every value that reaches a <code>.slab</code> file.
 </p>
 </div>
 </div>
-<div id="outline-container-org44f39fc" class="outline-2">
-<h2 id="org44f39fc">What Comes Next</h2>
-<div class="outline-text-2" id="text-org44f39fc">
+<div id="outline-container-orgd909703" class="outline-2">
+<h2 id="orgd909703">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgd909703">
 <p>
 This post built one component and traced one click through the system. The next post covers pages and routing: how a URL maps to a page module, how layouts wrap a page, and how a page embeds child components with <code>&lt;:component&gt;</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org2095f98" class="outline-2">
-<h2 id="org2095f98">Resources:</h2>
-<div class="outline-text-2" id="text-org2095f98">
+<div id="outline-container-org0612af9" class="outline-2">
+<h2 id="org0612af9">Resources:</h2>
+<div class="outline-text-2" id="text-org0612af9">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>
@@ -229,6 +229,14 @@ This post built one component and traced one click through the system. The next 
 
 <p>
 <a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+
+<p>
+<a href="./concrete-js-promises.html">Concrete 006: Catching JavaScript Promises</a>
+</p>
+
+<p>
+<a href="./concrete-command-dispatch.html">Concrete 007: Reporting to the Server from a Client Action</a>
 </p>
 
 <p>

@@ -9,6 +9,28 @@
 
 * Recent Blog Posts
 
+* [[./concrete-component-lifecycle.html][Concrete 009: Component Lifecycles and Repeating Templates - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-4255f0eb
+:END:
+
+Giving =<:component>= an actual lifecycle: a client-side registry keyed by call-site and an optional
+explicit =key= keeps each embedded component's own state alive across parent re-renders instead of
+rebuilding it from scratch every time, =mount/2= fires exactly once per instance, and a new =<:for>=
+loop construct -- compiled straight onto Concrete's existing list-comprehension IR -- finally gives
+templates a real way to render one of them per element of a runtime list.
+
+* [[./concrete-live-chat.html][Concrete 008: A Live Chat Across Two Nodes - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-9e2d1af4
+:END:
+
+A chat room running live across two distributed Erlang nodes: messages pushed to every open browser over
+Concrete's SSE primitives, connecting itself the moment the page loads with no click and no hand-written
+JavaScript, and =pg=-based pubsub carrying a post from either node to every subscriber on both. Then a
+nickname feature gets added to it -- while it keeps running, real history intact -- through nothing but
+=rebar3 compile= and =c:nl/1=.
+
 * [[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server from a Client Action - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-7c2e91ab

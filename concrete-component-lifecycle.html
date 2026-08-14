@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-15 Sat 00:00 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 009: Component Lifecycles and Repeating Templates</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 009: Component Lifecycles and Repeating Templates</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-orge6fa4e0" class="outline-2">
+<h2 id="orge6fa4e0">Summary:</h2>
+<div class="outline-text-2" id="text-orge6fa4e0">
+<p>
+<a href="./concrete-templates.html">Concrete 004</a> introduced <code>&lt;:component&gt;</code> as a way to embed one component's template inside
+another's. What it didn't have was a lifecycle: every parent re-render threw the child away and built
+a fresh one from scratch. This post covers the three things that had to exist before a child
+component could be a genuinely stateful, long-lived thing rather than a fancy way to splice in
+markup: a way to identify <b>which</b> instance a <code>&lt;:component&gt;</code> tag refers to across renders, a <code>mount/2</code>
+hook that runs exactly once per instance, and <code>&lt;:for&gt;</code>, a real loop construct for rendering a list
+of them.
+</p>
+</div>
+</div>
+<div id="outline-container-org9863387" class="outline-2">
+<h2 id="org9863387">Identity: What Makes Two Renders "The Same Component"</h2>
+<div class="outline-text-2" id="text-org9863387">
+<p>
+A <code>&lt;:component&gt;</code> tag is a fixed point in a template — it exists at one position in the parse tree,
+written once. Every time the parent's <code>render/1</code> runs, that position gets evaluated again. The
+question that has to be answered before anything else is: is this the <b>same</b> component as last
+time, or a <b>different</b> one?
+</p>
+
+<p>
+Two answers cover every case:
+</p>
+
+<ul class="org-ul">
+<li>Written once, evaluated repeatedly (a <code>&lt;:component&gt;</code> with no key, not inside a loop) — always the
+same instance. Its identity is just <b>where it sits in the template</b>, which never moves.</li>
+<li>Rendered from a list — same tag, different data each time it runs — needs an explicit key, the
+same problem every UI framework with dynamic lists solves the same way:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;:component module={task_item} key={maps:get(id, T)} id={maps:get(id, T)} label={maps:get(label, T)} /&gt;
+</code></pre>
+</div>
+
+<p>
+<code>task_item</code> here is a real, ordinary <code>concrete_component</code> — its full source is a few paragraphs
+down, once <code>mount/2</code> is on the table too. (<code>T</code> is a loop variable; the loop itself, <code>&lt;:for&gt;</code>, is
+covered further down — this snippet is only here to show what a key expression looks like.)
+</p>
+
+<p>
+Both pieces of identity are known before the page ever loads a browser: <b>where</b> the tag sits is
+fixed the moment the template is compiled, and <code>key</code> is evaluated the same way any other prop
+expression is. It never reaches the component itself, though — <code>key</code> is identity metadata, not a
+prop, so it's set aside rather than landing in the <code>Props</code> map <code>init/2</code> sees, the same way <code>module</code>
+already is. Nothing about identity depends on anything that only exists at runtime.
+</p>
+
+<p>
+What changed is what the client does with that identity. It used to be thrown away the instant a
+render finished — every <code>&lt;:component&gt;</code> tag was resolved by calling <code>init/2</code> fresh, rendering the
+result, and forgetting it ever existed. Now the client keeps a small registry: the first time a
+given identity shows up, <code>init/2</code> runs and the resulting component gets remembered against that
+identity. Every render after that, the same identity finds the same entry already there and reuses
+it as-is — <code>init/2</code> doesn't run again, and whatever state the component has accumulated since (say,
+from its own <code>action/3</code>) comes along for the ride.
+</p>
+
+<p>
+That one change is what makes a click handler inside a child component's own <code>action/3</code> actually mean
+something: whatever state it produces now survives the parent re-rendering around it, instead of
+being discarded the instant the parent's own <code>render/1</code> runs again.
+</p>
+</div>
+</div>
+<div id="outline-container-org3dc360f" class="outline-2">
+<h2 id="org3dc360f">Knowing When an Instance Leaves</h2>
+<div class="outline-text-2" id="text-org3dc360f">
+<p>
+Persistence in one direction needs a matching cleanup in the other: an identity that stops
+appearing — a conditionally-hidden tag, an item removed from a list — has to leave the registry, or
+it leaks forever. So every render tracks which identities it actually touched, and once the whole
+render is done, anything sitting in the registry that wasn't touched this time gets dropped.
+</p>
+
+<p>
+That happens as one pass over the whole registry after the render finishes, not identity-by-identity
+as the tree is walked — a single render can bring new instances in and let old ones go in any
+order, depending on how the tree happens to be walked, and checking everything once at the end
+means that walk order never has to matter.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf7c2798" class="outline-2">
+<h2 id="orgf7c2798">mount/2</h2>
+<div class="outline-text-2" id="text-orgf7c2798">
+<p>
+With identity and a registry in place, <code>mount/2</code> is the same shape as page-level <code>mount/1</code>
+(<a href="./concrete-pages.html">Concrete 003</a> territory) — a callback that runs once, client-side, the moment an instance's markup
+first exists in the real DOM:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-callback mount(Props :: map(), Component :: map()) -&gt; ok.
+-optional_callbacks([action/3, command/3, mount/2]).
+</code></pre>
+</div>
+
+<p>
+A component that doesn't define it costs nothing — the same <code>isExported</code> guard that page-level
+<code>mount/1</code> already uses skips the call entirely rather than dispatching into a function that was
+never compiled in. One that does define it gets exactly one call, no matter how many times the
+parent around it re-renders. Here's <code>task_item</code> in full — the module the identity example above
+already pointed at:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(task_item).
+-behaviour(concrete_component).
+-export([init/2, mount/2, template/0]).
+
+init(Props, Server) -&gt;
+    State = #{id =&gt; maps:get(id, Props), label =&gt; maps:get(label, Props)},
+    {#{state =&gt; State}, Server}.
+
+%% Proves mount/2 actually ran, client-side, exactly once per task --
+%% add a task in the running demo, watch "mounted" appear next to it,
+%% then add another and notice the first one's flag doesn't get
+%% touched again.
+mount(_Props, #{state := #{id := Id}}) -&gt;
+    dom:set_text(&lt;&lt;"mount-flag-", Id/binary&gt;&gt;, &lt;&lt;"mounted"&gt;&gt;).
+
+template() -&gt;
+    {inline, concrete_template_parser:parse_string(
+        "&lt;li class=\"task\"&gt;"
+        "&lt;span class=\"task-label\"&gt;{@label}&lt;/span&gt;"
+        "&lt;span id={&lt;&lt;\"mount-flag-\", (@id)/binary&gt;&gt;} class=\"mount-flag\"&gt;&lt;/span&gt;"
+        "&lt;/li&gt;")}.
+</code></pre>
+</div>
+
+<p>
+<code>id</code> and <code>label</code> land in state straight from <code>Props</code> in <code>init/2</code>; <code>mount/2</code> then reads <code>id</code> back out of
+that same state to build the element id its <code>dom:set_text</code> call targets — the same <code>id</code> the template
+above builds its <code>&lt;span&gt;</code>'s own id attribute from, so the two always agree on which element to
+touch.
+</p>
+</div>
+</div>
+<div id="outline-container-org7edce4d" class="outline-2">
+<h2 id="org7edce4d">&lt;:for&gt;: A Real Loop</h2>
+<div class="outline-text-2" id="text-org7edce4d">
+<p>
+Keyed identity is only useful once there's a way to render more than one instance of the same
+<code>&lt;:component&gt;</code> tag from a runtime list, and the template language had nothing like that — every tag
+sat at one fixed, statically-parsed position. <code>&lt;:for&gt;</code> fills that gap:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;:for item="T" in={@tasks}&gt;
+  &lt;:component module={task_item} key={maps:get(id, T)}
+    id={maps:get(id, T)} label={maps:get(label, T)} /&gt;
+&lt;/:for&gt;
+</code></pre>
+</div>
+
+<p>
+<code>item</code> names the Erlang variable the loop body binds on each iteration — a plain identifier, not an
+expression, since it's a binding site rather than a value. <code>in</code> is any Erlang expression evaluating
+to a list, <code>@state</code>-rewritten the same way every other attribute expression already is. Inside the
+body, <code>T</code> is just a variable holding whatever <code>@tasks</code> puts there on that iteration — one plain
+Erlang map, the same shape <code>task_item</code>'s own <code>init/2</code> already expects.
+</p>
+
+<p>
+The nice part is that this wasn't a new feature bolted onto the compiler — Concrete could already
+compile an ordinary Erlang list comprehension, for unrelated reasons, and <code>&lt;:for&gt;</code> just leans on that
+existing machinery instead of inventing a second way to loop. Rendering already knew how to handle a
+component producing more than one node at once, too, so a loop producing a whole list of them per
+iteration didn't need any new plumbing on that side either — it just falls out of rules that already
+existed.
+</p>
+
+<p>
+One consequence worth calling out: the loop body compiles <b>once</b>, not once per iteration. A
+<code>&lt;:component&gt;</code> inside a <code>&lt;:for&gt;</code> body therefore gets a single compile-time path index shared by every
+iteration — which is exactly why <code>key</code> isn't optional inside a loop. The path index alone can't tell
+iterations apart; only the key can.
+</p>
+</div>
+</div>
+<div id="outline-container-orgfd7edfe" class="outline-2">
+<h2 id="orgfd7edfe">Putting It Together</h2>
+<div class="outline-text-2" id="text-orgfd7edfe">
+<p>
+A small task board makes all three pieces visible at once: a keyed, dynamic list of components,
+each with its own persistent state and its own <code>mount/2</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(task_board_page).
+-behaviour(concrete_page).
+-export([init/2, action/3, template/0]).
+
+init(_Params, Server) -&gt;
+    Tasks = [#{id =&gt; &lt;&lt;"1"&gt;&gt;, label =&gt; &lt;&lt;"Write the plan"&gt;&gt;},
+             #{id =&gt; &lt;&lt;"2"&gt;&gt;, label =&gt; &lt;&lt;"Wire up mount/2"&gt;&gt;},
+             #{id =&gt; &lt;&lt;"3"&gt;&gt;, label =&gt; &lt;&lt;"Ship it"&gt;&gt;}],
+    {#{state =&gt; #{tasks =&gt; Tasks, next_id =&gt; 4}}, Server}.
+
+action(add_task, _Params, #{state := #{tasks := Tasks, next_id := N} = S} = C) -&gt;
+    NewTask = #{id =&gt; integer_to_binary(N), label =&gt; &lt;&lt;"Task ", (integer_to_binary(N))/binary&gt;&gt;},
+    C#{state =&gt; S#{tasks =&gt; Tasks ++ [NewTask], next_id =&gt; N + 1}};
+action(complete_task, _Params, #{state := #{tasks := Tasks} = S} = C) -&gt;
+    Remaining = case Tasks of [] -&gt; []; [_ | Rest] -&gt; Rest end,
+    C#{state =&gt; S#{tasks =&gt; Remaining}}.
+
+template() -&gt;
+    {inline, concrete_template_parser:parse_string(
+        "&lt;div class=\"board\"&gt;"
+        "&lt;h2&gt;Tasks&lt;/h2&gt;"
+        "&lt;ul&gt;"
+        "&lt;:for item=\"T\" in={@tasks}&gt;"
+        "&lt;:component module={task_item} key={maps:get(id, T)} "
+        "id={maps:get(id, T)} label={maps:get(label, T)} /&gt;"
+        "&lt;/:for&gt;"
+        "&lt;/ul&gt;"
+        "&lt;button concrete-click=\"add_task\"&gt;Add task&lt;/button&gt;"
+        "&lt;button concrete-click=\"complete_task\"&gt;Complete oldest&lt;/button&gt;"
+        "&lt;/div&gt;")}.
+</code></pre>
+</div>
+
+<p>
+Clicking "Add task" appends a new keyed identity — a fresh <code>task_item</code> instance gets <code>init/2</code>, then
+<code>mount/2</code> flips its "mounted" flag the moment the new <code>&lt;li&gt;</code> exists in the real DOM. Clicking
+"Complete oldest" drops <code>tasks</code> down to its tail, which means the loop stops producing that
+identity's <code>&lt;:component&gt;</code> tag — its instance leaves the registry on the very next render. Every task
+in between never gets touched: same identity in, same live component out, no re-init, no re-mount.
+</p>
+</div>
+</div>
+<div id="outline-container-orga7f54fd" class="outline-2">
+<h2 id="orga7f54fd">Resources:</h2>
+<div class="outline-text-2" id="text-orga7f54fd">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+
+<p>
+<a href="./concrete-js-promises.html">Concrete 006: Catching JavaScript Promises</a>
+</p>
+
+<p>
+<a href="./concrete-command-dispatch.html">Concrete 007: Reporting to the Server from a Client Action</a>
+</p>
+
+<p>
+<a href="./concrete-live-chat.html">Concrete 008: A Live Chat Across Two Nodes</a>
+</p>
+
+<p>
+<a href="./concrete-component-lifecycle.html">Concrete 009: Component Lifecycles and Repeating Templates</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-15 Sat 00:00 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 008: A Live Chat Across Two Nodes</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Building a real-time, cross-node chat with Concrete's SSE primitives, then adding a feature to it with a live hot code reload" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Building a real-time, cross-node chat with Concrete's SSE primitives, then adding a feature to it with a live hot code reload" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 008: A Live Chat Across Two Nodes</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-org484ff92" class="outline-2">
+<h2 id="org484ff92">Summary:</h2>
+<div class="outline-text-2" id="text-org484ff92">
+<p>
+Every earlier post in this series covers one mechanism at a time. This one builds something with several of
+them at once: a chat room that runs live across two distributed Erlang nodes, pushes messages
+to every open browser with no polling, connects itself the moment the page loads, and gets a new
+feature added to it &ndash; while it keeps running, with real users connected &ndash; through nothing but a
+recompile and a network load. No restart, no lost history.
+</p>
+</div>
+</div>
+<div id="outline-container-orge81859e" class="outline-2">
+<h2 id="orge81859e">The Big Parts</h2>
+<div class="outline-text-2" id="text-orge81859e">
+<p>
+I know it's a bit of an odd name, but I was simply clowning around, hence the <code>clowning</code> prefix.
+</p>
+
+<p>
+Three pieces:
+</p>
+
+<ul class="org-ul">
+<li><code>clowning_chat</code>, a <code>gen_server</code> holding message history, replicated to every connected node.</li>
+<li><code>clowning_chat_page</code>, a Concrete page that connects to a live event stream the moment it loads, and renders every message &ndash; past and future &ndash; through one code path.</li>
+<li>A plain <code>/chat/post</code> route for sending, deliberately outside Concrete's own command dispatch.</li>
+</ul>
+
+<p>
+Open two nodes, each serving the page on its own port, and a message typed into one browser shows
+up in the other immediately. Two browser tabs on the <b>same</b> node see it too, obviously, but the
+point of running two nodes is that neither one is special: whichever node's <code>clowning_chat</code> a browser happens
+to be talking to, the message still gets everywhere.
+</p>
+</div>
+</div>
+<div id="outline-container-org4649ae8" class="outline-2">
+<h2 id="org4649ae8">The Chat History</h2>
+<div class="outline-text-2" id="text-org4649ae8">
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(clowning_chat).
+-behaviour(gen_server).
+
+-export([start_link/0, post/2, history/0]).
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+
+-define(MAX_HISTORY, 200).
+
+start_link() -&gt;
+    gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
+
+post(Author, Text) -&gt;
+    gen_server:call(?MODULE, {post, Author, Text}).
+
+history() -&gt;
+    gen_server:call(?MODULE, history).
+
+init([]) -&gt;
+    {ok, #{messages =&gt; []}}.
+
+handle_call({post, Author, Text}, _From, State) -&gt;
+    Msg = #{author =&gt; Author, text =&gt; Text, ts =&gt; erlang:system_time(millisecond)},
+    NewState = append(Msg, State),
+    gen_server:abcast(nodes(), ?MODULE, {replicate, Msg}),
+    concrete_pubsub:broadcast(&lt;&lt;"chat_room"&gt;&gt;, {message, Msg}),
+    {reply, ok, NewState};
+handle_call(history, _From, #{messages := Messages} = State) -&gt;
+    {reply, lists:reverse(Messages), State}.
+
+handle_cast({replicate, Msg}, State) -&gt;
+    {noreply, append(Msg, State)}.
+
+append(Msg, #{messages := Messages} = State) -&gt;
+    State#{messages := lists:sublist([Msg | Messages], ?MAX_HISTORY)}.
+</code></pre>
+</div>
+
+<p>
+Two things happen on every post, and neither one is Concrete-specific &ndash; this is a
+plain <code>gen_server</code> doing plain OTP:
+</p>
+
+<p>
+<code>gen_server:abcast(nodes(), ?MODULE, {replicate, Msg})</code> sends the message as a real cast
+to every node currently connected to this one, so both nodes' history stays identical no
+matter which node a given browser posted to.
+</p>
+
+<p>
+<code>concrete_pubsub:broadcast(&lt;&lt;"chat_room"&gt;&gt;, {message, Msg})</code> is a wrapper over Erlang's <code>pg</code>
+(process groups): <code>concrete_pubsub:subscribe/2</code> joins a channel, <code>broadcast/2</code> sends to every member.
+</p>
+
+<p>
+Because <code>pg</code> is cluster-wide the moment two nodes are connected (<code>net_adm:ping/1</code>, same as always), a
+browser subscribed on node2 gets a message posted on node1 with no extra plumbing at all. The channel
+is a binary, <code>&lt;&lt;"chat_room"&gt;&gt;</code>, matching what the URL-based subscriber below joins with &ndash; <code>pg</code> channels
+are just terms, and two different terms are two different channels even if one prints the same.
+</p>
+</div>
+</div>
+<div id="outline-container-org3bbcc55" class="outline-2">
+<h2 id="org3bbcc55">What Runs When the Page Loads</h2>
+<div class="outline-text-2" id="text-org3bbcc55">
+<p>
+Concrete's page behaviour has a <code>mount/1</code> callback for exactly this &ndash; the same idea Phoenix
+LiveView's own <code>mount</code> callback covers, though the mechanism underneath is entirely different
+(LiveView's runs server-side over a socket; Concrete's runs compiled to JavaScript, in the
+browser). The runtime calls it once, client-side only, right after this page's markup is in the
+real DOM.
+</p>
+
+<p>
+No template wiring needed &ndash; it isn't called from <code>.slab</code> the way <code>{@count}</code> reads a state value;
+the client runtime calls <code>mount/1</code> directly, right after the first render, the same way a click
+calls <code>action/3</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;div class="chat-page"&gt;
+  &lt;h1&gt;clowning chat&lt;/h1&gt;
+  &lt;div id="messages" class="chat-log"&gt;&lt;/div&gt;
+  &lt;div id="composer"&gt;
+    &lt;input id="nick-input" type="text" placeholder="nickname" autocomplete="off" class="chat-nick"&gt;
+    &lt;input id="chat-input" type="text" placeholder="Say something..." autocomplete="off"&gt;
+    &lt;button data-chat-send="1"&gt;Send&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+
+<p>
+<code>mount/1</code> takes the whole <code>Component</code> map, not just the message list &ndash; it comes in already
+wire-decoded, the exact same shape <code>action/3</code>'s third argument already is, so matching it out
+with <code>#{state :</code> #{messages := History}}= reads no differently than an <code>action/3</code> clause does.
+</p>
+
+<p>
+<code>mount/1</code> runs browser-side only. Unlike <code>render/1</code>, it's never part of building the page's
+first HTML on the server, so there's nothing here that needs to guard against running twice:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>mount(#{state := #{messages := History}}) -&gt;
+    lists:foreach(fun(M) -&gt; render_message(M) end, History),
+    dom:on_keydown(&lt;&lt;"chat-input"&gt;&gt;, &lt;&lt;"Enter"&gt;&gt;, clowning_chat_page, send_key),
+    dom:on_click(&lt;&lt;"composer"&gt;&gt;, &lt;&lt;"data-chat-send"&gt;&gt;, clowning_chat_page, send_click),
+    sse:connect(&lt;&lt;"/concrete/sse/chat_room"&gt;&gt;, clowning_chat_page, on_message).
+</code></pre>
+</div>
+
+<p>
+Three things get wired up here, and none of them run <code>do_send/0</code> (covered in the next section)
+directly &ndash; <code>send_key/0</code> and <code>send_click/1</code> are the two small functions in between, and they
+exist because <code>dom:on_keydown/4</code> and <code>dom:on_click/4</code> don't call back with the same arity:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>%% dom:on_keydown/4 calls Module:Function/0 -- no arguments.
+send_key() -&gt;
+    do_send().
+
+%% dom:on_click/4 calls Module:Function/1 -- with the clicked element's
+%% [data-chat-send] attribute value, unused here and just discarded.
+send_click(_Value) -&gt;
+    do_send().
+</code></pre>
+</div>
+
+<p>
+The <code>sse:connect/3</code> line is doing the same kind of thing: it opens a stream to the given URL,
+and the last two arguments are a module and function to call &ndash; <code>on_message/1</code> below &ndash; once
+per event, for as long as the tab stays open.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>on_message({message, Msg}) -&gt;
+    render_message(Msg).
+
+render_message(#{author := Author, text := Text}) -&gt;
+    Html = &lt;&lt;"&lt;div class=\"chat-message\"&gt;&lt;span class=\"chat-author\"&gt;",
+             (escape_html(Author))/binary, ":&lt;/span&gt; ",
+             (escape_html(Text))/binary, "&lt;/div&gt;"&gt;&gt;,
+    dom:append_html(&lt;&lt;"messages"&gt;&gt;, Html),
+    dom:scroll_to_bottom(&lt;&lt;"messages"&gt;&gt;).
+</code></pre>
+</div>
+
+<p>
+<code>escape_html/1</code> is a small hand-rolled recursive pass over the binary &ndash;
+worth calling out because it's <b>not</b> <code>binary:replace/4</code>. The client compiler cross-compiles
+whatever real Erlang a reachable call resolves to, and <code>binary:replace/4</code>'s actual OTP
+implementation leans on bit-syntax the client encoder doesn't support yet. A plain recursive
+walk over the bytes sidesteps that entirely, and is easier to read:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>escape_html(Bin) -&gt;
+    escape_html(Bin, &lt;&lt;&gt;&gt;).
+
+escape_html(&lt;&lt;&gt;&gt;, Acc) -&gt; Acc;
+escape_html(&lt;&lt;38, Rest/binary&gt;&gt;, Acc) -&gt; escape_html(Rest, &lt;&lt;Acc/binary, "&amp;amp;"&gt;&gt;);
+escape_html(&lt;&lt;60, Rest/binary&gt;&gt;, Acc) -&gt; escape_html(Rest, &lt;&lt;Acc/binary, "&amp;lt;"&gt;&gt;);
+escape_html(&lt;&lt;62, Rest/binary&gt;&gt;, Acc) -&gt; escape_html(Rest, &lt;&lt;Acc/binary, "&amp;gt;"&gt;&gt;);
+escape_html(&lt;&lt;34, Rest/binary&gt;&gt;, Acc) -&gt; escape_html(Rest, &lt;&lt;Acc/binary, "&amp;quot;"&gt;&gt;);
+escape_html(&lt;&lt;C, Rest/binary&gt;&gt;, Acc)  -&gt; escape_html(Rest, &lt;&lt;Acc/binary, C&gt;&gt;).
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0ade071" class="outline-2">
+<h2 id="org0ade071">Sending, Outside Concrete's Own Dispatch</h2>
+<div class="outline-text-2" id="text-org0ade071">
+<p>
+Every earlier post in this series sends data to the server
+with <code>?js:call(&lt;&lt;"Client"&gt;&gt;, dispatchCommand, ...)</code>. That's the right tool when the response should feed
+back into page state.
+</p>
+
+<p>
+It's the wrong tool here: <code>dispatchCommand</code>'s response handler always ends in a re-render,
+the same rebuild described above, which would wipe the chat log right back to the static
+template on every message sent.
+</p>
+
+<p>
+So sending goes around it, with <code>http:post_json/2</code> &ndash; a genuine fire-and-forget POST, no
+response handling, straight to a small plain <code>cowboy</code> handler instead of
+Concrete's <code>/concrete/command</code> route. This is <code>do_send/0</code>, the function <code>send_key/0</code> and
+<code>send_click/1</code> call:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>do_send() -&gt;
+    Text = dom:get_value(&lt;&lt;"chat-input"&gt;&gt;),
+    Nick = dom:get_value(&lt;&lt;"nick-input"&gt;&gt;),
+    dom:set_value(&lt;&lt;"chat-input"&gt;&gt;, &lt;&lt;&gt;&gt;),
+    http:post_json(&lt;&lt;"/chat/post"&gt;&gt;, #{text =&gt; Text, author =&gt; Nick}).
+</code></pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>-module(clowning_chat_post_handler).
+-export([init/2]).
+
+init(Req0, State) -&gt;
+    {ok, Body, Req1} = read_body(Req0),
+    {ok, Params} = thoas:decode(Body),
+    #{&lt;&lt;"text"&gt;&gt; := Text} = Params,
+    Author = maps:get(&lt;&lt;"author"&gt;&gt;, Params, &lt;&lt;"guest"&gt;&gt;),
+    case string:trim(Text) of
+        &lt;&lt;&gt;&gt; -&gt; ok;
+        Trimmed -&gt; clowning_chat:post(Author, Trimmed)
+    end,
+    {ok, cowboy_req:reply(204, Req1), State}.
+</code></pre>
+</div>
+
+<p>
+Nothing renders as a direct result of sending. The sender finds out their own message went through the exact same way every other browser does &ndash; it comes back over the SSE stream into <code>on_message/1</code>, a moment later. One code path renders every message, always, regardless of who sent it or which node they're talking to.
+</p>
+</div>
+</div>
+<div id="outline-container-org20d39d9" class="outline-2">
+<h2 id="org20d39d9">Hot-Reloading Onto a Running Node</h2>
+<div class="outline-text-2" id="text-org20d39d9">
+<p>
+None of this required stopping either node. clowning ships two Makefile targets that start long-lived, named, distributed Erlang nodes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>$ make node1     # web app on http://localhost:4000/
+$ make node2     # web app on http://localhost:4001/
+</code></pre>
+</div>
+
+<p>
+Pushing a change onto both of them, once they're already up, is a disposable third
+node that connects to both, recompiles nothing itself, and issues a network load &ndash;
+<a href="https://www.erlang.org/doc/apps/stdlib/c.html#nl/1"><code>c:nl/1</code></a> &ndash; which pushes the freshly
+built <code>.beam</code> to every node connected to it, and reloads it there.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>$ rebar3 compile
+$ erl -pa _build/default/lib/*/ebin \
+      -name reload@127.0.0.1 -setcookie clowning_cookie -noshell \
+      -eval "
+        net_adm:ping('clowning1@127.0.0.1'),
+        net_adm:ping('clowning2@127.0.0.1'),
+        io:format(\"~p~n\", [c:nl(clowning_chat_page)]),
+        init:stop()."
+abcast    # printed by the io:format/2 call above -- c:nl/1's own return value
+</code></pre>
+</div>
+
+<p>
+It's important to note that <code>gen_server</code> callbacks always dispatch fully-qualified
+(<code>Module:Function/Arity</code>), so any process built on one picks up new code on its
+very next message, automatically.
+</p>
+
+<p>
+A brand-new module, or a brand-new supervised child, needs one extra line the first time
+only: <code>supervisor:start_child(clowning_sup, ChildSpec)</code>, run once from the same disposable
+connection, adds it to the running tree without restarting anything already there.
+</p>
+</div>
+</div>
+<div id="outline-container-org3be4c1e" class="outline-2">
+<h2 id="org3be4c1e">Adding a Feature, Live</h2>
+<div class="outline-text-2" id="text-org3be4c1e">
+<p>
+With the chat already running on both nodes, real messages in its history, we're going to add a nickname field.
+The field value will persist in the browser's <code>localStorage</code> so it survives a reload, and gets sent along with
+every message instead of a hardcoded author.
+</p>
+
+<p>
+The template gains one input, next to the ones already there:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><code>&lt;input id="nick-input" type="text" placeholder="nickname" autocomplete="off" class="chat-nick"&gt;
+</code></pre>
+</div>
+
+<p>
+<code>mount/1</code> sets it from storage on connect, and wires <code>Enter</code> to save a new one. Here's the updated page
+<code>mount/1</code> function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>mount(#{state := #{messages := History}}) -&gt;
+    lists:foreach(fun(M) -&gt; render_message(M) end, History),
+    dom:set_value(&lt;&lt;"nick-input"&gt;&gt;, stored_nick()),
+    dom:on_keydown(&lt;&lt;"nick-input"&gt;&gt;, &lt;&lt;"Enter"&gt;&gt;, clowning_chat_page, save_nick),
+    dom:on_keydown(&lt;&lt;"chat-input"&gt;&gt;, &lt;&lt;"Enter"&gt;&gt;, clowning_chat_page, send_key),
+    dom:on_click(&lt;&lt;"composer"&gt;&gt;, &lt;&lt;"data-chat-send"&gt;&gt;, clowning_chat_page, send_click),
+    sse:connect(&lt;&lt;"/concrete/sse/chat_room"&gt;&gt;, clowning_chat_page, on_message).
+</code></pre>
+</div>
+
+<p>
+And the two related functions <code>mount/1</code> wires up:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>stored_nick() -&gt;
+    case dom:local_storage_get(&lt;&lt;"chat_nick"&gt;&gt;) of
+        undefined -&gt; &lt;&lt;"guest"&gt;&gt;;
+        Nick -&gt; Nick
+    end.
+
+save_nick() -&gt;
+    dom:local_storage_set(&lt;&lt;"chat_nick"&gt;&gt;, dom:get_value(&lt;&lt;"nick-input"&gt;&gt;)).
+</code></pre>
+</div>
+
+<p>
+<code>do_send/0</code> reads whatever's currently in that field alongside the message text, and the post handler
+takes an <code>author</code> key instead of assuming <code>guest</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>do_send() -&gt;
+    Text = dom:get_value(&lt;&lt;"chat-input"&gt;&gt;),
+    Nick = dom:get_value(&lt;&lt;"nick-input"&gt;&gt;),
+    dom:set_value(&lt;&lt;"chat-input"&gt;&gt;, &lt;&lt;&gt;&gt;),
+    http:post_json(&lt;&lt;"/chat/post"&gt;&gt;, #{text =&gt; Text, author =&gt; Nick}).
+</code></pre>
+</div>
+
+<p>
+That's the entire feature. Save the file, compile it, then load it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>$ rebar3 compile
+$ erl -pa _build/default/lib/*/ebin \
+      -name reload@127.0.0.1 -setcookie clowning_cookie -noshell \
+      -eval "
+        net_adm:ping('clowning1@127.0.0.1'),
+        net_adm:ping('clowning2@127.0.0.1'),
+        io:format(\"~p~n\", [c:nl(clowning_chat_page)]),
+        io:format(\"~p~n\", [c:nl(clowning_chat_post_handler)]),
+        init:stop()."
+</code></pre>
+</div>
+
+<p>
+Reload either open tab and the nickname box is there. Every message already in history,
+posted minutes earlier, by the old code &ndash; is still exactly where it was. Nothing restarted,
+nothing disconnected, nothing lost. That's the whole pitch of the BEAM's hot code loading in one
+sentence: the process holding your state and the code defining your behavior are two separate things,
+and you're always free to swap the second one without touching the first.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd7e2819" class="outline-2">
+<h2 id="orgd7e2819">Resources:</h2>
+<div class="outline-text-2" id="text-orgd7e2819">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+
+<p>
+<a href="./concrete-js-promises.html">Concrete 006: Catching JavaScript Promises</a>
+</p>
+
+<p>
+<a href="./concrete-command-dispatch.html">Concrete 007: Reporting to the Server from a Client Action</a>
+</p>
+
+<p>
+<a href="./concrete-live-chat.html">Concrete 008: A Live Chat Across Two Nodes</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

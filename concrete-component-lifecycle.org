@@ -1,0 +1,241 @@
+#+TITLE: CONCRETE 009: Component Lifecycles and Repeating Templates
+#+HTML_HEAD: <meta name="description" content="Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them" />
+#+FILETAGS: :systems:erlang:concrete:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them" />
+
+* Summary:
+:PROPERTIES:
+:ID:       A29BD0BC-8DD9-4474-B603-BC088352FC1F
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+[[./concrete-templates.html][Concrete 004]] introduced =<:component>= as a way to embed one component's template inside
+another's. What it didn't have was a lifecycle: every parent re-render threw the child away and built
+a fresh one from scratch. This post covers the three things that had to exist before a child
+component could be a genuinely stateful, long-lived thing rather than a fancy way to splice in
+markup: a way to identify *which* instance a =<:component>= tag refers to across renders, a =mount/2=
+hook that runs exactly once per instance, and =<:for>=, a real loop construct for rendering a list
+of them.
+
+* Identity: What Makes Two Renders "The Same Component"
+:PROPERTIES:
+:ID:       1666D88B-C069-4583-A0C8-6A7AEDB70BED
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+A =<:component>= tag is a fixed point in a template — it exists at one position in the parse tree,
+written once. Every time the parent's =render/1= runs, that position gets evaluated again. The
+question that has to be answered before anything else is: is this the *same* component as last
+time, or a *different* one?
+
+Two answers cover every case:
+
+- Written once, evaluated repeatedly (a =<:component>= with no key, not inside a loop) — always the
+  same instance. Its identity is just *where it sits in the template*, which never moves.
+- Rendered from a list — same tag, different data each time it runs — needs an explicit key, the
+  same problem every UI framework with dynamic lists solves the same way:
+
+#+BEGIN_SRC html
+<:component module={task_item} key={maps:get(id, T)} id={maps:get(id, T)} label={maps:get(label, T)} />
+#+END_SRC
+
+=task_item= here is a real, ordinary =concrete_component= — its full source is a few paragraphs
+down, once =mount/2= is on the table too. (=T= is a loop variable; the loop itself, =<:for>=, is
+covered further down — this snippet is only here to show what a key expression looks like.)
+
+Both pieces of identity are known before the page ever loads a browser: *where* the tag sits is
+fixed the moment the template is compiled, and =key= is evaluated the same way any other prop
+expression is. It never reaches the component itself, though — =key= is identity metadata, not a
+prop, so it's set aside rather than landing in the =Props= map =init/2= sees, the same way =module=
+already is. Nothing about identity depends on anything that only exists at runtime.
+
+What changed is what the client does with that identity. It used to be thrown away the instant a
+render finished — every =<:component>= tag was resolved by calling =init/2= fresh, rendering the
+result, and forgetting it ever existed. Now the client keeps a small registry: the first time a
+given identity shows up, =init/2= runs and the resulting component gets remembered against that
+identity. Every render after that, the same identity finds the same entry already there and reuses
+it as-is — =init/2= doesn't run again, and whatever state the component has accumulated since (say,
+from its own =action/3=) comes along for the ride.
+
+That one change is what makes a click handler inside a child component's own =action/3= actually mean
+something: whatever state it produces now survives the parent re-rendering around it, instead of
+being discarded the instant the parent's own =render/1= runs again.
+
+* Knowing When an Instance Leaves
+:PROPERTIES:
+:ID:       0FBB3F2B-93A0-4790-B781-D7EFBD284DF2
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+Persistence in one direction needs a matching cleanup in the other: an identity that stops
+appearing — a conditionally-hidden tag, an item removed from a list — has to leave the registry, or
+it leaks forever. So every render tracks which identities it actually touched, and once the whole
+render is done, anything sitting in the registry that wasn't touched this time gets dropped.
+
+That happens as one pass over the whole registry after the render finishes, not identity-by-identity
+as the tree is walked — a single render can bring new instances in and let old ones go in any
+order, depending on how the tree happens to be walked, and checking everything once at the end
+means that walk order never has to matter.
+
+* mount/2
+:PROPERTIES:
+:ID:       9460077E-84BC-4511-8D1F-BFDB4C734440
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+With identity and a registry in place, =mount/2= is the same shape as page-level =mount/1=
+([[./concrete-pages.html][Concrete 003]] territory) — a callback that runs once, client-side, the moment an instance's markup
+first exists in the real DOM:
+
+#+BEGIN_SRC erlang
+-callback mount(Props :: map(), Component :: map()) -> ok.
+-optional_callbacks([action/3, command/3, mount/2]).
+#+END_SRC
+
+A component that doesn't define it costs nothing — the same =isExported= guard that page-level
+=mount/1= already uses skips the call entirely rather than dispatching into a function that was
+never compiled in. One that does define it gets exactly one call, no matter how many times the
+parent around it re-renders. Here's =task_item= in full — the module the identity example above
+already pointed at:
+
+#+BEGIN_SRC erlang
+-module(task_item).
+-behaviour(concrete_component).
+-export([init/2, mount/2, template/0]).
+
+init(Props, Server) ->
+    State = #{id => maps:get(id, Props), label => maps:get(label, Props)},
+    {#{state => State}, Server}.
+
+%% Proves mount/2 actually ran, client-side, exactly once per task --
+%% add a task in the running demo, watch "mounted" appear next to it,
+%% then add another and notice the first one's flag doesn't get
+%% touched again.
+mount(_Props, #{state := #{id := Id}}) ->
+    dom:set_text(<<"mount-flag-", Id/binary>>, <<"mounted">>).
+
+template() ->
+    {inline, concrete_template_parser:parse_string(
+        "<li class=\"task\">"
+        "<span class=\"task-label\">{@label}</span>"
+        "<span id={<<\"mount-flag-\", (@id)/binary>>} class=\"mount-flag\"></span>"
+        "</li>")}.
+#+END_SRC
+
+=id= and =label= land in state straight from =Props= in =init/2=; =mount/2= then reads =id= back out of
+that same state to build the element id its =dom:set_text= call targets — the same =id= the template
+above builds its =<span>='s own id attribute from, so the two always agree on which element to
+touch.
+
+* <:for>: A Real Loop
+:PROPERTIES:
+:ID:       5808EEDC-0CFD-46FE-98F2-33F3D80E5AE7
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+Keyed identity is only useful once there's a way to render more than one instance of the same
+=<:component>= tag from a runtime list, and the template language had nothing like that — every tag
+sat at one fixed, statically-parsed position. =<:for>= fills that gap:
+
+#+BEGIN_SRC html
+<:for item="T" in={@tasks}>
+  <:component module={task_item} key={maps:get(id, T)}
+    id={maps:get(id, T)} label={maps:get(label, T)} />
+</:for>
+#+END_SRC
+
+=item= names the Erlang variable the loop body binds on each iteration — a plain identifier, not an
+expression, since it's a binding site rather than a value. =in= is any Erlang expression evaluating
+to a list, =@state=-rewritten the same way every other attribute expression already is. Inside the
+body, =T= is just a variable holding whatever =@tasks= puts there on that iteration — one plain
+Erlang map, the same shape =task_item='s own =init/2= already expects.
+
+The nice part is that this wasn't a new feature bolted onto the compiler — Concrete could already
+compile an ordinary Erlang list comprehension, for unrelated reasons, and =<:for>= just leans on that
+existing machinery instead of inventing a second way to loop. Rendering already knew how to handle a
+component producing more than one node at once, too, so a loop producing a whole list of them per
+iteration didn't need any new plumbing on that side either — it just falls out of rules that already
+existed.
+
+One consequence worth calling out: the loop body compiles *once*, not once per iteration. A
+=<:component>= inside a =<:for>= body therefore gets a single compile-time path index shared by every
+iteration — which is exactly why =key= isn't optional inside a loop. The path index alone can't tell
+iterations apart; only the key can.
+
+* Putting It Together
+:PROPERTIES:
+:ID:       B21D262A-F97A-4A84-AD08-EE3A2F9AB446
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+A small task board makes all three pieces visible at once: a keyed, dynamic list of components,
+each with its own persistent state and its own =mount/2=.
+
+#+BEGIN_SRC erlang
+-module(task_board_page).
+-behaviour(concrete_page).
+-export([init/2, action/3, template/0]).
+
+init(_Params, Server) ->
+    Tasks = [#{id => <<"1">>, label => <<"Write the plan">>},
+             #{id => <<"2">>, label => <<"Wire up mount/2">>},
+             #{id => <<"3">>, label => <<"Ship it">>}],
+    {#{state => #{tasks => Tasks, next_id => 4}}, Server}.
+
+action(add_task, _Params, #{state := #{tasks := Tasks, next_id := N} = S} = C) ->
+    NewTask = #{id => integer_to_binary(N), label => <<"Task ", (integer_to_binary(N))/binary>>},
+    C#{state => S#{tasks => Tasks ++ [NewTask], next_id => N + 1}};
+action(complete_task, _Params, #{state := #{tasks := Tasks} = S} = C) ->
+    Remaining = case Tasks of [] -> []; [_ | Rest] -> Rest end,
+    C#{state => S#{tasks => Remaining}}.
+
+template() ->
+    {inline, concrete_template_parser:parse_string(
+        "<div class=\"board\">"
+        "<h2>Tasks</h2>"
+        "<ul>"
+        "<:for item=\"T\" in={@tasks}>"
+        "<:component module={task_item} key={maps:get(id, T)} "
+        "id={maps:get(id, T)} label={maps:get(label, T)} />"
+        "</:for>"
+        "</ul>"
+        "<button concrete-click=\"add_task\">Add task</button>"
+        "<button concrete-click=\"complete_task\">Complete oldest</button>"
+        "</div>")}.
+#+END_SRC
+
+Clicking "Add task" appends a new keyed identity — a fresh =task_item= instance gets =init/2=, then
+=mount/2= flips its "mounted" flag the moment the new =<li>= exists in the real DOM. Clicking
+"Complete oldest" drops =tasks= down to its tail, which means the loop stops producing that
+identity's =<:component>= tag — its instance leaves the registry on the very next render. Every task
+in between never gets touched: same identity in, same live component out, no re-init, no re-mount.
+
+* Resources:
+:PROPERTIES:
+:ID:       57B3546F-920C-4F84-95E4-63C12456A669
+:PUBDATE:  2026-08-14 Fri 22:00
+:END:
+
+https://github.com/wmealing/concrete
+
+[[./concrete-intro.html][Concrete 001: An Introduction]]
+
+[[./concrete-counter.html][Concrete 002: Hello, Counter]]
+
+[[./concrete-pages.html][Concrete 003: Pages, Routing, and Layouts]]
+
+[[./concrete-templates.html][Concrete 004: Inside the .slab Parser]]
+
+[[./concrete-js-interop.html][Concrete 005: JavaScript Interop]]
+
+[[./concrete-js-promises.html][Concrete 006: Catching JavaScript Promises]]
+
+[[./concrete-command-dispatch.html][Concrete 007: Reporting to the Server from a Client Action]]
+
+[[./concrete-live-chat.html][Concrete 008: A Live Chat Across Two Nodes]]
+
+[[./concrete-component-lifecycle.html][Concrete 009: Component Lifecycles and Repeating Templates]]
