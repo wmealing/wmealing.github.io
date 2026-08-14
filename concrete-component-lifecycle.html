@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:39 -->
+<!-- 2026-08-15 Sat 00:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 009: Component Lifecycles and Repeating Templates</title>
@@ -61,9 +61,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org6f09a3d" class="outline-2">
-<h2 id="org6f09a3d">Summary:</h2>
-<div class="outline-text-2" id="text-org6f09a3d">
+<div id="outline-container-org82ad1e5" class="outline-2">
+<h2 id="org82ad1e5">Summary:</h2>
+<div class="outline-text-2" id="text-org82ad1e5">
 <p>
 <a href="./concrete-templates.html">Concrete 004</a> introduced <code>&lt;:component&gt;</code> as a way to embed one component's template inside
 another's. What it didn't have was a lifecycle: every parent re-render threw the child away and built
@@ -75,9 +75,9 @@ of them.
 </p>
 </div>
 </div>
-<div id="outline-container-org78c9689" class="outline-2">
-<h2 id="org78c9689">Identity: What Makes Two Renders "The Same Component"</h2>
-<div class="outline-text-2" id="text-org78c9689">
+<div id="outline-container-orgf5b3969" class="outline-2">
+<h2 id="orgf5b3969">Identity: What Makes Two Renders "The Same Component"</h2>
+<div class="outline-text-2" id="text-orgf5b3969">
 <p>
 A <code>&lt;:component&gt;</code> tag is a fixed point in a template — it exists at one position in the parse tree,
 written once. Every time the parent's <code>render/1</code> runs, that position gets evaluated again. The
@@ -132,9 +132,9 @@ being discarded the instant the parent's own <code>render/1</code> runs again.
 </p>
 </div>
 </div>
-<div id="outline-container-orge62984e" class="outline-2">
-<h2 id="orge62984e">Knowing When an Instance Leaves</h2>
-<div class="outline-text-2" id="text-orge62984e">
+<div id="outline-container-org7a70b44" class="outline-2">
+<h2 id="org7a70b44">Knowing When an Instance Leaves</h2>
+<div class="outline-text-2" id="text-org7a70b44">
 <p>
 Persistence in one direction needs a matching cleanup in the other: an identity that stops
 appearing — a conditionally-hidden tag, an item removed from a list — has to leave the registry, or
@@ -150,9 +150,9 @@ means that walk order never has to matter.
 </p>
 </div>
 </div>
-<div id="outline-container-org75f8d9b" class="outline-2">
-<h2 id="org75f8d9b">mount/2</h2>
-<div class="outline-text-2" id="text-org75f8d9b">
+<div id="outline-container-org3bbe3c1" class="outline-2">
+<h2 id="org3bbe3c1">mount/2</h2>
+<div class="outline-text-2" id="text-org3bbe3c1">
 <p>
 With identity and a registry in place, <code>mount/2</code> is the same shape as page-level <code>mount/1</code>
 (<a href="./concrete-pages.html">Concrete 003</a> territory) — a callback that runs once, client-side, the moment an instance's markup
@@ -218,9 +218,9 @@ touch.
 </p>
 </div>
 </div>
-<div id="outline-container-org57199ba" class="outline-2">
-<h2 id="org57199ba">&lt;:for&gt;: A Real Loop</h2>
-<div class="outline-text-2" id="text-org57199ba">
+<div id="outline-container-org9032519" class="outline-2">
+<h2 id="org9032519">&lt;:for&gt;: A Real Loop</h2>
+<div class="outline-text-2" id="text-org9032519">
 <p>
 Keyed identity is only useful once there's a way to render more than one instance of the same
 <code>&lt;:component&gt;</code> tag from a runtime list, and the template language had nothing like that — every tag
@@ -260,9 +260,9 @@ iterations apart; only the key can.
 </p>
 </div>
 </div>
-<div id="outline-container-org7dcda39" class="outline-2">
-<h2 id="org7dcda39">Putting It Together</h2>
-<div class="outline-text-2" id="text-org7dcda39">
+<div id="outline-container-org3ff4f27" class="outline-2">
+<h2 id="org3ff4f27">Putting It Together</h2>
+<div class="outline-text-2" id="text-org3ff4f27">
 <p>
 A small task board makes all three pieces visible at once: a keyed, dynamic list of components,
 each with its own persistent state and its own <code>mount/2</code>.
@@ -336,11 +336,19 @@ in between never gets touched: same identity in, same live component out, no re-
 </p>
 </div>
 </div>
-<div id="outline-container-org14a0aa7" class="outline-2">
-<h2 id="org14a0aa7">Resources:</h2>
-<div class="outline-text-2" id="text-org14a0aa7">
+<div id="outline-container-orgcdd104b" class="outline-2">
+<h2 id="orgcdd104b">Resources:</h2>
+<div class="outline-text-2" id="text-orgcdd104b">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="https://github.com/wmealing/concrete/blob/main/example/task_board_page.erl">example/task_board_page.erl</a>
+</p>
+
+<p>
+<a href="https://github.com/wmealing/concrete/blob/main/example/task_item.erl">example/task_item.erl</a>
 </p>
 
 <p>

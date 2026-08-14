@@ -255,6 +255,10 @@ in between never gets touched: same identity in, same live component out, no re-
 
 https://github.com/wmealing/concrete
 
+[[https://github.com/wmealing/concrete/blob/main/example/task_board_page.erl][example/task_board_page.erl]]
+
+[[https://github.com/wmealing/concrete/blob/main/example/task_item.erl][example/task_item.erl]]
+
 [[./concrete-intro.html][Concrete 001: An Introduction]]
 
 [[./concrete-counter.html][Concrete 002: Hello, Counter]]
