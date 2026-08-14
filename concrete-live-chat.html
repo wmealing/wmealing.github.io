@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-15 Sat 00:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 008: A Live Chat Across Two Nodes</title>
@@ -61,9 +61,14 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org484ff92" class="outline-2">
-<h2 id="org484ff92">Summary:</h2>
-<div class="outline-text-2" id="text-org484ff92">
+
+<div id="org903262e" class="figure">
+<p><img src="./images/concrete-chat.png" alt="concrete-chat.png" align="center" />
+</p>
+</div>
+<div id="outline-container-org99d4f23" class="outline-2">
+<h2 id="org99d4f23">Summary:</h2>
+<div class="outline-text-2" id="text-org99d4f23">
 <p>
 Every earlier post in this series covers one mechanism at a time. This one builds something with several of
 them at once: a chat room that runs live across two distributed Erlang nodes, pushes messages
@@ -73,9 +78,9 @@ recompile and a network load. No restart, no lost history.
 </p>
 </div>
 </div>
-<div id="outline-container-orge81859e" class="outline-2">
-<h2 id="orge81859e">The Big Parts</h2>
-<div class="outline-text-2" id="text-orge81859e">
+<div id="outline-container-orgafd7a38" class="outline-2">
+<h2 id="orgafd7a38">The Big Parts</h2>
+<div class="outline-text-2" id="text-orgafd7a38">
 <p>
 I know it's a bit of an odd name, but I was simply clowning around, hence the <code>clowning</code> prefix.
 </p>
@@ -98,9 +103,9 @@ to be talking to, the message still gets everywhere.
 </p>
 </div>
 </div>
-<div id="outline-container-org4649ae8" class="outline-2">
-<h2 id="org4649ae8">The Chat History</h2>
-<div class="outline-text-2" id="text-org4649ae8">
+<div id="outline-container-orgbc10cb5" class="outline-2">
+<h2 id="orgbc10cb5">The Chat History</h2>
+<div class="outline-text-2" id="text-orgbc10cb5">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>-module(clowning_chat).
 -behaviour(gen_server).
@@ -163,9 +168,9 @@ are just terms, and two different terms are two different channels even if one p
 </p>
 </div>
 </div>
-<div id="outline-container-org3bbcc55" class="outline-2">
-<h2 id="org3bbcc55">What Runs When the Page Loads</h2>
-<div class="outline-text-2" id="text-org3bbcc55">
+<div id="outline-container-orgd86d704" class="outline-2">
+<h2 id="orgd86d704">What Runs When the Page Loads</h2>
+<div class="outline-text-2" id="text-orgd86d704">
 <p>
 Concrete's page behaviour has a <code>mount/1</code> callback for exactly this &ndash; the same idea Phoenix
 LiveView's own <code>mount</code> callback covers, though the mechanism underneath is entirely different
@@ -272,9 +277,9 @@ escape_html(&lt;&lt;C, Rest/binary&gt;&gt;, Acc)  -&gt; escape_html(Rest, &lt;&l
 </div>
 </div>
 </div>
-<div id="outline-container-org0ade071" class="outline-2">
-<h2 id="org0ade071">Sending, Outside Concrete's Own Dispatch</h2>
-<div class="outline-text-2" id="text-org0ade071">
+<div id="outline-container-org60a5f58" class="outline-2">
+<h2 id="org60a5f58">Sending, Outside Concrete's Own Dispatch</h2>
+<div class="outline-text-2" id="text-org60a5f58">
 <p>
 Every earlier post in this series sends data to the server
 with <code>?js:call(&lt;&lt;"Client"&gt;&gt;, dispatchCommand, ...)</code>. That's the right tool when the response should feed
@@ -325,9 +330,9 @@ Nothing renders as a direct result of sending. The sender finds out their own me
 </p>
 </div>
 </div>
-<div id="outline-container-org20d39d9" class="outline-2">
-<h2 id="org20d39d9">Hot-Reloading Onto a Running Node</h2>
-<div class="outline-text-2" id="text-org20d39d9">
+<div id="outline-container-org0d4cd35" class="outline-2">
+<h2 id="org0d4cd35">Hot-Reloading Onto a Running Node</h2>
+<div class="outline-text-2" id="text-org0d4cd35">
 <p>
 None of this required stopping either node. clowning ships two Makefile targets that start long-lived, named, distributed Erlang nodes:
 </p>
@@ -371,9 +376,9 @@ connection, adds it to the running tree without restarting anything already ther
 </p>
 </div>
 </div>
-<div id="outline-container-org3be4c1e" class="outline-2">
-<h2 id="org3be4c1e">Adding a Feature, Live</h2>
-<div class="outline-text-2" id="text-org3be4c1e">
+<div id="outline-container-orge8a9954" class="outline-2">
+<h2 id="orge8a9954">Adding a Feature, Live</h2>
+<div class="outline-text-2" id="text-orge8a9954">
 <p>
 With the chat already running on both nodes, real messages in its history, we're going to add a nickname field.
 The field value will persist in the browser's <code>localStorage</code> so it survives a reload, and gets sent along with
@@ -461,9 +466,9 @@ and you're always free to swap the second one without touching the first.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd7e2819" class="outline-2">
-<h2 id="orgd7e2819">Resources:</h2>
-<div class="outline-text-2" id="text-orgd7e2819">
+<div id="outline-container-org4e0f2ad" class="outline-2">
+<h2 id="org4e0f2ad">Resources:</h2>
+<div class="outline-text-2" id="text-org4e0f2ad">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

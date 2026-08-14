@@ -68,6 +68,13 @@ img {
   height: auto;
 }
 
+/* org exports :align center as an align="center" attribute on <img>,
+   which browsers ignore for block-level images — center the figure
+   wrapper instead. */
+.figure {
+  text-align: center;
+}
+
 html {
   font-size: var(--font-size-base);
   background-color: var(--color-bg);

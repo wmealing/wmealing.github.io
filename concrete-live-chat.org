@@ -7,6 +7,10 @@
 #+INCLUDE: "navbar.html" export html
 #+HTML_HEAD: <meta name="description" content="Building a real-time, cross-node chat with Concrete's SSE primitives, then adding a feature to it with a live hot code reload" />
 
+#+ATTR_HTML: :align center
+#+ATTR_ORG: :align center
+[[./images/concrete-chat.png]]
+
 * Summary:
 :PROPERTIES:
 :ID:       20031431-B7E7-4BE8-A523-889B4DB26E63
