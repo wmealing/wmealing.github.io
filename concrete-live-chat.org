@@ -23,6 +23,8 @@ to every open browser with no polling, connects itself the moment the page loads
 feature added to it -- while it keeps running, with real users connected -- through nothing but a
 recompile and a network load. No restart, no lost history.
 
+The full source for this demo is at [[https://github.com/wmealing/clowning/][wmealing/clowning]].
+
 * The Big Parts
 :PROPERTIES:
 :ID:       820D8324-0F42-4686-81BD-ACBF90774741
@@ -130,7 +132,7 @@ calls =action/3=.
 
 =mount/1= takes the whole =Component= map, not just the message list -- it comes in already
 wire-decoded, the exact same shape =action/3='s third argument already is, so matching it out
-with =#{state := #{messages := History}}= reads no differently than an =action/3= clause does.
+with ~#{state := #{messages := History}}~ reads no differently than an =action/3= clause does.
 
 =mount/1= runs browser-side only. Unlike =render/1=, it's never part of building the page's
 first HTML on the server, so there's nothing here that needs to guard against running twice:

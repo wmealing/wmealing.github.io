@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:16 -->
+<!-- 2026-08-15 Sat 00:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 008: A Live Chat Across Two Nodes</title>
@@ -62,13 +62,13 @@
     </div>
 </nav>
 
-<div id="org903262e" class="figure">
+<div id="orgede3759" class="figure">
 <p><img src="./images/concrete-chat.png" alt="concrete-chat.png" align="center" />
 </p>
 </div>
-<div id="outline-container-org99d4f23" class="outline-2">
-<h2 id="org99d4f23">Summary:</h2>
-<div class="outline-text-2" id="text-org99d4f23">
+<div id="outline-container-orgb00dac4" class="outline-2">
+<h2 id="orgb00dac4">Summary:</h2>
+<div class="outline-text-2" id="text-orgb00dac4">
 <p>
 Every earlier post in this series covers one mechanism at a time. This one builds something with several of
 them at once: a chat room that runs live across two distributed Erlang nodes, pushes messages
@@ -76,11 +76,15 @@ to every open browser with no polling, connects itself the moment the page loads
 feature added to it &ndash; while it keeps running, with real users connected &ndash; through nothing but a
 recompile and a network load. No restart, no lost history.
 </p>
+
+<p>
+The full source for this demo is at <a href="https://github.com/wmealing/clowning/">wmealing/clowning</a>.
+</p>
 </div>
 </div>
-<div id="outline-container-orgafd7a38" class="outline-2">
-<h2 id="orgafd7a38">The Big Parts</h2>
-<div class="outline-text-2" id="text-orgafd7a38">
+<div id="outline-container-org1a74af8" class="outline-2">
+<h2 id="org1a74af8">The Big Parts</h2>
+<div class="outline-text-2" id="text-org1a74af8">
 <p>
 I know it's a bit of an odd name, but I was simply clowning around, hence the <code>clowning</code> prefix.
 </p>
@@ -103,9 +107,9 @@ to be talking to, the message still gets everywhere.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbc10cb5" class="outline-2">
-<h2 id="orgbc10cb5">The Chat History</h2>
-<div class="outline-text-2" id="text-orgbc10cb5">
+<div id="outline-container-org7deeab2" class="outline-2">
+<h2 id="org7deeab2">The Chat History</h2>
+<div class="outline-text-2" id="text-org7deeab2">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>-module(clowning_chat).
 -behaviour(gen_server).
@@ -168,9 +172,9 @@ are just terms, and two different terms are two different channels even if one p
 </p>
 </div>
 </div>
-<div id="outline-container-orgd86d704" class="outline-2">
-<h2 id="orgd86d704">What Runs When the Page Loads</h2>
-<div class="outline-text-2" id="text-orgd86d704">
+<div id="outline-container-orgabc5d82" class="outline-2">
+<h2 id="orgabc5d82">What Runs When the Page Loads</h2>
+<div class="outline-text-2" id="text-orgabc5d82">
 <p>
 Concrete's page behaviour has a <code>mount/1</code> callback for exactly this &ndash; the same idea Phoenix
 LiveView's own <code>mount</code> callback covers, though the mechanism underneath is entirely different
@@ -201,7 +205,7 @@ calls <code>action/3</code>.
 <p>
 <code>mount/1</code> takes the whole <code>Component</code> map, not just the message list &ndash; it comes in already
 wire-decoded, the exact same shape <code>action/3</code>'s third argument already is, so matching it out
-with <code>#{state :</code> #{messages := History}}= reads no differently than an <code>action/3</code> clause does.
+with <code>#{state := #{messages := History}}</code> reads no differently than an <code>action/3</code> clause does.
 </p>
 
 <p>
@@ -277,9 +281,9 @@ escape_html(&lt;&lt;C, Rest/binary&gt;&gt;, Acc)  -&gt; escape_html(Rest, &lt;&l
 </div>
 </div>
 </div>
-<div id="outline-container-org60a5f58" class="outline-2">
-<h2 id="org60a5f58">Sending, Outside Concrete's Own Dispatch</h2>
-<div class="outline-text-2" id="text-org60a5f58">
+<div id="outline-container-org244cabe" class="outline-2">
+<h2 id="org244cabe">Sending, Outside Concrete's Own Dispatch</h2>
+<div class="outline-text-2" id="text-org244cabe">
 <p>
 Every earlier post in this series sends data to the server
 with <code>?js:call(&lt;&lt;"Client"&gt;&gt;, dispatchCommand, ...)</code>. That's the right tool when the response should feed
@@ -330,9 +334,9 @@ Nothing renders as a direct result of sending. The sender finds out their own me
 </p>
 </div>
 </div>
-<div id="outline-container-org0d4cd35" class="outline-2">
-<h2 id="org0d4cd35">Hot-Reloading Onto a Running Node</h2>
-<div class="outline-text-2" id="text-org0d4cd35">
+<div id="outline-container-orgd1087d6" class="outline-2">
+<h2 id="orgd1087d6">Hot-Reloading Onto a Running Node</h2>
+<div class="outline-text-2" id="text-orgd1087d6">
 <p>
 None of this required stopping either node. clowning ships two Makefile targets that start long-lived, named, distributed Erlang nodes:
 </p>
@@ -376,9 +380,9 @@ connection, adds it to the running tree without restarting anything already ther
 </p>
 </div>
 </div>
-<div id="outline-container-orge8a9954" class="outline-2">
-<h2 id="orge8a9954">Adding a Feature, Live</h2>
-<div class="outline-text-2" id="text-orge8a9954">
+<div id="outline-container-orge4dea21" class="outline-2">
+<h2 id="orge4dea21">Adding a Feature, Live</h2>
+<div class="outline-text-2" id="text-orge4dea21">
 <p>
 With the chat already running on both nodes, real messages in its history, we're going to add a nickname field.
 The field value will persist in the browser's <code>localStorage</code> so it survives a reload, and gets sent along with
@@ -466,9 +470,9 @@ and you're always free to swap the second one without touching the first.
 </p>
 </div>
 </div>
-<div id="outline-container-org4e0f2ad" class="outline-2">
-<h2 id="org4e0f2ad">Resources:</h2>
-<div class="outline-text-2" id="text-org4e0f2ad">
+<div id="outline-container-org9362be6" class="outline-2">
+<h2 id="org9362be6">Resources:</h2>
+<div class="outline-text-2" id="text-org9362be6">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>
