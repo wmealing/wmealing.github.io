@@ -103,6 +103,14 @@ parent around it re-renders. Here's =task_item= in full — the module the ident
 already pointed at:
 
 #+BEGIN_SRC erlang
+%% Child component for the task_board demo (see task_board_page.erl) --
+%% one <:component>, embedded once per element of a runtime list via
+%% <:for>, exercising persistent per-instance state and mount/2 (see
+%% component-mount-plan.md): each task keeps its own live Component map
+%% across every re-render of the page around it, and mount/2 fires
+%% exactly once, the moment a given task's identity (its `key`, since
+%% every iteration of the loop shares one compile-time path index)
+%% first appears.
 -module(task_item).
 -behaviour(concrete_component).
 -export([init/2, mount/2, template/0]).
@@ -112,9 +120,9 @@ init(Props, Server) ->
     {#{state => State}, Server}.
 
 %% Proves mount/2 actually ran, client-side, exactly once per task --
-%% add a task in the running demo, watch "mounted" appear next to it,
-%% then add another and notice the first one's flag doesn't get
-%% touched again.
+%% the only way to see this is in the running browser demo (open it,
+%% add a task, watch "mounted" appear next to it, then add another and
+%% notice the first one's flag doesn't get touched again).
 mount(_Props, #{state := #{id := Id}}) ->
     dom:set_text(<<"mount-flag-", Id/binary>>, <<"mounted">>).
 
@@ -125,6 +133,8 @@ template() ->
         "<span id={<<\"mount-flag-\", (@id)/binary>>} class=\"mount-flag\"></span>"
         "</li>")}.
 #+END_SRC
+
+Full source: [[https://github.com/wmealing/concrete/blob/main/example/task_item.erl][task_item.erl]].
 
 =id= and =label= land in state straight from =Props= in =init/2=; =mount/2= then reads =id= back out of
 that same state to build the element id its =dom:set_text= call targets — the same =id= the template
@@ -176,6 +186,14 @@ A small task board makes all three pieces visible at once: a keyed, dynamic list
 each with its own persistent state and its own =mount/2=.
 
 #+BEGIN_SRC erlang
+%% Page for the task_board browser demo (see task_board_demo.erl) --
+%% the first example built on the actual concrete_page/concrete_component
+%% framework (not raw dom:* BIFs, like todo_app.erl) to render a
+%% dynamic, keyed list of stateful child components via <:for>. Adding
+%% a task appends a new keyed <:component>; completing the oldest one
+%% removes its identity entirely -- the same add/remove-from-a-list
+%% shape component-mount-plan.md's testing section covers, just visible
+%% in a browser instead of a Node harness.
 -module(task_board_page).
 -behaviour(concrete_page).
 -export([init/2, action/3, template/0]).
@@ -186,8 +204,20 @@ init(_Params, Server) ->
              #{id => <<"3">>, label => <<"Ship it">>}],
     {#{state => #{tasks => Tasks, next_id => 4}}, Server}.
 
+%% Reads whatever the user typed into #new-task-text at the moment the
+%% button is clicked (dom:get_value/1, the same BIF todo_app.erl's
+%% add_todo/0 uses) -- action/3 is a compiled JS bundle entry point, so
+%% it can call dom:* directly, no server round trip. An empty field
+%% falls back to the old auto-generated label rather than adding a
+%% blank task.
 action(add_task, _Params, #{state := #{tasks := Tasks, next_id := N} = S} = C) ->
-    NewTask = #{id => integer_to_binary(N), label => <<"Task ", (integer_to_binary(N))/binary>>},
+    Typed = dom:get_value(<<"new-task-text">>),
+    Label = case byte_size(Typed) > 0 of
+        true  -> Typed;
+        false -> <<"Task ", (integer_to_binary(N))/binary>>
+    end,
+    NewTask = #{id => integer_to_binary(N), label => Label},
+    dom:set_value(<<"new-task-text">>, <<"">>),
     C#{state => S#{tasks => Tasks ++ [NewTask], next_id => N + 1}};
 action(complete_task, _Params, #{state := #{tasks := Tasks} = S} = C) ->
     Remaining = case Tasks of [] -> []; [_ | Rest] -> Rest end,
@@ -203,10 +233,13 @@ template() ->
         "id={maps:get(id, T)} label={maps:get(label, T)} />"
         "</:for>"
         "</ul>"
+        "<input id=\"new-task-text\" type=\"text\" placeholder=\"Task description\" />"
         "<button concrete-click=\"add_task\">Add task</button>"
         "<button concrete-click=\"complete_task\">Complete oldest</button>"
         "</div>")}.
 #+END_SRC
+
+Full source: [[https://github.com/wmealing/concrete/blob/main/example/task_board_page.erl][task_board_page.erl]].
 
 Clicking "Add task" appends a new keyed identity — a fresh =task_item= instance gets =init/2=, then
 =mount/2= flips its "mounted" flag the moment the new =<li>= exists in the real DOM. Clicking
