@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Telegram Mini App</title>
+    <!-- 1. Include the official Telegram Web App SDK -->
+    <script src="https://telegram.org"></script>
+    <style>
+        /* 2. Use Telegram CSS variables to automatically match the user's theme */
+        body {
+            font-family: sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        .user-card {
+            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="user-card">
+        <h1>Hello, <span id="username">Guest</span>!</h1>
+        <p>Welcome to your first Telegram Mini App.</p>
+    </div>
+
+    <button id="haptic-btn">Test Haptic Feedback</button>
+
+    <script>
+        // 3. Initialize the Telegram WebApp object
+        const tg = window.Telegram.WebApp;
+
+        // Tell Telegram the app is ready and fully loaded
+        tg.ready();
+        
+        // Expand the web app to take up the maximum available height
+        tg.expand();
+
+        // 4. Retrieve user information from Telegram data context
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('username').innerText = user.first_name || user.username || 'User';
+        }
+
+        // 5. Use native UI elements: Telegram's bottom "Main Button"
+        tg.MainButton.setText("CLOSE APP");
+        tg.MainButton.textColor = tg.themeParams.button_text_color;
+        tg.MainButton.color = tg.themeParams.button_color;
+        tg.MainButton.show();
+        
+        // Handle clicking the native Telegram Main Button
+        tg.MainButton.onClick(() => {
+            tg.close(); // Safely closes the Mini App window
+        });
+
+        // 6. Use device hardware features: Trigger phone vibration (haptics)
+        document.getElementById('haptic-btn').addEventListener('click', () => {
+            tg.HapticFeedback.notificationOccurred('success');
+        });
+    </script>
+</body>
+</html>

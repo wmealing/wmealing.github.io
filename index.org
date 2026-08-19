@@ -9,6 +9,16 @@
 
 * Recent Blog Posts
 
+* [[./concrete-live-reload.html][Concrete 010: Live Reload While You Edit - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-7b3a19cd
+:END:
+
+Every demo under =example/= now watches its own source while it runs. Save a =.erl= module or a
+=.slab= template and the browser tab refreshes itself -- instantly for a template, after a real
+recompile for a module. Leave a file in a broken state and the browser shows the actual compiler
+error in an overlay instead of quietly serving yesterday's page.
+
 * [[./concrete-component-lifecycle.html][Concrete 009: Component Lifecycles and Repeating Templates - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-4255f0eb
