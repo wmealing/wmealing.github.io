@@ -5,8 +5,8 @@
 <link>http://wmealing.github.io</link>
 <description>RSS generated via Erlang</description>
 <item>
-<title>How to handle headless IoT clients safely without building a massive intermediary auth API.</title>
-<link>https://wmealing.github.io/row-level-security.html</link>
+<title>Distributed FizzBuzz: When Does Distribution Actually Pay Off?</title>
+<link>https://wmealing.github.io/distributed-fizzbuzz.html</link>
 <description>Wade Mealings documentation</description>
 </item>
 <item>
@@ -15,14 +15,74 @@
 <description>Erlang, TUI, Oldschool code</description>
 </item>
 <item>
+<title>CONCRETE 010: Live Reload While You Edit</title>
+<link>https://wmealing.github.io/concrete-live-reload.html</link>
+<description>Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn't</description>
+</item>
+<item>
+<title>CONCRETE 009: Component Lifecycles and Repeating Templates</title>
+<link>https://wmealing.github.io/concrete-component-lifecycle.html</link>
+<description>Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them</description>
+</item>
+<item>
+<title>CONCRETE 008: A Live Chat Across Two Nodes</title>
+<link>https://wmealing.github.io/concrete-live-chat.html</link>
+<description>Building a real-time, cross-node chat with Concrete's SSE primitives, then adding a feature to it with a live hot code reload</description>
+</item>
+<item>
 <title>Category: Tooling</title>
 <link>https://wmealing.github.io/tooling.html</link>
 <description></description>
 </item>
 <item>
-<title>Subcategory: Openscad</title>
-<link>https://wmealing.github.io/tooling-openscad.html</link>
+<title>Category: Systems</title>
+<link>https://wmealing.github.io/systems.html</link>
 <description></description>
+</item>
+<item>
+<title>Category: Security</title>
+<link>https://wmealing.github.io/security.html</link>
+<description></description>
+</item>
+<item>
+<title>Growing up tracking and hunting in the Australian bush</title>
+<link>https://wmealing.github.io/hunting-in-fnq.html</link>
+<description></description>
+</item>
+<item>
+<title>CONCRETE 004: Inside the .slab Parser.</title>
+<link>https://wmealing.github.io/concrete-templates.html</link>
+<description>How a .slab template becomes HTML</description>
+</item>
+<item>
+<title>CONCRETE 007: Reporting to the Server from a Client Action.</title>
+<link>https://wmealing.github.io/concrete-command-dispatch.html</link>
+<description>Sending data from a compiled action/3 to a server-side command/3, still written entirely in Erlang</description>
+</item>
+<item>
+<title>CONCRETE 003: Pages, Routing, and Layouts.</title>
+<link>https://wmealing.github.io/concrete-pages.html</link>
+<description>How a URL becomes a running Concrete page</description>
+</item>
+<item>
+<title>CONCRETE 006: Catching JavaScript Promises.</title>
+<link>https://wmealing.github.io/concrete-js-promises.html</link>
+<description>Awaiting a JavaScript Promise from Erlang, through a real process</description>
+</item>
+<item>
+<title>CONCRETE 005: JavaScript Interop.</title>
+<link>https://wmealing.github.io/concrete-js-interop.html</link>
+<description>Calling an already-loaded JavaScript library, like three.js, from compiled Erlang</description>
+</item>
+<item>
+<title>CONCRETE 001: An introduction.</title>
+<link>https://wmealing.github.io/concrete-intro.html</link>
+<description>Introduction to Concrete, a pure-Erlang port of Hologram</description>
+</item>
+<item>
+<title>CONCRETE 002: Hello, Counter.</title>
+<link>https://wmealing.github.io/concrete-counter.html</link>
+<description>Build and run your first Concrete component</description>
 </item>
 <item>
 <title>Subcategory: Janet</title>
@@ -35,8 +95,8 @@
 <description></description>
 </item>
 <item>
-<title>Subcategory: Emacs</title>
-<link>https://wmealing.github.io/tooling-emacs.html</link>
+<title>Subcategory: Openscad</title>
+<link>https://wmealing.github.io/tooling-openscad.html</link>
 <description></description>
 </item>
 <item>
@@ -45,53 +105,8 @@
 <description></description>
 </item>
 <item>
-<title>Category: Systems</title>
-<link>https://wmealing.github.io/systems.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Midi</title>
-<link>https://wmealing.github.io/systems-midi.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Lisp</title>
-<link>https://wmealing.github.io/systems-lisp.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: LFE</title>
-<link>https://wmealing.github.io/systems-lfe.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Erlang</title>
-<link>https://wmealing.github.io/systems-erlang.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Cobol</title>
-<link>https://wmealing.github.io/systems-cobol.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Clojure</title>
-<link>https://wmealing.github.io/systems-clojure.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Cellium</title>
-<link>https://wmealing.github.io/systems-cellium.html</link>
-<description></description>
-</item>
-<item>
-<title>setupfile.org</title>
-<link>https://wmealing.github.io/setupfile.html</link>
-<description>width=device-width, initial-scale=1.0, user-scalable=yes</description>
-</item>
-<item>
-<title>Category: Security</title>
-<link>https://wmealing.github.io/security.html</link>
+<title>Subcategory: Emacs</title>
+<link>https://wmealing.github.io/tooling-emacs.html</link>
 <description></description>
 </item>
 <item>
@@ -105,29 +120,14 @@
 <description></description>
 </item>
 <item>
-<title>Subcategory: Kernel</title>
-<link>https://wmealing.github.io/security-kernel.html</link>
-<description></description>
-</item>
-<item>
 <title>Subcategory: eBPF</title>
 <link>https://wmealing.github.io/security-ebpf.html</link>
 <description></description>
 </item>
 <item>
-<title>Using erlangs remote shell during devel.</title>
-<link>https://wmealing.github.io/cellium-remote-shell.html</link>
-<description>Using erlangs repl and remote shell during development</description>
-</item>
-<item>
-<title>Phoenix release regex errors.</title>
-<link>https://wmealing.github.io/elixir-regex-weirdness.html</link>
-<description>Wade Mealings documentation</description>
-</item>
-<item>
-<title>Emacs and Org-babel for flaw analysis.</title>
-<link>https://wmealing.github.io/emacs-org-babel-analysis.html</link>
-<description>Using org-babel for vulnerability analysis</description>
+<title>Subcategory: Kernel</title>
+<link>https://wmealing.github.io/security-kernel.html</link>
+<description></description>
 </item>
 </channel>
 </rss>
