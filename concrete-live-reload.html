@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-15 Sat 19:00 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONCRETE 010: Live Reload While You Edit</title>
+<meta name="generator" content="Org Mode" />
+<meta name="description" content="Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn't" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
+<link rel="stylesheet" href="index.css">
+<meta name="author" content="Wade Mealing" />
+<meta name="description" content="Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn't" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">CONCRETE 010: Live Reload While You Edit</h1>
+<nav class="navbar-custom">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="index.html">Wade Mealing</a>
+        </div>
+
+        <div class="navbar-grid">
+            <div class="navbar-section">
+                <a href="systems.html"><h3>Systems</h3></a>
+                <div class="navbar-tags">
+                    <a href="systems-erlang.html"><span class="navbar-tag">Erlang/OTP</span></a>
+                    <a href="systems-clojure.html"><span class="navbar-tag">Clojure</span></a>
+                    <a href="systems-lfe.html"><span class="navbar-tag">Lisp Flavored Erlang</span></a>
+                    <a href="systems-cellium.html"><span class="navbar-tag">Cellium (TUI Framework)</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="security.html"><h3>Security</h3></a>
+                <div class="navbar-tags">
+                    <a href="security-kernel.html"><span class="navbar-tag">Linux Kernel Analysis</span></a>
+                    <a href="security-ebpf.html"><span class="navbar-tag">eBPF</span></a>
+                    <a href="security-malware.html"><span class="navbar-tag">Malware Reversing</span></a>
+                    <a href="security-rust.html"><span class="navbar-tag">Rust</span></a>
+                </div>
+            </div>
+
+            <div class="navbar-section">
+                <a href="tooling.html"><h3>Tooling</h3></a>
+                <div class="navbar-tags">
+                    <a href="tooling-emacs.html"><span class="navbar-tag">Emacs / Elisp</span></a>
+                    <a href="tooling-cicd.html"><span class="navbar-tag">CI/CD Pipelines</span></a>
+                    <a href="tooling-openscad.html"><span class="navbar-tag">OpenSCAD</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-utility">
+            <a href="rss.xml" class="rss-link">RSS</a>
+        </div>
+    </div>
+</nav>
+<div id="outline-container-orgd6226b1" class="outline-2">
+<h2 id="orgd6226b1">Summary:</h2>
+<div class="outline-text-2" id="text-orgd6226b1">
+<p>
+Every demo under <code>example/</code> now reloads itself while you work on it. Run a demo, open it in a
+browser, edit the module or template behind it, save the file &ndash; the tab in front of you updates on
+its own. No manual recompile, no manual refresh. And when a save leaves you with a syntax error
+instead of working code, the browser tells you so directly, with the real compiler output, instead
+of just quietly showing you yesterday's page.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcf65d8e" class="outline-2">
+<h2 id="orgcf65d8e">What Happens When You Save</h2>
+<div class="outline-text-2" id="text-orgcf65d8e">
+<p>
+Nothing to turn on, nothing to configure. Start any demo the usual way:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>rebar3 as example shell
+</code></pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>ws_demo:serve().
+</code></pre>
+</div>
+
+<p>
+Open <a href="http://localhost:8772">http://localhost:8772</a> the way you always would, then open <code>example/ws_demo.erl</code> (or <code>example/ws_demo_page.erl</code>, or the
+<code>.slab</code> template behind whichever demo you're looking at) in your editor. Change some text that
+shows up on the page &ndash; a label, a button's text, a line of copy &ndash; and save.
+</p>
+
+<p>
+Within about a second, the tab reloads on its own. No manual <code>rebar3 compile</code>, no switching windows
+to check whether the build finished, no habitual <code>Cmd-R</code>. The page in front of you is already
+showing your edit.
+</p>
+
+<p>
+This works whether you start one demo directly (<code>ws_demo:serve()</code>, <code>template_demo:serve()</code>, and so
+on) or bring all of them up at once with <code>demo_parent:serve()</code>. Every demo it starts gets the same
+behaviour.
+</p>
+</div>
+</div>
+<div id="outline-container-orgfdf6843" class="outline-2">
+<h2 id="orgfdf6843">Editing a Template vs. Editing Erlang Code</h2>
+<div class="outline-text-2" id="text-orgfdf6843">
+<p>
+There's a small, noticeable difference in how fast the reload feels, depending on what you touched.
+</p>
+
+<p>
+Edit a <code>.slab</code> template &ndash; <code>priv/templates/scoreboard.slab</code> for the Template/Scoreboard demo, or
+<code>priv/templates/ws_demo.slab</code> for the WebSocket demo &ndash; and the reload is close to instant. Templates
+are just markup; there's nothing to compile.
+</p>
+
+<p>
+Edit a <code>.erl</code> module and there's a brief pause, long enough to notice, before the reload fires. That
+pause is a real <code>rebar3 as example compile</code> running against your change. Once it finishes
+successfully, the reload happens the same way. On most machines this lands well under a couple of
+seconds for a small edit &ndash; long enough to see, short enough that it doesn't break your flow.
+</p>
+</div>
+</div>
+<div id="outline-container-org542d976" class="outline-2">
+<h2 id="org542d976">When a Save Doesn't Compile</h2>
+<div class="outline-text-2" id="text-org542d976">
+<p>
+Leave a module in a broken state &ndash; a missing comma, an unbalanced clause, whatever &ndash; and save it
+anyway, and the browser doesn't just sit there showing the last good page with no explanation. A
+panel drops down from the top of the tab showing the actual compiler output: the same text you'd
+see if you'd run the compile yourself in a terminal, telling you which file and which line.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"><code>===&gt; Compiling example/ws_demo.erl failed
+     ┌─ example/ws_demo.erl:
+     │
+ 150 │  this is not valid erlang(((
+     │       ╰── syntax error before: is
+</code></pre>
+</div>
+
+<p>
+Fix the syntax error and save again. The panel clears itself, the recompile succeeds, and the page
+reloads with your fix in place &ndash; the same as any other successful save.
+</p>
+</div>
+</div>
+<div id="outline-container-org6bea45c" class="outline-2">
+<h2 id="org6bea45c">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org6bea45c">
+<p>
+The fastest way to feel this out:
+</p>
+
+<ol class="org-ol">
+<li><code>rebar3 as example shell</code></li>
+<li><code>ws_demo:serve().</code></li>
+<li>Open <a href="http://localhost:8772">http://localhost:8772</a> in a browser, side by side with your editor.</li>
+<li>Open <code>example/ws_demo.erl</code>, find the paragraph of body text in <code>page_shell/1</code>, change a sentence,
+save. Watch the tab refresh on its own.</li>
+<li>Now break something on purpose &ndash; delete a closing parenthesis somewhere in the same file &ndash; and
+save. Watch the error panel appear with the real compiler message.</li>
+<li>Put the parenthesis back, save once more, watch the panel disappear and the page come back.</li>
+</ol>
+
+<p>
+Every other demo behaves the same way &ndash; swap in <code>template_demo:serve()</code>, <code>task_board_demo:serve()</code>,
+or <code>demo_parent:serve()</code> to bring all of them up together, and edit whichever module or template sits
+behind the one you're looking at.
+</p>
+</div>
+</div>
+<div id="outline-container-org8bc1efc" class="outline-2">
+<h2 id="org8bc1efc">What Doesn't Reload Yet</h2>
+<div class="outline-text-2" id="text-org8bc1efc">
+<p>
+A handful of demos &ndash; the canvas animation, the gen-server counter, the process-ring visualization,
+the three.js spirograph, and multiplayer snake &ndash; build their compiled JavaScript once, when the demo
+starts, and write it to a file rather than regenerating it on every page load. Editing the Erlang
+behind one of these still recompiles correctly, but the JavaScript the browser actually runs won't
+pick up your change until you stop the demo and start it again. Every other demo &ndash; the WebSocket
+demo, Template/Scoreboard, the task board, and the todo list &ndash; regenerates what it sends the browser
+on every request, so those reload exactly as described above with no extra step.
+</p>
+</div>
+</div>
+<div id="outline-container-org1192b81" class="outline-2">
+<h2 id="org1192b81">Resources:</h2>
+<div class="outline-text-2" id="text-org1192b81">
+<p>
+<a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
+</p>
+
+<p>
+<a href="./concrete-intro.html">Concrete 001: An Introduction</a>
+</p>
+
+<p>
+<a href="./concrete-counter.html">Concrete 002: Hello, Counter</a>
+</p>
+
+<p>
+<a href="./concrete-pages.html">Concrete 003: Pages, Routing, and Layouts</a>
+</p>
+
+<p>
+<a href="./concrete-templates.html">Concrete 004: Inside the .slab Parser</a>
+</p>
+
+<p>
+<a href="./concrete-js-interop.html">Concrete 005: JavaScript Interop</a>
+</p>
+
+<p>
+<a href="./concrete-js-promises.html">Concrete 006: Catching JavaScript Promises</a>
+</p>
+
+<p>
+<a href="./concrete-command-dispatch.html">Concrete 007: Reporting to the Server from a Client Action</a>
+</p>
+
+<p>
+<a href="./concrete-live-chat.html">Concrete 008: A Live Chat Across Two Nodes</a>
+</p>
+
+<p>
+<a href="./concrete-component-lifecycle.html">Concrete 009: Component Lifecycles and Repeating Templates</a>
+</p>
+
+<p>
+<a href="./concrete-live-reload.html">Concrete 010: Live Reload While You Edit</a>
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
