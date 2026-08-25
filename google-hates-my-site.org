@@ -44,7 +44,7 @@ Status: "Success".
 :PUBDATE:  2026-08-26 Wed 00:57
 :END:
 
-Four real defects, all mine.
+Three real defects, all mine.
 
 ** The sitemap generator emitted a doubled slash
 
@@ -85,28 +85,6 @@ Allow: /
 That was the entire file. No =Sitemap:= line. Added one, and disallowed the five
 HTML fragments that are includes rather than pages.
 
-** No page had a canonical tag
-
-URL Inspection reported "User-declared canonical: None" for every page. GitHub
-Pages serves =/=, =/index.html= and =//index.html= as the same content, all 200,
-with nothing saying which one counts.
-
-The canonical URL differs per page, so it cannot be a static =#+HTML_HEAD= line
-in =setupfile.org=. It has to be derived at export time:
-
-#+BEGIN_SRC elisp
-  (defun wm/canonical-url-for (input-file)
-    (when input-file
-      (let ((base (file-name-base input-file)))
-        (if (string= base "index")
-            wm/site-base-url
-          (concat wm/site-base-url base ".html")))))
-#+END_SRC
-
-Registered on =org-export-filter-final-output-functions= and loaded with
-=emacs --batch -l ./canonical.el=. =index.org= maps to the bare root, because
-that is what the site is served as.
-
 * The bug I found by accident
 :PROPERTIES:
 :ID:       3E4B7F0D-C062-4D54-EB19-8F0A5C247D6E
@@ -124,7 +102,8 @@ rss.xml:25: namespace error : Failed to parse QName ':component'
 =generate-rss.escript= interpolated titles and descriptions with =~s= and no
 escaping. One post's description mentions =<:component>=, which emitted an
 unparseable tag. XML parsing aborts at the first error, so *every item after
-that one was invisible to feed readers* — not just the offending entry.
+that one was invisible to feed readers* (not that I have any anyway) — not just
+the offending entry.
 
 This had been live. Fixed with an =escape_xml/1= over =&=, =<=, =>=, ="= and ='=.
 
@@ -134,33 +113,44 @@ This had been live. Fixed with an =escape_xml/1= over =&=, =<=, =>=, ="= and ='=
 :PUBDATE:  2026-08-26 Wed 00:57
 :END:
 
-The defects above are mine. These are not.
+The defects above are mine. I found them, I fixed them, I have shown you the
+diffs. Now the other half.
 
-** "Success" on a sitemap it had not read in 22 months
+** "Success" on a file it had not opened in 22 months
 
-The status column said *Success*. The last-read column said *15 Oct 2024*. Both
-at once, for 22 months, while I resubmitted.
+The status column said *Success*. The last-read column said *15 Oct 2024*.
+Simultaneously. For nearly two years. While I kept resubmitting.
 
-"Success" here means the last fetch, whenever it happened, parsed. It does not
-mean the file was recently read, and nothing in the interface distinguishes
-"read yesterday" from "read two years ago" except a date you have to notice
-yourself. There is no warning, no staleness indicator, no error.
+Whatever "Success" is measuring, it is not whether Google has looked at your
+sitemap this decade. It reports that some fetch, at some unstated point in the
+past, parsed. A file last read when I still had a different job is labelled with
+the same cheerful green word as one read this morning.
 
-** Resubmitting did nothing, and said so
+There is no warning. No staleness flag. No amber. Nothing anywhere in the
+interface says "we have ignored this for 22 months" — the single piece of
+evidence is a date in an adjacent column that you have to know to distrust.
+Google knows exactly how long it has been. It renders that number, right there,
+next to the word Success, and declines to draw the obvious conclusion on your
+behalf.
 
-Resubmitting updated the "Submitted" date to today and left "Last read" at
-15 Oct 2024. The URL Inspection dialog is candid about it:
+** The only lever provided is documented not to work
+
+Resubmitting updates "Submitted" to today's date and leaves "Last read" at
+15 Oct 2024. It changes nothing. Google says so itself, in its own dialog:
 
 #+BEGIN_QUOTE
 Submitting a page multiple times will not change its queue position or priority.
 #+END_QUOTE
 
-So the one control offered for "Google has not read my sitemap" is documented
-not to help.
+Read that again in context. The problem is "Google has not fetched my sitemap."
+The interface offers exactly one button. The button is documented, by Google, to
+have no effect on the thing you are trying to change. It exists to update a
+timestamp in a column, for you to look at.
 
-** Pages in the sitemap reported as having no referring sitemap
+** A diagnostic that cannot distinguish between two opposite problems
 
-URL Inspection on =cellium-tabs.html=, a URL present in the submitted sitemap:
+URL Inspection on =cellium-tabs.html=, a URL that was *in the sitemap I had
+submitted*:
 
 #+BEGIN_EXAMPLE
 Page is not indexed: URL is unknown to Google
@@ -169,26 +159,40 @@ Discovery
   Referring page  None detected
 #+END_EXAMPLE
 
-Accurate, in that Google had not read the file. Useless as a diagnostic, because
-it presents identically whether the URL is absent from your sitemap or your
-sitemap was never fetched. Those are different problems with different fixes.
+"No referring sitemaps detected." The URL was in the sitemap. The sitemap was
+submitted, accepted, and marked Success.
 
-** Reports lag, and do not say so
+This message is emitted identically whether you forgot to list the URL or Google
+never bothered to read the file listing it. Those have nothing in common. One is
+my bug and takes a minute. The other is Google not doing the job and takes a new
+domain. The tool whose entire purpose is telling you why a page is not indexed
+cannot tell them apart, and does not hint that it can't.
 
-The Pages report above is stamped "Last update: 21/08/2026" — five days stale at
-the time of the screenshot. URL Inspection served canonical verdicts computed
-from a crawl that predated the canonical tags by twenty-three minutes, reporting
-"User-declared canonical: None" for pages that had one. Every canonical-related
-conclusion available was drawn from HTML that no longer existed.
+** Reports stale by days, presented as current
 
-** The homepage: "Crawled - currently not indexed"
+The Pages report above is stamped "Last update: 21/08/2026" — five days old when
+I screenshotted it, sitting under numbers displayed as though they described the
+site as it exists.
 
-Fetched successfully. Indexing allowed: yes. Not indexed.
+URL Inspection was worse: it served me verdicts derived from a crawl twenty-three
+minutes older than the deploy they were describing, with no indication that the
+HTML it was reasoning about had already been replaced. You cannot fix what you
+cannot measure, and the measurements are a week behind and never say so.
 
-No reason is given, and none is obtainable. The crawl it was based on was
-9 May 2026, at which point Google could see about five pages of a site whose
-sitemap it had not read since 2024. It judged what it could reach, and what it
-could reach was five pages.
+** "Crawled - currently not indexed", and no way to learn more
+
+Fetched successfully. Crawl allowed: yes. Indexing allowed: yes. Not indexed.
+
+That is the entire explanation. There is no detail view, no reason code, no
+appeal. A machine looked at my site, decided against it, and the interface for
+understanding why is a five-word phrase and a help article telling you to write
+better content.
+
+And the crawl behind that judgement was from 9 May 2026 — when Google could
+reach roughly five pages of an eighty-four page site, because it had not read
+the sitemap since 2024. It formed a view of the site from a fraction it had
+chosen not to expand, and then reported that view back to me as a verdict on the
+whole thing.
 
 * The part that is hard to read any other way
 :PROPERTIES:
@@ -228,12 +232,11 @@ The difference was the address.
 |---------------------+-------------+-------------|
 | Sitemap last read   | 15 Oct 2024 | 26 Aug 2026 |
 | Pages discovered    |           5 |          84 |
-| Pages with canonical|           0 |          80 |
 | Sitemap URLs valid  |       12/80 |       84/84 |
 | RSS feed parses     | no          | yes         |
 
-Six commits: sitemap URLs, canonical generation, the domain move, RSS escaping,
-and repointing the generated HTML.
+Five commits: sitemap URLs, the domain move, RSS escaping, and repointing the
+generated HTML.
 
 Discovered is not indexed. Eighty-four pages are now known to Google; how many
 it indexes, and when, is not something I control. What I can say is that the

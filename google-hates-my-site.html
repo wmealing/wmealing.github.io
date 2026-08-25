@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-26 Wed 00:58 -->
+<!-- 2026-08-26 Wed 01:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Google hates my site</title>
@@ -61,9 +61,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org1fa4572" class="outline-2">
-<h2 id="org1fa4572">Summary:</h2>
-<div class="outline-text-2" id="text-org1fa4572">
+<div id="outline-container-org192cb16" class="outline-2">
+<h2 id="org192cb16">Summary:</h2>
+<div class="outline-text-2" id="text-org192cb16">
 <p>
 Google had indexed five pages of this site. There are eighty-four.
 </p>
@@ -74,15 +74,15 @@ Search Console at each step. Some of it was my fault. Some of it was not.
 </p>
 </div>
 </div>
-<div id="outline-container-org6ba0282" class="outline-2">
-<h2 id="org6ba0282">The state I started from</h2>
-<div class="outline-text-2" id="text-org6ba0282">
+<div id="outline-container-org32fbc41" class="outline-2">
+<h2 id="org32fbc41">The state I started from</h2>
+<div class="outline-text-2" id="text-org32fbc41">
 <p>
 Search Console, property <code>https://wmealing.github.io/</code>:
 </p>
 
 
-<div id="orgb5b9036" class="figure">
+<div id="orgae69a58" class="figure">
 <p><img src="./images/gsc-pages-old-domain.jpg" alt="gsc-pages-old-domain.jpg" />
 </p>
 </div>
@@ -97,7 +97,7 @@ The sitemap report explained why:
 </p>
 
 
-<div id="orgf6d3d42" class="figure">
+<div id="org52d4293" class="figure">
 <p><img src="./images/gsc-sitemap-old-domain.jpg" alt="gsc-sitemap-old-domain.jpg" />
 </p>
 </div>
@@ -111,23 +111,23 @@ Status: "Success".
 </p>
 </div>
 </div>
-<div id="outline-container-org5d1407a" class="outline-2">
-<h2 id="org5d1407a">What was broken on my end</h2>
-<div class="outline-text-2" id="text-org5d1407a">
+<div id="outline-container-orgcdcb9c2" class="outline-2">
+<h2 id="orgcdcb9c2">What was broken on my end</h2>
+<div class="outline-text-2" id="text-orgcdcb9c2">
 <p>
-Four real defects, all mine.
+Three real defects, all mine.
 </p>
 </div>
-<div id="outline-container-org25d3fa9" class="outline-3">
-<h3 id="org25d3fa9">The sitemap generator emitted a doubled slash</h3>
-<div class="outline-text-3" id="text-org25d3fa9">
+<div id="outline-container-org738de8e" class="outline-3">
+<h3 id="org738de8e">The sitemap generator emitted a doubled slash</h3>
+<div class="outline-text-3" id="text-org738de8e">
 <p>
 The <code>Makefile</code> runs <code>sitemap_maker --url https://wmealing.github.io/</code>. That tool
 joins the base URL, which ends in a slash, with paths that also begin with a
 slash. The result:
 </p>
 
-<pre class="example" id="org2c9bb55">
+<pre class="example" id="org2d1ae88">
 &lt;loc&gt;https://wmealing.github.io//index.html&lt;/loc&gt;
 &lt;loc&gt;https://wmealing.github.io//systems.html&lt;/loc&gt;
 </pre>
@@ -148,9 +148,9 @@ Fixed by collapsing the slash after generation, so it cannot come back:
 </div>
 </div>
 </div>
-<div id="outline-container-org8748515" class="outline-3">
-<h3 id="org8748515">The sitemap was missing a quarter of the site</h3>
-<div class="outline-text-3" id="text-org8748515">
+<div id="outline-container-orgd149ce7" class="outline-3">
+<h3 id="orgd149ce7">The sitemap was missing a quarter of the site</h3>
+<div class="outline-text-3" id="text-orgd149ce7">
 <p>
 <code>sitemap_maker</code> crawls two levels deep from the homepage. Pages not reachable in
 two hops were never in the file. Seventeen live pages, including <code>systems-cobol</code>,
@@ -162,10 +162,10 @@ After deduplicating and adding them back: 84 unique URLs, all verified 200.
 </p>
 </div>
 </div>
-<div id="outline-container-org48c0421" class="outline-3">
-<h3 id="org48c0421">robots.txt never declared the sitemap</h3>
-<div class="outline-text-3" id="text-org48c0421">
-<pre class="example" id="org3bb997b">
+<div id="outline-container-org04b48c7" class="outline-3">
+<h3 id="org04b48c7">robots.txt never declared the sitemap</h3>
+<div class="outline-text-3" id="text-org04b48c7">
+<pre class="example" id="org6e4884f">
 User-agent: *
 Allow: /
 </pre>
@@ -176,46 +176,15 @@ HTML fragments that are includes rather than pages.
 </p>
 </div>
 </div>
-<div id="outline-container-orge6b55cc" class="outline-3">
-<h3 id="orge6b55cc">No page had a canonical tag</h3>
-<div class="outline-text-3" id="text-orge6b55cc">
-<p>
-URL Inspection reported "User-declared canonical: None" for every page. GitHub
-Pages serves <code>/</code>, <code>/index.html</code> and <code>//index.html</code> as the same content, all 200,
-with nothing saying which one counts.
-</p>
-
-<p>
-The canonical URL differs per page, so it cannot be a static <code>#+HTML_HEAD</code> line
-in <code>setupfile.org</code>. It has to be derived at export time:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><code>(defun wm/canonical-url-for (input-file)
-  (when input-file
-    (let ((base (file-name-base input-file)))
-      (if (string= base "index")
-          wm/site-base-url
-        (concat wm/site-base-url base ".html")))))
-</code></pre>
 </div>
-
-<p>
-Registered on <code>org-export-filter-final-output-functions</code> and loaded with
-<code>emacs --batch -l ./canonical.el</code>. <code>index.org</code> maps to the bare root, because
-that is what the site is served as.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-orga1316bc" class="outline-2">
-<h2 id="orga1316bc">The bug I found by accident</h2>
-<div class="outline-text-2" id="text-orga1316bc">
+<div id="outline-container-orgb356cc7" class="outline-2">
+<h2 id="orgb356cc7">The bug I found by accident</h2>
+<div class="outline-text-2" id="text-orgb356cc7">
 <p>
 While changing the domain, <code>xmllint</code> rejected my own RSS feed:
 </p>
 
-<pre class="example" id="org8270ab1">
+<pre class="example" id="orge5e8557">
 rss.xml:25: namespace error : Failed to parse QName ':component'
 &lt;description&gt;Giving &lt;:component&gt; a persistent identity, a mount/2 hook, and a re
                                ^
@@ -225,7 +194,8 @@ rss.xml:25: namespace error : Failed to parse QName ':component'
 <code>generate-rss.escript</code> interpolated titles and descriptions with <code>~s</code> and no
 escaping. One post's description mentions <code>&lt;:component&gt;</code>, which emitted an
 unparseable tag. XML parsing aborts at the first error, so <b>every item after
-that one was invisible to feed readers</b> — not just the offending entry.
+that one was invisible to feed readers</b> (not that I have any anyway) — not just
+the offending entry.
 </p>
 
 <p>
@@ -233,35 +203,45 @@ This had been live. Fixed with an <code>escape_xml/1</code> over <code>&amp;</co
 </p>
 </div>
 </div>
-<div id="outline-container-org8a78d1a" class="outline-2">
-<h2 id="org8a78d1a">Where Google failed me</h2>
-<div class="outline-text-2" id="text-org8a78d1a">
+<div id="outline-container-orgcc4b1b2" class="outline-2">
+<h2 id="orgcc4b1b2">Where Google failed me</h2>
+<div class="outline-text-2" id="text-orgcc4b1b2">
 <p>
-The defects above are mine. These are not.
+The defects above are mine. I found them, I fixed them, I have shown you the
+diffs. Now the other half.
 </p>
 </div>
-<div id="outline-container-org6729c27" class="outline-3">
-<h3 id="org6729c27">"Success" on a sitemap it had not read in 22 months</h3>
-<div class="outline-text-3" id="text-org6729c27">
+<div id="outline-container-org3ed4d01" class="outline-3">
+<h3 id="org3ed4d01">"Success" on a file it had not opened in 22 months</h3>
+<div class="outline-text-3" id="text-org3ed4d01">
 <p>
-The status column said <b>Success</b>. The last-read column said <b>15 Oct 2024</b>. Both
-at once, for 22 months, while I resubmitted.
+The status column said <b>Success</b>. The last-read column said <b>15 Oct 2024</b>.
+Simultaneously. For nearly two years. While I kept resubmitting.
 </p>
 
 <p>
-"Success" here means the last fetch, whenever it happened, parsed. It does not
-mean the file was recently read, and nothing in the interface distinguishes
-"read yesterday" from "read two years ago" except a date you have to notice
-yourself. There is no warning, no staleness indicator, no error.
+Whatever "Success" is measuring, it is not whether Google has looked at your
+sitemap this decade. It reports that some fetch, at some unstated point in the
+past, parsed. A file last read when I still had a different job is labelled with
+the same cheerful green word as one read this morning.
+</p>
+
+<p>
+There is no warning. No staleness flag. No amber. Nothing anywhere in the
+interface says "we have ignored this for 22 months" — the single piece of
+evidence is a date in an adjacent column that you have to know to distrust.
+Google knows exactly how long it has been. It renders that number, right there,
+next to the word Success, and declines to draw the obvious conclusion on your
+behalf.
 </p>
 </div>
 </div>
-<div id="outline-container-org4985d80" class="outline-3">
-<h3 id="org4985d80">Resubmitting did nothing, and said so</h3>
-<div class="outline-text-3" id="text-org4985d80">
+<div id="outline-container-org8549cb8" class="outline-3">
+<h3 id="org8549cb8">The only lever provided is documented not to work</h3>
+<div class="outline-text-3" id="text-org8549cb8">
 <p>
-Resubmitting updated the "Submitted" date to today and left "Last read" at
-15 Oct 2024. The URL Inspection dialog is candid about it:
+Resubmitting updates "Submitted" to today's date and leaves "Last read" at
+15 Oct 2024. It changes nothing. Google says so itself, in its own dialog:
 </p>
 
 <blockquote>
@@ -271,19 +251,22 @@ Submitting a page multiple times will not change its queue position or priority.
 </blockquote>
 
 <p>
-So the one control offered for "Google has not read my sitemap" is documented
-not to help.
+Read that again in context. The problem is "Google has not fetched my sitemap."
+The interface offers exactly one button. The button is documented, by Google, to
+have no effect on the thing you are trying to change. It exists to update a
+timestamp in a column, for you to look at.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb10d3e9" class="outline-3">
-<h3 id="orgb10d3e9">Pages in the sitemap reported as having no referring sitemap</h3>
-<div class="outline-text-3" id="text-orgb10d3e9">
+<div id="outline-container-org87a83db" class="outline-3">
+<h3 id="org87a83db">A diagnostic that cannot distinguish between two opposite problems</h3>
+<div class="outline-text-3" id="text-org87a83db">
 <p>
-URL Inspection on <code>cellium-tabs.html</code>, a URL present in the submitted sitemap:
+URL Inspection on <code>cellium-tabs.html</code>, a URL that was <b>in the sitemap I had
+submitted</b>:
 </p>
 
-<pre class="example" id="org6596de8">
+<pre class="example" id="orge4c4bcf">
 Page is not indexed: URL is unknown to Google
 Discovery
   Sitemaps        No referring sitemaps detected
@@ -291,48 +274,68 @@ Discovery
 </pre>
 
 <p>
-Accurate, in that Google had not read the file. Useless as a diagnostic, because
-it presents identically whether the URL is absent from your sitemap or your
-sitemap was never fetched. Those are different problems with different fixes.
-</p>
-</div>
-</div>
-<div id="outline-container-org7f37519" class="outline-3">
-<h3 id="org7f37519">Reports lag, and do not say so</h3>
-<div class="outline-text-3" id="text-org7f37519">
-<p>
-The Pages report above is stamped "Last update: 21/08/2026" — five days stale at
-the time of the screenshot. URL Inspection served canonical verdicts computed
-from a crawl that predated the canonical tags by twenty-three minutes, reporting
-"User-declared canonical: None" for pages that had one. Every canonical-related
-conclusion available was drawn from HTML that no longer existed.
-</p>
-</div>
-</div>
-<div id="outline-container-org224a21b" class="outline-3">
-<h3 id="org224a21b">The homepage: "Crawled - currently not indexed"</h3>
-<div class="outline-text-3" id="text-org224a21b">
-<p>
-Fetched successfully. Indexing allowed: yes. Not indexed.
+"No referring sitemaps detected." The URL was in the sitemap. The sitemap was
+submitted, accepted, and marked Success.
 </p>
 
 <p>
-No reason is given, and none is obtainable. The crawl it was based on was
-9 May 2026, at which point Google could see about five pages of a site whose
-sitemap it had not read since 2024. It judged what it could reach, and what it
-could reach was five pages.
+This message is emitted identically whether you forgot to list the URL or Google
+never bothered to read the file listing it. Those have nothing in common. One is
+my bug and takes a minute. The other is Google not doing the job and takes a new
+domain. The tool whose entire purpose is telling you why a page is not indexed
+cannot tell them apart, and does not hint that it can't.
+</p>
+</div>
+</div>
+<div id="outline-container-orge2676c7" class="outline-3">
+<h3 id="orge2676c7">Reports stale by days, presented as current</h3>
+<div class="outline-text-3" id="text-orge2676c7">
+<p>
+The Pages report above is stamped "Last update: 21/08/2026" — five days old when
+I screenshotted it, sitting under numbers displayed as though they described the
+site as it exists.
+</p>
+
+<p>
+URL Inspection was worse: it served me verdicts derived from a crawl twenty-three
+minutes older than the deploy they were describing, with no indication that the
+HTML it was reasoning about had already been replaced. You cannot fix what you
+cannot measure, and the measurements are a week behind and never say so.
+</p>
+</div>
+</div>
+<div id="outline-container-org13c1c3a" class="outline-3">
+<h3 id="org13c1c3a">"Crawled - currently not indexed", and no way to learn more</h3>
+<div class="outline-text-3" id="text-org13c1c3a">
+<p>
+Fetched successfully. Crawl allowed: yes. Indexing allowed: yes. Not indexed.
+</p>
+
+<p>
+That is the entire explanation. There is no detail view, no reason code, no
+appeal. A machine looked at my site, decided against it, and the interface for
+understanding why is a five-word phrase and a help article telling you to write
+better content.
+</p>
+
+<p>
+And the crawl behind that judgement was from 9 May 2026 — when Google could
+reach roughly five pages of an eighty-four page site, because it had not read
+the sitemap since 2024. It formed a view of the site from a fraction it had
+chosen not to expand, and then reported that view back to me as a verdict on the
+whole thing.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org7648226" class="outline-2">
-<h2 id="org7648226">The part that is hard to read any other way</h2>
-<div class="outline-text-2" id="text-org7648226">
+<div id="outline-container-org37752a0" class="outline-2">
+<h2 id="org37752a0">The part that is hard to read any other way</h2>
+<div class="outline-text-2" id="text-org37752a0">
 <p>
 I moved the site to a domain I own, <code>wmealing.bluegum.systems</code>. One CNAME:
 </p>
 
-<pre class="example" id="org1711a6b">
+<pre class="example" id="org50cc053">
 Type: CNAME    Name: wmealing    Data: wmealing.github.io    TTL: 4 hrs
 </pre>
 
@@ -341,7 +344,7 @@ Then added it as a Search Console property and submitted the same sitemap file.
 </p>
 
 
-<div id="org7e1b523" class="figure">
+<div id="org7cca16a" class="figure">
 <p><img src="./images/gsc-sitemap-new-domain.jpg" alt="gsc-sitemap-new-domain.jpg" />
 </p>
 </div>
@@ -367,9 +370,9 @@ The difference was the address.
 </p>
 </div>
 </div>
-<div id="outline-container-org118da80" class="outline-2">
-<h2 id="org118da80">Current state</h2>
-<div class="outline-text-2" id="text-org118da80">
+<div id="outline-container-orge02d93d" class="outline-2">
+<h2 id="orge02d93d">Current state</h2>
+<div class="outline-text-2" id="text-orge02d93d">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -401,12 +404,6 @@ The difference was the address.
 </tr>
 
 <tr>
-<td class="org-left">Pages with canonical</td>
-<td class="org-left">0</td>
-<td class="org-left">80</td>
-</tr>
-
-<tr>
 <td class="org-left">Sitemap URLs valid</td>
 <td class="org-left">12/80</td>
 <td class="org-left">84/84</td>
@@ -421,8 +418,8 @@ The difference was the address.
 </table>
 
 <p>
-Six commits: sitemap URLs, canonical generation, the domain move, RSS escaping,
-and repointing the generated HTML.
+Five commits: sitemap URLs, the domain move, RSS escaping, and repointing the
+generated HTML.
 </p>
 
 <p>
