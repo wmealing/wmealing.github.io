@@ -1,0 +1,241 @@
+#+TITLE: Google hates my site
+#+FILETAGS: :tooling:
+
+#+OPTIONS: ^:nil num:nil toc:nil date:nil author:nil html-preamble:t html-postamble:nil
+#+SETUPFILE: "./setupfile.org"
+#+INCLUDE: "navbar.html" export html
+#+HTML_HEAD: <meta name="description" content="Five pages indexed out of eighty-four: what was actually broken" />
+
+* Summary:
+:PROPERTIES:
+:ID:       0B1E4C7A-9D3F-4A21-B8E6-5C7D2F914A3B
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+Google had indexed five pages of this site. There are eighty-four.
+
+This is the record of what was actually broken, with the numbers from Google
+Search Console at each step. Some of it was my fault. Some of it was not.
+
+* The state I started from
+:PROPERTIES:
+:ID:       1C2F5D8B-AE40-4B32-C9F7-6D8E3A025B4C
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+Search Console, property =https://wmealing.github.io/=:
+
+[[./images/gsc-pages-old-domain.jpg]]
+
+Five pages indexed. One not indexed, reason "Crawled - currently not indexed".
+Six URLs total known to Google, out of eighty-four that exist.
+
+The sitemap report explained why:
+
+[[./images/gsc-sitemap-old-domain.jpg]]
+
+Submitted 25 Aug 2026. *Last read 15 Oct 2024.* Five pages discovered.
+
+Status: "Success".
+
+* What was broken on my end
+:PROPERTIES:
+:ID:       2D3A6E9C-BF51-4C43-DA08-7E9F4B136C5D
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+Four real defects, all mine.
+
+** The sitemap generator emitted a doubled slash
+
+The =Makefile= runs =sitemap_maker --url https://wmealing.github.io/=. That tool
+joins the base URL, which ends in a slash, with paths that also begin with a
+slash. The result:
+
+#+BEGIN_EXAMPLE
+<loc>https://wmealing.github.io//index.html</loc>
+<loc>https://wmealing.github.io//systems.html</loc>
+#+END_EXAMPLE
+
+68 of 80 entries were like this. GitHub Pages serves =//page.html= with a 200,
+so nothing looked broken. They are still distinct URLs, and nothing on the site
+links to them.
+
+Fixed by collapsing the slash after generation, so it cannot come back:
+
+#+BEGIN_SRC makefile
+  sed -i '' 's#<loc>https://wmealing.github.io//#<loc>https://wmealing.github.io/#g' output.xml
+#+END_SRC
+
+** The sitemap was missing a quarter of the site
+
+=sitemap_maker= crawls two levels deep from the homepage. Pages not reachable in
+two hops were never in the file. Seventeen live pages, including =systems-cobol=,
+=tooling-janet=, =barista-lfe= and =projects=, were simply absent.
+
+After deduplicating and adding them back: 84 unique URLs, all verified 200.
+
+** robots.txt never declared the sitemap
+
+#+BEGIN_EXAMPLE
+User-agent: *
+Allow: /
+#+END_EXAMPLE
+
+That was the entire file. No =Sitemap:= line. Added one, and disallowed the five
+HTML fragments that are includes rather than pages.
+
+** No page had a canonical tag
+
+URL Inspection reported "User-declared canonical: None" for every page. GitHub
+Pages serves =/=, =/index.html= and =//index.html= as the same content, all 200,
+with nothing saying which one counts.
+
+The canonical URL differs per page, so it cannot be a static =#+HTML_HEAD= line
+in =setupfile.org=. It has to be derived at export time:
+
+#+BEGIN_SRC elisp
+  (defun wm/canonical-url-for (input-file)
+    (when input-file
+      (let ((base (file-name-base input-file)))
+        (if (string= base "index")
+            wm/site-base-url
+          (concat wm/site-base-url base ".html")))))
+#+END_SRC
+
+Registered on =org-export-filter-final-output-functions= and loaded with
+=emacs --batch -l ./canonical.el=. =index.org= maps to the bare root, because
+that is what the site is served as.
+
+* The bug I found by accident
+:PROPERTIES:
+:ID:       3E4B7F0D-C062-4D54-EB19-8F0A5C247D6E
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+While changing the domain, =xmllint= rejected my own RSS feed:
+
+#+BEGIN_EXAMPLE
+rss.xml:25: namespace error : Failed to parse QName ':component'
+<description>Giving <:component> a persistent identity, a mount/2 hook, and a re
+                               ^
+#+END_EXAMPLE
+
+=generate-rss.escript= interpolated titles and descriptions with =~s= and no
+escaping. One post's description mentions =<:component>=, which emitted an
+unparseable tag. XML parsing aborts at the first error, so *every item after
+that one was invisible to feed readers* — not just the offending entry.
+
+This had been live. Fixed with an =escape_xml/1= over =&=, =<=, =>=, ="= and ='=.
+
+* Where Google failed me
+:PROPERTIES:
+:ID:       4F5C8A1E-D173-4E65-FC2A-9A1B6D358E7F
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+The defects above are mine. These are not.
+
+** "Success" on a sitemap it had not read in 22 months
+
+The status column said *Success*. The last-read column said *15 Oct 2024*. Both
+at once, for 22 months, while I resubmitted.
+
+"Success" here means the last fetch, whenever it happened, parsed. It does not
+mean the file was recently read, and nothing in the interface distinguishes
+"read yesterday" from "read two years ago" except a date you have to notice
+yourself. There is no warning, no staleness indicator, no error.
+
+** Resubmitting did nothing, and said so
+
+Resubmitting updated the "Submitted" date to today and left "Last read" at
+15 Oct 2024. The URL Inspection dialog is candid about it:
+
+#+BEGIN_QUOTE
+Submitting a page multiple times will not change its queue position or priority.
+#+END_QUOTE
+
+So the one control offered for "Google has not read my sitemap" is documented
+not to help.
+
+** Pages in the sitemap reported as having no referring sitemap
+
+URL Inspection on =cellium-tabs.html=, a URL present in the submitted sitemap:
+
+#+BEGIN_EXAMPLE
+Page is not indexed: URL is unknown to Google
+Discovery
+  Sitemaps        No referring sitemaps detected
+  Referring page  None detected
+#+END_EXAMPLE
+
+Accurate, in that Google had not read the file. Useless as a diagnostic, because
+it presents identically whether the URL is absent from your sitemap or your
+sitemap was never fetched. Those are different problems with different fixes.
+
+** Reports lag, and do not say so
+
+The Pages report above is stamped "Last update: 21/08/2026" — five days stale at
+the time of the screenshot. URL Inspection served canonical verdicts computed
+from a crawl that predated the canonical tags by twenty-three minutes, reporting
+"User-declared canonical: None" for pages that had one. Every canonical-related
+conclusion available was drawn from HTML that no longer existed.
+
+** The homepage: "Crawled - currently not indexed"
+
+Fetched successfully. Indexing allowed: yes. Not indexed.
+
+No reason is given, and none is obtainable. The crawl it was based on was
+9 May 2026, at which point Google could see about five pages of a site whose
+sitemap it had not read since 2024. It judged what it could reach, and what it
+could reach was five pages.
+
+* The part that is hard to read any other way
+:PROPERTIES:
+:ID:       5A6D9B2F-E284-4F76-0D3B-AB2C7E469F80
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+I moved the site to a domain I own, =wmealing.bluegum.systems=. One CNAME:
+
+#+BEGIN_EXAMPLE
+Type: CNAME    Name: wmealing    Data: wmealing.github.io    TTL: 4 hrs
+#+END_EXAMPLE
+
+Then added it as a Search Console property and submitted the same sitemap file.
+
+[[./images/gsc-sitemap-new-domain.jpg]]
+
+*Submitted 26 Aug 2026. Last read 26 Aug 2026. 84 pages discovered.*
+
+Read on submission. All 84 URLs enumerated.
+
+The same file, generated by the same script, served from the same GitHub Pages
+infrastructure, went unread for 22 months on a =github.io= subdomain and was
+read within seconds on a domain I pay for. My sitemap bugs were real and worth
+fixing, but they were not what kept the file unread — the corrected sitemap sat
+unread on the old domain too.
+
+The difference was the address.
+
+* Current state
+:PROPERTIES:
+:ID:       6B7E0C3A-F395-4A87-1E4C-BC3D8F570A91
+:PUBDATE:  2026-08-26 Wed 00:57
+:END:
+
+| Metric              | Before      | After       |
+|---------------------+-------------+-------------|
+| Sitemap last read   | 15 Oct 2024 | 26 Aug 2026 |
+| Pages discovered    |           5 |          84 |
+| Pages with canonical|           0 |          80 |
+| Sitemap URLs valid  |       12/80 |       84/84 |
+| RSS feed parses     | no          | yes         |
+
+Six commits: sitemap URLs, canonical generation, the domain move, RSS escaping,
+and repointing the generated HTML.
+
+Discovered is not indexed. Eighty-four pages are now known to Google; how many
+it indexes, and when, is not something I control. What I can say is that the
+specific failure — Google could not enumerate this site — is fixed, and the
+sitemap report now proves it rather than merely claiming "Success".

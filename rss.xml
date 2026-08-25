@@ -5,6 +5,11 @@
 <link>https://wmealing.bluegum.systems</link>
 <description>RSS generated via Erlang</description>
 <item>
+<title>Google hates my site</title>
+<link>https://wmealing.bluegum.systems/google-hates-my-site.html</link>
+<description>Five pages indexed out of eighty-four: what was actually broken</description>
+</item>
+<item>
 <title>setupfile.org</title>
 <link>https://wmealing.bluegum.systems/setupfile.html</link>
 <description>width=device-width, initial-scale=1.0, user-scalable=yes</description>
@@ -122,11 +127,6 @@
 <item>
 <title>Subcategory: Malware</title>
 <link>https://wmealing.bluegum.systems/security-malware.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: eBPF</title>
-<link>https://wmealing.bluegum.systems/security-ebpf.html</link>
 <description></description>
 </item>
 </channel>
