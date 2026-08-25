@@ -160,7 +160,7 @@ Everyone keeps saying AI is going to take our jobs. I decided to take the opposi
 
 A system reboot usually clears things out, but malware like Trickbot has plenty of tricks to stay around. I've looked into the persistence mechanisms it uses to survive reboots and kernel updates. It's an interesting dive into how these things hide in plain sight.
 
-* [[https://wmealing.github.io/cellium-remote-shell.html][Erlang Remote Shell for Rapid Development - Nov 2025]]
+* [[https://wmealing.bluegum.systems/cellium-remote-shell.html][Erlang Remote Shell for Rapid Development - Nov 2025]]
 
 Tired of the compile-restart-cycle anti-pattern in Erlang development? It sacrifices the core advantage of OTP: continuous introspection. Using the remote shell workflow is the answer, transforming your text editor into a dynamic window directly into your running Erlang system.
 
@@ -192,15 +192,15 @@ I have wanted some helpers built into my TUI libraries that help differentiate w
 
 In an attempt to make my erlang code a little less complex, I've been convinced that I must drop the web and all the complexity that entails. I've written a TUI library called cellium which uses the popular TEA architecture.
 
-* [[https://wmealing.github.io/github-not-connecting.html][Rebar3 / git not connecting to github - Oct 2025]]
+* [[https://wmealing.bluegum.systems/github-not-connecting.html][Rebar3 / git not connecting to github - Oct 2025]]
 
 Rebar3 was failing to fetch dependencies from github when I was setting up a new LFE project. I found a simple fix using git's url rewriting feature. One config command later and rebar3 can fetch dependencies without complaint.
 
-* [[https://wmealing.github.io/eunit-surefire-report.html][Consuming eunit surefire xml reports - Oct 2025]]
+* [[https://wmealing.bluegum.systems/eunit-surefire-report.html][Consuming eunit surefire xml reports - Oct 2025]]
 
 Eunit spits out test results to the console, but sometimes you want something a bit more presentable. I'll show you how to wire up rebar.config and create a basic pom.xml to get surefire style XML output turned into HTML.
 
-* [[https://wmealing.github.io/erlang-emacs-2025.html][Setting up Emacs and Erlang - Sep 2025]]
+* [[https://wmealing.bluegum.systems/erlang-emacs-2025.html][Setting up Emacs and Erlang - Sep 2025]]
 
 Using Erlang in Emacs, I'll show you to wire up OTP, tree-sitter, Flycheck, rebar3, and WhatsApp’s new LSP into a usable setup in 2025. It's simpler than you think.
 
@@ -212,23 +212,23 @@ Managing failure is a common challenge. This post dives into a practical example
 
 I decided to collapse two of my interests, lisp and erlang. Lisp flavored erlang isn't going to win any popularity contests, but it's something I don't entirely hate working on. Here's a quick tutorial on gen_server.
 
-* [[https://wmealing.github.io/using-style-dictionaries.html][Using Style Dictionaries from Clojure - Oct 2024]]
+* [[https://wmealing.bluegum.systems/using-style-dictionaries.html][Using Style Dictionaries from Clojure - Oct 2024]]
 
 Unify your design system and codebase the functional way. In this post, I'll show you how to harness the power of Style Dictionary from Clojure, turning token files for use in your clojure code with minimal fuss.
 
-* [[http://wmealing.github.io/sending-email-in-common-lisp.html][Sending email in Common Lisp - Sep 2024]]
+* [[http://wmealing.bluegum.systems/sending-email-in-common-lisp.html][Sending email in Common Lisp - Sep 2024]]
 
 Want to integrate email functionality into your Common Lisp applications? The cl-smtp library can help. We'll walk through the process of using cl-smtp to send emails via Google's mail servers.
 
-* [[https://wmealing.github.io/custom-software-errors.html][The best error messages I've ever seen - Sep 2024]]
+* [[https://wmealing.bluegum.systems/custom-software-errors.html][The best error messages I've ever seen - Sep 2024]]
 
 Writing clear and effective error messages is a crucial skill. A good error message not only informs the user about what went wrong but also suggests potential solutions. I've expanded on the principles of user-friendly errors here.
 
-* [[http://wmealing.github.io/mac-os-midi-router-broken.html][Apple Mac OS Midi routing is broken]]
+* [[http://wmealing.bluegum.systems/mac-os-midi-router-broken.html][Apple Mac OS Midi routing is broken]]
 
 I have some new music making hardware and wanted to try to get them to talk together. Mac OS Midi routing is definitely not as seamless as people say, but I did find a workaround for routing USB MIDI hosts.
 
-* [[http://wmealing.github.io/minimise.html][Minimise]]
+* [[http://wmealing.bluegum.systems/minimise.html][Minimise]]
 
 In the interest of not polluting the internet with my ill-informed opinion, I've deleted a bunch of social media and messenger accounts. Less of me on the internet can only be a net win for society.
 
@@ -236,15 +236,15 @@ In the interest of not polluting the internet with my ill-informed opinion, I've
 
 Teenage Engineering released the EP-133, a mid range sampler/synth. I looked into the updater to find out as much as I can. The firmware is encrypted, but I've documented what I've found so far.
 
-* [[https://wmealing.github.io/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp - 2023]]
+* [[https://wmealing.bluegum.systems/atomic-operations-in-common-lisp.html][Atom(ic) Operations in Common Lisp - 2023]]
 
 This entry talks about using Clojure like "atoms" to simplify management of shared, synchronous, independent state in Common Lisp. It turns out it is easier than I thought.
 
-* [[https://wmealing.github.io/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD - 2023]]
+* [[https://wmealing.bluegum.systems/lfe-github-actions.html][Setting up GitHub Actions for LFE CI/CD - 2023]]
 
 I'm involved in competing with spawnfest this weekend, so I figured it's time to setup LFE for CI/CD with GitHub Actions. It's a simple setup that runs tests and handles containers.
 
-* [[https://wmealing.github.io/htmx-common-lisp.html][Common Lisp and HTMX - 2023]]
+* [[https://wmealing.bluegum.systems/htmx-common-lisp.html][Common Lisp and HTMX - 2023]]
 
 Common Lisp and HTMX provide a sane platform to develop basic applications. I outline the reasons that I have chosen them and the new voice I plan to use while blogging.
 
@@ -260,19 +260,19 @@ I've spent the last week reflecting on some poor programming life choices I've m
 
 One of the effectively powerful things that gnuCOBOL can do is a TUI. It's not fancy but it gets the job done much quicker than most webapps. Here is a simple example for Linux and Mac OS X.
 
-* [[http://wmealing.github.io/lisp-range.html][Python Range function in Lisp - Aug 2022]]
+* [[http://wmealing.bluegum.systems/lisp-range.html][Python Range function in Lisp - Aug 2022]]
 
 I have wanted a quick way to do something similar to the python range function in Common Lisp. Sometimes I just want immediate list creation without the boilerplate.
 
-* [[http://wmealing.github.io/wx-erlang-example.html][Simple WX example in Erlang - July 2022]]
+* [[http://wmealing.bluegum.systems/wx-erlang-example.html][Simple WX example in Erlang - July 2022]]
 
 I don't always write a gui for my apps, but when I do, I use wx because I'm not one for complaining about pixel perfect pedantry. This is what works for me.
 
-* [[https://wmealing.github.io/mirai-delete-yourself.html][MIRAI analysis - evasion by deleting code - Nov 2020]]
+* [[https://wmealing.bluegum.systems/mirai-delete-yourself.html][MIRAI analysis - evasion by deleting code - Nov 2020]]
 
 The MIRAI malware deletes itself from disk to make it harder to analyse. This post goes into detail on how it works, a rust implementation, and a few improvements.
 
-* [[https://wmealing.github.io/watchdog-in-rust.html][MIRAI analysis - watchdog access in Rust - Nov 2020]]
+* [[https://wmealing.bluegum.systems/watchdog-in-rust.html][MIRAI analysis - watchdog access in Rust - Nov 2020]]
 
 The MIRAI malware uses a technique to prevent the systems watchdog from rebooting the machine. I share what I learned about this and ported the logic to Rust.
 

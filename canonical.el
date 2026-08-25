@@ -14,7 +14,7 @@
 
 (require 'ox-html)
 
-(defconst wm/site-base-url "https://wmealing.github.io/"
+(defconst wm/site-base-url "https://wmealing.bluegum.systems/"
   "Base URL of the published site.  Must end in a slash.")
 
 (defun wm/canonical-url-for (input-file)

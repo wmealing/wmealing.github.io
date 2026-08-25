@@ -2,131 +2,131 @@
 <rss version="2.0">
 <channel>
 <title>Wade Mealing - Erlang | Infosec | Human</title>
-<link>http://wmealing.github.io</link>
+<link>http://wmealing.bluegum.systems</link>
 <description>RSS generated via Erlang</description>
 <item>
 <title>Distributed FizzBuzz: When Does Distribution Actually Pay Off?</title>
-<link>https://wmealing.github.io/distributed-fizzbuzz.html</link>
+<link>https://wmealing.bluegum.systems/distributed-fizzbuzz.html</link>
 <description>Wade Mealings documentation</description>
 </item>
 <item>
 <title>Wade Mealing </title>
-<link>https://wmealing.github.io/index.html</link>
+<link>https://wmealing.bluegum.systems/index.html</link>
 <description>Erlang, TUI, Oldschool code</description>
 </item>
 <item>
 <title>CONCRETE 010: Live Reload While You Edit</title>
-<link>https://wmealing.github.io/concrete-live-reload.html</link>
+<link>https://wmealing.bluegum.systems/concrete-live-reload.html</link>
 <description>Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn't</description>
 </item>
 <item>
 <title>CONCRETE 009: Component Lifecycles and Repeating Templates</title>
-<link>https://wmealing.github.io/concrete-component-lifecycle.html</link>
+<link>https://wmealing.bluegum.systems/concrete-component-lifecycle.html</link>
 <description>Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them</description>
 </item>
 <item>
 <title>CONCRETE 008: A Live Chat Across Two Nodes</title>
-<link>https://wmealing.github.io/concrete-live-chat.html</link>
+<link>https://wmealing.bluegum.systems/concrete-live-chat.html</link>
 <description>Building a real-time, cross-node chat with Concrete's SSE primitives, then adding a feature to it with a live hot code reload</description>
 </item>
 <item>
 <title>Category: Tooling</title>
-<link>https://wmealing.github.io/tooling.html</link>
+<link>https://wmealing.bluegum.systems/tooling.html</link>
 <description></description>
 </item>
 <item>
 <title>Category: Systems</title>
-<link>https://wmealing.github.io/systems.html</link>
+<link>https://wmealing.bluegum.systems/systems.html</link>
 <description></description>
 </item>
 <item>
 <title>Category: Security</title>
-<link>https://wmealing.github.io/security.html</link>
+<link>https://wmealing.bluegum.systems/security.html</link>
 <description></description>
 </item>
 <item>
 <title>Growing up tracking and hunting in the Australian bush</title>
-<link>https://wmealing.github.io/hunting-in-fnq.html</link>
+<link>https://wmealing.bluegum.systems/hunting-in-fnq.html</link>
 <description></description>
 </item>
 <item>
 <title>CONCRETE 004: Inside the .slab Parser.</title>
-<link>https://wmealing.github.io/concrete-templates.html</link>
+<link>https://wmealing.bluegum.systems/concrete-templates.html</link>
 <description>How a .slab template becomes HTML</description>
 </item>
 <item>
 <title>CONCRETE 007: Reporting to the Server from a Client Action.</title>
-<link>https://wmealing.github.io/concrete-command-dispatch.html</link>
+<link>https://wmealing.bluegum.systems/concrete-command-dispatch.html</link>
 <description>Sending data from a compiled action/3 to a server-side command/3, still written entirely in Erlang</description>
 </item>
 <item>
 <title>CONCRETE 003: Pages, Routing, and Layouts.</title>
-<link>https://wmealing.github.io/concrete-pages.html</link>
+<link>https://wmealing.bluegum.systems/concrete-pages.html</link>
 <description>How a URL becomes a running Concrete page</description>
 </item>
 <item>
 <title>CONCRETE 006: Catching JavaScript Promises.</title>
-<link>https://wmealing.github.io/concrete-js-promises.html</link>
+<link>https://wmealing.bluegum.systems/concrete-js-promises.html</link>
 <description>Awaiting a JavaScript Promise from Erlang, through a real process</description>
 </item>
 <item>
 <title>CONCRETE 005: JavaScript Interop.</title>
-<link>https://wmealing.github.io/concrete-js-interop.html</link>
+<link>https://wmealing.bluegum.systems/concrete-js-interop.html</link>
 <description>Calling an already-loaded JavaScript library, like three.js, from compiled Erlang</description>
 </item>
 <item>
 <title>CONCRETE 001: An introduction.</title>
-<link>https://wmealing.github.io/concrete-intro.html</link>
+<link>https://wmealing.bluegum.systems/concrete-intro.html</link>
 <description>Introduction to Concrete, a pure-Erlang port of Hologram</description>
 </item>
 <item>
 <title>CONCRETE 002: Hello, Counter.</title>
-<link>https://wmealing.github.io/concrete-counter.html</link>
+<link>https://wmealing.bluegum.systems/concrete-counter.html</link>
 <description>Build and run your first Concrete component</description>
 </item>
 <item>
 <title>Subcategory: Janet</title>
-<link>https://wmealing.github.io/tooling-janet.html</link>
+<link>https://wmealing.bluegum.systems/tooling-janet.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: Git</title>
-<link>https://wmealing.github.io/tooling-git.html</link>
+<link>https://wmealing.bluegum.systems/tooling-git.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: Openscad</title>
-<link>https://wmealing.github.io/tooling-openscad.html</link>
+<link>https://wmealing.bluegum.systems/tooling-openscad.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: CI/CD</title>
-<link>https://wmealing.github.io/tooling-cicd.html</link>
+<link>https://wmealing.bluegum.systems/tooling-cicd.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: Emacs</title>
-<link>https://wmealing.github.io/tooling-emacs.html</link>
+<link>https://wmealing.bluegum.systems/tooling-emacs.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: Rust</title>
-<link>https://wmealing.github.io/security-rust.html</link>
+<link>https://wmealing.bluegum.systems/security-rust.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: Malware</title>
-<link>https://wmealing.github.io/security-malware.html</link>
+<link>https://wmealing.bluegum.systems/security-malware.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: eBPF</title>
-<link>https://wmealing.github.io/security-ebpf.html</link>
+<link>https://wmealing.bluegum.systems/security-ebpf.html</link>
 <description></description>
 </item>
 <item>
 <title>Subcategory: Kernel</title>
-<link>https://wmealing.github.io/security-kernel.html</link>
+<link>https://wmealing.bluegum.systems/security-kernel.html</link>
 <description></description>
 </item>
 </channel>

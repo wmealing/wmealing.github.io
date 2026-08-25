@@ -8,4 +8,4 @@ Disallow: /setupfile.html
 Disallow: /template.html
 Disallow: /test.html
 
-Sitemap: https://wmealing.github.io/sitemap.xml
+Sitemap: https://wmealing.bluegum.systems/sitemap.xml

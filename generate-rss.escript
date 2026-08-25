@@ -50,7 +50,7 @@ generate_rss(Items) ->
              "<rss version=\"2.0\">\n"
              "<channel>\n"
              "<title>Wade Mealing - Erlang | Infosec | Human</title>\n"
-             "<link>http://wmealing.github.io</link>\n"
+             "<link>http://wmealing.bluegum.systems</link>\n"
              "<description>RSS generated via Erlang</description>\n",
     Footer = "</channel>\n</rss>",
     ItemXML = lists:map(fun item_to_xml/1, Items),
@@ -60,6 +60,6 @@ item_to_xml({Title, Link, Desc}) ->
     io_lib:format(
         "<item>\n"
         "<title>~s</title>\n"
-        "<link>https://wmealing.github.io/~s</link>\n"
+        "<link>https://wmealing.bluegum.systems/~s</link>\n"
         "<description>~s</description>\n"
         "</item>\n", [Title, Link, Desc]).
