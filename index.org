@@ -9,6 +9,20 @@
 
 * Recent Blog Posts
 
+* [[./google-hates-my-site.html][Google Hates My Site - Aug 2026]]
+:PROPERTIES:
+:CUSTOM_ID: post-39594c1c
+:END:
+
+[[./images/gsc-sitemap-before-after.png]]
+
+Google had indexed five pages of this site. There are eighty-four. The sitemap report said
+=Success= in green the whole time, next to a "Last read" date of 15 Oct 2024 -- nearly two years
+of being quietly ignored while I kept resubmitting. This is what was actually broken: a doubled
+slash in every generated sitemap URL, seventeen pages a depth-2 crawl never reached, a
+=robots.txt= that never declared the sitemap, and an RSS feed that stopped parsing at item three.
+Some of those were my fault. The 22 months were not.
+
 * [[./concrete-live-reload.html][Concrete 010: Live Reload While You Edit - Aug 2026]]
 :PROPERTIES:
 :CUSTOM_ID: post-7b3a19cd
