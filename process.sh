@@ -11,7 +11,7 @@ for f in *.org; do
     if [[ "$f" != "setupfile.org" && "$f" != "systems.org" && "$f" != "security.org" && "$f" != "tooling.org" ]]; then
         echo "Converting $f to HTML..."
         # We use --eval to ignore broken links so the export finishes
-        emacs --batch "$f" --eval '(setq org-export-with-broken-links t)' -f org-html-export-to-html
+        emacs --batch -l ./canonical.el "$f" --eval '(setq org-export-with-broken-links t)' -f org-html-export-to-html
     fi
 done
 
@@ -46,7 +46,7 @@ for CAT in "${CATEGORIES[@]}"; do
     done
 
     # Export the generated index to HTML
-    emacs --batch "$INDEX_FILE" -f org-html-export-to-html
+    emacs --batch -l ./canonical.el "$INDEX_FILE" -f org-html-export-to-html
 done
 
 echo "Batch conversion and category generation complete."

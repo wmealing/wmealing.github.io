@@ -34,7 +34,7 @@ generate_index() {
     done
 
     # Export the generated index to HTML
-    emacs --batch "$INDEX_FILE" --eval '(setq org-export-with-broken-links t)' -f org-html-export-to-html
+    emacs --batch -l ./canonical.el "$INDEX_FILE" --eval '(setq org-export-with-broken-links t)' -f org-html-export-to-html
 }
 
 # 1. Generate Main Category Pages
