@@ -2,12 +2,12 @@
 <rss version="2.0">
 <channel>
 <title>Wade Mealing - Erlang | Infosec | Human</title>
-<link>http://wmealing.bluegum.systems</link>
+<link>https://wmealing.bluegum.systems</link>
 <description>RSS generated via Erlang</description>
 <item>
-<title>Distributed FizzBuzz: When Does Distribution Actually Pay Off?</title>
-<link>https://wmealing.bluegum.systems/distributed-fizzbuzz.html</link>
-<description>Wade Mealings documentation</description>
+<title>setupfile.org</title>
+<link>https://wmealing.bluegum.systems/setupfile.html</link>
+<description>width=device-width, initial-scale=1.0, user-scalable=yes</description>
 </item>
 <item>
 <title>Wade Mealing </title>
@@ -15,23 +15,13 @@
 <description>Erlang, TUI, Oldschool code</description>
 </item>
 <item>
-<title>CONCRETE 010: Live Reload While You Edit</title>
-<link>https://wmealing.bluegum.systems/concrete-live-reload.html</link>
-<description>Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn't</description>
-</item>
-<item>
-<title>CONCRETE 009: Component Lifecycles and Repeating Templates</title>
-<link>https://wmealing.bluegum.systems/concrete-component-lifecycle.html</link>
-<description>Giving <:component> a persistent identity, a mount/2 hook, and a real loop construct to render lists of them</description>
-</item>
-<item>
-<title>CONCRETE 008: A Live Chat Across Two Nodes</title>
-<link>https://wmealing.bluegum.systems/concrete-live-chat.html</link>
-<description>Building a real-time, cross-node chat with Concrete's SSE primitives, then adding a feature to it with a live hot code reload</description>
-</item>
-<item>
 <title>Category: Tooling</title>
 <link>https://wmealing.bluegum.systems/tooling.html</link>
+<description></description>
+</item>
+<item>
+<title>Category: Security</title>
+<link>https://wmealing.bluegum.systems/security.html</link>
 <description></description>
 </item>
 <item>
@@ -40,9 +30,24 @@
 <description></description>
 </item>
 <item>
-<title>Category: Security</title>
-<link>https://wmealing.bluegum.systems/security.html</link>
-<description></description>
+<title>Distributed FizzBuzz: When Does Distribution Actually Pay Off?</title>
+<link>https://wmealing.bluegum.systems/distributed-fizzbuzz.html</link>
+<description>Wade Mealings documentation</description>
+</item>
+<item>
+<title>CONCRETE 010: Live Reload While You Edit</title>
+<link>https://wmealing.bluegum.systems/concrete-live-reload.html</link>
+<description>Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn&apos;t</description>
+</item>
+<item>
+<title>CONCRETE 009: Component Lifecycles and Repeating Templates</title>
+<link>https://wmealing.bluegum.systems/concrete-component-lifecycle.html</link>
+<description>Giving &lt;:component&gt; a persistent identity, a mount/2 hook, and a real loop construct to render lists of them</description>
+</item>
+<item>
+<title>CONCRETE 008: A Live Chat Across Two Nodes</title>
+<link>https://wmealing.bluegum.systems/concrete-live-chat.html</link>
+<description>Building a real-time, cross-node chat with Concrete&apos;s SSE primitives, then adding a feature to it with a live hot code reload</description>
 </item>
 <item>
 <title>Growing up tracking and hunting in the Australian bush</title>
@@ -122,11 +127,6 @@
 <item>
 <title>Subcategory: eBPF</title>
 <link>https://wmealing.bluegum.systems/security-ebpf.html</link>
-<description></description>
-</item>
-<item>
-<title>Subcategory: Kernel</title>
-<link>https://wmealing.bluegum.systems/security-kernel.html</link>
 <description></description>
 </item>
 </channel>

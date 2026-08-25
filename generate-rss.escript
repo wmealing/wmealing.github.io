@@ -50,16 +50,30 @@ generate_rss(Items) ->
              "<rss version=\"2.0\">\n"
              "<channel>\n"
              "<title>Wade Mealing - Erlang | Infosec | Human</title>\n"
-             "<link>http://wmealing.bluegum.systems</link>\n"
+             "<link>https://wmealing.bluegum.systems</link>\n"
              "<description>RSS generated via Erlang</description>\n",
     Footer = "</channel>\n</rss>",
     ItemXML = lists:map(fun item_to_xml/1, Items),
-    iolist_to_binary([Header, ItemXML, Footer]).
+    unicode:characters_to_binary([Header, ItemXML, Footer]).
 
 item_to_xml({Title, Link, Desc}) ->
     io_lib:format(
         "<item>\n"
-        "<title>~s</title>\n"
-        "<link>https://wmealing.bluegum.systems/~s</link>\n"
-        "<description>~s</description>\n"
-        "</item>\n", [Title, Link, Desc]).
+        "<title>~ts</title>\n"
+        "<link>https://wmealing.bluegum.systems/~ts</link>\n"
+        "<description>~ts</description>\n"
+        "</item>\n", [escape_xml(Title), Link, escape_xml(Desc)]).
+
+%% Titles and descriptions are arbitrary prose lifted out of the .org
+%% files, and that prose regularly contains <, > and &.  Emitting it raw
+%% produced a malformed feed: a post mentioning <:component> aborted XML
+%% parsing, hiding every item after it from readers.
+escape_xml(Text) ->
+    lists:flatmap(
+      fun ($&) -> "&amp;";
+          ($<) -> "&lt;";
+          ($>) -> "&gt;";
+          ($") -> "&quot;";
+          ($\') -> "&apos;";
+          (C)  -> [C]
+      end, Text).
