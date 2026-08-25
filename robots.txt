@@ -1,2 +1,11 @@
 User-agent: *
 Allow: /
+
+# Page fragments included into other pages, not standalone content.
+Disallow: /navbar.html
+Disallow: /nav-snippet.html
+Disallow: /setupfile.html
+Disallow: /template.html
+Disallow: /test.html
+
+Sitemap: https://wmealing.github.io/sitemap.xml
