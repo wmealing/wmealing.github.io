@@ -242,3 +242,48 @@ Discovered is not indexed. Eighty-four pages are now known to Google; how many
 it indexes, and when, is not something I control. What I can say is that the
 specific failure — Google could not enumerate this site — is fixed, and the
 sitemap report now proves it rather than merely claiming "Success".
+
+* Conclusion
+:PROPERTIES:
+:ID:       7C8F1D4B-A406-4B98-2F5D-CD4E9A681B02
+:PUBDATE:  2026-08-26 Wed 01:12
+:END:
+
+The part that bothers me is not that it was broken. Things break. It is that
+nothing told me.
+
+There was no alert. No email. No red banner. The word on the sitemap row was
+=Success=, in green, for the entire 22 months. The site did not appear to be
+failing; it appeared to be fine, and was simply absent from search results in a
+way I had no reason to look into. I only found it because I had a couple of days
+free and got stubborn enough to stop believing the interface and start checking
+it — running =curl= against my own URLs, =dig= against my own DNS, diffing what
+Google claimed to have crawled against what was actually being served.
+
+Nobody does that. Somebody with a job, who writes a blog on weekends, posts a
+thing and assumes the machinery works, because every screen they are shown says
+it is working. They will never find this. They will just quietly not exist, and
+conclude that nobody wanted to read it.
+
+And for a small site, not being indexed is not a degraded experience. It is
+death. There is no partial credit. You are not ranked badly, you are not on page
+nine — you are not there at all. Nobody finds the site, so nobody links to the
+site, so there is no signal that the site is worth crawling, so nobody finds the
+site. That loop does not resolve on its own, and the tooling that is supposed to
+help you notice you are in it labelled my situation =Success=.
+
+Maybe this stops mattering. Maybe the discovery path stops being a search box
+and becomes whatever the LLMs are doing, and the thing that matters is that a
+crawler actually read the page and can answer a question about it. There is
+something appealing about that after two days of arguing with a system that
+could not tell me whether it had opened a file.
+
+But I doubt it will be better, and I would not bet on it. It is the same shape
+of problem with different branding: someone else's crawler, someone else's
+budget, someone else's undisclosed criteria for whether you are worth including,
+and no obligation to tell you the answer or explain it. At least Google gave me
+a =Last read= column. It took me 22 months to learn to distrust that column, but
+it was there. I am not confident the next lot will render the number at all.
+
+The sitemap is fixed. The feed parses. The pages are discovered. I still do not
+control whether any of it gets indexed, and neither do you.

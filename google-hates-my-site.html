@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-26 Wed 01:05 -->
+<!-- 2026-08-26 Wed 01:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Google hates my site</title>
@@ -61,9 +61,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org192cb16" class="outline-2">
-<h2 id="org192cb16">Summary:</h2>
-<div class="outline-text-2" id="text-org192cb16">
+<div id="outline-container-orgc0551cc" class="outline-2">
+<h2 id="orgc0551cc">Summary:</h2>
+<div class="outline-text-2" id="text-orgc0551cc">
 <p>
 Google had indexed five pages of this site. There are eighty-four.
 </p>
@@ -74,15 +74,15 @@ Search Console at each step. Some of it was my fault. Some of it was not.
 </p>
 </div>
 </div>
-<div id="outline-container-org32fbc41" class="outline-2">
-<h2 id="org32fbc41">The state I started from</h2>
-<div class="outline-text-2" id="text-org32fbc41">
+<div id="outline-container-org4714189" class="outline-2">
+<h2 id="org4714189">The state I started from</h2>
+<div class="outline-text-2" id="text-org4714189">
 <p>
 Search Console, property <code>https://wmealing.github.io/</code>:
 </p>
 
 
-<div id="orgae69a58" class="figure">
+<div id="org60342d3" class="figure">
 <p><img src="./images/gsc-pages-old-domain.jpg" alt="gsc-pages-old-domain.jpg" />
 </p>
 </div>
@@ -97,7 +97,7 @@ The sitemap report explained why:
 </p>
 
 
-<div id="org52d4293" class="figure">
+<div id="orgdae8c29" class="figure">
 <p><img src="./images/gsc-sitemap-old-domain.jpg" alt="gsc-sitemap-old-domain.jpg" />
 </p>
 </div>
@@ -111,23 +111,23 @@ Status: "Success".
 </p>
 </div>
 </div>
-<div id="outline-container-orgcdcb9c2" class="outline-2">
-<h2 id="orgcdcb9c2">What was broken on my end</h2>
-<div class="outline-text-2" id="text-orgcdcb9c2">
+<div id="outline-container-orgd6b7988" class="outline-2">
+<h2 id="orgd6b7988">What was broken on my end</h2>
+<div class="outline-text-2" id="text-orgd6b7988">
 <p>
 Three real defects, all mine.
 </p>
 </div>
-<div id="outline-container-org738de8e" class="outline-3">
-<h3 id="org738de8e">The sitemap generator emitted a doubled slash</h3>
-<div class="outline-text-3" id="text-org738de8e">
+<div id="outline-container-org863c9ea" class="outline-3">
+<h3 id="org863c9ea">The sitemap generator emitted a doubled slash</h3>
+<div class="outline-text-3" id="text-org863c9ea">
 <p>
 The <code>Makefile</code> runs <code>sitemap_maker --url https://wmealing.github.io/</code>. That tool
 joins the base URL, which ends in a slash, with paths that also begin with a
 slash. The result:
 </p>
 
-<pre class="example" id="org2d1ae88">
+<pre class="example" id="org81362d6">
 &lt;loc&gt;https://wmealing.github.io//index.html&lt;/loc&gt;
 &lt;loc&gt;https://wmealing.github.io//systems.html&lt;/loc&gt;
 </pre>
@@ -148,9 +148,9 @@ Fixed by collapsing the slash after generation, so it cannot come back:
 </div>
 </div>
 </div>
-<div id="outline-container-orgd149ce7" class="outline-3">
-<h3 id="orgd149ce7">The sitemap was missing a quarter of the site</h3>
-<div class="outline-text-3" id="text-orgd149ce7">
+<div id="outline-container-orgfaabf95" class="outline-3">
+<h3 id="orgfaabf95">The sitemap was missing a quarter of the site</h3>
+<div class="outline-text-3" id="text-orgfaabf95">
 <p>
 <code>sitemap_maker</code> crawls two levels deep from the homepage. Pages not reachable in
 two hops were never in the file. Seventeen live pages, including <code>systems-cobol</code>,
@@ -162,10 +162,10 @@ After deduplicating and adding them back: 84 unique URLs, all verified 200.
 </p>
 </div>
 </div>
-<div id="outline-container-org04b48c7" class="outline-3">
-<h3 id="org04b48c7">robots.txt never declared the sitemap</h3>
-<div class="outline-text-3" id="text-org04b48c7">
-<pre class="example" id="org6e4884f">
+<div id="outline-container-org2b533f2" class="outline-3">
+<h3 id="org2b533f2">robots.txt never declared the sitemap</h3>
+<div class="outline-text-3" id="text-org2b533f2">
+<pre class="example" id="org3ac7079">
 User-agent: *
 Allow: /
 </pre>
@@ -177,14 +177,14 @@ HTML fragments that are includes rather than pages.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb356cc7" class="outline-2">
-<h2 id="orgb356cc7">The bug I found by accident</h2>
-<div class="outline-text-2" id="text-orgb356cc7">
+<div id="outline-container-org3bd9ec2" class="outline-2">
+<h2 id="org3bd9ec2">The bug I found by accident</h2>
+<div class="outline-text-2" id="text-org3bd9ec2">
 <p>
 While changing the domain, <code>xmllint</code> rejected my own RSS feed:
 </p>
 
-<pre class="example" id="orge5e8557">
+<pre class="example" id="org16878c9">
 rss.xml:25: namespace error : Failed to parse QName ':component'
 &lt;description&gt;Giving &lt;:component&gt; a persistent identity, a mount/2 hook, and a re
                                ^
@@ -203,17 +203,17 @@ This had been live. Fixed with an <code>escape_xml/1</code> over <code>&amp;</co
 </p>
 </div>
 </div>
-<div id="outline-container-orgcc4b1b2" class="outline-2">
-<h2 id="orgcc4b1b2">Where Google failed me</h2>
-<div class="outline-text-2" id="text-orgcc4b1b2">
+<div id="outline-container-orgcd452b8" class="outline-2">
+<h2 id="orgcd452b8">Where Google failed me</h2>
+<div class="outline-text-2" id="text-orgcd452b8">
 <p>
 The defects above are mine. I found them, I fixed them, I have shown you the
 diffs. Now the other half.
 </p>
 </div>
-<div id="outline-container-org3ed4d01" class="outline-3">
-<h3 id="org3ed4d01">"Success" on a file it had not opened in 22 months</h3>
-<div class="outline-text-3" id="text-org3ed4d01">
+<div id="outline-container-orgc1d5150" class="outline-3">
+<h3 id="orgc1d5150">"Success" on a file it had not opened in 22 months</h3>
+<div class="outline-text-3" id="text-orgc1d5150">
 <p>
 The status column said <b>Success</b>. The last-read column said <b>15 Oct 2024</b>.
 Simultaneously. For nearly two years. While I kept resubmitting.
@@ -236,9 +236,9 @@ behalf.
 </p>
 </div>
 </div>
-<div id="outline-container-org8549cb8" class="outline-3">
-<h3 id="org8549cb8">The only lever provided is documented not to work</h3>
-<div class="outline-text-3" id="text-org8549cb8">
+<div id="outline-container-orgcd46651" class="outline-3">
+<h3 id="orgcd46651">The only lever provided is documented not to work</h3>
+<div class="outline-text-3" id="text-orgcd46651">
 <p>
 Resubmitting updates "Submitted" to today's date and leaves "Last read" at
 15 Oct 2024. It changes nothing. Google says so itself, in its own dialog:
@@ -258,15 +258,15 @@ timestamp in a column, for you to look at.
 </p>
 </div>
 </div>
-<div id="outline-container-org87a83db" class="outline-3">
-<h3 id="org87a83db">A diagnostic that cannot distinguish between two opposite problems</h3>
-<div class="outline-text-3" id="text-org87a83db">
+<div id="outline-container-org78c486f" class="outline-3">
+<h3 id="org78c486f">A diagnostic that cannot distinguish between two opposite problems</h3>
+<div class="outline-text-3" id="text-org78c486f">
 <p>
 URL Inspection on <code>cellium-tabs.html</code>, a URL that was <b>in the sitemap I had
 submitted</b>:
 </p>
 
-<pre class="example" id="orge4c4bcf">
+<pre class="example" id="org59daeec">
 Page is not indexed: URL is unknown to Google
 Discovery
   Sitemaps        No referring sitemaps detected
@@ -287,9 +287,9 @@ cannot tell them apart, and does not hint that it can't.
 </p>
 </div>
 </div>
-<div id="outline-container-orge2676c7" class="outline-3">
-<h3 id="orge2676c7">Reports stale by days, presented as current</h3>
-<div class="outline-text-3" id="text-orge2676c7">
+<div id="outline-container-orgf1bdffb" class="outline-3">
+<h3 id="orgf1bdffb">Reports stale by days, presented as current</h3>
+<div class="outline-text-3" id="text-orgf1bdffb">
 <p>
 The Pages report above is stamped "Last update: 21/08/2026" — five days old when
 I screenshotted it, sitting under numbers displayed as though they described the
@@ -304,9 +304,9 @@ cannot measure, and the measurements are a week behind and never say so.
 </p>
 </div>
 </div>
-<div id="outline-container-org13c1c3a" class="outline-3">
-<h3 id="org13c1c3a">"Crawled - currently not indexed", and no way to learn more</h3>
-<div class="outline-text-3" id="text-org13c1c3a">
+<div id="outline-container-orgb21bf50" class="outline-3">
+<h3 id="orgb21bf50">"Crawled - currently not indexed", and no way to learn more</h3>
+<div class="outline-text-3" id="text-orgb21bf50">
 <p>
 Fetched successfully. Crawl allowed: yes. Indexing allowed: yes. Not indexed.
 </p>
@@ -328,14 +328,14 @@ whole thing.
 </div>
 </div>
 </div>
-<div id="outline-container-org37752a0" class="outline-2">
-<h2 id="org37752a0">The part that is hard to read any other way</h2>
-<div class="outline-text-2" id="text-org37752a0">
+<div id="outline-container-orgefaf912" class="outline-2">
+<h2 id="orgefaf912">The part that is hard to read any other way</h2>
+<div class="outline-text-2" id="text-orgefaf912">
 <p>
 I moved the site to a domain I own, <code>wmealing.bluegum.systems</code>. One CNAME:
 </p>
 
-<pre class="example" id="org50cc053">
+<pre class="example" id="orgf857434">
 Type: CNAME    Name: wmealing    Data: wmealing.github.io    TTL: 4 hrs
 </pre>
 
@@ -344,7 +344,7 @@ Then added it as a Search Console property and submitted the same sitemap file.
 </p>
 
 
-<div id="org7cca16a" class="figure">
+<div id="org4f5b61b" class="figure">
 <p><img src="./images/gsc-sitemap-new-domain.jpg" alt="gsc-sitemap-new-domain.jpg" />
 </p>
 </div>
@@ -370,9 +370,9 @@ The difference was the address.
 </p>
 </div>
 </div>
-<div id="outline-container-orge02d93d" class="outline-2">
-<h2 id="orge02d93d">Current state</h2>
-<div class="outline-text-2" id="text-orge02d93d">
+<div id="outline-container-orgac43968" class="outline-2">
+<h2 id="orgac43968">Current state</h2>
+<div class="outline-text-2" id="text-orgac43968">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -427,6 +427,63 @@ Discovered is not indexed. Eighty-four pages are now known to Google; how many
 it indexes, and when, is not something I control. What I can say is that the
 specific failure — Google could not enumerate this site — is fixed, and the
 sitemap report now proves it rather than merely claiming "Success".
+</p>
+</div>
+</div>
+<div id="outline-container-orga65f7d1" class="outline-2">
+<h2 id="orga65f7d1">Conclusion</h2>
+<div class="outline-text-2" id="text-orga65f7d1">
+<p>
+The part that bothers me is not that it was broken. Things break. It is that
+nothing told me.
+</p>
+
+<p>
+There was no alert. No email. No red banner. The word on the sitemap row was
+<code>Success</code>, in green, for the entire 22 months. The site did not appear to be
+failing; it appeared to be fine, and was simply absent from search results in a
+way I had no reason to look into. I only found it because I had a couple of days
+free and got stubborn enough to stop believing the interface and start checking
+it — running <code>curl</code> against my own URLs, <code>dig</code> against my own DNS, diffing what
+Google claimed to have crawled against what was actually being served.
+</p>
+
+<p>
+Nobody does that. Somebody with a job, who writes a blog on weekends, posts a
+thing and assumes the machinery works, because every screen they are shown says
+it is working. They will never find this. They will just quietly not exist, and
+conclude that nobody wanted to read it.
+</p>
+
+<p>
+And for a small site, not being indexed is not a degraded experience. It is
+death. There is no partial credit. You are not ranked badly, you are not on page
+nine — you are not there at all. Nobody finds the site, so nobody links to the
+site, so there is no signal that the site is worth crawling, so nobody finds the
+site. That loop does not resolve on its own, and the tooling that is supposed to
+help you notice you are in it labelled my situation <code>Success</code>.
+</p>
+
+<p>
+Maybe this stops mattering. Maybe the discovery path stops being a search box
+and becomes whatever the LLMs are doing, and the thing that matters is that a
+crawler actually read the page and can answer a question about it. There is
+something appealing about that after two days of arguing with a system that
+could not tell me whether it had opened a file.
+</p>
+
+<p>
+But I doubt it will be better, and I would not bet on it. It is the same shape
+of problem with different branding: someone else's crawler, someone else's
+budget, someone else's undisclosed criteria for whether you are worth including,
+and no obligation to tell you the answer or explain it. At least Google gave me
+a <code>Last read</code> column. It took me 22 months to learn to distrust that column, but
+it was there. I am not confident the next lot will render the number at all.
+</p>
+
+<p>
+The sitemap is fixed. The feed parses. The pages are discovered. I still do not
+control whether any of it gets indexed, and neither do you.
 </p>
 </div>
 </div>
