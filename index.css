@@ -232,7 +232,8 @@ h2 a:hover {
   align-items: center;
 }
 
-.navbar-section h3 {
+.navbar-section .navbar-heading {
+  display: block;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -244,7 +245,7 @@ h2 a:hover {
   transition: color 0.2s;
 }
 
-.navbar-section:hover h3 {
+.navbar-section:hover .navbar-heading {
   color: var(--color-accent);
 }
 
@@ -448,7 +449,7 @@ hr {
     height: auto;
   }
 
-  .navbar-section h3 {
+  .navbar-section .navbar-heading {
     padding: var(--space-xs) 0;
   }
 
