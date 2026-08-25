@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 19:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 010: Live Reload While You Edit</title>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Save a file, watch the demo refresh itself -- and see the real compiler error in the browser when it doesn't" />
+<link rel="canonical" href="https://wmealing.github.io/concrete-live-reload.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -61,9 +62,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgd6226b1" class="outline-2">
-<h2 id="orgd6226b1">Summary:</h2>
-<div class="outline-text-2" id="text-orgd6226b1">
+<div id="outline-container-orgbfef6c5" class="outline-2">
+<h2 id="orgbfef6c5">Summary:</h2>
+<div class="outline-text-2" id="text-orgbfef6c5">
 <p>
 Every demo under <code>example/</code> now reloads itself while you work on it. Run a demo, open it in a
 browser, edit the module or template behind it, save the file &ndash; the tab in front of you updates on
@@ -73,9 +74,9 @@ of just quietly showing you yesterday's page.
 </p>
 </div>
 </div>
-<div id="outline-container-orgcf65d8e" class="outline-2">
-<h2 id="orgcf65d8e">What Happens When You Save</h2>
-<div class="outline-text-2" id="text-orgcf65d8e">
+<div id="outline-container-orgf39a04c" class="outline-2">
+<h2 id="orgf39a04c">What Happens When You Save</h2>
+<div class="outline-text-2" id="text-orgf39a04c">
 <p>
 Nothing to turn on, nothing to configure. Start any demo the usual way:
 </p>
@@ -109,9 +110,9 @@ behaviour.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfdf6843" class="outline-2">
-<h2 id="orgfdf6843">Editing a Template vs. Editing Erlang Code</h2>
-<div class="outline-text-2" id="text-orgfdf6843">
+<div id="outline-container-org96e8a1f" class="outline-2">
+<h2 id="org96e8a1f">Editing a Template vs. Editing Erlang Code</h2>
+<div class="outline-text-2" id="text-org96e8a1f">
 <p>
 There's a small, noticeable difference in how fast the reload feels, depending on what you touched.
 </p>
@@ -130,9 +131,9 @@ seconds for a small edit &ndash; long enough to see, short enough that it doesn'
 </p>
 </div>
 </div>
-<div id="outline-container-org542d976" class="outline-2">
-<h2 id="org542d976">When a Save Doesn't Compile</h2>
-<div class="outline-text-2" id="text-org542d976">
+<div id="outline-container-org38431c0" class="outline-2">
+<h2 id="org38431c0">When a Save Doesn't Compile</h2>
+<div class="outline-text-2" id="text-org38431c0">
 <p>
 Leave a module in a broken state &ndash; a missing comma, an unbalanced clause, whatever &ndash; and save it
 anyway, and the browser doesn't just sit there showing the last good page with no explanation. A
@@ -155,9 +156,9 @@ reloads with your fix in place &ndash; the same as any other successful save.
 </p>
 </div>
 </div>
-<div id="outline-container-org6bea45c" class="outline-2">
-<h2 id="org6bea45c">Try It Yourself</h2>
-<div class="outline-text-2" id="text-org6bea45c">
+<div id="outline-container-org0ab22f0" class="outline-2">
+<h2 id="org0ab22f0">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org0ab22f0">
 <p>
 The fastest way to feel this out:
 </p>
@@ -180,9 +181,9 @@ behind the one you're looking at.
 </p>
 </div>
 </div>
-<div id="outline-container-org8bc1efc" class="outline-2">
-<h2 id="org8bc1efc">What Doesn't Reload Yet</h2>
-<div class="outline-text-2" id="text-org8bc1efc">
+<div id="outline-container-orgb570455" class="outline-2">
+<h2 id="orgb570455">What Doesn't Reload Yet</h2>
+<div class="outline-text-2" id="text-orgb570455">
 <p>
 A handful of demos &ndash; the canvas animation, the gen-server counter, the process-ring visualization,
 the three.js spirograph, and multiplayer snake &ndash; build their compiled JavaScript once, when the demo
@@ -194,9 +195,9 @@ on every request, so those reload exactly as described above with no extra step.
 </p>
 </div>
 </div>
-<div id="outline-container-org1192b81" class="outline-2">
-<h2 id="org1192b81">Resources:</h2>
-<div class="outline-text-2" id="text-org1192b81">
+<div id="outline-container-orgdf76b9a" class="outline-2">
+<h2 id="orgdf76b9a">Resources:</h2>
+<div class="outline-text-2" id="text-orgdf76b9a">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 006: Catching JavaScript Promises.</title>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Awaiting a JavaScript Promise from Erlang, through a real process" />
+<link rel="canonical" href="https://wmealing.github.io/concrete-js-promises.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -61,17 +62,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org22cbccd" class="outline-2">
-<h2 id="org22cbccd">Summary:</h2>
-<div class="outline-text-2" id="text-org22cbccd">
+<div id="outline-container-org7bc2cf4" class="outline-2">
+<h2 id="org7bc2cf4">Summary:</h2>
+<div class="outline-text-2" id="text-org7bc2cf4">
 <p>
 Someone asked me a fair question about <a href="./concrete-js-interop.html">Concrete 005</a>: Hologram, upstream, maps a JavaScript Promise onto an Elixir <code>Task</code>, and <code>Task.await/1</code> blocks until it resolves. Can Concrete do the same thing? The short answer is yes. The honest answer took a look at how Concrete's own blocking calls actually work before I could say how.
 </p>
 </div>
 </div>
-<div id="outline-container-orga28865e" class="outline-2">
-<h2 id="orga28865e">Two Kinds of Blocking Calls</h2>
-<div class="outline-text-2" id="text-orga28865e">
+<div id="outline-container-org851e9a8" class="outline-2">
+<h2 id="org851e9a8">Two Kinds of Blocking Calls</h2>
+<div class="outline-text-2" id="text-org851e9a8">
 <p>
 A <code>receive</code> already compiles to a real blocking generator. That much was already true before this post, and needed no changes. What I had not looked at closely enough before is that Concrete's runtime has two different ways to run a generator, and only one of them can survive a wait that finishes later.
 </p>
@@ -103,9 +104,9 @@ So: waiting on a Promise is only safe inside a real <code>spawn</code>'ed proces
 </p>
 </div>
 </div>
-<div id="outline-container-orgf00006a" class="outline-2">
-<h2 id="orgf00006a">concrete_js:await/1</h2>
-<div class="outline-text-2" id="text-orgf00006a">
+<div id="outline-container-org875592a" class="outline-2">
+<h2 id="org875592a">concrete_js:await/1</h2>
+<div class="outline-text-2" id="text-org875592a">
 <p>
 <code>concrete_js:await/1</code> does not block by itself. It registers interest in a Promise's settlement and returns a real Erlang reference right away. An ordinary <code>receive</code>, inside a spawned process, does the actual waiting:
 </p>
@@ -131,25 +132,25 @@ Calling it outside a spawned process raises <code>{js_error, _}</code> right awa
 </p>
 </div>
 </div>
-<div id="outline-container-orgc5aa6a2" class="outline-2">
-<h2 id="orgc5aa6a2">Try It Yourself</h2>
-<div class="outline-text-2" id="text-orgc5aa6a2">
+<div id="outline-container-org84e8895" class="outline-2">
+<h2 id="org84e8895">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org84e8895">
 <p>
 <code>test/js_exec_SUITE.erl</code> covers a resolved Promise, a rejected one, and one that resolves through a real <code>setTimeout</code> rather than immediately &ndash; that last case is the one that actually proves a message arriving later, not just on the same tick, wakes the waiting process correctly. Read <code>js_await_deferred_promise</code> first; it is the shortest path to seeing the whole mechanism work end to end.
 </p>
 </div>
 </div>
-<div id="outline-container-org2508b47" class="outline-2">
-<h2 id="org2508b47">What Comes Next</h2>
-<div class="outline-text-2" id="text-org2508b47">
+<div id="outline-container-org9ac2ae1" class="outline-2">
+<h2 id="org9ac2ae1">What Comes Next</h2>
+<div class="outline-text-2" id="text-org9ac2ae1">
 <p>
 This post covered waiting on one JavaScript Promise from one Erlang process. It did not cover getting the result back into a rendered component afterward &ndash; that still means calling <code>dom:*</code> BIFs directly from the worker, the same way the canvas demo already updates the page from a self-rescheduling loop. Wiring an awaited result into the normal render/vdom-diff path stays open.
 </p>
 </div>
 </div>
-<div id="outline-container-orge8823d5" class="outline-2">
-<h2 id="orge8823d5">Resources:</h2>
-<div class="outline-text-2" id="text-orge8823d5">
+<div id="outline-container-org321cab9" class="outline-2">
+<h2 id="org321cab9">Resources:</h2>
+<div class="outline-text-2" id="text-org321cab9">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

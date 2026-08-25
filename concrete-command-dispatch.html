@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 007: Reporting to the Server from a Client Action.</title>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Sending data from a compiled action/3 to a server-side command/3, still written entirely in Erlang" />
+<link rel="canonical" href="https://wmealing.github.io/concrete-command-dispatch.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -61,17 +62,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org33f8d12" class="outline-2">
-<h2 id="org33f8d12">Summary:</h2>
-<div class="outline-text-2" id="text-org33f8d12">
+<div id="outline-container-org5c89da7" class="outline-2">
+<h2 id="org5c89da7">Summary:</h2>
+<div class="outline-text-2" id="text-org5c89da7">
 <p>
 <a href="./concrete-counter.html">Concrete 002</a>'s counter runs entirely client-side. The <code>+</code> button never talks to the server at all. This post covers the next step: keep the click instant, but also tell the server what just happened, still written entirely in Erlang — no hand-written JavaScript, no separate API endpoint to wire up by hand. This needs a current <code>concrete</code> checkout; if it's been a while since you pulled, update it first.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf1aadc4" class="outline-2">
-<h2 id="orgf1aadc4">The Pattern</h2>
-<div class="outline-text-2" id="text-orgf1aadc4">
+<div id="outline-container-org00b11ec" class="outline-2">
+<h2 id="org00b11ec">The Pattern</h2>
+<div class="outline-text-2" id="text-org00b11ec">
 <p>
 <code>action/3</code> is compiled to JavaScript and runs in the browser. <code>command/3</code> is different: <code>concrete_command_handler</code> runs it for real, server-side, on the real BEAM, in response to a <code>POST</code> to <code>/concrete/command</code> (<code>concrete_ws_handler</code> reaches it the same way over a WebSocket). Wiring one to the other from inside a compiled action needs <code>?js:call</code> to reach <code>Client.dispatchCommand</code>, the same function a declarative <code>concrete-command</code> button attribute would call, but with real arguments instead of an always-empty params map:
 </p>
@@ -100,9 +101,9 @@ Click <code>+</code>, and <code>command/3</code> runs on the server with <code>P
 </p>
 </div>
 </div>
-<div id="outline-container-orgfe0ef04" class="outline-2">
-<h2 id="orgfe0ef04">Multiple Commands, and Binary Params</h2>
-<div class="outline-text-2" id="text-orgfe0ef04">
+<div id="outline-container-orgab0aeb8" class="outline-2">
+<h2 id="orgab0aeb8">Multiple Commands, and Binary Params</h2>
+<div class="outline-text-2" id="text-orgab0aeb8">
 <p>
 <code>command/3</code> dispatches the same way <code>action/3</code> does: one clause per command name, matched on the first argument. A page usually needs more than one:
 </p>
@@ -130,9 +131,9 @@ The <code>#{&lt;&lt;"count"&gt;&gt; := Count}</code> pattern is worth pausing on
 </p>
 </div>
 </div>
-<div id="outline-container-org9f8204d" class="outline-2">
-<h2 id="org9f8204d">command/3 Runs Ordinary, Unrestricted Erlang</h2>
-<div class="outline-text-2" id="text-org9f8204d">
+<div id="outline-container-org970d0e9" class="outline-2">
+<h2 id="org970d0e9">command/3 Runs Ordinary, Unrestricted Erlang</h2>
+<div class="outline-text-2" id="text-org970d0e9">
 <p>
 <code>command/3</code> only ever runs server-side, on the real BEAM — never as compiled JS, regardless of transport (HTTP or WebSocket). That means it can do anything ordinary Erlang can do: hit a database, call a <code>gen_server</code>, spawn a process, write to a log file. Nothing about it needs to stay browser-safe. A command that persists the count in a real process, instead of just logging it, looks like any other <code>gen_server</code> client code:
 </p>
@@ -149,9 +150,9 @@ The <code>#{&lt;&lt;"count"&gt;&gt; := Count}</code> pattern is worth pausing on
 </p>
 </div>
 </div>
-<div id="outline-container-orgc8b5e21" class="outline-2">
-<h2 id="orgc8b5e21">Sending Data Back To The Browser</h2>
-<div class="outline-text-2" id="text-orgc8b5e21">
+<div id="outline-container-orgbc9db1e" class="outline-2">
+<h2 id="orgbc9db1e">Sending Data Back To The Browser</h2>
+<div class="outline-text-2" id="text-orgbc9db1e">
 <p>
 <code>command/3</code>'s return value is not discarded. Whatever keys the returned <code>Server</code> map carries get merged into the component's rendered state on the client (<code>client.js</code>'s <code>dispatchCommand</code> does this with <code>Interpreter.mapUpdate</code> after the response comes back), and the page re-renders. That gives the server a way to correct or extend what the browser is showing, not just observe it:
 </p>
@@ -168,9 +169,9 @@ If a client ever sends a count outside the allowed range — a stale tab, a modi
 </p>
 </div>
 </div>
-<div id="outline-container-org0c504d5" class="outline-2">
-<h2 id="org0c504d5">A Complete Page</h2>
-<div class="outline-text-2" id="text-org0c504d5">
+<div id="outline-container-orgc3e59b7" class="outline-2">
+<h2 id="orgc3e59b7">A Complete Page</h2>
+<div class="outline-text-2" id="text-orgc3e59b7">
 <p>
 Putting the pieces together — instant client-side updates, a clamped, authoritative count reported to the server on every click:
 </p>
@@ -215,17 +216,17 @@ command(report_count, #{&lt;&lt;"count"&gt;&gt; := Count}, Server) -&gt;
 </div>
 </div>
 </div>
-<div id="outline-container-org32a7ccd" class="outline-2">
-<h2 id="org32a7ccd">What Comes Next</h2>
-<div class="outline-text-2" id="text-org32a7ccd">
+<div id="outline-container-orga0bb111" class="outline-2">
+<h2 id="orga0bb111">What Comes Next</h2>
+<div class="outline-text-2" id="text-orga0bb111">
 <p>
 <code>concrete-command</code> button attributes cover a simpler, fully declarative case, but only ever send an empty params map — there is no template syntax yet for attaching dynamic, current-state params to one directly, which is why <code>?js:call</code> is the method this post covers. The WebSocket path (<code>concrete_ws_handler</code>, which dispatches both <code>action</code> and <code>command</code> entirely server-side over one live connection instead of a fresh request per click) is still open for a post of its own.
 </p>
 </div>
 </div>
-<div id="outline-container-org4529590" class="outline-2">
-<h2 id="org4529590">Resources:</h2>
-<div class="outline-text-2" id="text-org4529590">
+<div id="outline-container-orgfbe8a66" class="outline-2">
+<h2 id="orgfbe8a66">Resources:</h2>
+<div class="outline-text-2" id="text-orgfbe8a66">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 003: Pages, Routing, and Layouts.</title>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="How a URL becomes a running Concrete page" />
+<link rel="canonical" href="https://wmealing.github.io/concrete-pages.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -61,17 +62,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org1b4c93c" class="outline-2">
-<h2 id="org1b4c93c">Summary:</h2>
-<div class="outline-text-2" id="text-org1b4c93c">
+<div id="outline-container-org55c9d65" class="outline-2">
+<h2 id="org55c9d65">Summary:</h2>
+<div class="outline-text-2" id="text-org55c9d65">
 <p>
 <a href="./concrete-counter.html">Concrete 002</a> built one component and traced one click. This post explains how a browser reaches that component in the first place: the <code>concrete_page</code> behaviour, the <code>-concrete</code> module attribute, and the path a request takes from the router to rendered HTML. It also covers layouts: how one page wraps its output inside a shared shell.
 </p>
 </div>
 </div>
-<div id="outline-container-org9747d85" class="outline-2">
-<h2 id="org9747d85">Pages Are Not Components</h2>
-<div class="outline-text-2" id="text-org9747d85">
+<div id="outline-container-orgfc85681" class="outline-2">
+<h2 id="orgfc85681">Pages Are Not Components</h2>
+<div class="outline-text-2" id="text-orgfc85681">
 <p>
 A component and a page look alike. Both define <code>init/2</code> and <code>template/0</code>. Both may define <code>action/3</code> for browser-side clicks. The difference is the behaviour each one declares, and the extra attribute a page carries.
 </p>
@@ -81,9 +82,9 @@ A component declares <code>-behaviour(concrete_component)</code>. A page declare
 </p>
 </div>
 </div>
-<div id="outline-container-org5f04d02" class="outline-2">
-<h2 id="org5f04d02">The -concrete Attribute</h2>
-<div class="outline-text-2" id="text-org5f04d02">
+<div id="outline-container-orgde0be2e" class="outline-2">
+<h2 id="orgde0be2e">The -concrete Attribute</h2>
+<div class="outline-text-2" id="text-orgde0be2e">
 <p>
 A page needs one more thing: a route. A route is a URL path, attached to the module with a custom attribute.
 </p>
@@ -112,9 +113,9 @@ action(decrement, _Params, #{state := #{count := N} = S} = C) -&gt;
 </p>
 </div>
 </div>
-<div id="outline-container-orgb626c8a" class="outline-2">
-<h2 id="orgb626c8a">How the Router Finds Your Pages</h2>
-<div class="outline-text-2" id="text-orgb626c8a">
+<div id="outline-container-orge832fa4" class="outline-2">
+<h2 id="orge832fa4">How the Router Finds Your Pages</h2>
+<div class="outline-text-2" id="text-orge832fa4">
 <p>
 You do not register pages by hand. Concrete finds them for you, at boot.
 </p>
@@ -132,9 +133,9 @@ The router also adds four fixed routes of its own, not tied to any page: <code>/
 </p>
 </div>
 </div>
-<div id="outline-container-org05ddb66" class="outline-2">
-<h2 id="org05ddb66">What Happens on a Request</h2>
-<div class="outline-text-2" id="text-org05ddb66">
+<div id="outline-container-orgb48b1cf" class="outline-2">
+<h2 id="orgb48b1cf">What Happens on a Request</h2>
+<div class="outline-text-2" id="text-orgb48b1cf">
 <p>
 A browser requests <code>/</code>. Cowboy matches the route and calls <code>concrete_page_handler:init/2</code> with the matching module, <code>home_page</code>, in its state.
 </p>
@@ -155,9 +156,9 @@ The browser receives one HTML document. The document already shows real content.
 </p>
 </div>
 </div>
-<div id="outline-container-org07f400e" class="outline-2">
-<h2 id="org07f400e">Embedding a Component in a Page</h2>
-<div class="outline-text-2" id="text-org07f400e">
+<div id="outline-container-org216eb82" class="outline-2">
+<h2 id="org216eb82">Embedding a Component in a Page</h2>
+<div class="outline-text-2" id="text-org216eb82">
 <p>
 A page can place a component inside its template.
 </p>
@@ -175,9 +176,9 @@ The renderer calls the named module's <code>init/2</code> with the given props, 
 </p>
 </div>
 </div>
-<div id="outline-container-orge4bf862" class="outline-2">
-<h2 id="orge4bf862">Layouts</h2>
-<div class="outline-text-2" id="text-orge4bf862">
+<div id="outline-container-orga02ae38" class="outline-2">
+<h2 id="orga02ae38">Layouts</h2>
+<div class="outline-text-2" id="text-orga02ae38">
 <p>
 A layout wraps every page's output in one shared shell: a header, a footer, a navigation bar. Without a layout, a project must repeat that markup in every page template. Concrete now has layout support.
 </p>
@@ -235,25 +236,25 @@ The browser never needs to re-render a layout on its own. An action click only e
 </p>
 </div>
 </div>
-<div id="outline-container-orgac2c56e" class="outline-2">
-<h2 id="orgac2c56e">Try It Yourself</h2>
-<div class="outline-text-2" id="text-orgac2c56e">
+<div id="outline-container-org21cd094" class="outline-2">
+<h2 id="org21cd094">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org21cd094">
 <p>
 Add a second page module to a project next to the counter page from the last post. Give it its own <code>-concrete([{route, "/about"}])</code> attribute and its own <code>.slab</code> template. Start the application. Both routes answer, with no dispatch table to edit by hand. Remove the <code>-behaviour(concrete_page)</code> line from either module, and its route disappears at the next boot, because the scan in <code>concrete_app:page_modules/0</code> no longer finds it.
 </p>
 </div>
 </div>
-<div id="outline-container-org970d701" class="outline-2">
-<h2 id="org970d701">What Comes Next</h2>
-<div class="outline-text-2" id="text-org970d701">
+<div id="outline-container-orgcb17243" class="outline-2">
+<h2 id="orgcb17243">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgcb17243">
 <p>
 This post traced a request from a URL to rendered HTML, and showed how a page wraps its output in a layout. The next post opens up <code>.slab</code> files properly: how the parser turns a template into a tree of nodes, and how the renderer walks that tree with <code>erl_eval</code> to produce HTML.
 </p>
 </div>
 </div>
-<div id="outline-container-org36a1f42" class="outline-2">
-<h2 id="org36a1f42">Resources:</h2>
-<div class="outline-text-2" id="text-org36a1f42">
+<div id="outline-container-orgf841538" class="outline-2">
+<h2 id="orgf841538">Resources:</h2>
+<div class="outline-text-2" id="text-orgf841538">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

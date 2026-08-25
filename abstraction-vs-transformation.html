@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Abstraction vs Transformation</title>
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Why abstractions sucks and trasnformation doesnt" />
+<link rel="canonical" href="https://wmealing.github.io/abstraction-vs-transformation.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -60,9 +61,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org50ad8ef" class="outline-2">
-<h2 id="org50ad8ef">Summary:</h2>
-<div class="outline-text-2" id="text-org50ad8ef">
+<div id="outline-container-org7643582" class="outline-2">
+<h2 id="org7643582">Summary:</h2>
+<div class="outline-text-2" id="text-org7643582">
 <p>
 Frequently in software development, efficiency and performance concerns weigh heavily on my mind.  As a programmer
 deeply immersed in different languages, I've encountered my fair share of performance challenges when attempting to
@@ -71,9 +72,9 @@ implementation details that massively degrades performance.
 </p>
 </div>
 </div>
-<div id="outline-container-orgddff266" class="outline-2">
-<h2 id="orgddff266">One more time, with feeling.</h2>
-<div class="outline-text-2" id="text-orgddff266">
+<div id="outline-container-org7688174" class="outline-2">
+<h2 id="org7688174">One more time, with feeling.</h2>
+<div class="outline-text-2" id="text-org7688174">
 <p>
 One particularly frustrating experience is fresh in my mind: a seemingly innocuous
 performance issue that eluded resolution for far longer than it should have.
@@ -168,9 +169,9 @@ hardware features, the performant code/features will be abstracted away and the 
 </p>
 </div>
 </div>
-<div id="outline-container-orge4d6435" class="outline-2">
-<h2 id="orge4d6435">Conclusion</h2>
-<div class="outline-text-2" id="text-orge4d6435">
+<div id="outline-container-org99dc084" class="outline-2">
+<h2 id="org99dc084">Conclusion</h2>
+<div class="outline-text-2" id="text-org99dc084">
 <p>
 Software abstractions are designed to optimize for human cognition, not hardware execution. They allow us to reason about
 complex systems without getting bogged down in register management or memory layouts. However, every layer of indirection,
@@ -182,9 +183,9 @@ Sometimes the abstraction tax is almost unmeasureable; other times, it requires 
 really understand.
 </p>
 </div>
-<div id="outline-container-org999c21e" class="outline-3">
-<h3 id="org999c21e">Measure Twice, Optimize Once</h3>
-<div class="outline-text-3" id="text-org999c21e">
+<div id="outline-container-org3c8285c" class="outline-3">
+<h3 id="org3c8285c">Measure Twice, Optimize Once</h3>
+<div class="outline-text-3" id="text-org3c8285c">
 <p>
 The biggest mistake a developer can make is "premature de-abstraction." Tearing down a helpful interface because you
 assume it’s slow is a recipe for messy, unmaintainable code.
@@ -197,9 +198,9 @@ whether the bottleneck is a fundamental algorithmic flaw or if the abstraction l
 </p>
 </div>
 </div>
-<div id="outline-container-org616da36" class="outline-3">
-<h3 id="org616da36">Visualizing the Invisible</h3>
-<div class="outline-text-3" id="text-org616da36">
+<div id="outline-container-orgd4fa91e" class="outline-3">
+<h3 id="orgd4fa91e">Visualizing the Invisible</h3>
+<div class="outline-text-3" id="text-orgd4fa91e">
 <p>
 Thankfully, we no longer have to guess. Modern profiling tools have turned performance analysis
 from a dark art into a visual science. Tools like <a href="https://www.brendangregg.com/flamegraphs.html">flame graphs</a>, eBPF tracers, and <a href="https://max-au.com/2022/10/04/the-power-of-erlang-tracing/">distributed tracing</a> allow us
@@ -217,9 +218,9 @@ multiple levels of abstraction.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbfa2338" class="outline-3">
-<h3 id="orgbfa2338">The Golden Rule of Optimization</h3>
-<div class="outline-text-3" id="text-orgbfa2338">
+<div id="outline-container-orge83d10b" class="outline-3">
+<h3 id="orge83d10b">The Golden Rule of Optimization</h3>
+<div class="outline-text-3" id="text-orge83d10b">
 <p>
 Before you reach for the delete key, looking up sse2 function calls,  or start rewriting in assembly,
 remember: Identify before you optimize. Effective performance analysis requires isolating the impact of

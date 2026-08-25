@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Higher quality errors for custom software.</title>
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Seriously useful error messages" />
+<link rel="canonical" href="https://wmealing.github.io/custom-software-errors.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -60,9 +61,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgdf5e72c" class="outline-2">
-<h2 id="orgdf5e72c">Summary:</h2>
-<div class="outline-text-2" id="text-orgdf5e72c">
+<div id="outline-container-org7829726" class="outline-2">
+<h2 id="org7829726">Summary:</h2>
+<div class="outline-text-2" id="text-org7829726">
 <p>
 In-house business software is a very different beast; it is usually target-built to solve
 a very specific problem.  Company bean counters encourage buying off-the-shelf software when it is
@@ -82,9 +83,9 @@ It would be great to see these error types in wider use.
 </p>
 </div>
 </div>
-<div id="outline-container-orged9ae3e" class="outline-2">
-<h2 id="orged9ae3e">Introduction</h2>
-<div class="outline-text-2" id="text-orged9ae3e">
+<div id="outline-container-org06f9231" class="outline-2">
+<h2 id="org06f9231">Introduction</h2>
+<div class="outline-text-2" id="text-org06f9231">
 <p>
 Effective resolution of errors plays a pivotal role in shaping the user experience within
 software applications. The content of the messages, along with information, should not only
@@ -99,9 +100,9 @@ messages and their corresponding well-known user-interaction patterns show how d
 handling is.
 </p>
 </div>
-<div id="outline-container-orgf8f2459" class="outline-3">
-<h3 id="orgf8f2459">The basics.</h3>
-<div class="outline-text-3" id="text-orgf8f2459">
+<div id="outline-container-org29e0c4a" class="outline-3">
+<h3 id="org29e0c4a">The basics.</h3>
+<div class="outline-text-3" id="text-org29e0c4a">
 <p>
 Rather than re-iterate what has already been said, Google has a very good course, in the <a href="https://developers.google.com/tech-writing/error-messages/error-handling">technical writing</a>
 category, which focuses on writing better error messages. It also contains excellent advice for programmers
@@ -133,9 +134,9 @@ run into, and are also able to help others who can run into the same problem.
 </div>
 </div>
 </div>
-<div id="outline-container-orge1782c1" class="outline-2">
-<h2 id="orge1782c1">Improved example.</h2>
-<div class="outline-text-2" id="text-orge1782c1">
+<div id="outline-container-orgaccf8fc" class="outline-2">
+<h2 id="orgaccf8fc">Improved example.</h2>
+<div class="outline-text-2" id="text-orgaccf8fc">
 <p>
 So, let's provide a before and after.  This particular example was chosen as a bland and boring
 example so we wouldn't focus on the error itself.
@@ -145,10 +146,10 @@ example so we wouldn't focus on the error itself.
 Kept in ascii art to remove distractions and debate on how poor my CSS theming skills are.
 </p>
 </div>
-<div id="outline-container-org91ea4bc" class="outline-3">
-<h3 id="org91ea4bc">Before:</h3>
-<div class="outline-text-3" id="text-org91ea4bc">
-<pre class="example" id="orgf6c8947">
+<div id="outline-container-org18680fb" class="outline-3">
+<h3 id="org18680fb">Before:</h3>
+<div class="outline-text-3" id="text-org18680fb">
+<pre class="example" id="orgfd06fab">
 |--------------------------------------------------------------|
 | ⚠️ Error:                                                     |
 |                                                              |
@@ -164,10 +165,10 @@ Kept in ascii art to remove distractions and debate on how poor my CSS theming s
 </pre>
 </div>
 </div>
-<div id="outline-container-org853fc5b" class="outline-3">
-<h3 id="org853fc5b">After:</h3>
-<div class="outline-text-3" id="text-org853fc5b">
-<pre class="example" id="org9396541">
+<div id="outline-container-orgac72400" class="outline-3">
+<h3 id="orgac72400">After:</h3>
+<div class="outline-text-3" id="text-orgac72400">
+<pre class="example" id="orgb521b8e">
 +------------------------------------------------------------------------+
 | ⚠️ Error #90210C                                                        |
 |                                                                        |
@@ -316,9 +317,9 @@ support this functionality.
 </div>
 </div>
 </div>
-<div id="outline-container-org91e159c" class="outline-2">
-<h2 id="org91e159c">Introducing change</h2>
-<div class="outline-text-2" id="text-org91e159c">
+<div id="outline-container-orgb8b155f" class="outline-2">
+<h2 id="orgb8b155f">Introducing change</h2>
+<div class="outline-text-2" id="text-orgb8b155f">
 <p>
 Rolling changes like this into an existing code base will likely be complicated; one possible
 solution is incremental improvements.
@@ -330,9 +331,9 @@ users view error messages) or by talking to support staff and dealing with the  
 offenders.
 </p>
 </div>
-<div id="outline-container-org4d2142d" class="outline-3">
-<h3 id="org4d2142d">Incremental Improvements</h3>
-<div class="outline-text-3" id="text-org4d2142d">
+<div id="outline-container-org081c7d6" class="outline-3">
+<h3 id="org081c7d6">Incremental Improvements</h3>
+<div class="outline-text-3" id="text-org081c7d6">
 <p>
 Incremental improvement of error messages involves advancing beyond basic error handling.  Not
 all error conditions will benefit from the additional information. However, if there is an "error
@@ -341,9 +342,9 @@ data would be a great place to start.
 </p>
 </div>
 </div>
-<div id="outline-container-org06044dc" class="outline-3">
-<h3 id="org06044dc">Error Categories.</h3>
-<div class="outline-text-3" id="text-org06044dc">
+<div id="outline-container-org29e90bc" class="outline-3">
+<h3 id="org29e90bc">Error Categories.</h3>
+<div class="outline-text-3" id="text-org29e90bc">
 <p>
 Introducing a common "error category" simplifies the initial rollout of the new error fields. By
 grouping related issues, error categories provide a simplified reference point, facilitating
@@ -357,9 +358,9 @@ and proactive problem-solving approaches addressing the specific issue.
 </p>
 </div>
 </div>
-<div id="outline-container-org870ad93" class="outline-3">
-<h3 id="org870ad93">Unique Error Identifier</h3>
-<div class="outline-text-3" id="text-org870ad93">
+<div id="outline-container-orgcbad52c" class="outline-3">
+<h3 id="orgcbad52c">Unique Error Identifier</h3>
+<div class="outline-text-3" id="text-orgcbad52c">
 <p>
 By assigning distinct identifiers to each error condition, developers establish
 a standardized method for identifying, tracking, and managing errors throughout the
@@ -382,9 +383,9 @@ use the same source code with no variance.
 </p>
 </div>
 </div>
-<div id="outline-container-org170f454" class="outline-3">
-<h3 id="org170f454">Online References (hyperlinks)</h3>
-<div class="outline-text-3" id="text-org170f454">
+<div id="outline-container-org5847850" class="outline-3">
+<h3 id="org5847850">Online References (hyperlinks)</h3>
+<div class="outline-text-3" id="text-org5847850">
 <p>
 This is more than just linking to a wiki page; error pages could link to specific URI's of company
 resources such as Slack, shared drives, or source repositories.  If your userbase is sufficiently
@@ -392,9 +393,9 @@ technical it can also be a link to the source code for more capable users to sel
 </p>
 </div>
 </div>
-<div id="outline-container-org546d5a1" class="outline-3">
-<h3 id="org546d5a1">Extending this idea.</h3>
-<div class="outline-text-3" id="text-org546d5a1">
+<div id="outline-container-org319ef88" class="outline-3">
+<h3 id="org319ef88">Extending this idea.</h3>
+<div class="outline-text-3" id="text-org319ef88">
 <p>
 I consider these 4 basics to be the first generation of improvements. You will find new
 and useful improvements; do not be afraid to use them.
@@ -405,9 +406,9 @@ These  "Wilbert-Hofmann" error messages are used heavily in the group of the com
 </p>
 </div>
 </div>
-<div id="outline-container-org223299c" class="outline-3">
-<h3 id="org223299c">Generating documentation from error conditions for support staff.</h3>
-<div class="outline-text-3" id="text-org223299c">
+<div id="outline-container-org09e7d6a" class="outline-3">
+<h3 id="org09e7d6a">Generating documentation from error conditions for support staff.</h3>
+<div class="outline-text-3" id="text-org09e7d6a">
 <p>
 Software should generate a list of error codes and their reasons for any of the support
 staff who may be dealing with the area of code.
@@ -422,9 +423,9 @@ Should be notified of new error codes and if existing codes are removed or depre
 </p>
 </div>
 </div>
-<div id="outline-container-org7b9eaff" class="outline-3">
-<h3 id="org7b9eaff">Error analysis.</h3>
-<div class="outline-text-3" id="text-org7b9eaff">
+<div id="outline-container-orgbe6584e" class="outline-3">
+<h3 id="orgbe6584e">Error analysis.</h3>
+<div class="outline-text-3" id="text-orgbe6584e">
 <p>
 Analysis of the error messages
 </p>
@@ -438,9 +439,9 @@ Analysis of the error messages
 </div>
 </div>
 </div>
-<div id="outline-container-orgc98a33e" class="outline-2">
-<h2 id="orgc98a33e">Conclusion</h2>
-<div class="outline-text-2" id="text-orgc98a33e">
+<div id="outline-container-org7b7bb65" class="outline-2">
+<h2 id="org7b7bb65">Conclusion</h2>
+<div class="outline-text-2" id="text-org7b7bb65">
 <p>
 The suggestions presented in this document serve as fundamental examples of extending common error
 conditions to enhance the user experience and streamline error management. However, it's essential for
@@ -455,9 +456,9 @@ their software systems.
 </p>
 </div>
 </div>
-<div id="outline-container-orge19bf3b" class="outline-2">
-<h2 id="orge19bf3b">Resources:</h2>
-<div class="outline-text-2" id="text-orge19bf3b">
+<div id="outline-container-org37d63b6" class="outline-2">
+<h2 id="org37d63b6">Resources:</h2>
+<div class="outline-text-2" id="text-org37d63b6">
 <p>
 <a href="https://www.smashingmagazine.com/2022/08/error-messages-ux-design/">https://www.smashingmagazine.com/2022/08/error-messages-ux-design/</a>
 <a href="https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas">https://www.linkedin.com/pulse/how-write-good-error-messages-saadia-minhas</a>

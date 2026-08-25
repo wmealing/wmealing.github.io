@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:01 -->
+<!-- 2026-08-25 Tue 23:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to handle headless IoT clients safely without building a massive intermediary auth API.</title>
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Wade Mealings documentation" />
+<link rel="canonical" href="https://wmealing.github.io/row-level-security.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -78,9 +79,9 @@ I had previously decided to use Postgres. Supabase was my first choice
 here, not just because I wanted an easy setup, but because they actively contribute to and sponsor a bunch
 of excellent open-source projects.
 </p>
-<div id="outline-container-org798eb81" class="outline-2">
-<h2 id="org798eb81">The moving parts</h2>
-<div class="outline-text-2" id="text-org798eb81">
+<div id="outline-container-org3bf9787" class="outline-2">
+<h2 id="org3bf9787">The moving parts</h2>
+<div class="outline-text-2" id="text-org3bf9787">
 <p>
 It's a bit tricky, but we can get away with not having to build a lot of the code and infrastructure required
 to do this by using Postgres Row Level Security (RLS), PostgREST and some table configuration.
@@ -92,9 +93,9 @@ runs it for you behind the scenes, so any HTTP request to your Supabase project 
 before it ever touches the database.
 </p>
 </div>
-<div id="outline-container-org2346889" class="outline-3">
-<h3 id="org2346889">The Moving parts: Row Level Security ?</h3>
-<div class="outline-text-3" id="text-org2346889">
+<div id="outline-container-orge82d208" class="outline-3">
+<h3 id="orge82d208">The Moving parts: Row Level Security ?</h3>
+<div class="outline-text-3" id="text-orge82d208">
 <p>
 Postgres has always let you control who can access a table. You can allow or deny a specific database
 role access to an entire table. That's coarse-grained security.
@@ -123,9 +124,9 @@ You can write policies for any of these operations:
 </ul>
 </div>
 </div>
-<div id="outline-container-orge9820b9" class="outline-3">
-<h3 id="orge9820b9">The Moving Parts: The Schema</h3>
-<div class="outline-text-3" id="text-orge9820b9">
+<div id="outline-container-orgf80d23f" class="outline-3">
+<h3 id="orgf80d23f">The Moving Parts: The Schema</h3>
+<div class="outline-text-3" id="text-orgf80d23f">
 <p>
 This demo has two tables: one stores metadata concerning the device itself, and the second stores the telemetry readings taken by those devices.
 </p>
@@ -187,13 +188,13 @@ Unsurprisingly, you must enable "ROW LEVEL SECURITY" on a table; it's not automa
 </div>
 </div>
 </div>
-<div id="outline-container-org0149301" class="outline-3">
-<h3 id="org0149301">Enforcing the Security Logic</h3>
-<div class="outline-text-3" id="text-org0149301">
+<div id="outline-container-org34a783b" class="outline-3">
+<h3 id="org34a783b">Enforcing the Security Logic</h3>
+<div class="outline-text-3" id="text-org34a783b">
 </div>
-<div id="outline-container-org92cac59" class="outline-4">
-<h4 id="org92cac59">Restricted Read Access (<code>SELECT</code>)</h4>
-<div class="outline-text-4" id="text-org92cac59">
+<div id="outline-container-org58aa53e" class="outline-4">
+<h4 id="org58aa53e">Restricted Read Access (<code>SELECT</code>)</h4>
+<div class="outline-text-4" id="text-org58aa53e">
 <p>
 When an application user reads from device_readings, they should only see data from devices they actually own.
 Since device_readings doesn't have a user_id column directly, we look up ownership by joining through the devices
@@ -224,9 +225,9 @@ The ownership chain looks like this:
 </div>
 </div>
 </div>
-<div id="outline-container-org7757ad9" class="outline-4">
-<h4 id="org7757ad9">Unauthenticated Write Access (<code>INSERT</code>)</h4>
-<div class="outline-text-4" id="text-org7757ad9">
+<div id="outline-container-org009b4cf" class="outline-4">
+<h4 id="org009b4cf">Unauthenticated Write Access (<code>INSERT</code>)</h4>
+<div class="outline-text-4" id="text-org009b4cf">
 <p>
 When a device posts a new reading it uses a HTTP POST. PostgREST translates that into a native SQL
 <code>INSERT</code> on <code>device_readings</code>. Before the row is written, the RLS policy calls
@@ -292,8 +293,8 @@ Without this, the RLS policy will fail with a permission error even if the secre
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org80be64e"></a>A note on the RPC exposure tradeoff<br />
-<div class="outline-text-5" id="text-org80be64e">
+<li><a id="org00a8a17"></a>A note on the RPC exposure tradeoff<br />
+<div class="outline-text-5" id="text-org00a8a17">
 <p>
 Granting <code>EXECUTE</code> to <code>anon</code> is necessary for the RLS policy to work, but it has a
 side effect: PostgREST automatically exposes every function that <code>anon</code> can execute
@@ -364,9 +365,9 @@ Note: INSERT policies use WITH CHECK instead of USING. USING filters rows on rea
 </li>
 </ul>
 </div>
-<div id="outline-container-org8d6a1b5" class="outline-4">
-<h4 id="org8d6a1b5">The Client Payload (curl Example)</h4>
-<div class="outline-text-4" id="text-org8d6a1b5">
+<div id="outline-container-org867b133" class="outline-4">
+<h4 id="org867b133">The Client Payload (curl Example)</h4>
+<div class="outline-text-4" id="text-org867b133">
 <p>
 This is the 'curl' equivalent of the code that my IOT device would use.  I'm using <a href="https://atomvm.org/">atomvm</a>
 on my client side, but this effectively reproduces the same thing.
@@ -403,9 +404,9 @@ burned into its firmware at manufacture or setup time.
 </p>
 </div>
 </div>
-<div id="outline-container-org1c6a573" class="outline-4">
-<h4 id="org1c6a573">Making Data Immutable (UPDATE &amp; DELETE)</h4>
-<div class="outline-text-4" id="text-org1c6a573">
+<div id="outline-container-orga8d385c" class="outline-4">
+<h4 id="orga8d385c">Making Data Immutable (UPDATE &amp; DELETE)</h4>
+<div class="outline-text-4" id="text-orga8d385c">
 <p>
 Devices should only ever record history, never rewrite it. The cleanest way to enforce data immutability
 in Postgres RLS is elegantly simple: don't write a policy for it.
@@ -414,10 +415,10 @@ in Postgres RLS is elegantly simple: don't write a policy for it.
 </div>
 </div>
 </div>
-<div id="outline-container-org8aa307a" class="outline-2">
-<h2 id="org8aa307a">Architectural Flow</h2>
-<div class="outline-text-2" id="text-org8aa307a">
-<pre class="example" id="org4b7a881">
+<div id="outline-container-org582bd2e" class="outline-2">
+<h2 id="org582bd2e">Architectural Flow</h2>
+<div class="outline-text-2" id="text-org582bd2e">
+<pre class="example" id="org15ced04">
 [Device Client] ──(POST /rest/v1/device_readings)──&gt; [PostgREST]
                                                           │
                                             (Sets session headers &amp; passes INSERT)
@@ -439,9 +440,9 @@ and you don’t have an authentication server application to patch, scale, or ma
 </p>
 </div>
 </div>
-<div id="outline-container-org76856a7" class="outline-2">
-<h2 id="org76856a7">Conclusion</h2>
-<div class="outline-text-2" id="text-org76856a7">
+<div id="outline-container-org6f0e9ea" class="outline-2">
+<h2 id="org6f0e9ea">Conclusion</h2>
+<div class="outline-text-2" id="text-org6f0e9ea">
 <p>
 Pairing Postgres Row Level Security with PostgREST gives you a lightweight and easy
 way to decouple web services and completely get out of the way when edge clients need
@@ -454,9 +455,9 @@ redirect my DNS to an edge proxy layer where I can perform custom rate-limiting,
 </p>
 </div>
 </div>
-<div id="outline-container-orgf720123" class="outline-2">
-<h2 id="orgf720123">Resources:</h2>
-<div class="outline-text-2" id="text-orgf720123">
+<div id="outline-container-org82bb0f3" class="outline-2">
+<h2 id="org82bb0f3">Resources:</h2>
+<div class="outline-text-2" id="text-org82bb0f3">
 <p>
 <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL Row Level Security Documentation</a>
 </p>

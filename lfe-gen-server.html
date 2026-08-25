@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:01 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lfe Flavored Erlang Gen Server</title>
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Lisp Flavored Erlang - A gen server story" />
+<link rel="canonical" href="https://wmealing.github.io/lfe-gen-server.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -75,9 +76,9 @@ from erlang named <a href="https://www.erlang.org/doc/man/gen_server.html">gen_s
 Think of it like a 'program skeleton'.  There are other "x-server" relatives in erlang, but gen_server is the
 mac daddy of them all.
 </p>
-<div id="outline-container-org7f1e34f" class="outline-3">
-<h3 id="org7f1e34f">What is a gen server ?</h3>
-<div class="outline-text-3" id="text-org7f1e34f">
+<div id="outline-container-org3415e80" class="outline-3">
+<h3 id="org3415e80">What is a gen server ?</h3>
+<div class="outline-text-3" id="text-org3415e80">
 <p>
 A "Generic Server" is a long running process within the BEAM virtual machine that expects the developer to create callbacks to fill in specific behavior.
 </p>
@@ -119,7 +120,7 @@ your deps to use lfe 2.0.1 and plugins to use rebar3_lfe 0.4.0.  This may be fix
 that you read this, you can find the bugreport <a href="https://github.com/lfe/rebar3_lfe/issues/72">here</a>.
 </p>
 
-<pre class="example" id="org80b7bea">
+<pre class="example" id="orgf91e694">
 {deps, [
     {lfe, "2.0.1"},
     {ltest, "0.13.0"}
@@ -260,7 +261,7 @@ startup code used for any gen_server.
 Now when you run the test, we can see the test fails.
 </p>
 
-<pre class="example" id="orgfa6457d">
+<pre class="example" id="org7ebd017">
 module: pseudobank-tests
   module 'pseudobank-tests' ....................................... [fail]
 
@@ -310,7 +311,7 @@ If it returns #(error anything), thats a good sign that the initialization proce
 Now when we run the test again:
 </p>
 
-<pre class="example" id="org377b430">
+<pre class="example" id="org0301ccf">
 module: pseudobank-tests
   module 'pseudobank-tests' ......................................... [ok]
 </pre>
@@ -320,9 +321,9 @@ We can see the test passes.
 </p>
 </div>
 </div>
-<div id="outline-container-orgcd89cdd" class="outline-3">
-<h3 id="orgcd89cdd">Getting the balance</h3>
-<div class="outline-text-3" id="text-orgcd89cdd">
+<div id="outline-container-org858673b" class="outline-3">
+<h3 id="org858673b">Getting the balance</h3>
+<div class="outline-text-3" id="text-org858673b">
 <p>
 Now, lets talk about money.  Lets check to see if it starts with zero balance.
 </p>
@@ -420,7 +421,7 @@ We can see the <code>CRASH REPORT</code> in the <code>undefined function account
 when the code is looking for handle_call, which we have not created.
 </p>
 
-<pre class="example" id="orgfbe63fa">
+<pre class="example" id="org6957a09">
 =CRASH REPORT==== 22-Oct-2022::03:37:19.059020 ===
 crasher:
   initial call: account:init/1
@@ -459,7 +460,7 @@ Words that start with an underscore, means 'we dont care about it' so in this ca
 Now when we run the tests, we can see what it is returning.
 </p>
 
-<pre class="example" id="orged14244">
+<pre class="example" id="orge4be51d">
 account_server_starts_with_zero_balance ......................... [fail]
 
     Assertion failure:
@@ -504,9 +505,9 @@ test to deposit money into the account.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdb93f12" class="outline-3">
-<h3 id="orgdb93f12">Making a deposit.</h3>
-<div class="outline-text-3" id="text-orgdb93f12">
+<div id="outline-container-orgc4f828f" class="outline-3">
+<h3 id="orgc4f828f">Making a deposit.</h3>
+<div class="outline-text-3" id="text-orgc4f828f">
 <p>
 Back in <code>pseudobank-test.lfe</code> to add a new failing test for depositing money.
 </p>
@@ -573,7 +574,7 @@ The return value from this match is the same format, we're not going to tell the
 we need to update the state in the most naive method.  Lets check the test run output:
 </p>
 
-<pre class="example" id="org97a5f40">
+<pre class="example" id="org3406e72">
 module: pseudobank-tests
   account_server_starts ............................................. [ok]
   account_server_starts_with_zero_balance ........................... [ok]
@@ -611,9 +612,9 @@ I'd say we had desposits nailed.
 </p>
 </div>
 </div>
-<div id="outline-container-org73e80a1" class="outline-3">
-<h3 id="org73e80a1">Making a withdrawal</h3>
-<div class="outline-text-3" id="text-org73e80a1">
+<div id="outline-container-org0b4a6f1" class="outline-3">
+<h3 id="org0b4a6f1">Making a withdrawal</h3>
+<div class="outline-text-3" id="text-org0b4a6f1">
 <p>
 The withdrawal is removing money from your bank account.  Like the bank accounts of old, there will need to be
 logic to ensure that your account doesn't go into the negative (The bank wouldnt want any of their fictional
@@ -702,9 +703,9 @@ we can run after the test finishes to reset the state.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc0de144" class="outline-3">
-<h3 id="orgc0de144">Withraw Interlude: gen_server shutdown.</h3>
-<div class="outline-text-3" id="text-orgc0de144">
+<div id="outline-container-org31e403f" class="outline-3">
+<h3 id="org31e403f">Withraw Interlude: gen_server shutdown.</h3>
+<div class="outline-text-3" id="text-org31e403f">
 <p>
 As the LFE gen-server piggy backs on the <code>erlang</code> implementation of gen_server the
 <a href="https://www.erlang.org/doc/man/gen_server.html">stdlib reference manual</a> includes a method to shut down the server.
@@ -715,7 +716,7 @@ The manual goes into return values for <a href="https://www.erlang.org/doc/man/g
 can be terminated if handle_call returns the right tuple.
 </p>
 
-<pre class="example" id="orgc4f0bf5">
+<pre class="example" id="org14a06b9">
 {stop,Reason,NewState}
 </pre>
 
@@ -800,9 +801,9 @@ withdraw and its rules
 </p>
 </div>
 </div>
-<div id="outline-container-org5a63273" class="outline-3">
-<h3 id="org5a63273">Withdraw resumed:</h3>
-<div class="outline-text-3" id="text-org5a63273">
+<div id="outline-container-org3dee439" class="outline-3">
+<h3 id="org3dee439">Withdraw resumed:</h3>
+<div class="outline-text-3" id="text-org3dee439">
 <p>
 Lets get back to withdraw, to fix it.. the next thing we need to implement is ensure that
 you cant withdraw can not put it the account balance into negative value. Here's the test.
@@ -876,9 +877,9 @@ link right here soon.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd59a595" class="outline-2">
-<h2 id="orgd59a595">Resources:</h2>
-<div class="outline-text-2" id="text-orgd59a595">
+<div id="outline-container-orge9440b0" class="outline-2">
+<h2 id="orge9440b0">Resources:</h2>
+<div class="outline-text-2" id="text-orge9440b0">
 <ul class="org-ul">
 <li><a href="https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">https://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3</a></li>
 <li><a href="https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf">https://www.erlang-factory.com/upload/presentations/523/EFSF2012-Implementinglanguages.pdf</a></li>

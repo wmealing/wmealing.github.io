@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:01 -->
+<!-- 2026-08-25 Tue 23:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trickbot persistence.</title>
@@ -13,6 +13,7 @@
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
+<link rel="canonical" href="https://wmealing.github.io/trickbot-persistence.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -59,9 +60,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgbb8408b" class="outline-2">
-<h2 id="orgbb8408b">What is persistence ?</h2>
-<div class="outline-text-2" id="text-orgbb8408b">
+<div id="outline-container-org03ab1ea" class="outline-2">
+<h2 id="org03ab1ea">What is persistence ?</h2>
+<div class="outline-text-2" id="text-org03ab1ea">
 <p>
 A system may be rebooted during regular intervals as part of its
 lifecycle when a new kernel is updated or if it enters an unknown
@@ -74,9 +75,9 @@ task scheduling service to ensure it will continue to execute
 </p>
 </div>
 </div>
-<div id="outline-container-orgfded1d6" class="outline-2">
-<h2 id="orgfded1d6">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-orgfded1d6">
+<div id="outline-container-org1f0d30b" class="outline-2">
+<h2 id="org1f0d30b">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-org1f0d30b">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -85,7 +86,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="org5aa55a9">
+<pre class="example" id="org3d5b7f2">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -95,7 +96,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="orgc1c2127">
+<pre class="example" id="org1301fc7">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -105,7 +106,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="org3ab1ab8">
+<pre class="example" id="orgd4048e2">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -114,14 +115,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-org14b5340" class="outline-2">
-<h2 id="org14b5340">The sample code.</h2>
-<div class="outline-text-2" id="text-org14b5340">
+<div id="outline-container-org3c82916" class="outline-2">
+<h2 id="org3c82916">The sample code.</h2>
+<div class="outline-text-2" id="text-org3c82916">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="org883041b">
+<pre class="example" id="org3498bfc">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -137,9 +138,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-org79dd78b" class="outline-2">
-<h2 id="org79dd78b">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org79dd78b">
+<div id="outline-container-org0b9f89c" class="outline-2">
+<h2 id="org0b9f89c">Porting to rust.</h2>
+<div class="outline-text-2" id="text-org0b9f89c">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -161,7 +162,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="org5e89746">
+<pre class="example" id="orgfc74d51">
 use std::fs;
 
  fn main() {
@@ -194,9 +195,9 @@ using the same ports and had the same process name.
 </p>
 </div>
 </div>
-<div id="outline-container-org698d5c4" class="outline-2">
-<h2 id="org698d5c4">Resources:</h2>
-<div class="outline-text-2" id="text-org698d5c4">
+<div id="outline-container-orge1ebcec" class="outline-2">
+<h2 id="orge1ebcec">Resources:</h2>
+<div class="outline-text-2" id="text-orge1ebcec">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>

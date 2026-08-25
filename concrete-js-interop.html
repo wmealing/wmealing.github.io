@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 005: JavaScript Interop.</title>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="Calling an already-loaded JavaScript library, like three.js, from compiled Erlang" />
+<link rel="canonical" href="https://wmealing.github.io/concrete-js-interop.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -61,17 +62,17 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgf46042a" class="outline-2">
-<h2 id="orgf46042a">Summary:</h2>
-<div class="outline-text-2" id="text-orgf46042a">
+<div id="outline-container-org98dc90c" class="outline-2">
+<h2 id="org98dc90c">Summary:</h2>
+<div class="outline-text-2" id="text-org98dc90c">
 <p>
 Every demo so far talks to the browser through a fixed set of hand-written BIFs: <code>dom:*</code>, <code>canvas:*</code>, <code>sse:*</code>, <code>http:*</code>. Each BIF wraps one native call. <code>canvas:arc/6</code> wraps <code>CanvasRenderingContext2D.arc</code>. This does not work for a real JavaScript library. This post covers <code>concrete_js</code>, a new module that calls into any code already loaded in the page. That code can come from three.js, from Chart.js, or from any other library loaded with a plain <code>&lt;script&gt;</code> tag. Concrete does not need to know about the library in advance.
 </p>
 </div>
 </div>
-<div id="outline-container-orgeca7f0c" class="outline-2">
-<h2 id="orgeca7f0c">Why This Needs No Compiler Support</h2>
-<div class="outline-text-2" id="text-orgeca7f0c">
+<div id="outline-container-org3424269" class="outline-2">
+<h2 id="org3424269">Why This Needs No Compiler Support</h2>
+<div class="outline-text-2" id="text-org3424269">
 <p>
 I expected this feature to need changes in the transformer and the encoder. It did not need either one. The reason is worth understanding before the module itself.
 </p>
@@ -103,9 +104,9 @@ The fix is a tag, not a rewrite: <code>concrete_js.erl</code> carries <code>-con
 </p>
 </div>
 </div>
-<div id="outline-container-org0f86e10" class="outline-2">
-<h2 id="org0f86e10">The concrete_js Module</h2>
-<div class="outline-text-2" id="text-org0f86e10">
+<div id="outline-container-orgf886a67" class="outline-2">
+<h2 id="orgf886a67">The concrete_js Module</h2>
+<div class="outline-text-2" id="text-orgf886a67">
 <p>
 <code>concrete_js</code> exports seven functions: <code>call/2</code>, <code>call/3</code>, <code>new/2</code>, <code>get/2</code>, <code>set/3</code>, <code>delete/2</code>, <code>instanceof/2</code>, and <code>typeof/1</code>. A small three.js scene, built up piece by piece, uses most of them:
 </p>
@@ -144,9 +145,9 @@ A project opts into that <code>-include_lib</code> on its own. <code>concrete_js
 </p>
 </div>
 </div>
-<div id="outline-container-org835bde1" class="outline-2">
-<h2 id="org835bde1">Reaching a Library Already on the Page</h2>
-<div class="outline-text-2" id="text-org835bde1">
+<div id="outline-container-orgdead152" class="outline-2">
+<h2 id="orgdead152">Reaching a Library Already on the Page</h2>
+<div class="outline-text-2" id="text-orgdead152">
 <p>
 <code>'THREE.Scene'</code> above is not special syntax that Concrete parses. It is an ordinary Erlang atom, quoted because it is not a valid bare atom on its own. A <code>Receiver</code> or <code>ClassPath</code> argument is one of two things. It is a native handle, returned by an earlier <code>new/2</code>, <code>call/2</code>, <code>call/3</code>, or <code>get/2</code>. Or it is a dotted path, resolved against the browser's global scope, one segment at a time, starting from <code>globalThis</code>. That path can be a binary, <code>&lt;&lt;"THREE.Scene"&gt;&gt;</code>, or an atom, <code>'THREE.Scene'</code>. <code>Method</code> and <code>Prop</code> arguments take the same choice. A plain lowercase atom, like <code>add</code>, needs no quoting at all.
 </p>
@@ -160,9 +161,9 @@ There is no import step. <code>concrete_js</code> does not fetch a package, reso
 </p>
 </div>
 </div>
-<div id="outline-container-org6d74b58" class="outline-2">
-<h2 id="org6d74b58">Handles: Values That Are Not Terms</h2>
-<div class="outline-text-2" id="text-org6d74b58">
+<div id="outline-container-orga108ca3" class="outline-2">
+<h2 id="orga108ca3">Handles: Values That Are Not Terms</h2>
+<div class="outline-text-2" id="text-orga108ca3">
 <p>
 <code>Scene</code> and <code>Mesh</code> above are not Erlang terms in the normal sense. A <code>THREE.Scene</code> instance cannot become an integer, a binary, or a map. There is nothing to convert it into. The runtime boxes it as an opaque handle instead: a tagged 3-tuple, <code>{js_native, TypeAtom, Ref}</code>. <code>Ref</code> indexes a plain JavaScript <code>Map</code> the runtime keeps, from an integer to the real object. Passing the handle into a later call, <code>?js:call(Scene, add, [Mesh])</code>, looks the ref up and hands the real <code>THREE.Scene</code> back to the native call, unwrapped.
 </p>
@@ -176,9 +177,9 @@ Handles never cross the wire. Compiled browser code is the only place they get c
 </p>
 </div>
 </div>
-<div id="outline-container-orgec62f7f" class="outline-2">
-<h2 id="orgec62f7f">Errors, and Running on the Server by Accident</h2>
-<div class="outline-text-2" id="text-orgec62f7f">
+<div id="outline-container-org5e17526" class="outline-2">
+<h2 id="org5e17526">Errors, and Running on the Server by Accident</h2>
+<div class="outline-text-2" id="text-org5e17526">
 <p>
 A native call that throws surfaces as <code>{js_error, Reason}</code>, an ordinary Erlang error. You can catch it with a plain <code>try</code> and <code>catch</code>. This is not a new error shape built for this feature. It is the same tuple the compiled <code>try</code> and <code>catch</code> runtime already raises for any uncaught native exception. Reusing it means you learn one error shape, not two.
 </p>
@@ -188,9 +189,9 @@ A native call that throws surfaces as <code>{js_error, Reason}</code>, an ordina
 </p>
 </div>
 </div>
-<div id="outline-container-orgb62e3cf" class="outline-2">
-<h2 id="orgb62e3cf">A Real Demo: A Spirograph in three.js</h2>
-<div class="outline-text-2" id="text-orgb62e3cf">
+<div id="outline-container-org606266a" class="outline-2">
+<h2 id="org606266a">A Real Demo: A Spirograph in three.js</h2>
+<div class="outline-text-2" id="text-org606266a">
 <p>
 The <code>Scene</code> and <code>Mesh</code> example earlier in this post is illustrative, not code you can run. <code>example/spirograph_app.erl</code> is real code, compiled through the actual pipeline, running in a real browser. It draws an animated, color-cycling spirograph: a ring of loops traced by three.js, loaded from a CDN <code>&lt;script&gt;</code> tag, entirely through <code>?js</code> calls.
 </p>
@@ -240,15 +241,15 @@ Same self-rescheduling shape the canvas flower demo already uses, just driving t
 </p>
 </div>
 </div>
-<div id="outline-container-org97b7142" class="outline-2">
-<h2 id="org97b7142">Try It Yourself</h2>
-<div class="outline-text-2" id="text-org97b7142">
+<div id="outline-container-org190a1e2" class="outline-2">
+<h2 id="org190a1e2">Try It Yourself</h2>
+<div class="outline-text-2" id="text-org190a1e2">
 <p>
 Start <code>rebar3 as example shell</code>, call <code>spirograph_demo:serve()</code>, and open <code>http://localhost:8773</code> in a browser. The ring spins in place and cycles color as it turns:
 </p>
 
 
-<div id="org87b3d46" class="figure">
+<div id="orgce67f7e" class="figure">
 <p><img src="./images/spirograph.png" alt="spirograph.png" width="600px" style="&quot;display:block;margin:0 auto;&quot;" />
 </p>
 </div>
@@ -258,17 +259,17 @@ Every line in that image came from a compiled Erlang call to three.js, not from 
 </p>
 </div>
 </div>
-<div id="outline-container-org4c546bc" class="outline-2">
-<h2 id="org4c546bc">What Comes Next</h2>
-<div class="outline-text-2" id="text-org4c546bc">
+<div id="outline-container-org22ca399" class="outline-2">
+<h2 id="org22ca399">What Comes Next</h2>
+<div class="outline-text-2" id="text-org22ca399">
 <p>
 This post covered how compiled Erlang reaches an already-loaded JavaScript library, and why that needed almost no changes to the compiler. The next post covers a direct follow-up question: can Concrete catch a JavaScript Promise, the way Hologram's <code>Task.await/1</code> does upstream. Two other things are still missing. One is pulling in a JavaScript package as a real dependency, instead of assuming it is already global. The other is a client-side re-render loop that stays reactive across a whole layout, not just one page's own mount point.
 </p>
 </div>
 </div>
-<div id="outline-container-org6931285" class="outline-2">
-<h2 id="org6931285">Resources:</h2>
-<div class="outline-text-2" id="text-org6931285">
+<div id="outline-container-orgcf974fa" class="outline-2">
+<h2 id="orgcf974fa">Resources:</h2>
+<div class="outline-text-2" id="text-orgcf974fa">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

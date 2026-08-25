@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:00 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CONCRETE 004: Inside the .slab Parser.</title>
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
 <meta name="description" content="How a .slab template becomes HTML" />
+<link rel="canonical" href="https://wmealing.github.io/concrete-templates.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -61,9 +62,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-orgc9324ec" class="outline-2">
-<h2 id="orgc9324ec">Summary:</h2>
-<div class="outline-text-2" id="text-orgc9324ec">
+<div id="outline-container-org749bca4" class="outline-2">
+<h2 id="org749bca4">Summary:</h2>
+<div class="outline-text-2" id="text-org749bca4">
 <p>
 <a href="./concrete-pages.html">Concrete 003</a> traced a request from a URL to <code>concrete_renderer:render_page/2</code>. This post opens up the piece that
 call leans on: <code>concrete_template_parser</code>, the module that turns a <code>.slab</code> file into a tree of nodes, and
@@ -71,9 +72,9 @@ call leans on: <code>concrete_template_parser</code>, the module that turns a <c
 </p>
 </div>
 </div>
-<div id="outline-container-orgc041566" class="outline-2">
-<h2 id="orgc041566">Four Kinds of Nodes</h2>
-<div class="outline-text-2" id="text-orgc041566">
+<div id="outline-container-orgde20b8d" class="outline-2">
+<h2 id="orgde20b8d">Four Kinds of Nodes</h2>
+<div class="outline-text-2" id="text-orgde20b8d">
 <p>
 The parser turns a template into a list of four node shapes.
 </p>
@@ -91,9 +92,9 @@ Every <code>.slab</code> file becomes a list built out of these four shapes. Not
 </p>
 </div>
 </div>
-<div id="outline-container-org8e8f262" class="outline-2">
-<h2 id="org8e8f262">A Parser Without a Separate Lexer</h2>
-<div class="outline-text-2" id="text-org8e8f262">
+<div id="outline-container-org415a8e4" class="outline-2">
+<h2 id="org415a8e4">A Parser Without a Separate Lexer</h2>
+<div class="outline-text-2" id="text-org415a8e4">
 <p>
 <code>The concrete_template_parser</code> does not build a token list first and walk it later. It reads the input character
 by character, in one pass, as a plain Erlang string.
@@ -136,9 +137,9 @@ I might address this later, but this is how it works right now.
 </p>
 </div>
 </div>
-<div id="outline-container-org49e9c16" class="outline-2">
-<h2 id="org49e9c16">Attributes: Three Shapes</h2>
-<div class="outline-text-2" id="text-org49e9c16">
+<div id="outline-container-orgf9a44b9" class="outline-2">
+<h2 id="orgf9a44b9">Attributes: Three Shapes</h2>
+<div class="outline-text-2" id="text-orgf9a44b9">
 <p>
 An attribute inside a tag takes one of three shapes.
 </p>
@@ -157,9 +158,9 @@ in any order.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd330d5b" class="outline-2">
-<h2 id="orgd330d5b">The @name Trick</h2>
-<div class="outline-text-2" id="text-orgd330d5b">
+<div id="outline-container-orgf951a92" class="outline-2">
+<h2 id="orgf951a92">The @name Trick</h2>
+<div class="outline-text-2" id="text-orgf951a92">
 <p>
 <code>{@count}</code> is not special syntax on its own. Before the text inside the braces reaches the
 Erlang parser, one line of code rewrites it.
@@ -187,9 +188,9 @@ rewritten too. Write <code>{&lt;&lt;"@count"&gt;&gt;}</code> carefully, or avoid
 </p>
 </div>
 </div>
-<div id="outline-container-org8a0e2aa" class="outline-2">
-<h2 id="org8a0e2aa">Expressions Keep Their Brace Depth</h2>
-<div class="outline-text-2" id="text-org8a0e2aa">
+<div id="outline-container-org7ecbd83" class="outline-2">
+<h2 id="org7ecbd83">Expressions Keep Their Brace Depth</h2>
+<div class="outline-text-2" id="text-org7ecbd83">
 <p>
 An expression inside <code>{...}</code> can itself contain braces, for a map or a nested call.
 <code>{maps:get(count, #{a =&gt; 1})}</code> is valid. The parser tracks brace depth while it reads, and
@@ -214,9 +215,9 @@ and every <code>}</code> after it lowers the depth back down, until the matching
 </p>
 </div>
 </div>
-<div id="outline-container-org73c39ca" class="outline-2">
-<h2 id="org73c39ca">Components Must Be Self-Closing</h2>
-<div class="outline-text-2" id="text-org73c39ca">
+<div id="outline-container-org387f841" class="outline-2">
+<h2 id="org387f841">Components Must Be Self-Closing</h2>
+<div class="outline-text-2" id="text-org387f841">
 <div class="org-src-container">
 <pre class="src src-html"><code>&lt;:component module={counter_page} initial_value={5} /&gt;
 </code></pre>
@@ -231,9 +232,9 @@ not an element with a <code>module</code> attribute.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd4f5a7e" class="outline-2">
-<h2 id="orgd4f5a7e">From Nodes to HTML</h2>
-<div class="outline-text-2" id="text-orgd4f5a7e">
+<div id="outline-container-org0e67f1e" class="outline-2">
+<h2 id="org0e67f1e">From Nodes to HTML</h2>
+<div class="outline-text-2" id="text-org0e67f1e">
 <p>
 Parsing only builds the tree. <code>concrete_renderer</code> walks it.
 </p>
@@ -267,9 +268,9 @@ tag at all.
 </p>
 </div>
 </div>
-<div id="outline-container-org39f5404" class="outline-2">
-<h2 id="org39f5404">Try It Yourself</h2>
-<div class="outline-text-2" id="text-org39f5404">
+<div id="outline-container-orga9ee602" class="outline-2">
+<h2 id="orga9ee602">Try It Yourself</h2>
+<div class="outline-text-2" id="text-orga9ee602">
 <p>
 The project's test suite for this parser is <code>template_parser_SUITE</code>. A fixture template close to
 this post's examples already exists in the repository:
@@ -287,9 +288,9 @@ structure stick better than reading about it does.
 </p>
 </div>
 </div>
-<div id="outline-container-org1b378b7" class="outline-2">
-<h2 id="org1b378b7">One Thing This Post Did Not Cover</h2>
-<div class="outline-text-2" id="text-org1b378b7">
+<div id="outline-container-org0eb73a6" class="outline-2">
+<h2 id="org0eb73a6">One Thing This Post Did Not Cover</h2>
+<div class="outline-text-2" id="text-org0eb73a6">
 <p>
 The same parsed tree also feeds a second path: <code>compile_render_fun/1</code> turns it into IR, for a
 <code>render/1</code> function that runs in the browser instead of on the server. That path calls into
@@ -298,9 +299,9 @@ its output into JavaScript, are their own posts, coming later in this series.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbddbc2f" class="outline-2">
-<h2 id="orgbddbc2f">What Comes Next</h2>
-<div class="outline-text-2" id="text-orgbddbc2f">
+<div id="outline-container-orgcf76d01" class="outline-2">
+<h2 id="orgcf76d01">What Comes Next</h2>
+<div class="outline-text-2" id="text-orgcf76d01">
 <p>
 This post covered how a <code>.slab</code> file becomes a tree, and how that tree becomes HTML on the server.
 The next post steps away from templates entirely: how compiled Erlang calls into an already-loaded
@@ -308,9 +309,9 @@ JavaScript library, like three.js, with almost no help from the compiler at all.
 </p>
 </div>
 </div>
-<div id="outline-container-org197a22a" class="outline-2">
-<h2 id="org197a22a">Resources:</h2>
-<div class="outline-text-2" id="text-org197a22a">
+<div id="outline-container-org9b7bb93" class="outline-2">
+<h2 id="org9b7bb93">Resources:</h2>
+<div class="outline-text-2" id="text-org9b7bb93">
 <p>
 <a href="https://github.com/wmealing/concrete">https://github.com/wmealing/concrete</a>
 </p>

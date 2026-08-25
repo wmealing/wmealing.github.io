@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-15 Sat 00:01 -->
+<!-- 2026-08-25 Tue 23:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mirai Delete yourself</title>
@@ -13,6 +13,7 @@
 <meta http-equiv="Content-Security-Policy" content="style-src-elem 'self' https://wmealing.github.io;">
 <link rel="stylesheet" href="index.css">
 <meta name="author" content="Wade Mealing" />
+<link rel="canonical" href="https://wmealing.github.io/mirai-delete-yourself.html" />
 </head>
 <body>
 <div id="content" class="content">
@@ -59,9 +60,9 @@
         </div>
     </div>
 </nav>
-<div id="outline-container-org530e361" class="outline-2">
-<h2 id="org530e361">Why delete the executable ?</h2>
-<div class="outline-text-2" id="text-org530e361">
+<div id="outline-container-org27c32a5" class="outline-2">
+<h2 id="org27c32a5">Why delete the executable ?</h2>
+<div class="outline-text-2" id="text-org27c32a5">
 <p>
 The Mirai malware uses a technique to remove itself from disk after
 executing has started.  This adds additional complexity of
@@ -76,9 +77,9 @@ complexity while trying to analyse it in action.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb399188" class="outline-2">
-<h2 id="orgb399188">Recovering an executable file.</h2>
-<div class="outline-text-2" id="text-orgb399188">
+<div id="outline-container-orgfdbc3f7" class="outline-2">
+<h2 id="orgfdbc3f7">Recovering an executable file.</h2>
+<div class="outline-text-2" id="text-orgfdbc3f7">
 <p>
 The /proc filesystem will maintain a link to all files opened by an
 executing process even if the file has been removed from disk.
@@ -87,7 +88,7 @@ executing process even if the file has been removed from disk.
 <p>
 Each processes open files can be read from /proc/&lt;numeric-pid&gt;/exe
 </p>
-<pre class="example" id="orgebfdab0">
+<pre class="example" id="org382f54c">
 $ sudo ls -l /proc/975301/exe
 lrwxrwxrwx. 1 root root 0 Nov  8 22:50 /proc/975301/exe -&gt; /tmp/.malware/init
 </pre>
@@ -97,7 +98,7 @@ This is a regular file, and with root user permissions, the file can
 be copied for later inspection.
 </p>
 
-<pre class="example" id="org5595f9b">
+<pre class="example" id="orgd2de543">
 $ cat /proc/975301/exec &gt;&gt; ~/captured-executable
 </pre>
 
@@ -107,7 +108,7 @@ executable script will be available in another location in the
 `/proc/&lt;some-pid&gt;/fd/
 </p>
 
-<pre class="example" id="org2e9cbb5">
+<pre class="example" id="orgbf43f3c">
 $ sudo ls -l /proc/975301/fd/
  total 0
  lr-x------. 1 root root 64 Nov 10 01:08 0 -&gt; /dev/null
@@ -116,14 +117,14 @@ $ sudo ls -l /proc/975301/fd/
 </pre>
 </div>
 </div>
-<div id="outline-container-orga7f1996" class="outline-2">
-<h2 id="orga7f1996">The sample code.</h2>
-<div class="outline-text-2" id="text-orga7f1996">
+<div id="outline-container-orgdb24286" class="outline-2">
+<h2 id="orgdb24286">The sample code.</h2>
+<div class="outline-text-2" id="text-orgdb24286">
 <p>
 Mirai's self deletion code is simple and unerror checked.
 </p>
 
-<pre class="example" id="org29b10c2">
+<pre class="example" id="org93056a2">
 // Delete self
 unlink(args[0]);
 </pre>
@@ -139,9 +140,9 @@ author did not care about any of them.
 </p>
 </div>
 </div>
-<div id="outline-container-org5236299" class="outline-2">
-<h2 id="org5236299">Porting to rust.</h2>
-<div class="outline-text-2" id="text-org5236299">
+<div id="outline-container-orgc407d61" class="outline-2">
+<h2 id="orgc407d61">Porting to rust.</h2>
+<div class="outline-text-2" id="text-orgc407d61">
 <p>
 To implement the same functionality in rust we first need to get the
 current processes executable file path.
@@ -163,7 +164,7 @@ removed from disk during execution, and the process will continue
 to run.
 </p>
 
-<pre class="example" id="orgfc10ad6">
+<pre class="example" id="org2b38bc2">
 use std::fs;
 
  fn main() {
@@ -200,9 +201,9 @@ I believe this would be similar to <a href="https://github.com/jxy-s/herpaderpin
 </p>
 </div>
 </div>
-<div id="outline-container-orga8aa131" class="outline-2">
-<h2 id="orga8aa131">Resources:</h2>
-<div class="outline-text-2" id="text-orga8aa131">
+<div id="outline-container-org7cbf285" class="outline-2">
+<h2 id="org7cbf285">Resources:</h2>
+<div class="outline-text-2" id="text-org7cbf285">
 <ul class="org-ul">
 <li><a href="https://github.com/wmealing/Mirai-Source-Code">Mirai source code</a></li>
 </ul>
