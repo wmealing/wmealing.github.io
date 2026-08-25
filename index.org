@@ -49,6 +49,8 @@ templates a real way to render one of them per element of a runtime list.
 :CUSTOM_ID: post-9e2d1af4
 :END:
 
+[[./images/concrete-chat.png]]
+
 A chat room running live across two distributed Erlang nodes: messages pushed to every open browser over
 Concrete's SSE primitives, connecting itself the moment the page loads with no click and no hand-written
 JavaScript, and =pg=-based pubsub carrying a post from either node to every subscriber on both. Then a
